@@ -20,30 +20,28 @@ from urllib.request import urlopen
 import re
 import os
 import time
+import requests 
+import random
 
 def grabCommits(repo, pr_commits_url):
     try:
         pull_info = "/".join(pr_commits_url.split("/")[-3:-1]).replace("pulls","pull")
         scrape_url = f"https://github.com/{repo}/{pull_info}/commits"
-
         product = SoupStrainer('div', {'id': 'commits_bucket'})
-    
-        page = urlopen(scrape_url)
-        soup = BeautifulSoup(page.read(),parse_only = product,features="html.parser")
+        sesh = requests.Session() 
+        page = sesh.get(scrape_url)
+        page_text = str(page.text)
+        if "Please wait a few minutes before you try again" in page_text:
+            print('pausing, rate limit hit')
+            time.sleep(120)
+        soup = BeautifulSoup(page.content,parse_only = product,features="html.parser")
         commits = soup.find_all("a", attrs={"id":re.compile(r'commit-details*')})
         commit_urls = [c['href'].split("/")[-1] for c in commits]
         return commit_urls
     except Exception as e:
-        return e.args[0] if len(e.args)>0 else "error"
+        error = str(e)
+        return error
 
-def grabCommitsBetter(repo, pr_commits_url):
-    res = grabCommits(repo, pr_commits_url)
-    i = 1
-    while type(res) != list:
-        time.sleep(i)
-        res = grabCommits(repo, pr_commits_url)
-        i+=1
-    return res
 
 if __name__ == '__main__':   
     pandarallel.initialize(progress_bar=True)
@@ -55,8 +53,7 @@ if __name__ == '__main__':
     if f'prEventCommits0000000000{val}.csv' not in os.listdir('data/github_clean'):
         df_part = pd.read_csv(f'data/github_clean/prEvent0000000000{val}.csv', index_col = 0)
         df_part['partition'] = val    
-        df_part['commit_list'] = df_part.parallel_apply(lambda x: grabCommitsBetter(x['repo_name'], x['pr_commits_url']), axis = 1)    
-    
+        df_part['commit_list'] = df_part.parallel_apply(lambda x: grabCommits(x['repo_name'], x['pr_commits_url']), axis = 1 )
         df_part.to_csv(f'data/github_clean/prEventCommits0000000000{val}.csv')
     else:
         print(f"prEventCommits0000000000{val}.csv is already made")
