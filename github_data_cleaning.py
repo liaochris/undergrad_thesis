@@ -17,8 +17,8 @@ import sys
 
 fname = sys.argv[1].replace('data/github_raw/filtered_github_data_large/','').replace('.json','')
 
-username = "liaochris"
-token = "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"
+username = 
+token = 
 # In[2]:
 
 df_raw = pd.read_json(f'data/github_raw/filtered_github_data_large/{fname}.json', lines=True)

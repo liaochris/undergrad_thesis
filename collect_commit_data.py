@@ -2,15 +2,11 @@
 # coding: utf-8
 
 # In[322]:
-
-
 import sys
 sys.executable
 
 
 # In[381]:
-
-
 import ast
 import pandas as pd
 import numpy as np
@@ -24,24 +20,9 @@ import subprocess
 import warnings
 from joblib import Parallel, delayed
 import os
-
-# In[382]:
-pandarallel.initialize(progress_bar=True)
-warnings.filterwarnings("ignore")
-
-# In[385]:
-# import all push data
-df_push = pd.DataFrame()
-commit_urls = []
-for val in np.arange(0, 100, 1):
-    if val < 10:
-        val = "0" + str(val)
-    try:
-        df_part = pd.read_csv(f'data/github_clean/pushEvent0000000000{val}.csv', index_col = 0)
-        df_part['partition'] = val
-        df_push = pd.concat([df_push, df_part])
-    except:
-        print(f'data/github_clean/pushEvent0000000000{val}.csv not found')
+import multiprocessing
+import time
+import random
 
 
 # In[388]:
@@ -102,13 +83,13 @@ def returnCommitStats(x):
     return []
         
 def cleanCommitData(library, repo_loc):
-
     # In[386]:
     df_library = df_push[df_push['repo_name'] == library]
     df_library.loc[:,'commit_urls'] = df_library['commit_urls'].apply(lambda x: ast.literal_eval(x))
     commit_urls = df_library['commit_urls'].explode().tolist()
     
     # In[387]:
+    global repo
     repo = Repository(repo_loc)
     
     sum = 0
@@ -127,9 +108,8 @@ def cleanCommitData(library, repo_loc):
                                    'org_id', 'org_login', 'push_size', 'push_before', 'push_head',
                                    'commit_groups']].explode('commit_groups')
     
-    get_ipython().run_cell_magic('time', '', "commit_data = df_commit_groups['commit_groups'].parallel_apply(returnCommitStats)\n")
-    
-    
+    commit_data = df_commit_groups['commit_groups'].parallel_apply(lambda x: returnCommitStats(x))
+
     # In[ ]:
     df_commit = pd.DataFrame(commit_data.tolist(),
                             columns = ['commit sha', 'commit author name', 'commit author email', 'committer name',
@@ -150,22 +130,49 @@ def getCommitData(library):
         try:
             print(f"Starting {library}")
             start = time.time()
-            subprocess.Popen(["git", "clone", f"https://github.com/{library}", f"{lib_ren}"], cwd = "repos").wait()
-            df_lib = cleanCommitData(library, f"repos/{repo_loc}")
-            df_lib.to_csv(f'data/github_commits/commits_push_{lib_ren}.csv')
+            if lib_ren not in os.listdir("repos"):
+                subprocess.Popen(["git", "clone", f"https://github.com/{library}.git", f"{lib_ren}"], cwd = "repos").communicate()
+            print(f"Finished cloning {library}")
+            df_lib = cleanCommitData(library, f"repos/{lib_ren}")
+            df_lib.to_parquet(f'data/github_commits/parquet/commits_push_{lib_ren}.parquet')
             end = time.time()
-            subprocess.Popen(["rm", "-rf", f"{lib_ren}"], cwd = "repos").wait()
+            subprocess.Popen(["rm", "-rf", f"{lib_ren}"], cwd = "repos").communicate()
             print(f"{library} completed in {start - end}")
-            return 'success'
+            return "success"
         except:
-            return 'failed'
-    return 'completed already'
+            return "failure"
+    return 'success'
 
 
-df_libraries = pd.read_csv('data/inputs/github_repo_grab_commits.csv', index_col = 0)
-repos = df_libraries['github repo'].tolist()
-
-print("Starting runs")
-results = Parallel(n_jobs=5)(delayed(getCommitData)(i) for i in repos)
-print("Done!")
-
+if __name__ == '__main__':   
+    
+    # In[382]:
+    pandarallel.initialize(progress_bar=True)
+    warnings.filterwarnings("ignore")
+    
+    # In[385]:
+    # import all push data
+    df_push = pd.DataFrame()
+    commit_urls = []
+    for val in np.arange(0, 100, 1):
+        if val < 10:
+            val = "0" + str(val)
+        try:
+            df_part = pd.read_csv(f'data/github_clean/pushEvent0000000000{val}.csv', index_col = 0)
+            df_part['partition'] = val
+            df_push = pd.concat([df_push, df_part])
+        except:
+            print(f'data/github_clean/pushEvent0000000000{val}.csv not found')
+    
+    df_libraries = pd.read_csv('data/inputs/github_repo_grab_commits.csv', index_col = 0)
+    repos = df_libraries['github repo'].tolist()
+    results = []
+    for r in repos:
+        result = getCommitData(r)
+        print(r, result)
+        results.append(result)
+    df_libraries['results'] = results
+    df_libraries.to_csv('data/inputs/github_repo_grab_commits_complete.csv')
+    print("Done!")
+    
+    
