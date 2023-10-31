@@ -176,8 +176,6 @@ if __name__ == '__main__':
         except:
             print(f'data/github_clean/prEventCommits0000000000{val}.csv not found')
     
-    t = df_pr.drop('partition',axis=1).drop_duplicates()
-    df_pr = df_pr.loc[t.index]
 
     repos = df_pr['repo_name'].unique().tolist()
     random.shuffle(repos)
