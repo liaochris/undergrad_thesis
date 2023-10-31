@@ -129,6 +129,9 @@ def cleanCommitData(library, repo_loc):
     
     # In[ ]:
     df_commit_final = pd.concat([df_commit_groups.reset_index(drop = True), df_commit], axis = 1)
+    for col in ['pr_number', 'repo_id', 'actor_id']:
+        df_commit_final[col] = pd.to_numeric(df_commit_final[col])
+        
     return df_commit_final
 
 
