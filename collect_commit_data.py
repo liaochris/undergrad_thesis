@@ -134,7 +134,8 @@ def getCommitData(library):
                 subprocess.Popen(["git", "clone", f"https://github.com/{library}.git", f"{lib_ren}"], cwd = "repos").communicate()
             print(f"Finished cloning {library}")
             df_lib = cleanCommitData(library, f"repos/{lib_ren}")
-            df_lib.to_parquet(f'data/github_commits/parquet/commits_push_{lib_ren}.parquet')
+            df_lib.to_parquet(f'data/github_commits/parquet/commits_push_{lib_ren}.parquet',
+                              engine='fastparquet')
             end = time.time()
             subprocess.Popen(["rm", "-rf", f"{lib_ren}"], cwd = "repos").communicate()
             print(f"{library} completed in {start - end}")

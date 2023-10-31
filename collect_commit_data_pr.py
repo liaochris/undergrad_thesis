@@ -25,33 +25,6 @@ import time
 import random
 
 
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[322]:
-import sys
-sys.executable
-
-
-# In[381]:
-import ast
-import pandas as pd
-import numpy as np
-from pygit2 import Object, Repository, GIT_SORT_TIME
-from pygit2 import init_repository, Patch
-from colorama import Fore
-from tqdm import tqdm
-import swifter
-from pandarallel import pandarallel
-import subprocess
-import warnings
-from joblib import Parallel, delayed
-import os
-import multiprocessing
-import time
-import random
-
-
 # In[388]:
 def createCommitGroup(commit_list, parent_commit):
     try:
@@ -74,7 +47,8 @@ def createCommitGroup(commit_list, parent_commit):
 def getHead(commit_list, pull_number, repo_loc):
     try:
         commit = ast.literal_eval(commit_list)[0]
-        pull_fetch = subprocess.Popen(["git","fetch", "origin", f"pull/{pull_number}/head"], cwd = f"{repo_loc}").wait()
+        pull_fetch = subprocess.Popen(["git","fetch", "origin", f"pull/{pull_number}/head"], cwd = f"{repo_loc}",
+                                      shell=False, stdout=subprocess.DEVNULL).wait()
         result = subprocess.run(["git","show", f"{commit}^"], cwd = f"{repo_loc}", capture_output = True, text = True).stdout[7:47]
         return result
     except Exception as e:
@@ -170,7 +144,8 @@ def getCommitData(library):
                 subprocess.Popen(["git", "clone", f"https://github.com/{library}.git", f"{lib_ren}"], cwd = "repos").communicate()
             print(f"Finished cloning {library}")
             df_lib = cleanCommitData(library, f"repos/{lib_ren}")
-            df_lib.to_parquet(f'data/github_commits/parquet/commits_pr_{lib_ren}.parquet')
+            df_lib.to_parquet(f'data/github_commits/parquet/commits_pr_{lib_ren}.parquet',
+                              engine='fastparquet')
             end = time.time()
             subprocess.Popen(["rm", "-rf", f"{lib_ren}"], cwd = "repos").communicate()
             print(f"{library} completed in {start - end}")
@@ -205,6 +180,7 @@ if __name__ == '__main__':
     df_pr = df_pr.loc[t.index]
 
     repos = df_pr['repo_name'].unique().tolist()
+    random.shuffle(repos)
     results = []
     #repos = ['lablup/backend.ai']
     
