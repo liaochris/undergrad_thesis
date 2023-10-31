@@ -48,7 +48,7 @@ def getHead(commit_list, pull_number, repo_loc):
     try:
         commit = ast.literal_eval(commit_list)[0]
         pull_fetch = subprocess.Popen(["git","fetch", "origin", f"pull/{pull_number}/head"], cwd = f"{repo_loc}",
-                                      shell=False, stdout=subprocess.DEVNULL).wait()
+                                      shell=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).wait()
         result = subprocess.run(["git","show", f"{commit}^"], cwd = f"{repo_loc}", capture_output = True, text = True).stdout[7:47]
         return result
     except Exception as e:
