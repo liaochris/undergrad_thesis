@@ -164,15 +164,13 @@ if __name__ == '__main__':
         except:
             print(f'data/github_clean/pushEvent0000000000{val}.csv not found')
     
-    df_libraries = pd.read_csv('data/inputs/github_repo_grab_commits.csv', index_col = 0)
-    repos = df_libraries['github repo'].tolist()
+    repos = df_push['repo_name'].unique().tolist()
     results = []
     for r in repos:
         result = getCommitData(r)
         print(r, result)
         results.append(result)
-    df_libraries['results'] = results
-    df_libraries.to_csv('data/inputs/github_repo_grab_commits_complete.csv')
+        
     print("Done!")
     
     
