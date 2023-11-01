@@ -57,49 +57,52 @@ def getHead(commit_list, pull_number, repo_loc):
 
 # In[390]:
 def returnCommitStats(x):
-    if len(x) < 2:
+    try:
+        if len(x) < 2:
+            return []
+        if x[0] == [] or x[1] == []:
+            return []
+        commit_parent_sha = x[0]
+        commit_head_sha = x[1]
+        commit_parent = repo.get(commit_parent_sha)
+        commit_head = repo.get(commit_head_sha)
+        if type(commit_parent) != type(None) and type(commit_head) != type(None):
+            diff = repo.diff(commit_parent, commit_head, context_lines=0, interhunk_lines=0)
+            commit_sha = commit_head_sha
+            commit_author_name = commit_head.author.name
+            commit_author_email = commit_head.author.email
+            committer_author_name = commit_head.committer.name
+            committer_author_email = commit_head.committer.email
+            commit_message = commit_head.message
+            commit_additions = diff.stats.insertions
+            commit_deletions = diff.stats.deletions
+            commit_changes_total = commit_additions + commit_deletions
+            commit_files_changed_count = diff.stats.files_changed
+            commit_time = commit_head.commit_time
+            commit_file_changes = []
+            
+            for obj in diff:
+                if type(obj) == Patch:
+                    additions = 0
+                    deletions = 0
+                    for hunk in obj.hunks:
+                      for line in hunk.lines:
+                        # The new_lineno represents the new location of the line after the patch. If it's -1, the line has been deleted.
+                        if line.new_lineno == -1: 
+                            deletions += 1
+                        # Similarly, if a line did not previously have a place in the file, it's been added fresh. 
+                        if line.old_lineno == -1: 
+                            additions += 1
+                    commit_file_changes.append({'file':obj.delta.new_file.path,
+                                                'additions': additions,
+                                                'deletions': deletions,
+                                                'total': additions + deletions})
+            return [commit_sha, commit_author_name, commit_author_email, committer_author_name, committer_author_email,
+                    commit_message, commit_additions, commit_deletions, commit_changes_total, commit_files_changed_count,
+                    commit_file_changes]
         return []
-    if x[0] == [] or x[1] == []:
+    except:
         return []
-    commit_parent_sha = x[0]
-    commit_head_sha = x[1]
-    commit_parent = repo.get(commit_parent_sha)
-    commit_head = repo.get(commit_head_sha)
-    if type(commit_parent) != type(None) and type(commit_head) != type(None):
-        diff = repo.diff(commit_parent, commit_head, context_lines=0, interhunk_lines=0)
-        commit_sha = commit_head_sha
-        commit_author_name = commit_head.author.name
-        commit_author_email = commit_head.author.email
-        committer_author_name = commit_head.committer.name
-        committer_author_email = commit_head.committer.email
-        commit_message = commit_head.message
-        commit_additions = diff.stats.insertions
-        commit_deletions = diff.stats.deletions
-        commit_changes_total = commit_additions + commit_deletions
-        commit_files_changed_count = diff.stats.files_changed
-        commit_time = commit_head.commit_time
-        commit_file_changes = []
-        
-        for obj in diff:
-            if type(obj) == Patch:
-                additions = 0
-                deletions = 0
-                for hunk in obj.hunks:
-                  for line in hunk.lines:
-                    # The new_lineno represents the new location of the line after the patch. If it's -1, the line has been deleted.
-                    if line.new_lineno == -1: 
-                        deletions += 1
-                    # Similarly, if a line did not previously have a place in the file, it's been added fresh. 
-                    if line.old_lineno == -1: 
-                        additions += 1
-                commit_file_changes.append({'file':obj.delta.new_file.path,
-                                            'additions': additions,
-                                            'deletions': deletions,
-                                            'total': additions + deletions})
-        return [commit_sha, commit_author_name, commit_author_email, committer_author_name, committer_author_email,
-                commit_message, commit_additions, commit_deletions, commit_changes_total, commit_files_changed_count,
-                commit_file_changes]
-    return []
         
 def cleanCommitData(library, repo_loc):
     # In[386]:
@@ -146,7 +149,7 @@ def getCommitData(library):
             if lib_ren not in os.listdir("repos"):
                 subprocess.Popen(["git", "clone", f"https://github.com/{library}.git", f"{lib_ren}"], cwd = "repos").communicate()
             print(f"Finished cloning {library}")
-            df_lib = cleanCommitData(library, f"repos/{lib_ren}")
+                df_lib = cleanCommitData(library, f"repos/{lib_ren}")
             df_lib.to_parquet(f'data/github_commits/parquet/commits_pr_{lib_ren}.parquet',
                               engine='fastparquet')
             end = time.time()
