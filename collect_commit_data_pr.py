@@ -181,6 +181,7 @@ if __name__ == '__main__':
     
 
     repos = df_pr['repo_name'].unique().tolist()
+    repos = [ele for ele in repos if "/" in ele]
     random.shuffle(repos)
     results = []
     #repos = ['lablup/backend.ai']
