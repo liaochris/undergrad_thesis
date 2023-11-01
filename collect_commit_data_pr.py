@@ -149,7 +149,7 @@ def getCommitData(library):
             if lib_ren not in os.listdir("repos"):
                 subprocess.Popen(["git", "clone", f"https://github.com/{library}.git", f"{lib_ren}"], cwd = "repos").communicate()
             print(f"Finished cloning {library}")
-                df_lib = cleanCommitData(library, f"repos/{lib_ren}")
+            df_lib = cleanCommitData(library, f"repos/{lib_ren}")
             df_lib.to_parquet(f'data/github_commits/parquet/commits_pr_{lib_ren}.parquet',
                               engine='fastparquet')
             end = time.time()
