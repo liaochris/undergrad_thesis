@@ -114,7 +114,8 @@ def cleanCommitData(library, repo_loc):
     df_commit = pd.DataFrame(commit_data.tolist(),
                             columns = ['commit sha', 'commit author name', 'commit author email', 'committer name',
                                        'commmitter email', 'commit message', 'commit additions', 'commit deletions',
-                                       'commit changes total', 'commit files changed count', 'commit file changes'])
+                                       'commit changes total', 'commit files changed count', 'commit file changes',
+                                       'commit time'])
     
     
     # In[ ]:
@@ -126,7 +127,7 @@ def getCommitData(library):
     # download repo
     lib_p2 = library.split("/")[1]
     lib_ren = library.replace("/","___")
-    if f'commits_push_{lib_ren}.csv' not in os.listdir('data/github_commits/'):
+    if f'commits_push_{lib_ren}.csv' not in os.listdir('data/github_commits/') and f'{lib_ren}' not in os.listdir('repos'):
         try:
             print(f"Starting {library}")
             start = time.time()

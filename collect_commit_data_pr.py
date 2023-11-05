@@ -99,7 +99,7 @@ def returnCommitStats(x):
                                                 'total': additions + deletions})
             return [commit_sha, commit_author_name, commit_author_email, committer_author_name, committer_author_email,
                     commit_message, commit_additions, commit_deletions, commit_changes_total, commit_files_changed_count,
-                    commit_file_changes]
+                    commit_file_changes, commit_time]
         return []
     except:
         return []
@@ -127,7 +127,8 @@ def cleanCommitData(library, repo_loc):
     df_commit = pd.DataFrame(commit_data.tolist(),
                             columns = ['commit sha', 'commit author name', 'commit author email', 'committer name',
                                        'commmitter email', 'commit message', 'commit additions', 'commit deletions',
-                                       'commit changes total', 'commit files changed count', 'commit file changes'])
+                                       'commit changes total', 'commit files changed count', 'commit file changes', 
+                                       'commit time'])
     
     
     # In[ ]:
