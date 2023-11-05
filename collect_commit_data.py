@@ -167,6 +167,7 @@ if __name__ == '__main__':
             print(f'data/github_clean/pushEvent0000000000{val}.csv not found')
     
     repos = df_push['repo_name'].unique().tolist()
+    random.shuffle(repos)
     results = []
     for r in repos:
         result = getCommitData(r)
