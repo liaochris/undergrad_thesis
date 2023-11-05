@@ -79,7 +79,7 @@ def returnCommitStats(x):
                                             'total': additions + deletions})
         return [commit_sha, commit_author_name, commit_author_email, committer_author_name, committer_author_email,
                 commit_message, commit_additions, commit_deletions, commit_changes_total, commit_files_changed_count,
-                commit_file_changes]
+                commit_file_changes, commit_time]
     return []
         
 def cleanCommitData(library, repo_loc):
