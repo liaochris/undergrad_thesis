@@ -248,20 +248,20 @@ df_push_commit_time_grouped_monthly = aggData(['repo_id', 'commit_year', 'commit
 df_push_commit_time_grouped_monthly.to_parquet('data/aggregated_data/aggregated_monthly_labor_commit_time.parquet')
 
 
-# In[ ]:
+# In[35]:
 
 
 df_push_commits.to_parquet('data/merged_data/push_commits.parquet')
 
 
-# In[ ]:
+# In[37]:
 
 
+df_push_commits[df_push_commits.columns[20]]
 
 
-
-# In[ ]:
-
+# In[38]:
 
 
+df_push_commits[df_push_commits.columns[21]]
 
