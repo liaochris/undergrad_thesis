@@ -112,7 +112,7 @@ df_push['created_at'] = pd.to_datetime(df_push['created_at'])
 # In[11]:
 
 
-get_ipython().run_cell_magic('time', '', "df_push_commits = pd.merge(df_push, df_parquet_pushes, how = 'left',\n                           on = ['repo_id', 'push_id', 'actor_id'])\n")
+df_push_commits = pd.merge(df_push, df_parquet_pushes, how = 'left', on = ['repo_id', 'push_id', 'actor_id'])
 
 
 # In[13]:
