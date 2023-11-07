@@ -66,7 +66,7 @@ emails1 = list(set(emails1))
 
 
 username = "liaochris"
-token = 
+token = "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"
 
 
 # In[61]:
@@ -100,7 +100,7 @@ for email in emails1:
 
     if email_data == "pause":
         diff = time.time() - start
-        sleep_time = 1 if diff > 3600 else int(3601 - diff)
+        sleep_time = 1 if diff > 30 else int(31 - diff)
         print(f"Pausing for {sleep_time} seconds after having obtained {count}") 
         time.sleep(sleep_time)
         start = time.time()

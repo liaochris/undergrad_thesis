@@ -143,18 +143,18 @@ def getCommitData(library):
     # download repo
     lib_p2 = library.split("/")[1]
     lib_ren = library.replace("/","___")
-    if f'commits_pr_{lib_ren}.parquet' not in os.listdir('data/github_commits/parquet') and f'{lib_ren}' not in os.listdir('repos'):
+    if f'commits_pr_{lib_ren}.parquet' not in os.listdir('data/github_commits/parquet') and f'{lib_ren}' not in os.listdir('repos2'):
         try:
             print(f"Starting {library}")
             start = time.time()
-            if lib_ren not in os.listdir("repos"):
-                subprocess.Popen(["git", "clone", f"https://github.com/{library}.git", f"{lib_ren}"], cwd = "repos").communicate()
+            if lib_ren not in os.listdir("repos2"):
+                subprocess.Popen(["git", "clone", f"https://github.com/{library}.git", f"{lib_ren}"], cwd = "repos2").communicate()
             print(f"Finished cloning {library}")
-            df_lib = cleanCommitData(library, f"repos/{lib_ren}")
+            df_lib = cleanCommitData(library, f"repos2/{lib_ren}")
             df_lib.to_parquet(f'data/github_commits/parquet/commits_pr_{lib_ren}.parquet',
                               engine='fastparquet')
             end = time.time()
-            subprocess.Popen(["rm", "-rf", f"{lib_ren}"], cwd = "repos").communicate()
+            subprocess.Popen(["rm", "-rf", f"{lib_ren}"], cwd = "repos2").communicate()
             print(f"{library} completed in {start - end}")
             return "success"
         except Exception as e:
