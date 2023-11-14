@@ -66,7 +66,7 @@ emails1 = list(set(emails1))
 
 
 username = "liaochris"
-token = "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"
+token = 
 
 
 # In[61]:
