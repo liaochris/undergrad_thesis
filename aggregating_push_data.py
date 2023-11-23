@@ -15,33 +15,28 @@
 # 1. Measure 1: Compare within repository groups
 # 2. Measure 2: Find some other way to weight what a "download" means? 
 
-# In[1]:
+# In[4]:
 
 
 import os
 import pandas as pd
 import ast
-from pandarallel import pandarallel
+#from pandarallel import pandarallel
 import glob
 import json
 import numpy as np
 from itertools import chain
 import dask.dataframe as da
+import numpy as np
 
 
-# In[2]:
+# In[5]:
 
 
-pandarallel.initialize(progress_bar=False)
+#pandarallel.initialize(progress_bar=False)
 
 
-# In[3]:
-
-
-pd.set_option('display.max_columns', None)
-
-
-# In[4]:
+# In[6]:
 
 
 df_repo_info = pd.DataFrame()
@@ -49,7 +44,7 @@ df_actor_info = pd.DataFrame()
 df_org_info = pd.DataFrame()
 
 
-# In[5]:
+# In[7]:
 
 
 df_push = pd.DataFrame()
@@ -67,14 +62,14 @@ for i in range(99):
     df_repo_info = pd.concat([df_repo_info, df_repo_i]).drop_duplicates()
     df_actor_info = pd.concat([df_actor_info, df_actor_i]).drop_duplicates()
     df_org_info = pd.concat([df_org_info, df_org_i]).drop_duplicates()
-print("df_push obtained")
 
-# In[11]:
+
+# In[8]:
 
 
 def cleanParquetPushes(f):
     try:
-        df_parquet_repo = pd.read_parquet(f,engine='fastparquet')
+        df_parquet_repo = pd.read_parquet(f)
         df_parquet_repo['ordering'] = df_parquet_repo.groupby('push_id').cumcount()+1
         df_parquet_repo = df_parquet_repo[['push_id', 'repo_id', 'actor_id','push_size', 'commit_groups',
                                            'commit sha', 'ordering', 'commit author name', 'commit author email',
@@ -87,84 +82,98 @@ def cleanParquetPushes(f):
     return df_parquet_repo
 
 
-# In[ ]:
+# In[9]:
 
 
 files = glob.glob("data/github_commits/parquet/*_push_*")
 df_parquet_pushes_data = [cleanParquetPushes(f) for f in files]
 df_parquet_pushes = pd.concat(df_parquet_pushes_data,ignore_index=True)
-print("df_parquet_push obtained")
 
-# In[19]:
+
+# In[10]:
 
 
 df_parquet_pushes['commit_groups'] = df_parquet_pushes['commit_groups'].apply(lambda x: ast.literal_eval if type(x) == str else x)
 df_parquet_pushes['commit parent'] = df_parquet_pushes['commit_groups'].apply(lambda x: x[0] if len(x)>0 else '')
 
 
-# In[20]:
+# In[11]:
 
 
 df_parquet_pushes.drop('commit_groups', axis = 1, inplace = True)
 
 
-# In[21]:
+# In[12]:
 
 
 df_push['created_at'] = pd.to_datetime(df_push['created_at'])
 
 
-# In[22]:
+# In[13]:
 
 
 df_push_commits = pd.merge(df_push, df_parquet_pushes, how = 'left',
                            on = ['repo_id', 'push_id', 'actor_id'])
-print("df_push_commits made")
 
-# In[23]:
+
+# In[14]:
 
 
 df_push_commits['commit time'] = pd.to_datetime(df_push_commits['commit time'],unit='s')
 
 
-# In[24]:
+# In[15]:
 
 
-df_push_commits['push_day'] = df_push_commits['created_at'].parallel_apply(lambda x: x.day)
-df_push_commits['push_month'] = df_push_commits['created_at'].parallel_apply(lambda x: x.month)
-df_push_commits['push_year'] = df_push_commits['created_at'].parallel_apply(lambda x: x.year)
+df_push_commits['push_day'] = df_push_commits['created_at'].apply(lambda x: x.day)
+df_push_commits['push_month'] = df_push_commits['created_at'].apply(lambda x: x.month)
+df_push_commits['push_year'] = df_push_commits['created_at'].apply(lambda x: x.year)
 
-df_push_commits['commit_day'] = df_push_commits['commit time'].parallel_apply(lambda x: x.day)
-df_push_commits['commit_month'] = df_push_commits['commit time'].parallel_apply(lambda x: x.month)
-df_push_commits['commit_year'] = df_push_commits['commit time'].parallel_apply(lambda x: x.year)
+df_push_commits['commit_day'] = df_push_commits['commit time'].apply(lambda x: x.day)
+df_push_commits['commit_month'] = df_push_commits['commit time'].apply(lambda x: x.month)
+df_push_commits['commit_year'] = df_push_commits['commit time'].apply(lambda x: x.year)
 
 
-# In[25]:
+# In[16]:
 
 
 df_push_commits = df_push_commits.rename({'push_size_x':'push_size'}, axis = 1).drop('push_size_y', axis = 1)
 
 
-# In[26]:
+# In[17]:
 
 
 df_push_commits['commit file changes'] = df_push_commits['commit file changes'].apply(
     lambda x: [] if type(x) == float or type(x) == type(None) else x)
 
 
-# In[27]:
+# In[18]:
 
 
 df_push_commits_s = df_push_commits#.sample(100000)
 
 
-# In[28]:
+# In[19]:
 
 
-df_push_commits_s['commit file changes'] = df_push_commits_s['commit file changes'].apply(lambda x: ast.literal_eval if type(x) == str else x)
+null_commit_time = df_push_commits_s[df_push_commits_s['commit_year'].isnull()].index
+df_push_commits_s.loc[null_commit_time, 
+    ['commit_day', 'commit_month', 'commit_year']] = df_push_commits_s.loc[null_commit_time, ['push_day', 'push_month', 'push_year']]
 
 
-# In[29]:
+# In[20]:
+
+
+get_ipython().run_cell_magic('time', '', "#df_push_commits_s = pd.read_csv('data/merged_data/merged_commit_push.csv', index_col = 0)")
+
+
+# In[21]:
+
+
+df_push_commits_s['committer info'] = df_push_commits_s['committer name'] + " | " + df_push_commits_s['commmitter email']
+
+
+# In[22]:
 
 
 def getList(x):
@@ -174,95 +183,114 @@ def getList(x):
         return [ele['file'] for sublst in x for ele in sublst]
 
 
-# In[30]:
+# In[23]:
 
 
-df_push_commits_s['commit sha na'] = df_push_commits_s['commit sha'].isnull()
-df_push_commits_s['commit author name na'] = df_push_commits_s['commit author name'].isnull()
+df_push_commits_s['commit file changes'] = df_push_commits_s['commit file changes'].apply(lambda x: x.decode() if type(x) == bytes else x)
 
 
-# In[31]:
+# In[24]:
 
 
-null_commit_time = df_push_commits_s[df_push_commits_s['commit_year'].isnull()].index
-df_push_commits_s.loc[null_commit_time, 
-    ['commit_day', 'commit_month', 'commit_year']] = df_push_commits_s.loc[null_commit_time, ['push_day', 'push_month', 'push_year']]
+del df_push
+del df_parquet_pushes
+del df_push_commits
 
-print("df_push_commits_s cleaned")
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
+
+
+df_push_commits_s['commit file changes'] = df_push_commits_s['commit file changes'].apply(lambda x: ast.literal_eval(x) if type(x) == str else x)
+
+
 # In[ ]:
 
 
 # check to make sure each push is associated with one actor
 
 
-# In[36]:
+# In[ ]:
+
+
+def dropNAUnique(x):
+    return x.dropna().unique().tolist()
+
+
+# In[ ]:
+
+
+df_push_commits_s['push_size_wt'] = df_push_commits_s['push_size'] / df_push_commits_s.groupby('push_id')['push_id'].transform('count')
+
+
+# In[ ]:
 
 
 def aggData(group_cols):
+    
     df_results = df_push_commits_s.groupby(group_cols, sort=False, observed=True).agg(
         unique_push_actors=('actor_id', 'nunique'),
         unique_push_orgs=('org_id', 'nunique'),
-        push_size=('push_size', 'sum'),
-        counted_commits=('commit sha', 'count'),
-        retrieved_commits=('commit sha', 'count'), # subtract by retrieved_commits_na_count after
-        retrieved_commits_na_count=('commit sha na', 'sum'),
-        unique_commit_authors=('commit author name', 'nunique'), # subract by unique_commit_authors_na
-        unique_commit_authors_na=('commit author name na', 'max'),
-        unique_commit_author_emails=('commit author email', 'nunique'),  # subract by unique_commit_authors_na
-        unique_committers=('committer name', 'nunique'), # subract by unique_commit_authors_na 
-        unique_committer_emails=('commmitter email', 'nunique'),  # subract by unique_commit_authors_na
+        push_size=('push_size_wt', 'sum'),
+        counted_commits=('push_head', 'count'),
+        retrieved_commits=('commit sha', 'count'),
+        unique_commit_authors=('commit author name', 'nunique'), 
+        unique_commit_author_emails=('commit author email', 'nunique'),
+        unique_committers=('committer name', 'nunique'),
+        unique_committer_emails=('commmitter email', 'nunique'),
+        commit_authors=('commit author name', dropNAUnique),
+        committers=('committer info', dropNAUnique),
         LOC_added=('commit additions', 'sum'),
         avg_LOC_added=('commit additions', 'mean'),
         LOC_deleted=('commit deletions', 'sum'),
-        avg_LOC_changed=('commit deletions', 'mean'),
+        avg_LOC_deleted=('commit deletions', 'mean'),
         files_changed=('commit files changed count', 'sum'),
         avg_files_changed=('commit files changed count', 'mean'),
         changed_files=('commit file changes', getList),
         uniq_changed_files=('commit file changes',  lambda x: len(getList(x)))
-    )
-    df_results['retrieved_commits'] = df_results['retrieved_commits'] - df_results['retrieved_commits_na_count']
-    df_results['unique_commit_authors'] = df_results['unique_commit_authors'] - df_results['unique_commit_authors_na']
-    df_results['unique_commit_author_emails'] = df_results['unique_commit_author_emails'] - df_results['unique_commit_authors_na']
-    df_results['unique_committers'] = df_results['unique_committers'] - df_results['unique_commit_authors_na']
-    df_results['unique_committer_emails'] = df_results['unique_committer_emails'] - df_results['unique_commit_authors_na']
-    df_results.drop(['retrieved_commits_na_count', 'unique_commit_authors_na'], axis = 1, inplace = True)
-
+    )    
     return df_results
 
 
 # In[ ]:
 
-print("Push Monthly")
-df_push_commits_grouped_monthly = aggData(['repo_id', 'push_year', 'push_month'])
-df_push_commits_grouped_monthly.to_csv('data/aggregated_data/aggregated_monthly_labor.csv')
+
+get_ipython().run_cell_magic('time', '', "df_push_commits_s.to_csv('data/merged_data/merged_commit_push.csv')")
 
 
 # In[ ]:
 
-print("Commit Monthly")
-df_push_commit_time_grouped_monthly = aggData(['repo_id', 'commit_year', 'commit_month'])
-df_push_commit_time_grouped_monthly.to_csv('data/aggregated_data/aggregated_monthly_labor_commit_time.csv')
+
+get_ipython().run_cell_magic('time', '', "df_push_commits_grouped_monthly = aggData(['repo_id', 'push_year', 'push_month'])\ndf_push_commits_grouped_monthly.to_csv('data/aggregated_data/aggregated_monthly_labor.csv', encoding='utf-8')")
 
 
 # In[ ]:
 
-print("Push Daily")
-df_push_commits_grouped_daily = aggData(['repo_id', 'push_year', 'push_month', 'push_day'])
-df_push_commits_grouped_daily.to_csv('data/aggregated_data/aggregated_daily_labor.csv')
+
+get_ipython().run_cell_magic('time', '', "df_push_commit_time_grouped_monthly = aggData(['repo_id', 'commit_year', 'commit_month'])\ndf_push_commit_time_grouped_monthly.to_csv('data/aggregated_data/aggregated_monthly_labor_commit_time.csv', encoding='utf-8')")
 
 
 # In[ ]:
 
-print("Commit Daily")
-df_push_commit_time_grouped_daily = aggData(['repo_id', 'commit_year', 'commit_month', 'commit_day'])
-df_push_commit_time_grouped_daily.to_csv('data/aggregated_data/aggregated_daily_labor_commit_time.csv')
+
+get_ipython().run_cell_magic('time', '', "df_push_commits_grouped_daily = aggData(['repo_id', 'push_year', 'push_month', 'push_day'])\ndf_push_commits_grouped_daily.to_csv('data/aggregated_data/aggregated_daily_labor.csv', encoding='utf-8')")
 
 
 # In[ ]:
 
-df_push_commit_time_grouped_daily.to_csv('data/merged_data/merged_push_commits.csv')
 
-ddf = da.from_pandas(df_push_commits, chunksize=5000000)
-save_dir = 'data/merged_data'
-ddf.to_parquet(save_dir)
+get_ipython().run_cell_magic('time', '', "df_push_commit_time_grouped_daily = aggData(['repo_id', 'commit_year', 'commit_month', 'commit_day'])\ndf_push_commit_time_grouped_daily.to_csv('data/aggregated_data/aggregated_daily_labor_commit_time.csv', encoding='utf-8')")
+
+
+# In[ ]:
+
+
+df_repo_info.to_csv('data/merged_data/push_repo.csv')
+df_actor_info.to_csv('data/merged_data/push_actor.csv')
+df_org_info.to_csv('data/merged_data/push_org.csv')
 
