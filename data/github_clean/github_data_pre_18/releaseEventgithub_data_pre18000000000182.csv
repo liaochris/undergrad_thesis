@@ -1,0 +1,359 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,release_action,release_tag_name,release_name,release_body
+730,ReleaseEvent,2016-02-22 07:48:13+00:00,45852176,arose/nglview,272250,arose,,,published,v0.4,,
+1354,ReleaseEvent,2018-08-16 22:46:01+00:00,140285687,osmr/imgclsmob,25412623,osmr,,,published,v0.0.2,PreResNet models,PreResNet models are ready to use
+1463,ReleaseEvent,2018-05-26 19:01:00+00:00,50903853,AnalogJ/lexicon,891875,AnalogJ,,,published,v2.3.0,v2.3.0,"Timestamp |  SHA | Message | Author
+------------- | ------------- | ------------- | -------------
+2018-05-26T19:00Z | 9197c8d9 | (v2.3.0) Automated packaging of release by CapsuleCD | CapsuleCD
+2018-05-26T18:53Z | 0f6e130e | Merge 2e798697915e6e6d4a6c1fd1be6f0924db6efcbb into f3aee37e35d4d92ab0158d2108ee1d9d0ee877ee | Jason Kulatunga
+2018-05-12T07:29Z | 2e798697 | fixing misnamed test class, skipping tests without recordings. | Jason Kulatunga
+2018-05-12T07:03Z | e3e78512 | fixing misnamed test class, skipping tests without recordings. | Jason Kulatunga
+2018-05-12T06:49Z | d14ec5e0 | disabling test with missing recordings. | Jason Kulatunga
+2018-05-12T05:53Z | 79e63fce | re-add skip suites for certain providers. | Jason Kulatunga
+2018-04-14T16:03Z | d358bf2d | Merge pull request #207 from jvanasco/record_set_support_contrib  multiple updates for Namecheap client | Jason Kulatunga
+2018-04-14T15:56Z | aa878eaa | Merge pull request #213 from rmarscher/rackspace-update-if-duplicate  Rackspace handle duplicate record on create | Jason Kulatunga
+2018-04-02T15:14Z | 6e894233 | Namecheap updates: * removed client-side validation of TTL * cleaned up some documentaiton | jonathan vanasco
+2018-03-26T21:37Z | cba16add | Test recording update | Rob Marscher
+2018-03-26T21:37Z | d5c851c5 | Fixing update_record without an identifier | Rob Marscher
+2018-03-16T16:50Z | caf53c13 | Rackspace handle duplicate record on create  It will now update an existing record if a duplicate exists when creating. Also fixed the content filter for listing records. Before this commit, we were not sending the content filter to the proper data query param documented here: https://developer.rackspace.com/docs/cloud-dns/v1/api-reference/records/#search-records  However, once the param was updated to the right name, Rackspace was returning 503 errors for any request that included the data filter. This seems to be a bug on Rackspace's end. Also tried sending just a data param without the name param and still received a 503. Also tried stripping out any non-alphanumeric characters from the content and still received a 503 (the docs say: Using special characters in a search  such as "" "" and ""_"" causes no results to be returned).  To resolve it, the content filter is done on the returned list from Rackspace. So first we fetch the list filtering on type and name and then apply the content filter on the list in python. | Rob Marscher
+2018-04-01T17:27Z | 7825dbde | Merge pull request #208 from ppmathis/record_set_support_contrib  cloudns: Fixes and recordings for PR #203 | Jason Kulatunga
+2018-04-01T17:21Z | daa69494 | Merge pull request #210 from joostdebruijn/record_set_support_contrib_transip  Record set support TransIP | Jason Kulatunga
+2018-03-28T16:13Z | 984402b5 | test: Add new recordings for TransIP provider | Joost de Bruijn
+2018-03-28T03:47Z | 81855ed6 | fixed namecheap test. something reverted. how? | jonathan vanasco
+2018-03-27T16:36Z | 0aa24379 | cloudns: Fixes and recordings for PR #203  Provide missing test cassetes for PR #203 which improved handling of duplicate records. The following changes have been made previously to recording the cassettes:   - Removed workaround for overriding authentication environment variables, due to bug being fixed in commit 970dd9e   - Added code to the cloudns provider for detecting if an option was given by the user or not. This is required due to the integration tests using `lambda x: 'placeholder_' + x` as their *fallbackFn* implementation, which will break the auth_id/subid/subuser options, where only exactly one option can be specified.  As these changes might potentially affect other cassettes as well, all recordings have been regenerated with the updated test suite. Thanks to the adjustments done to the test suite, it is now also possible to record cassettes with a restricted sub-account API instead of granting full access. | Pascal Mathis
+2018-03-27T18:52Z | 8da0a028 | fix: TransIP provider allows to create the same record twice | Joost de Bruijn
+2018-03-26T17:52Z | 3904e90e | multiple updates for Namecheap client:  * the namecheap `authenticate` method now calls the cloud endpoint `namecheap.domains.getInfo`, which will show information for a 'permissioned' domain or return an error document. Previously this called the `domains_getList` client method and iterated paginated results to find the domain, however that list only shows domains ""owned"" by a namecheap account, and does not include domains owned by a first account which have had permissions delegated to the second active account.  * the namecheap provider did not respect the TTL commandline arg. The new behavior is to inject a TTL from the commandline if provided and valid, otherwise leaving the TTL value blank (which will invoke the serverside default). Submitting a ttl outside the valid range for namecheap will raise a `ValueError`.  * the IntegrationTests object was extended with a `provider_variant` attribute, defaulted to `None`.  If present, this will change the cassette path from `{provider}/IntegrationTests` to `{provider}/{variant_name}-IntegrationTests`.  This approach allows for testing multiple domain scenarios for the same provider.  * the `NamecheapProviderTests` replaced a `domain` attribute with a `domain` property tied to the environment variable `LEXICON_NAMECHEAP_DOMAIN`. This will allow developers to test against the llive API without adjusting code.  * A variant of `NamecheapProviderTests` called `NamecheapManagedProviderTests` was added, which tests against a domain that is not owned, but managed, on the namecheap platform.  * The namecheap tests were documented with instructions on how to fully setup the test environment and create sandbox accounts in the cloud. | jonathan vanasco
+2018-03-26T02:51Z | 101fa567 | removed all commented out tests & suites that should be enabled (with recordings). | Jason Kulatunga
+"
+1499,ReleaseEvent,2017-05-03 14:34:45+00:00,81689370,arraylabs/pymyq,1139563,arraylabs,,,published,v0.0.9,,
+1505,ReleaseEvent,2018-07-26 13:04:54+00:00,43131469,bjodah/pyodesys,485936,bjodah,,,published,v0.11.15,pyodesys-0.11.15,"Straightforward numerical integration of systems of ordinary differential equations
+[pyodesys-0.11.15.tar.gz](https://github.com/bjodah/pyodesys/files/2232051/pyodesys-0.11.15.tar.gz)
+"
+2255,ReleaseEvent,2017-06-15 13:19:51+00:00,77713990,wmalgadey/PyTado,141838,wmalgadey,,,published,0.2.1,0.2.1 - ALPHA,
+3259,ReleaseEvent,2017-07-09 21:04:01+00:00,65155092,ClimbsRocks/auto_ml,7017045,ClimbsRocks,,,published,v2.3.5,"Trains GBM and LightGBM iteratively, numpy fixes",LightGBM and sklearn's gbm now use warm_starting or iterative training to find the best number of trees
+3301,ReleaseEvent,2018-08-07 12:57:35+00:00,34061246,Sung-Huan/ANNOgesic,6706987,Sung-Huan,,,published,v.0.7.33,ANNOgesic version 0.7.33,ANNOgesic version 0.7.33
+3304,ReleaseEvent,2015-09-02 11:42:41+00:00,12564119,acutesoftware/AIKIF,2210582,acutesoftware,,,published,v0.1.4,Pre-Alpha v0.1.4,This release is a snapshot of the latest working Pre-Alpha version prior to some restructuring
+3517,ReleaseEvent,2018-08-10 06:35:48+00:00,62165703,kalaspuff/tomodachi,89139,kalaspuff,,,published,0.13.6,0.13.6,"* Improved error handling if strict tomodachi dependencies fail to load, for example if an installed dependency is corrupt or missing.
+* Added additional examples to repository with a demo of pub-sub communication."
+3718,ReleaseEvent,2016-10-18 00:15:23+00:00,33204249,tholo/pytest-flake8,166463,tholo,,,published,0.8.1,0.8.1,"- Allow running with no cacheprovider
+- Modernize use of fixtures in tests
+- Properly update version"
+4492,ReleaseEvent,2017-03-02 05:16:31+00:00,22434000,ifduyue/python-xxhash,568900,ifduyue,,,published,v1.0.1,,"- Free state actively, instead of delegating it to ffi.gc
+
+---
+
+Full list of changes: https://github.com/ifduyue/python-xxhash/compare/v1.0.0...v1.0.1
+"
+4541,ReleaseEvent,2016-09-09 15:04:59+00:00,48497192,mathiasertl/django-ca,6200103,mathiasertl,,,published,1.2.0,1.2.0,"* django-ca now provides a complete OCSP responder.
+* Various tests are now run with a pre-computed CA, making tests much faster and output more predictable.
+* Update lots of documentation."
+5234,ReleaseEvent,2017-01-18 22:23:00+00:00,73589616,tadashi-aikawa/owlmixin,9500018,tadashi-aikawa,,,published,1.0.0rc6,1.0.0rc6,"## New features
+
+* :new: Add `sum`, `sum_by`
+* :new: Add `concat`, and override a plus operator
+     * `TList(...) + TList(...)` is not return list but TList"
+5269,ReleaseEvent,2018-04-22 23:51:23+00:00,73903959,urda/django-letsencrypt,1648492,urda,,,published,v3.0.1,Django Let's Encrypt - 3.0.1,"This is a production-ready release of `django-letsencrypt`.
+Please refer to the `README` of the project to get started.
+- [PyPI - django-letsencrypt](https://pypi.python.org/pypi/django-letsencrypt)
+
+## v3.0.1
+
+- Breaking Changes
+  - `Django 1.8` support has been dropped. `v3.0.0` is the last supported
+    version for users still on `Django 1.8`.
+- Documentation Changes
+  - Update the `ACME challenge` link in `README.rst`.
+- Project Changes
+  - Disable `universal` wheel creation in `setup.cfg`.
+  - Add a `python_requires` entry into `setup.py`.
+    - You can learn more about this feature by reading
+    [this](https://packaging.python.org/tutorials/distributing-packages/#python-requires)
+    document.
+  - Bumped to the latest `pytz`, version `2018.4`.
+  - Switched from `reStructuredText` to `Markdown`.
+- Internal Changes
+  - Bumped `DJANGO_VERSION` targets in `.travis.yml`.
+- Thanks to Contributors:
+  - [michael-k](https://github.com/michael-k)
+  - [Paolo Dina](https://github.com/paolodina)"
+5410,ReleaseEvent,2015-03-12 19:01:00+00:00,825715,gtaylor/python-colormath,75556,gtaylor,,,published,2.1.1,,"## Bug Fixes
+
+* Add ``network`` to install_requires. (Ed-von-Schleck)"
+5446,ReleaseEvent,2015-10-24 23:51:35+00:00,17860497,mattrobenolt/django-sudo,375744,mattrobenolt,,,published,1.2.0,,"* Verified compatibility with python 3.5 and pypy3
+* Verified compatibility with Django 1.8
+* Dropped support for python 3.2
+* Better support for custom User models. See #4
+* Added a `SudoMixin` for use with class based views. #5"
+5451,ReleaseEvent,2017-04-12 15:27:35+00:00,9766348,mindflayer/python-mocket,527325,mindflayer,,,published,1.8.2,,
+5488,ReleaseEvent,2017-04-28 06:56:00+00:00,48243242,signalpillar/tox-battery,72226,signalpillar,,,published,0.4,,
+5634,ReleaseEvent,2015-09-29 12:52:02+00:00,14192463,allanlei/python-zipstream,391251,allanlei,,,published,v1.1.2,v1.1.2,
+5873,ReleaseEvent,2016-05-06 19:17:43+00:00,52994060,williballenthin/viv-utils,156560,williballenthin,,,published,0.3.1,,
+6063,ReleaseEvent,2017-07-04 13:24:16+00:00,7883714,mgrouchy/django-stronghold,71200,mgrouchy,,,published,v0.2.9,Release v0.2.9,"- documentation changes
+- support for django 1.10
+- support for new style django middleware
+"
+6131,ReleaseEvent,2018-07-13 17:53:02+00:00,134160822,anapaulagomes/pytest-picked,1899950,anapaulagomes,,,published,v0.2.0,Speed it up and use pytest convention,"- Filter tests according with `pytest` file convention
+- Only collects the tests from `git status`
+- LambdaLint with Pylint and Bandit and Black in Tox"
+6301,ReleaseEvent,2016-03-10 00:28:34+00:00,53142739,pjdelport/backports.tempfile,630271,pjdelport,,,published,v1.0rc1,1.0 release candidate 1,
+6389,ReleaseEvent,2016-08-12 10:07:33+00:00,7772867,skorokithakis/django-annoying,23648,skorokithakis,,,published,v0.10.0,,
+6591,ReleaseEvent,2018-06-10 13:45:59+00:00,5746339,alesdotio/django-admin-shortcuts,333487,alesdotio,,,published,2.0.0,2.0.0,"* Support for Python 3
+* Support for Django 2.0
+* Show shortcuts on all pages by setting ``show_on_all_pages``
+* Replaced image icons with many more icons through Fontawesome"
+6829,ReleaseEvent,2016-12-20 17:54:48+00:00,76278782,nikolasibalic/ARC-Alkali-Rydberg-Calculator,24477754,nikolasibalic,,,published,0.9,Initial beta release (ver 0.9),
+6916,ReleaseEvent,2016-11-21 10:17:22+00:00,60687417,camptocamp/marabunta,417223,guewen,28109,camptocamp,published,0.6.0,0.6.0,"**Improvements**
+
+* Rework of the database connections:
+
+  * The advisory lock is opened in a cursor in a thread, this cursor
+    periodically executes a dummy 'SELECT 1' to be sure that the connection
+    stay alive (not killed with a timeout) when a long-running subprocess is
+    run.
+  * The operations in database are executed in short-lived cursors. This
+    prevents an issue we had when the open cursor was locking
+    'ir_module_module', preventing odoo to install/update properly.
+
+* Try to disable colors in output if the term does not support colors"
+7787,ReleaseEvent,2015-12-09 12:27:53+00:00,47625420,mirumee/google-i18n-address,1870738,mociepka,170574,mirumee,published,1.0.0,Add files and validation helpers,
+7813,ReleaseEvent,2016-12-19 09:47:07+00:00,35100117,neo4j/neo4j-python-driver,4190164,zhenlineo,201120,neo4j,published,1.1.0b3,1.1.0b3,"A more powerful and faster driver
+
+A new release with new routing included. In this release we introduce our in-house routing support to route Cypher statements to a Neo4j 3.1+ causal cluster directly! See [changelog](https://github.com/neo4j/neo4j-python-driver/wiki/1.1-changelog#110b3) for more information about this release"
+8000,ReleaseEvent,2018-06-01 10:35:47+00:00,78797564,palantir/python-language-server,1928052,gatesn,303157,palantir,published,0.19.0,0.19.0,"* Support document highlights
+* Allow running as `python -m pyls`
+* Report correct range from `workspace/rename`
+* Fix pycodestyle import error"
+9012,ReleaseEvent,2017-10-06 14:46:04+00:00,83166812,cs50/check50,20504399,bot50,788676,cs50,published,v2.1.3,v2.1.3,
+9024,ReleaseEvent,2017-10-05 22:13:26+00:00,82182681,openshift/openshift-restclient-python,2431974,fabianvf,792337,openshift,published,release-0.3.2,Loosen requirements,
+9119,ReleaseEvent,2017-01-02 19:29:48+00:00,2924705,JetBrains/teamcity-messages,1244223,shalupov,878437,JetBrains,published,v1.21,,"  - pytest: internal Error during test collection with pytest and teamcity-messages plugin #112
+  - nose: support capturing test output from successful tests, #113
+  - Fix possible error when joining bytes and unicode (Victor Makarov, https://github.com/vitek)
+"
+9265,ReleaseEvent,2016-01-25 18:27:43+00:00,9252533,numenta/nupic,15566,rhyolight,1039191,numenta,published,0.4.2,0.4.2,"
+* Using official release version of bindings for nupic release.
+
+"
+9683,ReleaseEvent,2015-08-18 00:42:49+00:00,15958352,GetBlimp/django-rest-framework-jwt,83319,jpadilla,1227237,GetBlimp,published,1.7.1,v1.7.1,"# Changelog
+
+## Fixed
+
+- Fixed compatibility with DRF 3.2 #147"
+9690,ReleaseEvent,2018-08-22 10:03:40+00:00,128863320,sci-visus/OpenVisus,1260735,scrgiorgio,1258106,sci-visus,published,1.2.10,1.2.10,
+9950,ReleaseEvent,2018-06-01 18:54:13+00:00,24624545,quantopian/qgrid,5055866,TimShawver,1393215,quantopian,published,v1.0.3,v1.0.3,
+9982,ReleaseEvent,2017-10-03 21:26:48+00:00,60379729,quantopian/alphalens,15273575,luca-s,1393215,quantopian,published,v0.1.2,v0.1.2,New release v0.1.2
+10591,ReleaseEvent,2016-08-19 11:20:58+00:00,58059785,zalando/expan,576089,jbao,1564818,zalando,published,v0.4.0,,- support derived metrics and weighted delta function
+10806,ReleaseEvent,2018-02-26 19:11:44+00:00,83072729,CartoDB/cartoframes,1041056,andy-esch,1799254,CartoDB,published,v0.5.6,v0.5.6,"Updates
+
+- Avoids collision of column names on DO augmentation (#323).
+"
+10880,ReleaseEvent,2016-11-22 13:53:50+00:00,52364316,carbonblack/cbapi-python,3229292,jgarman,2071378,carbonblack,published,1.0.0,cbapi Python Bindings - 1.0.0,"This is our first major release of the new cbapi! This release signifies that the API is now stable and will only include additional functionality or bug fixes. Changes to the API interface will be indicated with a major version number increase to 2.0.
+
+Changes in this release:
+
+* New documentation! See the docs at https://cbapi.readthedocs.io. The docs now include detailed Installation instructions, Concepts, and a walkthrough of how to use the API with Cb Response.
+* New feature: #46 - Event driven API for Cb Response. See the examples fore more details. This API allows you to easily create IFTTT style pipelines based on streaming data from Cb Response. Incoming events can trigger any action, including performing Live Response actions on endpoints using the Live Response API.
+* The `CbEnterpriseResponseAPI` and `CbEnterpriseProtectionAPI` classes are now aliased to `CbResponseAPI` and `CbProtectionAPI` respectively, to meet our new branding guidelines and to save you some typing.
+* Fixes to the Live Response API to improve reliability.
+* Fixes to the Sensor Model Object to improve compatibility with Cb Response 5.2.
+* Added `.isolate()` and `.unisolate()` helper functions to the Sensor Model Object.
+* Bug fixes to the Binary Model Object `.virustotal`, `.signing_data`, `.version_info`, and `.frequency` properties.
+* Added validation to the User and BannedHash Model Objects."
+11650,ReleaseEvent,2017-07-08 01:16:36+00:00,22072746,pantsbuild/pex,1883523,kwlzn,3065172,pantsbuild,published,v1.2.8,pex 1.2.8,"---
+
+## 1.2.8
+
+- Minimum setuptools version should be 20.3 (#391)
+- Improve wheel support in pex. (#388)"
+11786,ReleaseEvent,2017-10-10 08:11:51+00:00,93721432,awslabs/sockeye,2027990,fhieber,3299148,awslabs,published,1.7,Updated Word batching,"* Word batching update: guarantee default bucket has largest batch size.
+
+* Comments/logic for clarity.
+
+* Address PR comments.
+
+- Memory usage note.
+- NamedTuple for bucket batch sizes."
+11996,ReleaseEvent,2017-06-23 20:00:36+00:00,94463059,uw-it-aca/uw-restclients-uwnetid,9834194,fanglinfang,3730428,uw-it-aca,published,0.2,bug fix,
+12242,ReleaseEvent,2017-03-01 23:26:44+00:00,17710133,googleads/googleads-python-lib,6739520,msaniscalchi,4551618,googleads,published,5.2.0,googles Python Client Library 5.2.0,"#### googleads Python Client Library v5.2.0 -- 3/1/17:
+* Added support for AdWords v201702.
+* Resolved issues:
+ Issue 110: https://github.com/googleads/googleads-python-lib/issues/110
+ Issue 180: https://github.com/googleads/googleads-python-lib/issues/180
+
+| Download | Description |
+|:-------- |:----------- |
+| [adwords_python2_examples](https://github.com/googleads/googleads-python-lib/releases/download/5.2.0/adwords_python2_examples_5.2.0.tar.gz) | AdWords Examples for Python 2 |
+| [adwords_python3_examples](https://github.com/googleads/googleads-python-lib/releases/download/5.2.0/adwords_python3_examples_5.2.0.tar.gz) | AdWords Examples for Python 3 |
+| [dfp_python2_examples](https://github.com/googleads/googleads-python-lib/releases/download/5.2.0/dfp_python2_examples_5.2.0.tar.gz) | DFP Examples for Python 2 |
+| [dfp_python3_examples](https://github.com/googleads/googleads-python-lib/releases/download/5.2.0/dfp_python3_examples_5.2.0.tar.gz) | DFP Examples for Python 3 |"
+12333,ReleaseEvent,2016-08-11 11:56:03+00:00,52191533,materialsvirtuallab/flamyngo,577107,shyuep,5237956,materialsvirtuallab,published,v0.6.4,v0.6.4,* Bug fix release.
+12383,ReleaseEvent,2018-03-21 13:38:04+00:00,10247874,docker/docker-py,1086876,shin-,5429470,docker,published,3.1.4,3.1.4,"[List of PRs / issues for this release](https://github.com/docker/docker-py/milestone/48?closed=1)
+
+### Bugfixes
+
+* Fixed a bug where build contexts containing directory symlinks would produce
+  invalid tar archives"
+12415,ReleaseEvent,2017-05-17 00:14:16+00:00,10247874,docker/docker-py,1086876,shin-,5429470,docker,published,2.3.0,2.3.0,"2.3.0
+-----
+
+[List of PRs / issues for this release](https://github.com/docker/docker-py/milestone/31?closed=1)
+
+### Features
+
+* Added support for the following `HostConfig` parameters: `volume_driver`,
+  `cpu_count`, `cpu_percent`, `nano_cpus`, `cpuset_mems`.
+* Added support for `verbose` parameter in `APIClient.inspect_network` and
+  `DockerClient.networks.get`.
+* Added support for the `environment` parameter in `APIClient.exec_create`
+  and `Container.exec_run`
+* Added `reload_config` method to `APIClient`, that lets the user reload
+  the `config.json` data from disk.
+* Added `labels` property to the `Image` and `Container` classes.
+* Added `image` property to the `Container` class.
+
+### Bugfixes
+
+* Fixed a bug where setting `replicas` to zero in `ServiceMode` would not
+  register as a valid entry.
+* Fixed a bug where `DockerClient.images.build` would report a failure after
+  a successful build if a `tag` was set.
+* Fixed an issue where `DockerClient.images.pull` would fail to return the
+  corresponding image object if a `tag` was set.
+* Fixed a bug where a list of `mounts` provided to `APIClient.create_service`
+  would sometimes be parsed incorrectly.
+* Fixed a bug where calling `Network.containers` would crash when no containers
+  were associated with the network.
+* Fixed an issue where `Network.connect` and `Network.disconnect` would not
+  accept some of the documented parameters.
+* Fixed a bug where the `cpuset_cpus` parameter would not be properly set in
+  `APIClient.create_host_config`.
+
+### Miscellaneous
+
+* The invalid `networks` argument in `DockerClient.containers.run` has been
+  replaced with a (working) singular `network` argument.
+
+"
+12441,ReleaseEvent,2018-08-21 16:39:17+00:00,114060493,dwavesystems/dwavebinarycsp,8395238,arcondello,5449030,dwavesystems,published,0.0.6,0.0.6,* Add `load_cnf` functions for DIMACS CNF boolean satisfiability functions
+12496,ReleaseEvent,2017-10-18 09:02:47+00:00,41092776,superdesk/superdesk-core,179249,petrjasek,5527298,superdesk,published,v1.8.6,,"### Fixed
+
+- Fix parsing of ANSA NewsmlG2 feed.
+- Add nijs parser to ingest both text and feature media.
+- Fix issue where user cannot publish after removing feature media."
+12697,ReleaseEvent,2018-04-05 18:28:28+00:00,4744355,soft-matter/trackpy,8937919,caspervdw,5857177,soft-matter,published,v0.4,Trackpy v0.4,"This is a major release that includes new choices for linking and feature-finding algorithms, as well as many
+performance increases and clean-ups. It is recommended for all trackpy users, but may require
+minor changes to existing code, as detailed below.
+
+See http://soft-matter.github.io/trackpy/v0.4/whatsnew.html for a full overview of the changes."
+12890,ReleaseEvent,2018-03-27 21:47:13+00:00,7807956,ambitioninc/django-query-builder,1165406,wesokes,6206775,ambitioninc,published,1.1.0,1.1.0,
+13075,ReleaseEvent,2016-09-14 18:53:10+00:00,6235174,conda/conda,1418419,kalefranz,6392739,conda,published,4.2.5,4.2.5 (2016-09-08),"### Deprecations/Breaking Changes
+* partially revert #3041 giving conda config --add previous --prepend behavior (#3364 via #3370)
+* partially revert #2760 adding back conda package command (#3398)
+
+### Improvements
+* order output of conda config --show; make --json friendly (#3384 via #3386)
+* clean the pid based lock on exception (#3325)
+* improve file removal on all platforms (#3280 via #3396)
+
+### Bug Fixes
+* fix #3332 allow download urls with :: in them (#3335)
+* fix always_yes and not-set argparse args overriding other sources (#3374)
+* fix ftp fetch timeout (#3392)
+* fix #3307 add try/except block for touch lock (#3326)
+* fix CONDA_CHANNELS environment variable splitting (#3390)
+* fix #3378 CONDA_FORCE_32BIT environment variable (#3391)
+* make conda info channel urls actually give urls (#3397)
+* fix cio_test compatibility (#3395 via #3400)
+"
+13192,ReleaseEvent,2015-01-07 11:01:13+00:00,16351844,poppy-project/pypot,4290742,pierre-rouanet,6410346,poppy-project,published,2.0.2,Stable release 2.0.2,
+13416,ReleaseEvent,2017-09-22 23:51:44+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-extension-0.0.3,azure-cli-extension 0.0.3,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.org/project/azure-cli-extension/0.0.3
+
+Full release notes at https://docs.microsoft.com/en-us/cli/azure/release-notes-azure-cli
+
+"
+14261,ReleaseEvent,2017-12-01 06:43:24+00:00,70451850,scikit-build/scikit-ci-addons,219043,jcfr,8144855,scikit-build,published,latest,Latest (updated on 2017-12-01 06:12 UTC),
+14285,ReleaseEvent,2017-02-21 21:46:08+00:00,23335328,signalfx/signalfx-python,879507,mpetazzoni,8184587,signalfx,published,v1.0.15,Version 1.0.15,Adds support for the detector preflight API.
+14634,ReleaseEvent,2015-04-24 19:13:00+00:00,24689871,pythongssapi/python-gssapi,119737,DirectXMan12,8986660,pythongssapi,published,v1.1.1,v1.1.1: Nick (patch 1),"Changelog
+========
+
+Bugfixes
+-------------
+
+- Always use custom-specified libraries when building
+- Fix incorrect header file usage causing issues on Heimdal -- #61 
+
+Documentation
+----------------------
+
+New, improved, and more usable -- #64 "
+14896,ReleaseEvent,2018-05-21 18:49:21+00:00,64330225,trustar/trustar-python,16249781,michaelknopf,9372891,trustar,published,0.3.10,,"Minor release, adds `nextResetTime` value to `RequestQuota` object."
+15039,ReleaseEvent,2016-11-22 19:27:45+00:00,40975824,common-workflow-language/schema_salad,1316612,tetron,9947495,common-workflow-language,published,1.20.20161122192122,,
+15110,ReleaseEvent,2018-08-28 14:09:20+00:00,42750248,watson-developer-cloud/python-sdk,17691144,watson-github-bot,10017763,watson-developer-cloud,published,v1.7.1,v1.7.1,"## [1.7.1](https://github.com/watson-developer-cloud/python-sdk/compare/v1.7.0...v1.7.1) (2018-08-28)
+
+
+### Bug Fixes
+
+* **DetailedResponse:** Add status_code to `DetailedResponse` ([a76e1f4](https://github.com/watson-developer-cloud/python-sdk/commit/a76e1f4))
+* **iam_apikey:** Rename `iam_api_key` to `iam_apikey` ([c3edc77](https://github.com/watson-developer-cloud/python-sdk/commit/c3edc77))
+
+
+
+"
+15127,ReleaseEvent,2018-06-20 17:32:11+00:00,27610253,ubyssey/dispatch,2547035,psiemens,10091792,ubyssey,published,v0.4.15-beta,Version 0.4.15-beta,
+15276,ReleaseEvent,2015-12-29 02:43:06+00:00,40094312,pyserial/pyserial,10556012,zsquareplusc,10537924,pyserial,published,v3.0,Final release of 3.0,"Changes since V2.7:
+- one code base for Python 2.7 and 3.2+ (support for older Python versions is dropped)
+- new API (old one is still available for backwards compatibility)
+- new URL handlers `spy://` and `alt://`, improvements to `rfc2217://` and `socket://` (bugfixes, IPv6)
+- URL parameter format has been changed
+- experimental convenience APIs for threading and asyncio (the later only under Posix)
+- updated miniterm: changed handling of bytes/Unicode/encoding
+- a number of bugfixes
+
+Changes since V3.0b1:
+- minor fixes, hwgrep:// now has options
+- tcsetattr bugfix for Posix
+
+See [changes](https://github.com/pyserial/pyserial/blob/master/CHANGES.rst#version-30---2015-12-28) for more details."
+15331,ReleaseEvent,2018-04-18 02:43:39+00:00,112676803,apple/turicreate,5673251,znation,10639145,apple,published,v4.3.2,Turi Create 4.3.2,"## Fixes ##
+
+* Fixed critical bug where visualization files were excluded from wheel artifacts, breaking `.show` and `.explore` ( #539 )"
+16024,ReleaseEvent,2015-11-08 16:36:16+00:00,37541882,python-cas/python-cas,1002838,mingchen,12914971,python-cas,published,v1.1.0,v1.1.0,"* port changes form django-cas-ng.
+* copied test from django-cas-ng.
+* more syncing of cas code with that in django-cas-ng
+* add SAML single logout to CAS v3
+* synced the protocol part with django-cas-ng in hope to use this library in django-cas-ng
+* allowed to customize name of logout redirect url parameter
+* base cas client with SAML on CASClientV2
+"
+16215,ReleaseEvent,2015-10-22 10:10:48+00:00,31315021,Kinto/kinto,229453,Natim,13413813,Kinto,published,1.6.1,,"- Upgraded to *Cliquet* 2.8.2
+
+**Bug fixes**
+
+- Return a JSON body for 405 response on the default bucket (#214)
+
+**Internal changes**
+
+- Improve documentation for new comers (#217)
+- Do not force host in default configuration (#219)
+- Use tox installed in virtualenv (#221)
+- Skip python versions unavailable in tox (#222)
+"
+16387,ReleaseEvent,2016-06-30 11:24:02+00:00,46374199,IntelRealSense/librealsense,6958867,dorodnic,14095512,IntelRealSense,published,v0.9.2,librealsense v0.9.2 pre-release,This version accumulates all the gradual enhancements and improvements from the community that have been merged into librealsense master since the last March release
+16895,ReleaseEvent,2017-06-19 11:39:13+00:00,26781989,pyexcel/pyexcel-text,4280312,chfw,16431467,pyexcel,published,v0.2.6,Adapt pyexcel 0.5.0,see change log for details
+17458,ReleaseEvent,2018-08-08 08:53:13+00:00,116003862,deep-compute/kwikapi,28617371,RamanjaneyuluIdavalapati,18276853,deep-compute,published,0.4.2,kwikapi-0.4.2,
+17528,ReleaseEvent,2017-09-28 12:15:06+00:00,19141754,opendatateam/udata,15725,noirbizarre,19330690,opendatateam,published,v1.1.8,,"- Display membership modal actions buttons for site administrators and on membership display. [#1176](https://github.com/opendatateam/udata/pull/1176)
+- Fix organization avatar in admin profile [#1175](https://github.com/opendatateam/udata/issues/1175)"
+17569,ReleaseEvent,2018-05-05 05:02:07+00:00,7673329,simple-salesforce/simple-salesforce,4801429,andscoop,19581234,simple-salesforce,published,v0.74.2,v0.74.2,
+17635,ReleaseEvent,2016-11-04 17:48:29+00:00,60605358,DataMedSci/pymchelper,7374733,grzanka,19749591,DataMedSci,published,v0.4.2,0.4.2,Bugfix release for reopened issue #105 
+18122,ReleaseEvent,2017-08-11 00:40:56+00:00,98586974,ParallelSSH/ssh2-python,1391208,pkittenis,22918200,ParallelSSH,published,0.5.0-1,Release 0.5.0-1,
+18336,ReleaseEvent,2018-06-02 13:37:48+00:00,87358890,KrishnaswamyLab/PHATE,8499679,scottgigante,26941417,KrishnaswamyLab,published,v0.2.7,Sparse fast alpha and gamma informational distances,"PHATE now implements a sparse, fast alpha decay kernel which has minimal memory requirements, compared to the old alpha decay which required a parwise distance matrix. Alpha decay now runs by default. In order to use the k nearest neighbors kernel, run with `a=None`.
+
+Other notable changes:
+* `graphtools` implementation of kernel matrices
+* `gamma` replaces `potential_method` for the selection of informational distances. `gamma=1` is equivalent to a log potential (default) and `gamma=0` is equivalent to a square root potential
+* arguments `alpha_decay` and `potential_method` are deprecated.
+* PHATE is now implemented as a visualization method in Scanpy: https://scanpy.readthedocs.io/"
+18543,ReleaseEvent,2017-11-28 18:30:42+00:00,105161090,sphinx-contrib/matlabdomain,1385621,mikofski,31936682,sphinx-contrib,published,0.2.11,,
