@@ -12,18 +12,22 @@ import requests
 import os
 import sys
 
-# In[194]:
-
-
-fname = sys.argv[1].replace('data/github_raw/filtered_github_data_large/','').replace('.json','')
 
 username = 
 token = 
+
+# In[194]:
+
+if "partition" in sys.argv[1]:
+    folder = "filtered_github_data_large"
+else:
+    folder = "github_data_pre_18"
+fname = sys.argv[1].replace(f'data/github_raw/{folder}/','').replace('.json','')
+
 # In[2]:
 
-df_raw = pd.read_json(f'data/github_raw/filtered_github_data_large/{fname}.json', lines=True)
-print(f"Starting to clean filtered_github_data_large/{fname}.json")
-
+df_raw = pd.read_json(f'data/github_raw/{folder}/{fname}.json', lines=True)
+print(f"Starting to clean {folder}/{fname}.json")
 # In[158]:
 
 
