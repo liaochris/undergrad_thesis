@@ -1,0 +1,246 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,release_action,release_tag_name,release_name,release_body
+370,ReleaseEvent,2015-03-15 15:04:16+00:00,24005390,tBuLi/symfit,2188968,tBuLi,,,published,0.2.4,Likelihood,"This release introduced some great new features. Most important among those are the return of the ```scipy.optimize.minimize``` wrappers ```Minimize``` and ```Maximize```.
+Furthermore, the ```Likelihood``` object allows fitting using the principle of maximum likelihood.
+Lastly, submodels can now be evaluated more easely than ever before, allowing the following:
+
+```python
+pop_1 = A_1 * exp(-(x - x0_1)**2/(2 * sig_1**2))
+pop_2 = A_2 * exp(-(x - x0_2)**2/(2 * sig_2**2))
+model = pop_1 + pop_2
+
+fit = Fit(model, xdata, ydata)
+fit_result = fit.execute()
+
+y = model(x=xdata, **fit_result.params)
+y_1 = pop_1(x=xdata, **fit_result.params)
+```"
+525,ReleaseEvent,2016-08-03 16:52:43+00:00,27312836,atdt/monotonic,376462,atdt,,,published,1.1,1.1,
+609,ReleaseEvent,2018-01-12 20:44:25+00:00,73047402,dhermes/bezier,520669,dhermes,,,published,0.6.1,0.6.1,"PyPI: https://pypi.org/project/bezier/0.6.1/
+Docs: https://bezier.readthedocs.io/en/0.6.1/
+
+## Python Changes
+
+### Documentation
+
+- Noting that `Surface.intersect()` can return a list of either `CurvedPolygon` or `Surface` instances ([`16e77d7`][0.6.1-5]).
+
+### Breaking Changes
+
+- Removing `IntersectionClassification` enum from `_status.pxd` ([`4da969e`][0.6.1-4]).
+
+### Non-Public API
+
+- Adding getters and setters for parameters used during curve-curve intersection ([`ef4ebc0`][0.6.1-7]):
+  - `bezier._geometric_intersection.set_max_candidates()`
+  - `bezier._geometric_intersection.get_max_candidates()`
+  - `bezier._geometric_intersection.set_similar_ulps()`
+  - `bezier._geometric_intersection.get_similar_ulps()`
+
+## ABI Changes
+
+### Surface Changes
+
+- Switching from `int` to an actual enum for relevant functions with output values that are enums:
+  - In `surface_intersection.h::surface_intersections`, `contained` is now a `SurfaceContained` ([`0a9c0c3`][0.6.1-3]) and `status` is now a `Status` ([`c356c32`][0.6.1-2])
+  - In `curve_intersection.h::bbox_intersect`, `enum_` is now a `BoxIntersectionType` ([`ef856af`][0.6.1-1])
+  - In `curve_intersection.h::curve_intersections`, `status` is now a `Status` ([`ef856af`][0.6.1-1])
+- Adding getters and setters for parameters used during curve-curve intersection ([`ef4ebc0`][0.6.1-7]):
+  - `curve_intersection.h::set_max_candidates`
+  - `curve_intersection.h::get_max_candidates`
+  - `curve_intersection.h::set_similar_ulps`
+  - `curve_intersection.h::get_similar_ulps`
+
+### Breaking Changes
+
+- Removing inputs `curve_start / curve_end` and outputs `true_start / true_end` in `curve.h::specialize_curve` ([`959c547`][0.6.1-6])
+
+[0.6.1-1]: https://github.com/dhermes/bezier/commit/ef856aff4e87ab0620d1ce28e7fdbd3395c8ec38
+[0.6.1-2]: https://github.com/dhermes/bezier/commit/c356c32b33781b03785b8868f59efd6ad3076a51
+[0.6.1-3]: https://github.com/dhermes/bezier/commit/0a9c0c3736e95deedeecb8d10284c92ebd39469d
+[0.6.1-4]: https://github.com/dhermes/bezier/commit/4da969e65cec37ca5c0a56e956e7a1546be24236
+[0.6.1-5]: https://github.com/dhermes/bezier/commit/16e77d74c526a216c0c2a74d4536cd1d9f93bcff
+[0.6.1-6]: https://github.com/dhermes/bezier/commit/959c5473e97e80b1b4e4fd0109f7e79cf1dc36eb
+[0.6.1-7]: https://github.com/dhermes/bezier/commit/ef4ebc0654d863610df982f218449b27bd135afc
+"
+762,ReleaseEvent,2016-07-27 09:33:36+00:00,62424052,althonos/pronto,8660647,althonos,,,published,v0.3.1,,* Added a stricter timeout to ontology opening to avoid waiting ages for each imports
+878,ReleaseEvent,2017-04-10 06:28:58+00:00,25129800,mikf/gallery-dl,5375314,mikf,,,published,v0.8.2,,- Fixed an issue in `kissmanga` which prevented image URLs from being decrypted properly
+1282,ReleaseEvent,2016-03-07 01:27:29+00:00,41279279,jsvine/pdfplumber,534702,jsvine,,,published,v0.3.1,,Quickfix to v0.3.0; changes `get_text(...)` -> `extract_text(...)` for symmetry's sake.
+1482,ReleaseEvent,2015-05-01 09:02:23+00:00,28453253,hughperkins/DeepCL,123560,hughperkins,,,published,v4.1.0,v4.1.0,"### New
+- added weightdecay, where `0` means no decay, and `1` would be full decay to nothing each step
+  - in commandline, add option `weightdecay=0.001` for example
+  - in C++ API, call `setWeightDecay( 0.001f )` on the `SGD` trainer object
+
+### Bug fixes
+- certain kernels were being deleted multiple times, causing a segfault on shutdown, or after exceptions were thrown.  This should be fixed now.
+"
+1579,ReleaseEvent,2018-01-09 11:24:23+00:00,105757332,sepandhaghighi/art,7515099,sepandhaghighi,,,published,v0.6,Version 0.6,- All font flag added (`python -m art all yourtext`)
+1770,ReleaseEvent,2018-06-27 13:17:19+00:00,62165703,kalaspuff/tomodachi,89139,kalaspuff,,,published,0.12.5,0.12.5,* Messages via SNS+SQS or AMQP over 60000 bytes as ProtoBuf will now be sent in a gzipped base64 encoded format to allow for larger limits and lower potential SNS costs due to multiplexed messaging. [@smaaland]
+1809,ReleaseEvent,2017-05-12 19:46:52+00:00,66296944,ndokter/dsmr_parser,857280,ndokter,,,published,v0.9,v0.9,- added DSMR v5 serial settings
+2350,ReleaseEvent,2015-11-18 00:56:22+00:00,43719692,xeBuz/Flask-Validator,662916,xeBuz,,,published,v0.5,New Validators,"Added Numeric, Email, LessThan, LessThanOrEqual, GreaterThan, GreaterThanOrEqual"
+2421,ReleaseEvent,2016-03-09 07:44:54+00:00,12522987,kevinsteves/pan-python,5354968,kevinsteves,,,published,v0.9.1,0.9.1,"- panrc.rst: AutoFocus API uses .panrc also.
+
+- pan.rc: Sanitize secrets in debug output.
+
+- pan.http: Handle ssl.CertificateError exception.
+
+- panxapi.py: api_password now optional for -l; when not specified the
+  user is prompted for the password (using getpass.getpass())."
+2760,ReleaseEvent,2018-06-02 17:15:02+00:00,58303578,Ezibenroc/PyRoaringBitMap,8900834,Ezibenroc,,,published,0.2.1,,
+2850,ReleaseEvent,2018-01-16 21:13:56+00:00,54148103,jeffdaily/parasail-python,904248,jeffdaily,,,published,v1.1.10,v1.1.10,- Bump version to create new pypi release with latest 2.1 C library.
+3036,ReleaseEvent,2016-09-15 16:18:07+00:00,32921926,thampiman/reverse-geocoder,185084,thampiman,,,published,v1.5,v1.5,"- Support for custom data sources
+- Fix for #24 "
+3402,ReleaseEvent,2016-07-07 07:52:32+00:00,61112037,camptocamp/anthem,417223,guewen,28109,camptocamp,published,v0.1.0,,release 0.1.0
+3411,ReleaseEvent,2015-12-16 20:51:25+00:00,27609645,web2py/pydal,5019985,gi0baro,33118,web2py,published,v15.12,pyDAL 15.12,"**December 2015 Release**
+
+- Added IPV6 address enclosed in brackets support for URI's host
+- [MongoDB] Implemented unique and notnull support for fields during insert
+- Several bugfixes"
+3704,ReleaseEvent,2015-11-30 23:52:09+00:00,22734455,globocom/GloboNetworkAPI-client-python,1094995,edersonbrilhante,83798,globocom,published,0.6.17,0.6.17,
+3928,ReleaseEvent,2017-01-10 07:57:54+00:00,5888353,spotify/luigi,294349,Tarrasch,251374,spotify,published,2.5.0,Version 2.5.0,"This releases contains mostly bugfixes, but also changes to the otherwise quite stale luigi core.
+
+Most users will probably not have anything break. But at least read the
+warnings placed below to see what could've have changed for you.
+
+###### luigi:
+
+ * Make luigi `Task` classes more pythonic and functional:
+   * *Changed behavior warning!* `task_namespace` is now inherited as usual in python and not overridden my metamagic from luigi. https://github.com/spotify/luigi/issues/1950 (Thanks @riga).
+   * *Changed behavior warning!* `externalize` now goes out of it's way to ensure it doesn't mutate its input anymore, and returns a copy. Allowing for new cool usage patterns. https://github.com/spotify/luigi/pull/1975 [(docs)](http://luigi.readthedocs.io/en/latest/api/luigi.task.html#luigi.task.externalize) (shameless thanks @Tarrasch :p)
+   * Concepts like *task namespace* and friends are now documented. Curious folks can [read the new docs](http://luigi.readthedocs.io/en/latest/tasks.html#task-namespaces-famlies-and-ids). :)
+ * Further bigquery improvements from @Spotify engineers: https://github.com/spotify/luigi/pull/1896 https://github.com/spotify/luigi/pull/1946 (Thanks @ukarlsson and @fabriziodemaria and more)
+ * Various bugfixes:
+   * Fix serialization of TimeDeltaParameter https://github.com/spotify/luigi/pull/1968 (Thanks @kierkegaard13)
+   * Fix execution summary and return codes for succesfully retried tasks https://github.com/spotify/luigi/pull/1951 (Thanks @bwtakacy)
+
+There have been a lot of other bugfixes, docsfixes, cleanups and added testcases! See all commits
+[here](https://github.com/spotify/luigi/compare/2.4.0...2.5.0).
+"
+4491,ReleaseEvent,2015-05-07 12:49:20+00:00,633141,pusher/pusher-http-python,7556206,jpatel531,739550,pusher,published,v1.1.0,Version 1.1.0,User can now specify a custom JSON encoder or decoder upon initializing Pusher.
+5259,ReleaseEvent,2015-10-20 14:00:27+00:00,12345160,ansible/tower-cli,1385596,AlanCoding,1507452,ansible,published,v2.3.0,,"-  Fixed an issue where the settings file could be world readable
+-  Added the ability to associate a project with an organization
+-  Added setting ""verify\_ssl"" to disallow insecure connections
+-  Added support for additional cloud credentials
+-  Exposed additional options for a cloud inventory source
+-  Combined "" launch-time extra\_vars"" with "" job\_template extra\_vars""
+   for older Tower versions
+-  Changed the extra\_vars parameters to align with Ansible parameter
+   handling
+-  Added the ability to run ad hoc commands
+-  Included more detail when displaying job information
+-  Added an example bash script to demonstrate tower-cli usage"
+5277,ReleaseEvent,2018-05-10 08:26:52+00:00,3795717,qiniu/python-sdk,1751166,jemygraw,1563636,qiniu,published,v7.2.2,Release 7.2.2,*  add rtc server api function
+5290,ReleaseEvent,2017-09-11 14:25:39+00:00,38744670,zalando/patroni,3407345,CyberDem0n,1564818,zalando,published,v1.3.2,,https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-132
+5508,ReleaseEvent,2018-06-07 13:28:11+00:00,110748370,SAP/cf-python-logging-support,24652846,gvachkov,2531208,SAP,published,v3.3.0,v3.3.0,See [CHANGELOG.md](https://github.com/SAP/cf-python-logging-support/blob/v3.3.0/CHANGELOG.md#330---2018-06-07).
+5616,ReleaseEvent,2018-05-30 19:47:48+00:00,16316451,GoogleCloudPlatform/google-cloud-python,638797,crwilcox,2810941,GoogleCloudPlatform,published,pubsub-0.35.2,google-cloud-pubsub 0.35.2,"### Implementation Changes
+- Add heartbeating to the streaming pull manager (#5413)
+- Fix retrying of bidirectional RPCs and closing the streaming pull manager (#5412)"
+5646,ReleaseEvent,2018-02-28 20:24:21+00:00,16316451,GoogleCloudPlatform/google-cloud-python,250995,jonparrott,2810941,GoogleCloudPlatform,published,spanner-1.1.0,google-cloud-spanner 1.1.0,"### Dependencies
+
+- The minimum version for `google-api-core` has been updated to version 1.0.0. This may cause some incompatibility with older google-cloud libraries, you will need to update those libraries if you have a dependency conflict. (#4944, #4946)
+
+### Testing and internal changes
+
+- Fix load_keys() in YCSB-like benchmark for cloud spanner. (#4919)
+- Install local dependencies when running lint (#4936)
+- Re-enable lint for tests, remove usage of pylint (#4921)
+- Normalize all setup.py files (#4909)
+- Fix system test util to populate streaming (#4888)
+- Retry conflict errors in system test (#4850)"
+5668,ReleaseEvent,2017-08-04 23:56:20+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,published,resource-manager-0.26.0,google-cloud-resource-manager 0.26.0,"## Dependencies
+
+- Updating to `google-cloud-core ~= 0.26`, in particular, the underlying HTTP transport switched from `httplib2` to `requests` (#3654, #3674)
+
+## Packaging
+
+- Fix inclusion of `tests` (vs. `unit_tests`) in `MANIFEST.in` (#3552)
+- Updating `author_email` in `setup.py` to `googleapis-publisher@google.com`. (#3598)
+
+PyPI: https://pypi.org/project/google-cloud-resource-manager/0.26.0/
+"
+5961,ReleaseEvent,2018-02-13 13:31:28+00:00,49976939,learningequality/kolibri,2367265,indirectlylit,3926525,learningequality,published,v0.7.2-beta2,v0.7.2-beta2,
+6096,ReleaseEvent,2018-08-02 22:52:30+00:00,48640313,codalab/codalab-worksheets,6436274,bkgoksel,4633552,codalab,published,v0.2.29,"Version 0.2.29 (August 2, 2018)","# Bugfixes
+
+* Fixed a rendering bug affecting dashboard worksheets"
+6732,ReleaseEvent,2017-09-11 17:05:00+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-appservice-0.1.16,azure-cli-appservice 0.1.16,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.org/project/azure-cli-appservice/0.1.16
+
+Full release notes at https://docs.microsoft.com/en-us/cli/azure/release-notes-azure-cli
+
+"
+6733,ReleaseEvent,2017-07-27 23:51:08+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-network-2.0.11,azure-cli-network 2.0.11,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.org/project/azure-cli-network/2.0.11
+
+Full release notes at https://docs.microsoft.com/en-us/cli/azure/release-notes-azure-cli
+
+"
+6736,ReleaseEvent,2017-08-11 17:02:21+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-appservice-0.1.12,azure-cli-appservice 0.1.12,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.org/project/azure-cli-appservice/0.1.12
+
+Full release notes at https://docs.microsoft.com/en-us/cli/azure/release-notes-azure-cli
+
+"
+6783,ReleaseEvent,2017-06-21 19:19:43+00:00,71186468,Azure/msrest-for-python,1050156,lmazuel,6844498,Azure,published,v0.4.11,v0.4.11,"# 2017-06-21 Version 0.4.11
+
+## Bugfixes
+
+- Fix dependency to ""requests"" to 2.x (was 2.14.x by mistake since 0.4.8)"
+6804,ReleaseEvent,2018-07-31 20:41:17+00:00,4127088,Azure/azure-sdk-for-python,1050156,lmazuel,6844498,Azure,published,azure-mgmt-eventhub_2.1.0,azure-mgmt-eventhub_2.1.0,
+6973,ReleaseEvent,2018-07-29 16:07:42+00:00,15808708,django-wiki/django-nyt,374612,benjaoming,7289936,django-wiki,published,stable/1.1,1.1,"## New features
+
+ * Django 2.0 support #55
+
+## Bug fixes
+
+ * Restored missing translation files #73
+
+## Deprecations
+
+ * Django < 1.11 support is dropped #62
+ * Python < 3.4 support is dropped #65 and #68
+ * Deprecate django_nyt.urls.get_pattern, use include('django_nyt.urls') instead #63
+ * Removed django_nyt.VERSION, use django_nyt.__version__ instead #73"
+7108,ReleaseEvent,2016-08-02 13:07:35+00:00,29883079,cggh/scikit-allel,703554,alimanfoo,7804180,cggh,published,v0.21.0,v0.21.0,See [release notes](http://scikit-allel.readthedocs.io/en/latest/release.html#v0-21-0).
+7316,ReleaseEvent,2018-05-21 11:07:43+00:00,46265005,ARMmbed/mbed-flasher,3822425,jupe,8916057,ARMmbed,published,v0.8.1,improve retry mechanism in flash failures,"## Changes
+
+#125 Increase flash retries and add some sleep
+#127 Update mbed-ls to latest v1.4.4"
+7332,ReleaseEvent,2018-01-20 00:10:58+00:00,45062555,F5Networks/f5-common-python,46956,caphrim007,8935905,F5Networks,published,v3.0.9,Release version 3.0.9,"* Firewall policies, firewall global rules and analytics settings can now be added/modified.
+* Protocol Inspection - Profile, Signature, Compliance
+* SIGALRM is fixed on Windows
+* API for smtp-server added
+* API docs updated to include more endpoints
+* ""partition"" argument requirement removed from device groups and device group members"
+7447,ReleaseEvent,2018-05-22 18:48:33+00:00,26661222,tinode/chat,5938143,or-else,9325720,tinode,published,v0.15.0,Improved search,"# Main changes
+
+* Refactored searching for users and topics:
+  * Two types of queries: transient `fnd.public` and long lived: `fnd.private`. Transient queries are not saved on the server and not shared between user's devices/clients. Long lived queries are persisted at the server and shared between devices.
+  * Queries are strings now (as opposed as string arrays before). A formal query language is introduced.
+  * An option added for designating some tags as _restricted_. It's needed for managing organizations within a server.
+* Structured `private` field in topics and users. The `private` used to contain a string. Now it holds an object with `private.comment` holding what was the content of  `private`.
+* `touched` field is added to report last message time stamp. It's needed for sorting topics by the time of last activity.
+* Graphic assets updated with the new logo
+* Bug fixes"
+7532,ReleaseEvent,2016-12-06 18:22:59+00:00,40975824,common-workflow-language/schema_salad,1316612,tetron,9947495,common-workflow-language,published,1.21.20161206181442,,
+8267,ReleaseEvent,2017-09-08 19:21:45+00:00,43023379,hackingmaterials/atomate,986759,computron,14116185,hackingmaterials,published,v0.6.2,v0.6.2,
+8656,ReleaseEvent,2018-02-13 21:27:23+00:00,17420614,seleniumbase/SeleniumBase,6788579,mdmintz,17287301,seleniumbase,published,v1.5.4,Settings page overhaul,"Updating the settings page.
+Updating installation instructions."
+9181,ReleaseEvent,2017-02-17 10:03:59+00:00,80127706,opticspy/lightpipes,15912403,FredvanGoor,25369293,opticspy,published,v1.1.1,LightPipes for Python v1.1.1 Release,"
+"
+9227,ReleaseEvent,2018-07-26 16:56:59+00:00,112337283,OCR-D/core,273367,kba,26362587,OCR-D,published,v0.7.1,,"Changed:
+
+  * Remove dependency on `xmllint` command line tool, #72, #151
+  * Remove dependency on `exiftool`, #71, #150"
+9232,ReleaseEvent,2018-05-14 18:39:23+00:00,93565055,HumanCellAtlas/dcp-cli,862013,kislyuk,26391798,HumanCellAtlas,published,v3.5.1,v3.5.1,- Apply retry policy when fetching Swagger API definition
+9302,ReleaseEvent,2018-06-08 15:48:29+00:00,105480682,Eden-Kramer-Lab/replay_identification,8053989,edeno,31545167,Eden-Kramer-Lab,published,0.1.6.dev0,v0.1.6.dev0,+ Fix the multiunit likelihood so that the likelihood for the current position is calculated precisely
