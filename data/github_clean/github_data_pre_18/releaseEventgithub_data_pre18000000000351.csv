@@ -1,0 +1,403 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,release_action,release_tag_name,release_name,release_body
+594,ReleaseEvent,2017-09-08 05:24:36+00:00,73047402,dhermes/bezier,520669,dhermes,,,published,0.5.0,0.5.0,"PyPI: https://pypi.org/project/bezier/0.5.0/
+Docs: https://bezier.readthedocs.io/en/0.5.0/
+
+## Performance Optimizations
+-   Change `wiggle_interval` to return `success` bool instead of raising an exception. This allows the implicitization approach to use it without having to use exceptions for flow-control. (Fixes [#22][5].)
+-   Switching Fortran speedups from `f2py` to Cython (this is because `f2py` artificially limits the feature set of Fortran, i.e. user defined types)
+-   Moving some more code to Fortran (e.g. `bbox_line_intersect()` [`3dcf640`][11])
+
+## New Features
+-   Making Fortran features available outside of Python (see [Native Libraries][1])
+    -   C headers for each Fortran module (via [`bezier.get_include()`][2])
+    -   Cython `.pxd` declarations for all Fortran modules
+    -   `libbezier` static library (via [`bezier.get_lib()`][3])
+-   Implementing [`bezier_roots()`][13] polynomial root solver for polynomials written in Bernstein basis. ([`0dd6369`][12])
+
+## Miscellany
+-   Getting `bezier` [published][10] in the Journal of Open Source Science (JOSS). See [review][9]. ([`e6c4536`][7] and [`975ac6b`][8])
+-   Updating error message for `locate()` methods and adding a note that `locate()` / `evaluate*()` are (essentially) inverses. H/T to @pdknsk [#36][4]
+-   Using Fortran-contiguous arrays in `_check_non_simple()`. ([`b06c78e`][6])
+-   Moving most of `Curve.subdivide()` and `Surface.subdivide()` logic into helpers. This is part of an effort to make all helpers take low-level data types rather than `Curve`s, `Surface`s, etc. ([`34515bd`][14] and [`1fc80e5`][15])
+-   Split `speedup.f90` into submodules `curve.f90`, `surface.f90`, etc. ([`75349b7`][16], [`dfd6bba`][17], [`7096a9d`][18], [`c326c00`][19])
+-   Adding `BEZIER_JOURNAL` option to `setup.py`. This stores a record of compiler commands invoked during installation. See [Native Libraries][1] for more details. ([`3d832e7`][20] and [`c64a97a`][21])
+
+[1]: http://bezier.readthedocs.io/en/0.5.0/native-libraries.html
+[2]: http://bezier.readthedocs.io/en/0.5.0/reference/bezier.html#bezier.get_include
+[3]: http://bezier.readthedocs.io/en/0.5.0/reference/bezier.html#bezier.get_lib
+[4]: https://github.com/dhermes/bezier/pull/36
+[5]: https://github.com/dhermes/bezier/pull/22
+[6]: https://github.com/dhermes/bezier/commit/b06c78e50d53bf673bcf0b71fa84b36c8df564d8
+[7]: https://github.com/dhermes/bezier/commit/e6c45360f0c8412ae90d967463a14c49490d70ee
+[8]: https://github.com/dhermes/bezier/commit/975ac6b1a4313db4dcdc17396d6d34561005939e
+[9]: https://github.com/openjournals/joss-reviews/issues/267
+[10]: http://joss.theoj.org/papers/10.21105/joss.00267
+[11]: https://github.com/dhermes/bezier/commit/3dcf64090bb5874320dcde86eaf449e94278dd08
+[12]: https://github.com/dhermes/bezier/commit/0dd6369b0f77e4c0cf8113f2d25812addc90482a
+[13]: http://bezier.readthedocs.io/en/0.5.0/algorithm-helpers.html#bezier._implicitization.bezier_roots
+[14]: https://github.com/dhermes/bezier/commit/34515bd6246f57fbb311b4089520a24e8237294a
+[15]: https://github.com/dhermes/bezier/commit/1fc80e54ad1b45cb628af06e5a2100eeb9282865
+[16]: https://github.com/dhermes/bezier/commit/75349b745063a9bbc623808b3f7bbf6b7641c008
+[17]: https://github.com/dhermes/bezier/commit/dfd6bba303ac0a8492fac1f309086b685e52ab59
+[18]: https://github.com/dhermes/bezier/commit/7096a9d646930378476e650c77d0652a48bf148a
+[19]: https://github.com/dhermes/bezier/commit/c326c00a5c0ee74f9aa53c2b104ac6d4eb5c6794
+[20]: https://github.com/dhermes/bezier/commit/3d832e78af2a951a642ff5860b9593abfa674ec3
+[21]: https://github.com/dhermes/bezier/commit/c64a97aa5599220b927094a41de04b0c75bbec33
+"
+638,ReleaseEvent,2015-10-10 07:03:23+00:00,17308448,jquast/blessed,972584,jquast,,,published,1.11.0,"faster metaSendsEscape, nested formatting","* enhancement: Terminal.inkey method can return more quickly for combinations such as ``Alt + Z`` when ``MetaSendsEscape`` is enabled, #30 
+* enhancement: :class:`~.FormattingString` may now be nested, such as ``t.red('red', t.underline('rum'))``, #61
+"
+1298,ReleaseEvent,2017-04-10 19:38:17+00:00,85603555,molpopgen/fwdpy11,6416159,molpopgen,,,published,0.1,First official release.,Corresponds to first PyPi release.
+1666,ReleaseEvent,2016-03-15 18:00:47+00:00,2294792,Kwpolska/pkgbuilder,327323,Kwpolska,,,published,v4.2.6,,* Fix dependency loop for split packages
+1822,ReleaseEvent,2017-05-17 19:43:23+00:00,1030255,madmaze/pytesseract,1278836,int3l,,,published,v0.1.7,version 0.1.7,
+2167,ReleaseEvent,2017-08-28 23:52:07+00:00,86715491,tgsmith61591/pyramid,6124706,tgsmith61591,,,published,v0.5.1,Version 0.5.1,"This release adds a hotfix to the v0.5 release, which includes the `requirements.txt` in the `MANIFEST.in` and allows pip installs from pypi."
+2316,ReleaseEvent,2018-07-01 19:46:43+00:00,58094079,orbingol/NURBS-Python,5276943,orbingol,,,published,v4.0-beta8,NURBS-Python v4.0b8,"* Bug fix release (surface generator)
+
+Code coverage: 74% ([codecov.io](https://codecov.io/gh/orbingol/NURBS-Python))
+
+To install this version: `pip install geomdl==4.0b8` or you may use [conda](https://anaconda.org/orbingol/geomdl)"
+2317,ReleaseEvent,2018-04-26 17:43:16+00:00,58094079,orbingol/NURBS-Python,5276943,orbingol,,,published,v3.7.4,NURBS-Python v3.7.4,* Fixed a bug when `_reset_ctrlpts` function resets the bounding box
+2319,ReleaseEvent,2018-01-11 00:29:49+00:00,58094079,orbingol/NURBS-Python,5276943,orbingol,,,published,v3.0.1,NURBS-Python v3.0.1,"* Version bump for fixing issues on Python Package Index (PyPI).
+
+You can install this version using the command: `pip install NURBS-Python`"
+2435,ReleaseEvent,2016-03-25 14:57:11+00:00,32323260,dmnfarrell/pandastable,7859189,dmnfarrell,,,published,v0.7.2,v0.7.2,"This minor release adds experimental text annotation support. This allows the addition of arbitrary labels. see http://dmnfarrell.github.io/dataexplore/2016/02/19/annotations. Note that new releases mean .dexpl project files from older versions might not load properly. 
+
+## Changes
+
+* Added black and white option for plotting
+* Fix to avoid white lines with some colormaps
+* Can now add text annotations to plots
+* Most plot options are now saved including grid settings
+* -t option for launching a test app
+* fix to scatter colors
+* changed predefined datasets to csv to avoid msgpack issues"
+2518,ReleaseEvent,2016-09-10 14:01:48+00:00,52094644,thombashi/DataProperty,15517661,thombashi,,,published,v0.9.0,,- Add validate method to type checkers
+2545,ReleaseEvent,2017-02-09 20:55:37+00:00,49784431,Salamek/cron-descriptor,1226241,Salamek,,,published,1.2.8,,
+2935,ReleaseEvent,2016-03-27 10:13:55+00:00,15764568,maxtepkeev/python-redmine,3032449,maxtepkeev,,,published,v1.5.1,v1.5.1,"- Changed: Updated bundled requests package to 2.9.1
+- Changed: Issue #124 (``project.url`` now uses ``identifier`` rather than ``id`` to generate url for the project resource)
+- Fixed: Issue #122 (``ValidationError`` for empty custom field values was possible under some circumstances with Redmine < 2.5.0)
+- Fixed: Issue #112 (``UnicodeEncodeError`` on Python 2 if ``resource_id`` was of ``unicode`` type) (thanks to [Digenis](https://github.com/Digenis))"
+2995,ReleaseEvent,2017-12-22 21:44:51+00:00,12420595,CamDavidsonPilon/lifelines,884032,CamDavidsonPilon,,,published,v0.13.0,v0.13,"### 0.13.0
+
+ - removes `is_significant` and `test_result` from `StatisticalResult`. Users can instead choose their significance level by comparing to `p_value`. The string representation of this class has changed aswell.
+ - `CoxPHFitter` and `AalenAdditiveFitter` now have a `score_` property that is the concordance-index of the dataset to the fitted model.
+ - `CoxPHFitter` and `AalenAdditiveFitter` no longer have the `data` property. It was an _almost_ duplicate of the training data, but was causing the model to be very large when serialized.
+ - Implements a new fitter `CoxTimeVaryingFitter` available under the `lifelines` namespace. This model implements the Cox model for time-varying covariates.
+ - Utils for creating time varying datasets available in `utils`.
+ - less noisy check for complete separation.
+ - removed `datasets` namespace from the main `lifelines` namespace
+ - `CoxPHFitter` has a slightly more intelligent (barely...) way to pick a step size, so convergence should generally be faster.
+ - `CoxPHFitter.fit` now has accepts a `weight_col` kwarg so one can pass in weights per observation. This is very useful if you have many subjects, and the space of covariates is not large. Thus you can group the same subjects together and give that observation a weight equal to the count. Altogether, this means a much faster regression."
+3164,ReleaseEvent,2016-07-26 10:11:43+00:00,14314043,typemytype/booleanOperations,1190358,typemytype,,,published,0.4,0.4,
+3366,ReleaseEvent,2018-07-14 14:51:21+00:00,70118622,stephenhky/PyShortTextCategorization,3810067,stephenhky,,,published,1.0.0,Release 1.0.0,"* Python-3 compatibility;
+* Replacing the original stemmer to use Snowball;
+* Certain functions cythonized;
+* Various bugs fixed.
+"
+3380,ReleaseEvent,2018-03-15 18:12:42+00:00,2238739,KristianOellegaard/django-health-check,1772890,codingjoe,,,published,3.5.1,3.5.1,"* Replace f-strings with standard strings, for Python 3.5 compatibility (#186)"
+3418,ReleaseEvent,2015-10-23 06:47:21+00:00,38150684,rickypc/robotframework-extendedselenium2library,1145955,rickypc,,,published,0.6.1,Bugfixes,
+3560,ReleaseEvent,2018-08-30 17:33:02+00:00,34864402,apache/incubator-mxnet,2626883,szha,47359,apache,published,1.3.0rc0,Apache MXNet (incubating) 1.3.0rc0,"MXNet Change Log
+================
+## 1.3.0
+
+### New Features - Gluon RNN layers are now HybridBlocks
+- In this release, Gluon RNN layers such as `gluon.rnn.RNN`, `gluon.rnn.LSTM`, `gluon.rnn.GRU` becomes `HybridBlock`s as part of [gluon.rnn improvements project](https://github.com/apache/incubator-mxnet/projects/11) (#11482).
+- This is the result of newly available fused RNN operators added for CPU: LSTM([#10104](https://github.com/apache/incubator-mxnet/pull/10104)), vanilla RNN([#11399](https://github.com/apache/incubator-mxnet/pull/11399)), GRU([#10311](https://github.com/apache/incubator-mxnet/pull/10311))
+- Now many dynamic networks that are based on Gluon RNN layers can now be completely hybridized, exported, and used in the inference APIs in other language bindings such as R, Scala, etc.
+
+### MKL-DNN improvements
+- Introducing more functionality support for MKL-DNN as follows:
+  - Added support for more activation functions like, ""sigmoid"", ""tanh"", ""softrelu"". ([#10336](https://github.com/apache/incubator-mxnet/pull/10336))
+  - Added Debugging functionality: Result check ([#12069](https://github.com/apache/incubator-mxnet/pull/12069)) and Backend switch ([#12058](https://github.com/apache/incubator-mxnet/pull/12058)).
+
+### New Features - Gluon Model Zoo Pre-trained Models
+- Gluon Vision Model Zoo now provides MobileNetV2 pre-trained models (#10879) in addition to
+  AlexNet, DenseNet, Inception V3, MobileNetV1, ResNet V1 and V2, SqueezeNet 1.0 and 1.1, and VGG
+  pretrained models.
+- Updated pre-trained models provide state-of-the-art performance on all resnetv1, resnetv2, and vgg16, vgg19, vgg16_bn, vgg19_bn models (#11327 #11860 #11830).
+
+### New Features - Clojure package (experimental)
+- MXNet now supports the Clojure programming language. The MXNet Clojure package brings flexible and efficient GPU computing and state-of-art deep learning to Clojure. It enables you to write seamless tensor/matrix computation with multiple GPUs in Clojure. It also lets you construct and customize the state-of-art deep learning models in Clojure, and apply them to tasks, such as image classification and data science challenges.([#11205](https://github.com/apache/incubator-mxnet/pull/11205))
+- Checkout examples and API documentation [here](http://mxnet.incubator.apache.org/api/clojure/index.html).
+
+### New Features - Synchronized Cross-GPU Batch Norm (experimental)
+- Gluon now supports Synchronized Batch Normalization (#11502).
+- This enables stable training on large-scale networks with high memory consumption such as FCN for image segmentation.
+
+### New Features - Sparse Tensor Support for Gluon (experimental)
+- Sparse gradient support is added to `gluon.nn.Embedding`. Set `sparse_grad=True` to enable when constructing the Embedding block. ([#10924](https://github.com/apache/incubator-mxnet/pull/10924))
+- Gluon Parameter now supports ""row_sparse"" storage type, which reduces communication cost and memory consumption for multi-GPU training for large models. `gluon.contrib.nn.SparseEmbedding` is an example empowered by this. ([#11001](https://github.com/apache/incubator-mxnet/pull/11001), [#11429](https://github.com/apache/incubator-mxnet/pull/11429))
+- Gluon HybridBlock now supports hybridization with sparse operators ([#11306](https://github.com/apache/incubator-mxnet/pull/11306)).
+
+### New Features - Control flow operators (experimental)
+- This is the first step towards optimizing dynamic neural networks with variable computation graphs, by adding symbolic and imperative control flow operators. [Proposal](https://cwiki.apache.org/confluence/display/MXNET/Optimize+dynamic+neural+network+models+with+control+flow+operators).
+- New operators introduced: foreach([#11531](https://github.com/apache/incubator-mxnet/pull/11531)), while_loop([#11566](https://github.com/apache/incubator-mxnet/pull/11566)), cond([#11760](https://github.com/apache/incubator-mxnet/pull/11760)).
+
+### New Features - Scala API Improvements (experimental)
+- Improvements to MXNet Scala API usability([#10660](https://github.com/apache/incubator-mxnet/pull/10660), [#10787](https://github.com/apache/incubator-mxnet/pull/10787), [#10991](https://github.com/apache/incubator-mxnet/pull/10991))
+- Symbol.api and NDArray.api would bring new set of functions that have complete definition for all arguments.
+- Please see this [Type safe API design document](https://cwiki.apache.org/confluence/display/MXNET/Scala+Type-safe+API+Design+Doc) for more details.
+
+### New Features - Rounding GPU Memory Pool for dynamic networks with variable-length inputs and outputs (experimental)
+- MXNet now supports a new memory pool type for GPU memory (#11041).
+- Unlike the default memory pool requires exact size match to reuse released memory chunks, this new memory pool uses exponential-linear rounding so that similar sized memory chunks can all be reused, which is more suitable for all the workloads with dynamic-shape inputs and outputs. Set environment variable `MXNET_GPU_MEM_POOL_TYPE=Round` to enable.
+
+### New Features - Topology-aware AllReduce (experimental)
+- This features uses trees to perform the Reduce and Broadcast. It uses the idea of minimum spanning trees to do a binary tree Reduce communication pattern to improve it. This topology aware approach reduces the existing limitations for single machine communication shown by mehods like parameter server and NCCL ring reduction. It is an experimental feature ([#11591](https://github.com/apache/incubator-mxnet/pull/11591)).
+- Paper followed for implementation: [Optimal message scheduling for aggregation](https://www.sysml.cc/doc/178.pdf).
+- Set environment variable `MXNET_KVSTORE_USETREE=1` to enable.
+
+### New Features - Export MXNet models to ONNX format (experimental)
+- With this feature, now MXNet models can be exported to ONNX format([#11213](https://github.com/apache/incubator-mxnet/pull/11213)). Currently, MXNet supports ONNX v1.2.1. [API documentation](http://mxnet.incubator.apache.org/api/python/contrib/onnx.html).
+- Checkout this [tutorial](http://mxnet.incubator.apache.org/tutorials/onnx/export_mxnet_to_onnx.html) which shows how to use MXNet to ONNX exporter APIs. ONNX protobuf so that those models can be imported in other frameworks for inference.
+
+### New Features - TensorRT Runtime Integration (experimental)
+- [TensorRT](https://developer.nvidia.com/tensorrt) provides significant acceleration of model inference on NVIDIA GPUs compared to running the full graph in MxNet using unfused GPU operators. In addition to faster fp32 inference, TensorRT optimizes fp16 inference, and is capable of int8 inference (provided the quantization steps are performed). Besides increasing throughput, TensorRT significantly reduces inference latency, especially for small batches.
+- This feature in MXNet now introduces runtime integration of TensorRT into MXNet, in order to accelerate inference.([#11325](https://github.com/apache/incubator-mxnet/pull/11325))
+- Currently, its in contrib package.
+
+### New Examples - Scala
+- Refurnished Scala Examples with improved API, documentation and CI test coverage. ([#11753](https://github.com/apache/incubator-mxnet/pull/11753), [#11621](https://github.com/apache/incubator-mxnet/pull/11621) )
+- Now all Scala examples have:
+  - No bugs block in the middle
+  - Good Readme to start with
+  - with Type-safe API usage inside
+  - monitored in CI in each PR runs
+
+### Maintenance - Flaky Tests improvement effort
+- Fixed 130 flaky tests on CI. Tracked progress of the project [here](https://github.com/apache/incubator-mxnet/projects/9).
+- Add flakiness checker (#11572)
+
+### Maintenance - MXNet Model Backwards Compatibility Checker
+- This tool ([#11626](https://github.com/apache/incubator-mxnet/pull/11626)) helps in ensuring consistency and sanity while performing inference on the latest version of MXNet using models trained on older versions of MXNet.
+- This tool will help in detecting issues earlier in the development cycle which break backwards compatibility on MXNet and would contribute towards ensuring a healthy and stable release of MXNet.
+
+### Maintenance - Integrated testing for ""the Straight Dope""
+- [""Deep Learning - The Straight Dope""](http://gluon.mxnet.io) is a deep learning book based on Apache MXNet Gluon that are contributed by many Gluon users.
+- Now the testing of this book is integrated in the nightly tests.
+
+### Bug-fixes
+- Fix gperftools/jemalloc and lapack warning bug. (#11110)
+- Fix mkldnn performance regression + improve test logging (#11262)
+- Fix row_sparse_param.save() (#11266)
+- Fix trainer init_kvstore (#11266)
+- Fix axis Bug in MKLDNN Softmax (#11335)
+- Fix 'AttributeError: '_thread._local' object has no attribute 'value'' on distributed processing applications (#11332)
+- Fix recordfile dataset with multi worker (#11370)
+- Manually check node existence in CachedOp (#11545)
+- Javadoc fix (#11239)
+- Fix bugs in MKLDNN operators to handle the kAddTo request (#11129)
+- Fix InferStorage for sparse fallback in FullyConnected (#11498)
+- Fix batchnorm problem with sparse matrices when fix_gamma=True (#11656)
+- Fix rnn layer save (#11776)
+- Fix BucketSentenceIter bug related to #11430 (#11580)
+- Fix for _backward_softsign activation (#11827)
+- Fix a bug in CachedOp. (#11675)
+- Fix quantization divide by zero errors (#11833)
+- Refactor R optimizers to fix memory leak (#11374)
+- Avoid use of troublesome cudnnFind() results when grad_req='add' (#11338)
+- Fix shared memory with gluon dataloader, add option pin_memory (#11908)
+- Fix quantized graph pass bug (#11937)
+- Fix MXPredReshape in the c_predict_api (#11493)
+- Fix the topk regression issue (#12197)
+- Fix image-classification example and add missing optimizers w/ momentum support (#11826)
+### Performance Improvements
+- Added static allocation and static shape for HybridBloc gluon (#11320)
+- Fix RecordIO augmentation speed (#11474)
+- Improve sparse pull performance for gluon trainer (#11429)
+- CTC operator performance improvement from HawkAaron/MXNet-CTC (#11834)
+- Improve performance of broadcast ops backward pass (#11252)
+- Improved numerical stability as a result of using stable L2 norm (#11573)
+- Accelerate the performance of topk for GPU and CPU side (#12085 #10997 ; This changes the behavior of topk when nan values occur in the input) 
+- Support for dot(dns, csr) = dns and dot(dns, csr.T) = dns on CPU ([#11113](https://github.com/apache/incubator-mxnet/pull/11113))
+- Performance improvement for Batch Dot on CPU from mshadow ([mshadow PR#342](https://github.com/dmlc/mshadow/pull/342))
+### API Changes
+- Allow Scala users to specify data/label names for NDArrayIter (#11256)
+- Allow user to define unknown token symbol to rnn encode_sentences() (#10461)
+- Added count_include_pad argument for Avg Pooling (#11021)
+- Add standard ResNet data augmentation for ImageRecordIter (#11027)
+- Add seed_aug parameter for ImageRecordIter to fix random seed for default augmentation (#11247)
+- Add support for accepting MXNet NDArrays in ColorNormalizeAug (#11606)
+- Enhancement of take operator (#11326)
+- Add temperature parameter in Softmax operator (#11466)
+- Add support for 1D inputs in leaky relu (#11850)
+- Add verify_ssl option to gluon.utils.download (#11546)
+### Other features
+- Added ccache reporting to CI (#11322)
+- Restructure dockcross dockerfiles to fix caching (#11302)
+- Added tests for MKLDNN backward operators  (#11232)
+- Add elemwise_add/sub between rsp and rsp on GPU (#11179)
+- Add clip_global_norm(row_sparse_grad) (#11266)
+- Add subgraph storage type inference to CachedOp  (#11306)
+- Enable support for dense weight and sparse grad Adagrad updates (#11355)
+- Added Histogram Operator (#10931)
+- Added Matthew's Correlation Coefficient to metrics (#10524)
+- Added support for add_n(dense, csr, dense) = dense on CPU & GPU (#11330)
+- Added support for add_n(any combination longer than 4 with at least one dense storage) = dense on CPU & GPU (#11330)
+- L1 Normalization (#11229)
+- Add support for int64 data type in CSVIter (#11446)
+- Add test for new int64 type in CSVIter (#11499)
+- Add sample ratio for ROI Align (#11145)
+- Shape and Size Operator (#10889)
+- Add HybidSequentialRNNCell, which can be nested in HybridBlock (#11003)
+- Support for a bunch of unary functions for csr matrices (#11559)
+- Added NDArrayCollector to dispose intermediate allocated NDArrays automatically (#11751)
+- Added the diag() operator (#11643)
+- Added broadcast_like operator (#11820)
+- Allow Partial shape infer for Slice (#11406)
+- Added support to profile kvstore server during distributed training  (#11215)
+- Add function for GPU Memory Query to C API (#12083)
+- Generalized reshape_like operator to be more flexible (#11928)
+- Add support for selu activation function (#12059)
+- Add support for accepting NDArray as input to Module predict API (#12166)
+- Add DataDesc type for the Scala Package (#11844)
+### Usability Improvements
+- Added NDArray auto-collector for Scala (#11751, #12232)
+- Added docs for mx.initializer.Constant (#10637)
+- Added build from souce instructions on windows (#11276)
+- Added a tutorial explaining how to use the profiler (#11274)
+- Added two tutorials on Learning Rate Schedules (#11296)
+- Added a tutorial for mixed precision training with float16 (#10391)
+- Create CPP test for concat MKLDNN operator (#11371)
+- Update large word language model example (#11405)
+- MNIST Examples for Scala new API (#11250)
+- Updated installation info to have latest packages and more clarity (#11503)
+- GAN MNIST Examples for Scala new API (#11547)
+- Added Learning Rate Finder tutorial (#11304)
+- Fix Installation instructions for R bindings on Linux systems. (#11590)
+- Integration Test for Scala (#11596)
+- Documentation enhancement for optimizers (#11657)
+- Update rcnn example (#11373)
+- Gluon ModelZoo, Gluon examples for Perl APIs (#11642)
+- Fix R installation in CI (#11761,#11755, #11768, #11805, #11954, #11976)
+- CNN Examples for Scala new API (#11292)
+- Custom Operator Example for Scala (#11401)
+- Added detailed doc about global pool layers in Gluon (#11832)
+- Updated MultiTask example to use new infer api (#11605)
+- Added logistic regression tutorial (#11651)
+- Added Support for integer type in ImageIter (#11864)
+- Added depth_to_space and space_to_depth operators (#11587)
+- Increased operator support for ONNX to MXNet importer (#11856)
+- Add linux and macos MKLDNN Building Instruction (#11049)
+- Add download utility for Scala APIs (#11866)
+- Improving documentation and error messages for Async distributed training with Gluon (#11910)
+- Added NeuralStyle Example for Scala (#11621)"
+3791,ReleaseEvent,2015-04-07 09:18:32+00:00,30642061,sanger-pathogens/ariba,4937411,martinghunt,130803,sanger-pathogens,published,v0.3.0,Version 0.3.0,"- more columns in output
+- use bowtie2 instead of smalt
+- sspace/gapfiller optional
+- sanity check input genes fasta"
+3933,ReleaseEvent,2018-05-18 10:19:23+00:00,57193500,sbg/sevenbridges-python,9110536,QuicksilverMachine,233118,sbg,published,0.12.1,0.12.1 (2018-05-18),"- Bugfixes:
+    - Fixed build issue"
+4490,ReleaseEvent,2018-03-14 18:01:24+00:00,4978045,Parsely/pykafka,723615,emmett9001,779641,Parsely,published,2.8.0-dev.1,2.8.0-dev.1,"Minor Version Features
+----------------------
+
+* Added a `deserializer` kwarg to consumer components to facilitate unicode support
+* Added a `reset_offset_on_fetch` kwarg to consumer components to support read-only
+  consumption
+* Changed the expected type of the consumer's `consumer_group` kwarg to `str` from `bytes`
+* Changed the expected type of `TopicDict.__getitem__`'s parameter to `str` from `bytes`
+* Added a `pending_timeout_ms` kwarg to `Producer.__init__` to allow delivery report
+  wait timeouts
+* Added a `serializer` kwarg to `Producer.__init__` to facilitate unicode support
+* Deprecated the `generation_id` and `consumer_id` parameters on `SimpleConsumer`
+
+Bugfixes
+--------
+
+* Changed consumers to handle valid ascii strings for consumer group names instead of
+  bytes
+* Handled `NoNodeException` during consumer ZK node releases
+* Used `api_versions` to select the version-appropriate implementation for
+  `OffsetFetchRequest`
+* Adjusted synchronous production logic to avoid infinite blocking when delivery report
+  is lost
+* Fixed a bug in `FetchResponseV1` causing `throttle_time` to be returned as a tuple
+  instead of an integer
+* Implemented support for all current versions of `OffsetFetchRequest` and
+  `OffsetFetchResponse`
+
+Miscellaneous
+-------------
+
+* Used logging.NullHandler to remove nuisance logs
+* Added stock unicode serde to `utils`
+* Added README to pypi info"
+4677,ReleaseEvent,2018-02-08 14:15:56+00:00,51914365,mozilla-services/kinto-dist,546692,leplatrem,1066228,mozilla-services,published,5.2.0,,"kinto-amo
+'''''''''
+
+**kinto-amo 0.4.0 → 1.0.1**: https://github.com/mozilla-services/kinto-amo/releases/tag/1.0.1
+
+**Bug fixes**
+
+- Fix last update / last modified of blocklist XML endpoint (fixes mozilla-services/kinto-amo#25)
+
+**New features**
+
+- Pass application ID and version to amo2kinto code when generating blocklist.xml (mozilla-services/kinto-amo#23)
+- Filter add-ons and plugins in v3 based on the requesting application and version. (mozilla-services/amo2kinto#74)
+- Stop exporting cert items to Firefox 58 and above, where they aren't used. (mozilla-services/amo2kinto#75)
+
+"
+5011,ReleaseEvent,2018-05-25 23:41:17+00:00,83748372,h2oai/datatable,8700928,h2o-ops,1402695,h2oai,published,v0.5.0,v0.5.0,"### [v0.5.0](https://github.com/h2oai/datatable/compare/v0.5.0...v0.4.0) — 2018-05-25
+#### Added
+- rbind()-ing now works on columns of all types (including between any types).
+- `dt.rbind()` function to perform out-of-place row binding.
+- ability to change the number of rows in a Frame.
+- ability to modify a Frame in-place by assigning new values to particular
+  cells.
+- `dt.__git_version__` variable containing the commit hash from which the
+  package was built.
+- ability to read .bz2 compressed files with fread.
+
+#### Fixed
+- Ensure that fread only emits messages to Python from the master thread.
+- Fread can now properly recognize quoted NA strings.
+- Fixed error when unbounded f-expressions were printed to console.
+- Fixed problems when operating with too many memory-mapped Frames at once.
+- Fixed incorrect groupby calculation in some rare cases.
+---
+## Download links ##
+
+- [datatable-0.5.0-cp35-cp35m-macosx_10_7_x86_64.whl](https://h2o-release.s3.amazonaws.com/datatable/stable/datatable-0.5.0//datatable-0.5.0-cp35-cp35m-macosx_10_7_x86_64.whl)
+- [datatable-0.5.0-cp36-cp36m-linux_x86_64.whl](https://h2o-release.s3.amazonaws.com/datatable/stable/datatable-0.5.0//datatable-0.5.0-cp36-cp36m-linux_x86_64.whl)
+- [datatable-0.5.0-cp36-cp36m-macosx_10_7_x86_64.whl](https://h2o-release.s3.amazonaws.com/datatable/stable/datatable-0.5.0//datatable-0.5.0-cp36-cp36m-macosx_10_7_x86_64.whl)
+- [datatable-0.5.0.tar.gz](https://h2o-release.s3.amazonaws.com/datatable/stable/datatable-0.5.0//datatable-0.5.0.tar.gz)
+- [datatable-0.5.0-cp35-cp35m-linux_ppc64le.whl](https://h2o-release.s3.amazonaws.com/datatable/stable/datatable-0.5.0//datatable-0.5.0-cp35-cp35m-linux_ppc64le.whl)
+- [datatable-0.5.0-cp35-cp35m-linux_x86_64.whl](https://h2o-release.s3.amazonaws.com/datatable/stable/datatable-0.5.0//datatable-0.5.0-cp35-cp35m-linux_x86_64.whl)
+- [datatable-0.5.0-cp36-cp36m-linux_ppc64le.whl](https://h2o-release.s3.amazonaws.com/datatable/stable/datatable-0.5.0//datatable-0.5.0-cp36-cp36m-linux_ppc64le.whl)"
+5482,ReleaseEvent,2018-05-12 19:16:16+00:00,96243904,labstack/labstack-python,314036,vishr,2624634,labstack,published,0.31.2,v0.31.2,
+5590,ReleaseEvent,2018-06-12 17:51:50+00:00,16316451,GoogleCloudPlatform/google-cloud-python,638797,crwilcox,2810941,GoogleCloudPlatform,published,tasks-0.2.0,google-cloud-tasks 0.2.0,"### Implementation Changes
+- regenerate tasks v2beta2 (#5469)
+- Avoid overwriting '__module__' of messages from shared modules. (#5364)"
+6303,ReleaseEvent,2016-09-13 20:20:13+00:00,41284151,frictionlessdata/tabulator-py,557395,roll,5912125,frictionlessdata,published,v0.6.1,v.0.6.1,- #82 - parsers.Native doesn't support reset for iterators [bug]
+6305,ReleaseEvent,2017-08-31 19:48:52+00:00,44518409,frictionlessdata/datapackage-py,557395,roll,5912125,frictionlessdata,published,v1.0.0-alpha14,v1.0.0-alpha14,
+6577,ReleaseEvent,2016-02-13 20:28:50+00:00,26829379,VUnit/vunit,4018223,kraigher,6691399,VUnit,published,v0.59.0,,"* Covered a miss in circular dependency detection.
+* Added detection of cicular includes and macro expanions.
+* Added caching of Verilog parsing to speed up run.py
+"
+6636,ReleaseEvent,2017-08-28 20:15:27+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-interactive-0.3.8,azure-cli-interactive 0.3.8,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.org/project/azure-cli-interactive/0.3.8
+
+Full release notes at https://docs.microsoft.com/en-us/cli/azure/release-notes-azure-cli
+
+"
+7345,ReleaseEvent,2018-04-27 18:18:41+00:00,26661222,tinode/chat,5938143,or-else,9325720,tinode,published,v0.14.6-rc3,"Bug fixes in hash navigation, authentication. ","* Lots of bug fixes in hash navigation and auto-login.
+* Bug fixes in authentication.
+"
+7430,ReleaseEvent,2016-09-13 17:11:29+00:00,43816051,common-workflow-language/cwltool,1316612,tetron,9947495,common-workflow-language,published,1.0.20160913171024,,
+7599,ReleaseEvent,2016-12-12 10:14:08+00:00,49949560,OptimalBPM/of,8634663,nicklasb,10932334,OptimalBPM,published,v1.0.0,First stable release of the Optimal Framework!,"The Optimal Framework has now reached all the milestones that was required for release of version 1.0!
+
+"
+7881,ReleaseEvent,2015-12-23 12:22:19+00:00,35872414,infoportugal/wagtail-modeltranslation,3165500,rmartins90,12510303,infoportugal,published,v0.4.2,v0.4.2,
+8182,ReleaseEvent,2017-12-24 13:35:14+00:00,43091756,hackingmaterials/matminer,986759,computron,14116185,hackingmaterials,published,v0.1.8,v0.1.8,
+8420,ReleaseEvent,2017-10-23 17:10:21+00:00,27458716,pyexcel/pyexcel-io,4280312,chfw,16431467,pyexcel,published,v0.5.3,v0.5.3,Find 0.5.3 in changelog for more details
+8970,ReleaseEvent,2018-05-14 15:18:53+00:00,66363927,zhmcclient/python-zhmcclient,8939758,andy-maier,21196715,zhmcclient,published,0.19.11,Release 0.19.11,"This is a fix release for 0.19.0. The version number jumps right from 0.19.0 to 0.19.11 due to tooling reasons. For the changes in this fix release, see its change log on RTD."
+9039,ReleaseEvent,2018-02-26 09:50:49+00:00,71356982,Cornices/cornice.ext.swagger,546692,leplatrem,22174083,Cornices,published,0.5.4,,"**Internals**
+
+- Fix return types in docstrings (#77)
+"
+9381,ReleaseEvent,2018-08-15 08:44:01+00:00,131755014,fandoghpaas/fandogh-cli,726875,psycho-ir,39274753,fandoghpaas,published,0.5.8,Pod phase added to the service details output,
