@@ -1,0 +1,855 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,release_action,release_tag_name,release_name,release_body
+43,ReleaseEvent,2016-08-14 22:29:25+00:00,2792391,gruns/furl,1041265,gruns,,,published,v0.5.2,Furl v0.5.2,
+1035,ReleaseEvent,2015-02-07 19:11:27+00:00,13943006,MrYsLab/PyMata,5189838,MrYsLab,,,published,v2.03,Thread locks made re-entrant to support callbacks,"To allow a callback routines to re-arm latches and to make other PyMata calls, the thread lock was changed to an RLock."
+1222,ReleaseEvent,2017-08-02 17:52:56+00:00,73047402,dhermes/bezier,520669,dhermes,,,published,0.4.0,0.4.0,"PyPI: https://pypi.org/project/bezier/0.4.0/
+Docs: https://bezier.readthedocs.io/en/0.4.0/
+
+## Performance Optimizations
+-   [Adding][29] Fortran [speedups][30] for many crucial computation helpers including
+    -   intersecting line segments
+    -   (vectorized) Horner's method for evaluating a B&#xe9;zier curve at multiple parameters at once
+    -   (vectorized) Horner's method for evaluating a B&#xe9;zier surface
+    -   computing ""linearization error"" (how close a curve is to a line)
+    -   specializing a B&#xe9;zier curve to a sub-interval
+    -   using Newton's method to refine a curve-curve intersection
+-   [Adding][10] `_verify` switch to [`Surface.locate()`][11] and [`Curve.intersect()`][14] to selectively disable overly defensive value checking. (Making sure to use this switch during ""internal"" computation.)
+-   Making sure NumPy arrays are Fortan-contiguous as often as possible (e.g. snippets and source, via `np.asfortranarray()`). This is to avoid (and emphasize) a non-trivial overhead when passing a C-continguous array to a Fortran function. ([`03a7242`][15], [`6064e4c`][16], [`f1804f4`][17])
+-   Using Horner's method in `Curve.evaluate_multi()` and `Surface.evaluate_barycentric()`, rather than inferior (sometimes non-vectorized) approaches ([`dee8181`][18], [`2611e64`][19])
+-   Made surface-surface intersection more resilient / lenient for corner intersections. For ""nearby"" intersections, parameter values can be rounded to `0` or `1`. ([`4a8458c`][25])
+
+## New Features
+-   [Adding][23] optional `strategy` argument (one of geometric or algebraic) to [`Surface.intersect()`][24]
+    -   Added ""algebraic"" [`IntersectionStrategy`][20] via curve [implicitization][27] ([reference][28])
+-   Adding [`Curve.reduce_()`][21] which acts as a partial inverse to [`Curve.elevate()`][31]. It is only a complete inverse when a curve is degree-elevated, otherwise it returns the ""best"" reduced form (in the least squares sense).
+
+## Interface Changes
+-   (**Breaking change**) [Removing][5] `show` keyword from [`Curve.plot()`][2], [`Surface.plot()`][3] and [`CurvedPolygon.plot()`][4]
+-   [Adding][32] `color` keyword to [`Curve.plot()`][2]
+-   [Adding][26] `alpha` keyword to [`Curve.plot()`][2]
+-   (**Breaking change**) [Splitting][6] the [`Surface.evaluate_multi()`][7] method into [`Surface.evaluate_barycentric_multi()`][8] and [`Surface.evaluate_cartesian_multi()`][9]
+-   [Adding][22] `__dict__` helpers on `Curve`, `CurvedPolygon` and `Surface`. These are `@property`s intended only for REPL use, since classes with `__slots__` no longer have a `__dict__` attribute.
+
+## Miscellany
+-   Adding [`IntersectionClassification`][1] to docs ([ref][5])
+-   [Moving][12] most plotting into a dedicated module. More importantly, importing plotting helpers at **run-time** rather at **import time**. So if computational code never plots, it won't eat the import cost of `matplotlib`. [Removing][13] `matplotlib` as a dependency.
+
+[1]: http://bezier.readthedocs.io/en/0.4.0/algorithm-helpers.html#bezier._surface_helpers.IntersectionClassification
+[2]: http://bezier.readthedocs.io/en/0.4.0/reference/bezier.curve.html#bezier.curve.Curve.plot
+[3]: http://bezier.readthedocs.io/en/0.4.0/reference/bezier.surface.html#bezier.surface.Surface.plot
+[4]: http://bezier.readthedocs.io/en/0.4.0/reference/bezier.curved_polygon.html#bezier.curved_polygon.CurvedPolygon.plot
+[5]: https://github.com/dhermes/bezier/commit/828f4238971b12a9d494ce38387cec855d063c91
+[6]: https://github.com/dhermes/bezier/commit/cea88285b8c9002a57efd88e69b5bd2ef46e7ca7
+[7]: http://bezier.readthedocs.io/en/0.3.0/reference/bezier.surface.html#bezier.surface.Surface.evaluate_multi
+[8]: http://bezier.readthedocs.io/en/0.4.0/reference/bezier.surface.html#bezier.surface.Surface.evaluate_barycentric_multi
+[9]: http://bezier.readthedocs.io/en/0.4.0/reference/bezier.surface.html#bezier.surface.Surface.evaluate_cartesian_multi
+[10]: https://github.com/dhermes/bezier/commit/dcf40f4c9ed2167e96fc8f4675aeedcc2d811a0b
+[11]: http://bezier.readthedocs.io/en/0.4.0/reference/bezier.surface.html#bezier.surface.Surface.locate
+[12]: https://github.com/dhermes/bezier/commit/dc4d33cfcf7f9ac6e794b856dc6d76635d362922
+[13]: https://github.com/dhermes/bezier/commit/064e2c5efe7fa6498d74a33798a363e2c8e0b83e
+[14]: http://bezier.readthedocs.io/en/0.4.0/reference/bezier.curve.html#bezier.curve.Curve.intersect
+[15]: https://github.com/dhermes/bezier/commit/03a72428c6f9d3bd3a1fac9b7f9afa615ce12d46
+[16]: https://github.com/dhermes/bezier/commit/6064e4c314d8d717873d46e6ef35c0bbc9772728
+[17]: https://github.com/dhermes/bezier/commit/f1804f442f190d0bc36782e940ee0b8a68c5ecd6
+[18]: https://github.com/dhermes/bezier/commit/dee81813e34d5f69c52f48aa90f7c11eb4ddc3ec
+[19]: https://github.com/dhermes/bezier/commit/2611e64a735e46317cce08a41270d61024705fd9
+[20]: http://bezier.readthedocs.io/en/0.4.0/reference/bezier.curve.html#bezier.curve.IntersectionStrategy
+[21]: http://bezier.readthedocs.io/en/0.4.0/reference/bezier.curve.html#bezier.curve.Curve.reduce_
+[22]: https://github.com/dhermes/bezier/commit/f0fca088ac6f70c39f9f5af457c29e3c82f094b5
+[23]: https://github.com/dhermes/bezier/commit/e72ca20f0f4ee0f6399b56805b30fe67a02aa04f
+[24]: http://bezier.readthedocs.io/en/0.4.0/reference/bezier.surface.html#bezier.surface.Surface.intersect
+[25]: https://github.com/dhermes/bezier/commit/4a8458c823d8acc185818f856889cff6f46300d3
+[26]: https://github.com/dhermes/bezier/commit/dcbeefc25b7f5f9a1fa725dac04e81a43039f680
+[27]: https://github.com/dhermes/bezier/commits/0.4.0/src/bezier/_implicitization.py
+[28]: https://en.wikipedia.org/wiki/Resultant
+[29]: https://github.com/dhermes/bezier/commits/0.4.0/src/bezier/speedup.f90
+[30]: https://github.com/dhermes/bezier/blob/0.4.0/src/bezier/speedup.f90
+[31]: http://bezier.readthedocs.io/en/0.4.0/reference/bezier.curve.html#bezier.curve.Curve.elevate
+[32]: https://github.com/dhermes/bezier/commit/ce838a2aaef2281f06603d1c76324a3aa8289cf9"
+1319,ReleaseEvent,2015-05-23 00:01:05+00:00,1408162,jpadilla/pyjwt,472350,mark-adams,,,published,1.2.0,v1.2.0,"### Fixed
+- Added back `verify_expiration=` argument to `jwt.decode()` that was erroneously removed in [v1.1.0][1.1.0].
+
+### Changed
+- Refactored JWS-specific logic out of PyJWT and into PyJWS superclass. [#141][141]
+
+### Deprecated
+- `verify_expiration=` argument to `jwt.decode()` is now deprecated and will be removed in a future version. Use the `option=` argument instead.
+"
+1705,ReleaseEvent,2016-07-16 18:09:26+00:00,4477733,kevin1024/vcrpy,21099,kevin1024,,,published,v1.9.0,Boto3 support and assorted bugfixes,"  * Add support for boto3 (thanks @desdm, @foorbarna). 
+  * Fix deepcopy issue for response headers when `decode_compressed_response` is enabled (thanks @nickdirienzo)"
+1987,ReleaseEvent,2016-11-13 13:20:06+00:00,9923468,boppreh/keyboard,231856,boppreh,,,published,v0.9.1,v0.9.1,"- Add `add_abbreviation` and `register_word_listener` functions.
+
+- Add functions for low level hooks (`hook`, `hook_key`).
+
+- Add `on_press` and `on_release` functions.
+
+- Add alternative names (aliases) for many functions.
+
+- Add large number of alternative key names, especially for accents.
+
+- Make module produce and consume JSON if ran as script (`python -m keyboard`).
+
+- 100% test coverage.
+
+
+
+- [Linux] Add support for writing arbitrary Unicode.
+
+- [Linux] Look for Linux keyboard devices in /proc/bus/input/devices.
+
+- [Linux] Create fake keyboard with uinput if none is available.
+
+- [Linux] Aggregate as many devices as possibles (e.g. USB keyboard on notebook).
+
+- [Linux] Improved support for internationalized keys.
+
+
+
+- [Windows] Process keys asynchronously to reduce key delay.
+
+
+
+- [All] Too many bugfixes to count.
+
+- [All] Major backend refactor."
+2537,ReleaseEvent,2018-02-07 16:25:45+00:00,84231584,deadc0de6/dotdrop,8973919,deadc0de6,,,published,v0.10,v0.10,"* add transformations and ability to manage encrypted dotfiles
+* refactor README
+* fix small bugs
+* add aur package
+"
+2672,ReleaseEvent,2018-02-08 09:18:59+00:00,120079872,holgern/py-scrypt,2202263,holgern,,,published,v0.8.4,,
+2699,ReleaseEvent,2016-12-03 16:49:26+00:00,61831189,joshburnett/scanf,12973799,joshburnett,,,published,1.3.3,Update PyPI metadata,
+2832,ReleaseEvent,2015-10-06 08:12:26+00:00,2909429,nicolargo/glances,776747,nicolargo,,,published,v2.5,Glances 2.5,"Version 2.5
+===========
+
+Enhancements and new features:
+
+    * Allow export of Docker and sensors plugins stats to InfluxDB, StatsD... (issue #600)
+    * Docker plugin shows IO and network bitrate (issue #520)
+    * Server password configuration for the browser mode (issue #500)
+    * Add support for OpenTSDB export (issue #638)
+    * Add additional stats (iowait, steal) to the perCPU plugin (issue #672)
+    * Support Fahrenheit unit in the sensor plugin using the --fahrenheit command line option (issue #620)
+    * When a process filter is set, display sum of CPU, MEM... (issue #681)
+    * Improve the QuickLookplugin by adding hardware CPU info (issue #673)
+    * WebUI display a message if server is not available (issue #564)
+    * Display an error if export is not used in the standalone/client mode (issue #614)
+    * New --disable-quicklook, --disable-cpu, --disable-mem, --disable-swap, --disable-load tags (issue #631)
+    * Complete refactoring of the WebUI thanks to the (awesome) Floran pull (issue #656)
+    * Network cumulative /combination feature available in the WebUI (issue #552)
+    * IRIX mode off implementation (issue#628)
+    * Short process name displays arguments (issue #609)
+    * Server password configuration for the browser mode (issue #500)
+    * Display an error if export is not used in the standalone/client mode (issue #614)
+
+Bugs corrected:
+
+    * The WebUI displays bad sensors stats (issue #632)
+    * Filter processes crashs with a bad regular expression pattern (issue #665)
+    * Error with IP plugin (issue #651)
+    * Crach with Docker plugin (issue #649)
+    * Docker plugin crashs with webserver mode (issue #654)
+    * Infrequently crashing due to assert (issue #623)
+    * Value for free disk space is counterintuative on ext file systems (issue #644)
+    * Try/catch for unexpected psutil.NoSuchProcess: process no longer exists (issue #432)
+    * Fatal error using Python 3.4 and Docker plugin bug (issue #602)
+    * Add missing new line before g man option (issue #595)
+    * Remove unnecessary type=""text/css"" for link (HTML5) (issue #595)
+    * Correct server mode issue when no network interface is available (issue #528)
+    * Avoid crach on olds kernels (issue #554)
+    * Avoid crashing if LC_ALL is not defined by user (issue #517)
+    * Add a disable HDD temperature option on the command line (issue #515)"
+3098,ReleaseEvent,2016-08-22 21:17:11+00:00,30908907,greginvm/pyclipper,10724016,greginvm,,,published,1.0.5-dev.4,,
+3174,ReleaseEvent,2017-12-03 21:38:51+00:00,47635030,maxharlow/csvmatch,896707,maxharlow,,,published,v1.13,,"* Adds argument to specify fuzzy match threshold (currently only used by Levenshtein)
+* Adds argument to show which version of CSV Match is running(!)
+* Splits out functionality from command line interface to allow testing
+* A suite of tests
+* Readme improvements"
+3287,ReleaseEvent,2016-09-20 21:35:18+00:00,56998522,skorokithakis/catt,23648,skorokithakis,,,published,v0.4.0,,"
+### Feature
+* Add local file casting support.
+"
+3300,ReleaseEvent,2015-04-21 15:35:07+00:00,1510462,stefankoegl/kdtree,184196,stefankoegl,,,published,v0.12,0.12,"Changes
+* ``add()`` returns newly added node (#23)
+* knn search speedups (#26)"
+3446,ReleaseEvent,2015-07-10 12:12:25+00:00,2294792,Kwpolska/pkgbuilder,327323,Kwpolska,,,published,v4.0.1,,"* Fix `prepare_deps` for split PKGBUILDs (take all packages’ data, something makepkg actually does **not** do)"
+3460,ReleaseEvent,2018-03-08 07:27:05+00:00,34061246,Sung-Huan/ANNOgesic,6706987,Sung-Huan,,,published,v.0.7.16,ANNOgesic version 0.7.16,ANNOgesic version 0.7.16
+3731,ReleaseEvent,2017-06-24 20:45:35+00:00,95295862,nateshmbhat/pyttsx3,23279926,nateshmbhat,,,published,v1.15,pyttsx3,**pyttsx3 is a Text To Speech library which works for both python2 and python3 .**
+4646,ReleaseEvent,2018-07-08 17:18:30+00:00,58094079,orbingol/NURBS-Python,5276943,orbingol,,,published,v4.0.1,NURBS-Python (geomdl) v4.0.1,"* Bug fix: Use `six` package to maintain Python 2 and 3 interoperability for meta classes
+* Bug fix: Updated `order` property for curves and `order_u`, `order_v`, `delta` properties for surfaces by removing excess conditional checks from their setters
+* Updated error messages
+* Updated documentation
+* Updated tests
+* Various minor updates and bug fixes"
+4716,ReleaseEvent,2016-08-12 17:00:46+00:00,53180953,thombashi/pingparsing,15517661,thombashi,,,published,v0.2.9,,"- Fix for the case that occurs packet loss
+"
+4719,ReleaseEvent,2016-10-29 15:43:34+00:00,58070676,thombashi/sqlitebiter,15517661,thombashi,,,published,v0.3.0,,"- Add support for Markdown
+- Bug fixes"
+4883,ReleaseEvent,2015-06-01 23:54:43+00:00,32323260,dmnfarrell/pandastable,7859189,dmnfarrell,,,published,v0.3.1,v0.3.1,"Adds various new features for table manipulation and the use of a child table for table join operations and other uses.
+
+## Changes
+
+* Added ability to create sub/child table
+* Merge, concat operations with sub table
+* Removed row/col buttons from toolbar to prevent clutter
+* Added filtering using string queries; pandas query()
+* Rendering and handling of empty tables
+* Added clear table button
+* Can now hide plot viewer in dataexplore app
+* Fix to relative imports"
+5046,ReleaseEvent,2016-08-08 09:03:36+00:00,63150494,Danielhiversen/flux_led,650502,Danielhiversen,,,published,0.5,0.5,
+5049,ReleaseEvent,2016-09-27 08:41:53+00:00,30243109,Danielhiversen/pyRFXtrx,650502,Danielhiversen,,,published,0.13.0,0.13.0,
+6065,ReleaseEvent,2016-12-26 23:55:29+00:00,77096478,jbasko/pytest-random-order,632910,jbasko,,,published,v0.5.2,v0.5.2,Adds seed support to allow rerunning tests in the same order as in an earlier run
+6066,ReleaseEvent,2017-02-18 09:51:00+00:00,77096478,jbasko/pytest-random-order,632910,jbasko,,,published,v0.5.4,Adds Python 2.6 support,Thanks @eLRuLL 
+6074,ReleaseEvent,2017-05-21 06:57:02+00:00,35990433,kata198/AdvancedHTMLParser,8461115,kata198,,,published,7.1.0,7.1.0 - Slurpee Coming Soon,"* 7.1.0 May 21 2017
+
+- Add createElement function on AdvancedHTMLParser, to work like
+document.createElement. Creates an element with the given tag name.
+
+- Add createElementFromHTML function to parser which returns an AdvancedTag from given HTML
+
+- Add createElementsFromHTML function to parser which supports and returns a list of parsed
+AdvancedTags (one or more).
+
+- Add createBlocksFromHTML function to parser which parses HTML and returns a
+list of blocks (either AdvancedTag objects, or text nodes (str).
+
+- Add appendInnerHTML function to AdvancedTag which works like in javascript
+	tag.innerHTML += 'someOtherHTML'
+and will parse and append any tags and/or text nodes
+
+- Significant improvements in performance on creating tags ( On average, 125%
+reduction in time to create an AdvancedTag. ) Use is also improved.
+
+- Add ""body"" and ""head"" properties to Parser.AdvancedHTMLParser - to act same
+as document.body and document.head
+
+- Add method to both Parser and AdvancedTag, ""getFirstElementCustomFilter"",
+which will apply a lambda/function on each tag, starting with first child and
+all children, then second child and all children, etc.
+
+This is used for finding things like ""body"" and ""head"" without needing to walk
+through the whole document. It's also desgined to find them the quickest, as
+they are very likely to be early and high-level objects in the tree.
+
+
+* 7.0.2 Apr 28 2017
+
+- Fix two typos which would result in exceptions
+- Add ""href"" as a standard property name for anchors (so em.href = 'abc' sets
+the href attribute)
+
+* 7.0.0 Apr 6 2017
+- Add ""filter""-style functions (think ORM-style filtering, like
+name__contains='abc' or name='abc' or name__ne='something'). Supports all filter operations provided by QueryableList
+  * These have been added to AdvancedHTMLParser.AdvancedHTMLParser (as
+  filter/filterAnd and filterOr) to work on all nodes in the parser
+  * These have been added to AdvancedTag (as filter/filterAnd and filterOr)
+  which work on the tag itself and all children (and their children, and so
+  on)
+  * These have been added to TagCollection (as filter/filterAnd and filterOr)
+  that work directly on the elements contained only
+  * Also, TagCollection has filterAll/filterAllAnd and filterAllOr that work
+  directly on the containing elements, and all children of those elements (and
+  their children)
+
+ This adds QueryableList as a dependency, but setup.py can be passed ""--no-deps"" to skip that installation (and the filter methods will be unavailable)
+
+- Add ""find"" function on AdvancedHTMLParser, which supports a very very small subset of QueryableList (only equals, contains, and icontains) and can be used for ""similar"" functionality but without the QueryableList dependency, and only usable from the document level (AdvancedHTMLParser.AdvancedHTMLParser)
+
+- Support javascript-style assignment and access on a handful of tags (The older ones, name, id, align, etc).
+  You can now do things like:   myTag.name = 'hello'    to set the name, and    myTag.name   to access it 
+  (previously you had to use setAttribute and getAttribute for everything)
+  The names used here match what are used in HTML, and include the javascript events
+
+
+- Fix where ""className"" could get out of sync with ""classList""/""classNames""
+- No longer treat ""classname"" and ""class"" as the same attribute, they are in fact distinct on the attribute dict, but
+  className maps to class on object-access
+
+- Support binary-style attribute set/access, (like for ""hidden"" property, or ""checked"")
+- Support attributes conditional on tag name, like ""checked"" on an input
+
+- Change so accessing an attribute on an AdvancedTag which is not set returns None (undefined/null), instead of raising an AttributeError
+
+- Implement ""cloneNode"" function from JS DOM
+- Fix TagCollection __add__ and __sub__ were working on the inline element. Moved these to __iadd__ and __isub__ (for += and -=)
+  and implemented add and subtract to work on copies
+- Add ""isEqualNode"" JS DOM method as equivilant to the '==' operator on AdvancedTag
+- Add ""contains"" JS DOM method to both AdvancedTag, TagCollection, and AdvancedHTMLParser
+- Implemented ""in"" operator on Parser to check if an element ( or uuid if passed) is contained
+
+- Implements ""hasChild"" method to see if an element is a direct child of another element
+- Implement ""remove"" method on an AdvancedTag, to remove it from the parent.
+
+- Some other minor DOM methods, (childElementCount)
+- Rename on AdvancedTag ""attributes"" to ""_attributes"" in preparation of implementing DOM-style named node map
+
+- Add ownerDocument to Tags which point to the document (parser), if associated with one
+
+- Added some functions for accessing the whole of uids
+
+- Proper quote-escaping within attribute values. \"" isn't understood across the board, but &quot; is, so switch from former to latter.
+
+- Add DOM-style ""attributes"" to every AdvancedTag. This follows the horrible antiquated interface that DOM
+  uses for ""attributes"", created before getAttribute/setAttribute were standardized.
+  This is always available as .attributesDOM , and the dict impl always available as .attributesDict
+
+  By default, we will retain the ""dict"" impl, as the NamedNodeMap impl is deprecated.
+  There's a new function, toggleAttributesDOM which will change the global .attributes property to be the DOM (official) or Dict (sane and prior) impl.
+
+- Some minor cleanups, doc updates, test updates, etc
+
+
+* 6.8.0 
+- Add ""getAllChildNodes"" to tags, which return all the children (and all their
+children, on and so forth) of the given tag
+
+- Add ""getAllNodes"" to AdvancedHTMLParser.AdvancedHTMLParser - which gets the
+root nodes, all children of them, and all children all the way to the end
+
+- Add ""getAllNodes"" to TagCollection, which returns those nodes contained
+within, and all of their children (on and so forth)
+
+- Add ""find"" method to AdvancedHTMLParser.AdvancedHTMLParser, which supports filtering by attr=value style, supporting
+either single values or list of values (for ANY aka or), and some specials
+( __contains and __icontains suffixes on keys for ""value contains"" or
+""case-insensitive value contains"") This method is only available in one place.
+7.0.0 will have a full filter implementation on the parser, tags, and tag
+collections, but will require QueryableList to be installed. This will be
+optional, and this method will remain as an incomplete version.
+"
+6117,ReleaseEvent,2017-08-20 16:11:38+00:00,78934432,marcobellaccini/pyAesCrypt,24960638,marcobellaccini,,,published,v0.2.2,0.2.2 - Foo Phoenix,Added an option to pass password as command-line argument to the script.
+6163,ReleaseEvent,2016-03-15 14:17:35+00:00,17457558,tylertreat/BigQuery-Python,552817,tylertreat,,,published,v1.6.0,BigQuery-Python Release 1.6.0,"- Add update_table and patch_table to BigQueryClient #78 
+- Add user-defined function support to write_to_table #79
+- Add support for having clause to render_query #80
+- Add service_url parameter to get_client and _get_bq_service #81"
+6219,ReleaseEvent,2015-03-18 20:46:15+00:00,9051843,linsomniac/python-memcached,466380,linsomniac,,,published,release-1.54,,
+6235,ReleaseEvent,2015-05-05 14:35:26+00:00,5816230,michiya/django-pyodbc-azure,1407557,michiya,,,published,1.2.9,1.2.9,"* Supports Django 1.7.8
+* Imported backend-related fixes from Django 1.7.8"
+6723,ReleaseEvent,2017-08-05 22:16:52+00:00,99447223,mattiaslinnap/django-partial-index,315310,mattiaslinnap,,,published,0.1.0,First release,First release
+6732,ReleaseEvent,2015-09-11 07:59:50+00:00,21331244,MartijnBraam/python-isc-dhcp-leases,6928199,MartijnBraam,,,published,0.5.1,0.5.1: Documentation updates,"This release doesn't change any code in the module, the only change is that this release is the documentation on the Pypi page."
+6770,ReleaseEvent,2018-08-21 14:05:58+00:00,30596362,kalwalkden/django-materializecss-form,482647,kalwalkden,,,published,v1.1.9,Add support for Icons,Thank you @michaelmarziani 
+7400,ReleaseEvent,2015-05-18 21:12:32+00:00,23458977,facebook/facebook-python-ads-sdk,692738,ebzlo,69631,facebook,published,2.3.2,Bug fixes!,"- Added call_to_action_clicks to insights
+- `build_objects_from_response` now checks if the `data` object in the response is a `list`
+- Added `RateCard` subclass to `AdAccount`
+- `app_id` and `app_secret` are no longer required in `FacebookAdsApi.init`
+- `lifetime_impressions` added to `AdSet`
+- `creative_sequence` now supported
+- `get_ad_conversion_pixels` added for `AdAccount`"
+7544,ReleaseEvent,2018-05-04 13:38:27+00:00,8140822,dimagi/commcare-export,249606,snopoke,94514,dimagi,published,0.20.1,0.20.1,* support API key authentication
+7813,ReleaseEvent,2016-11-20 10:26:04+00:00,1257514,quantmind/pulsar,144320,lsbardel,144099,quantmind,published,1.5.5,,"Bug fix release with improvements in the Http client for streaming
+requests. Importantly, python 3.6 passes all tests.
+
+* Python 3.6-dev tests passing on travis
+* Fixed HttpTestClient [7641cc5](https://github.com/quantmind/pulsar/commit/7641cc5acb11e9fb44d5e814fe3bba39fdefc013)
+* Abort connection if not closing within 3 seconds
+* Added ``done`` method to ``ProtocolConsumer``
+* Don't detach connection when streaming and response is done already [8be1caa](https://github.com/quantmind/pulsar/commit/8be1caaa18cba8ca40de822e657e3a155250aed7)
+* Install ``bench`` command for benchmarking tests
+* Fixed multi label test run"
+7904,ReleaseEvent,2016-07-27 16:17:45+00:00,57193500,sbg/sevenbridges-python,9283273,SenadI,233118,sbg,published,v0.4.2,,
+8376,ReleaseEvent,2015-08-07 20:00:21+00:00,8340943,seatgeek/cronq,65675,josegonzalez,447527,seatgeek,published,v0.0.18,0.0.18 (2013-02-25),"- V0.0.18: Set locked_by to catch race conditions. [Philip Cristiano]
+
+  closes #9"
+8379,ReleaseEvent,2015-10-02 14:52:20+00:00,2019626,seatgeek/fuzzywuzzy,65675,josegonzalez,447527,seatgeek,published,0.7.0,0.7.0 (2015-10-02),"- Use portable syntax for catching exception on tests. [Luis Madrigal]
+- [Fix] test against correct variable. [Luis Madrigal]
+- Add unit tests for validator decorators. [Luis Madrigal]
+- Move validators to decorator functions. [Luis Madrigal]
+
+  This allows easier composition and IMO makes the functions more readable
+
+- Fix typo: dictionery -> dictionary. [shale]
+- FizzyWuzzy -> FuzzyWuzzy typo correction. [shale]
+- Add check for gitchangelog. [Jose Diaz-Gonzalez]
+"
+8591,ReleaseEvent,2016-10-04 17:55:21+00:00,6296987,pinterest/pymemcache,1666947,nichochar,541152,pinterest,published,v1.3.8,v1.3.8,"New in version 1.3.8
+--------------------
+* use cpickle instead of pickle when possible (python2)
+"
+8729,ReleaseEvent,2018-04-26 13:34:03+00:00,99706219,mapbox/mapboxgl-jupyter,4342845,ryanbaumann,600935,mapbox,published,0.7.0,0.7.0,"# New Features
+* Add support for Linestring visualizations! 🚥 #92 @akacarlyann 
+* Add support for 3D Extrusions in Choropleth Visualizations! 🏗 #90 @akacarlyann 
+
+# Bug Fixes
+* Fix choropleth with large number of numeric stops #94 
+* Fix bug with not tagging Mapbox Tile URLS with Parameter #95 "
+8783,ReleaseEvent,2015-01-10 15:45:20+00:00,12442243,nephila/djangocms-installer,714711,yakky,630341,nephila,published,0.7.0,v.0.7.0,"* Improved support for Django 1.7 and django CMS develop (3.1)
+* Totally new test strategy
+* Reverted -I parameter to install packages
+* Improved support for cleanup after failure"
+8804,ReleaseEvent,2015-01-14 07:05:45+00:00,24757484,robotpy/robotpy-wpilib,567900,virtuald,640276,robotpy,published,2015.0.4,Bugfix release,"This is a minor bugfix release of RobotPy, and is an optional upgrade for teams using RobotPy.
+
+* CANJaguar could not be initialized (fixes [issue #120](https://github.com/robotpy/robotpy-wpilib/issues/120))
+* CANTalon is now implemented in the simulated HAL, which means you can use it from pyfrc tests and simulations
+
+See all changes on [github](https://github.com/robotpy/robotpy-wpilib/compare/2015.0.3...2015.0.4)."
+9169,ReleaseEvent,2017-05-19 11:49:17+00:00,34760603,gocardless/gocardless-pro-python,116134,timrogers,790629,gocardless,published,v1.0.0,v1.0.0,"- Add safe retrying for requests where possible:
+  - Automatically retry requests that fail due to network or GoCardless errors.
+  - Automatically add an [idempotency key](https://developer.gocardless.com/api-reference/#making-requests-idempotency-keys) for POST requests if not provided manually
+  - **Breaking change**: Automatically retrieve and return the existing resource in the event of a `409 idempotent_creation_conflict` response. This changes previous behaviour - instead of seeing an exception at this point, the client will now automatically retrieve the original resource that was created with that idempotency key.
+- Support the new `verification_status` attribute in the Creditors API, which may be either `action_required`, `in_review` or `successful`. See the new [""Helping your users get verified"" section in the partner guide](https://developer.gocardless.com/getting-started/partners/helping-your-users-get-verified/) for details.
+- Add `GoCardless-Client-Library` and `GoCardless-Client-Version` headers to aid identification of requests
+- Add support for Python 3.5 and Python 3.6"
+9237,ReleaseEvent,2018-05-14 20:15:39+00:00,1953389,stripe/stripe-python,23105990,brandur-stripe,856813,stripe,published,v1.82.1,stripe-python v1.82.1,"* [#430](https://github.com/stripe/stripe-python/pull/430) Handle the case where request ID is `None` when formatting errors
+
+See [the changelog for more details](https://github.com/stripe/stripe-python/blob/master/CHANGELOG.md).
+"
+9354,ReleaseEvent,2017-11-23 18:14:07+00:00,78168645,aliyun/aliyun-log-python-sdk,7997739,wjo1212,941070,aliyun,published,0.6.12,0.6.12,"**Improvement**
+- below API are improved to fetch more data at one time (originally it's 500), passing size=-1 will try to fetch all data since offest: 
+  - list_logstore
+  - list_project
+  - list_logtail_config
+  - list_machine_group
+  - list_machines
+  - get_shipper_tasks"
+9356,ReleaseEvent,2017-11-16 08:59:06+00:00,78168645,aliyun/aliyun-log-python-sdk,7997739,wjo1212,941070,aliyun,published,0.6.8,0.6.8,"**New Interfaces**
+- `get_previous_cursor_time`: to get the time of the previous cursor of the passed one. it's normally used to check where the data is consumed. 
+- `get_check_point_fixed`: add a new filed ""previous_check_point_cursor_time"" into result
+
+**Bug fixed**
+- fix a bug when `logBeginRegex` is empty in API `get_logtail_config` in some case (e.g. the config is json mode)
+
+**Other improvement**
+- add more logging info for parsing failure case"
+9481,ReleaseEvent,2016-11-28 23:01:17+00:00,16366081,numenta/nupic.core,239726,scottpurdy,1039191,numenta,published,0.4.13,0.4.13,"* Use VERSION file when generating docs.
+* 64-bit gcc on Windows build error
+* New: setZerosOnOuter, increaseRowNonZeroCountsOnOuterTo
+* Remove a nupic.math test that should stay in nupic
+* Use unittest, not unittest2, to match the nupic.core CI config
+* Add C++ unit tests for the new SparseMatrix methods
+* Finish moving nupic.bindings math tests to nupic.core
+* s/AboveAndBelow/BelowAndAbove
+* Moves some tests for SWIG bindings from nupic to nupic.core
+* Better method names: s/AboveAndBelow/BelowAndAbove
+* Four new SparseMatrix methods, enabling batch synapse learning
+* Expose the nrows,ncols SparseBinaryMatrix ctor in the bindings"
+9533,ReleaseEvent,2016-07-21 14:47:57+00:00,51914365,mozilla-services/kinto-dist,229453,Natim,1066228,mozilla-services,published,0.6.3,,"- Take the correct Kinto 3.2.4 version.
+"
+9585,ReleaseEvent,2015-06-22 10:00:09+00:00,2665618,inveniosoftware/invenio,517546,tiborsimko,1157480,inveniosoftware,published,v2.0.1,Invenio v2.0.1,"============================
+ Invenio v2.0.1 is released
+============================
+
+Invenio v2.0.1 was released on March 20, 2015.
+
+About
+-----
+
+Invenio is a digital library framework enabling you to build your own
+digital library or document repository on the web.
+
+New features
+------------
+
++ global:
+
+  - Deprecation policy comes with new deprecation warnings wrappers.
+    (#2875)
+
+Bug fixes
+---------
+
++ assets:
+
+  - Avoids bundle changes to persist between requests in DEBUG mode,
+    which is not desired.  (#2777)
+
++ docs:
+
+  - Adds missing `invenio.base` package to the `config.py` file for a
+    custom overlay in the docs.
+
++ global:
+
+  - Replaces `invenio-demo.cern.ch` by `demo.invenio-software.org`
+    which is the new canonical URL of the demo site.  (#2867)
+
++ installation:
+
+  - Reorders 'compile_catalog' and 'install' commands to fix
+    installation process from PyPI.
+
+  - Adds apache2 xsendfile package to installation script.  (#2857)
+
++ messages:
+
+  - Defines a path for jquery.ui required by jQuery-Timepicker-Addon
+    and sets an exact version for the plugin instead of latest.
+    (#2910)
+
++ records:
+
+  - Changes creation_date field definition in tests.  (#2214)
+
++ search:
+
+  - Generates correct url for `/collection` redirect.
+
+Installation
+------------
+
+   $ pip install invenio
+
+Documentation
+-------------
+
+   http://invenio.readthedocs.org/en/v2.0.1
+
+Homepage
+--------
+
+   https://github.com/inveniosoftware/invenio
+
+Happy hacking and thanks for choosing Invenio.
+
+| Invenio Development Team
+|   Email: info@invenio-software.org
+|   IRC: #invenio on irc.freenode.net
+|   Twitter: http://twitter.com/inveniosoftware
+|   GitHub: http://github.com/inveniosoftware
+|   URL: http://invenio-software.org
+"
+9841,ReleaseEvent,2016-11-15 01:54:09+00:00,24974006,douban/pymesos,572167,windreamer,1220164,douban,published,0.1.6,Release 0.1.6,"- fix: repeated field assignment bug
+"
+9861,ReleaseEvent,2018-06-15 14:42:36+00:00,128863320,sci-visus/OpenVisus,1260735,scrgiorgio,1258106,sci-visus,published,1.0.161,1.0.161,
+10292,ReleaseEvent,2018-07-09 01:18:44+00:00,103312047,IBM/ibm-cos-sdk-python-s3transfer,31781465,wbhuberIBM,1459110,IBM,published,2.1.2,Release 2.1.2,"Features 
+--------
+* 38204: Bug fixes"
+10729,ReleaseEvent,2017-03-09 15:09:40+00:00,12345160,ansible/tower-cli,14990293,jangsutsr,1507452,ansible,published,v3.1.0,Major Release for Tower3.1,"* Improved job monitoring functionality to enable standard out streaming, which displays real-time job output on command line.
+* Added workflow, workflow_job and node endpoints to manipulate workflow graph and manage workflow job resources. Reflecting workflows feature of Tower 3.1.
+* Added settings command to manage Tower settings via Tower CLI. Reflecting Configure Tower in Tower (CTiT) feature of Tower 3.1.
+* Included timeout option to certain unified job template resources. Reflecting job timeout feature of Tower 3.1.
+* Added unicode support to extra_vars and variable types.
+* Several minor bug fixes to improve user experience."
+11045,ReleaseEvent,2017-10-25 12:48:28+00:00,63879280,luizalabs/django-toolkit,3009157,RomuloOliveira,2029111,luizalabs,published,1.4.0,1.4.0,"- Add support for django-oauth-toolkit version 1.0.0
+- Drop support for Django 1.8 and 1.9"
+11136,ReleaseEvent,2017-11-15 23:21:58+00:00,103969019,aws/aws-xray-sdk-python,3795229,haotianw465,2232217,aws,published,0.94,Aiohttp support,You can now use the SDK to instrument aiohttp clients.
+11436,ReleaseEvent,2018-04-27 22:36:35+00:00,16316451,GoogleCloudPlatform/google-cloud-python,250995,jonparrott,2810941,GoogleCloudPlatform,published,pubsub-0.34.0,google-cloud-pubsub 0.34.0,"### Implementation Changes
+
+- Lower the flow control defaults. (#5248)
+
+### New Features
+
+- A new implementation of the subscriber has been added. This is available as `SubscriberClient.subscribe_experimental`. In the next release, this will be replace the current `subscribe` method. If you use this, please report your
+findings to us on GitHub. (#5189, #5201, #5210, #5229, #5230, #5237, #5256)
+
+### Dependencies
+
+- Remove psutil dependency. (#5248)"
+11510,ReleaseEvent,2016-07-18 21:59:34+00:00,11852493,GoogleCloudPlatform/compute-image-packages,4564273,zmarano,2810941,GoogleCloudPlatform,published,20160718,"July 18, 2016","## Google Compute Engine
+
+* Prevent the compute auth script from hanging indefinitely.
+
+## Google Compute Engine Init
+
+* Run instance_setup in postinstall scripts.
+* Depend on google-config package for supported packages."
+11518,ReleaseEvent,2017-06-10 00:22:29+00:00,11852493,GoogleCloudPlatform/compute-image-packages,1766378,illfelder,2810941,GoogleCloudPlatform,published,20170609,"June 09, 2017","## Google Compute Engine
+- Add a configuration option to disable IP alias support.
+- Support instance configuration using the `google-instance-configs` metadata key."
+11797,ReleaseEvent,2018-08-06 02:18:03+00:00,28885080,cloudtools/stacker,517334,phobologic,3028687,cloudtools,published,1.4.0,1.4.0,"## 1.4.0 (2018-08-05)
+
+- YAML & JSON codecs for `file` lookup [GH-537]
+- Arbitrary `command` hook [GH-565]
+- Fix datetime is not JSON serializable error [GH-591]
+- Run dump and outline actions offline [GH-594]
+- Helper Makefile for functional tests [GH-597]
+- Python3 support!!! [GH-600]
+- YAML blueprint testing framework [GH-606]
+- new `add_output` helper on Blueprint [GH-611]
+- Include lookup contents when lookups fail [GH-614]
+- Fix issue with using previous value for parameters [GH-615]
+- Stricter config parsing - only allow unrecognized config variables at the top-level [GH-623]
+- Documentation for the `default` lookup [GH-636]
+- Allow configs without stacks [GH-640]"
+12088,ReleaseEvent,2017-05-17 18:00:12+00:00,17010581,plaid/plaid-python,1304895,joyzheng,3579888,plaid,published,v2.0.2,v2.0.2,"- Documentation improvements
+- `plaid.Client` can now be initialized with a custom request timeout (#90)"
+12199,ReleaseEvent,2018-03-29 15:01:10+00:00,49976939,learningequality/kolibri,374612,benjaoming,3926525,learningequality,published,v0.9.0,v0.9.0," - Added support for assigning content using 'Lessons'
+ - Updated default landing pages in Learn and Coach
+ - Added 'change password' functionality to 'Profile' page
+ - Updates to text consistency
+ - Languages: English, Spanish, Arabic, Farsi, Urdu, French, Haitian Creole, and Burmese
+ - Various bug fixes
+
+See [a more detailed list](https://github.com/learningequality/kolibri/issues?q=milestone%3A0.8.0+label%3Achangelog) of changes on Github."
+12504,ReleaseEvent,2016-09-03 14:24:22+00:00,52191533,materialsvirtuallab/flamyngo,577107,shyuep,5237956,materialsvirtuallab,published,v0.7.5,v0.7.5,* Bug fix for entry_points.
+12589,ReleaseEvent,2018-03-29 23:26:30+00:00,10247874,docker/docker-py,1086876,shin-,5429470,docker,published,3.2.0,3.2.0,"[List of PRs/ issues for this release](https://github.com/docker/docker-py/milestone/45?closed=1)
+
+### Features
+
+* Generators returned by `attach()`, `logs()` and `events()` now have a
+  `cancel()` method to let consumers stop the iteration client-side.
+* `build()` methods can now handle Dockerfiles supplied outside of the
+  build context.
+* Added `sparse` argument to `DockerClient.containers.list()`
+* Added `isolation` parameter to `build()` methods.
+* Added `close()` method to `DockerClient`
+* Added `APIClient.inspect_distribution()` method and
+  `DockerClient.images.get_registry_data()`
+  * The latter returns an instance of the new `RegistryData` class
+"
+13460,ReleaseEvent,2016-04-22 20:07:27+00:00,12235583,elastic/curator,1020383,untergeek,6764390,elastic,published,v4.0.0a3,Curator 4.0.0 alpha 3,"4.0.0a3 (21 Apr 2016)
+---------------------
+
+It's time for Curator 4.0!
+
+**Please note this is an alpha release and should be tested before using in a production environment.**
+
+**Breaking Changes**
+
+  * New API! (again?!)
+  * Command-line changes.  No more command-line args, except for ``--config``,
+    ``--actions``, and ``--dry-run``:
+
+      - ``--config`` points to a YAML client and logging configuration file.
+        The default location is ``~/.curator/curator.yml``
+      - ``--actions`` arg points to a YAML action configuration file
+      - ``--dry-run`` will simulate the action(s) which would have taken place,
+        but not actually make any changes to the cluster or its indices.
+
+**General**
+
+  * Updated API documentation
+  * Updated use documentation for Elastic main site.
+  * Include example files for ``--config`` and ``--actions``.
+
+**New Features**
+
+  * Sort by index age not only by index name (as with previous versions of
+    Curator), but also by index `creation_date`, or by calculations from the
+    Field Stats API on a timestamp field.
+  * Class: `IndexList`. This pulls all indices at instantiation, and you apply
+    filters, which are class methods.  You can iterate over as many filters as
+    you like, in fact, due to the YAML config file.
+  * Class: `SnapshotList`. This pulls all snapshots from the given repository at
+    instantiation, and you apply filters, which are class methods.  You can
+    iterate over as many filters as you like, in fact, due to the YAML config
+    file.
+  * YAML configuration files.  Now a single file can define an entire batch of
+    commands, each with their own filters, to be performed in sequence.
+  * Atomically add/remove indices from aliases! This is possible by way of the
+    new `IndexList` class and YAML configuration files.
+  * State of indices pulled and stored in `IndexList` instance.  Fewer API calls
+    required to serially test for open/close, `size_in_bytes`, etc.
+  * Filter by space now allows sorting by age!
+  * Experimental! Use AWS IAM credentials to sign requests to Elasticsearch.
+    This requires the end user to *manually* install the `requests_aws4auth`
+    python module."
+13594,ReleaseEvent,2017-08-28 20:16:11+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-dls-0.0.13,azure-cli-dls 0.0.13,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.org/project/azure-cli-dls/0.0.13
+
+Full release notes at https://docs.microsoft.com/en-us/cli/azure/release-notes-azure-cli
+
+"
+13667,ReleaseEvent,2016-02-19 02:48:53+00:00,4127088,Azure/azure-sdk-for-python,1050156,lmazuel,6844498,Azure,published,v2.0.0a1,v2.0.0a1,"## DISCLAIMER
+
+This is an alpha release. Future releases may introduce some breaking changes.
+Some of the new generated libraries have not yet been tested extensively, and some have known issues (such as azure-mgmt-web).
+Our goal is to release a stable version by the end of March 2016.  Please send us your feedback!
+
+## WHAT'S NEW:
+* New ARM generated code based on [Swagger specification of the Azure REST APIs](https://github.com/Azure/azure-rest-api-specs>)
+* New libraries
+
+  * Azure Active Directory Graph API
+  * Authorization: permissions, subscriptions, roles and more
+  * CDN: profiles, endpoints creation and more
+  * Apps:
+
+    * Logic Apps: Workflow and job management
+    * Web Apps: App Service Plan, web sites, certificate, domains and more
+
+  * Notification Hubs: Namespaces, hub creation/deletion and more
+  * Redis: create cache and more
+  * Scheduler: create job collections, create job and more
+
+* Enhanced libraries compared to 1.0.0 preview
+
+  * Storage: create storage accounts, list keys, and more
+  * Resource:
+
+    * resources : create resource groups, register providers and more
+    * features : manage features of provider and more
+    * authorization : manage resource group lock and more
+    * subscriptions : manage subscriptions and more
+
+  * Network: create virtual networks, network interfaces, public ips and more
+  * Compute: create virtual machines and more
+
+## BREAKING CHANGES:
+We made our possible to document the breaking from ARM 1.0.0 version to 2.0.0 [here](https://github.com/Azure/azure-sdk-for-python/wiki/Migrate-from-1.0.0-ARM-preview-to-2.0.0>)
+
+azure-storage 0.30.0
+  * Major version. [Check the ChangeLog on storage github account for details](https://github.com/Azure/azure-storage-python/releases)
+"
+13755,ReleaseEvent,2017-04-20 00:08:16+00:00,62902455,Azure/azure-data-lake-store-python,8781927,begoldsm,6844498,Azure,published,v0.0.7,Version 0.0.7,"**Disclaimer**
+This is a pre-release or preview version of the azure-datalake-store package and should be treated as such. As a result, there will be fairly rapid development and bug fixing, which might result in breaking changes from release to release. 
+
+**What's new in this release**
+- Updated how packages are built to enable a more reliable pip package and cleaner install and uninstall.
+
+**Full pip release location**
+https://pypi.python.org/pypi/azure-datalake-store/0.0.7"
+13880,ReleaseEvent,2016-03-01 09:08:55+00:00,18031064,hmmlearn/hmmlearn,185856,superbobry,7037444,hmmlearn,published,0.2.0,,"The release contains a known bug: fitting ``GMMHMM`` with covariance
+types other than ``""diag""`` does not work. This is going to be fixed
+in the following version. See issue #78 on GitHub for details.
+
+- Removed deprecated re-exports from ``hmmlean.hmm``.
+- Speed up forward-backward algorithms and Viterbi decoding by using Cython
+  typed memoryviews. Thanks to @cfarrow. See PR#82 on GitHub.
+- Changed the API to accept multiple sequences via a single feature matrix
+  ``X`` and an array of sequence ``lengths``. This allowed to use the HMMs
+  as part of scikit-learn ``Pipeline``. The idea was shamelessly plugged
+  from ``seqlearn`` package by @larsmans. See issue #29 on GitHub.
+- Removed ``params`` and ``init_params`` from internal methods. Accepting
+  these as arguments was redundant and confusing, because both available
+  as instance attributes.
+- Implemented ``ConvergenceMonitor``, a class for convergence diagnostics.
+  The idea is due to @mvictor212.
+- Added support for non-fully connected architectures, e.g. left-right HMMs.
+  Thanks to @matthiasplappert. See issue #33 and PR #38 on GitHub.
+- Fixed normalization of emission probabilities in ``MultinomialHMM``, see
+  issue #19 on GitHub.
+- ``GaussianHMM`` is now initialized from all observations, see issue #1 on GitHub.
+- Changed the models to do input validation lazily as suggested by the
+  scikit-learn guidelines.
+- Added ``min_covar`` parameter for controlling overfitting of ``GaussianHMM``,
+  see issue #2 on GitHub.
+- Accelerated M-step fro `GaussianHMM` with full and tied covariances. See
+  PR #97 on GitHub. Thanks to @anntzer.
+- Fixed M-step for ``GMMHMM``, which incorrectly expected ``GMM.score_samples``
+  to return log-probabilities. See PR #4 on GitHub for discussion. Thanks to
+  @mvictor212 and @michcio1234."
+13926,ReleaseEvent,2017-10-20 06:07:48+00:00,13258039,aio-libs/aiohttp,356399,asvetlov,7049303,aio-libs,published,v2.3.1,aiohttp 2.3.1 release,"Changes
+------------
+
+- Relax attribute lookup in warning about old-styled middleware (#2340)
+"
+13981,ReleaseEvent,2018-01-04 22:51:14+00:00,105470666,aio-libs/aiozipkin,223335,jettify,7049303,aio-libs,published,v0.0.1b7,aiozipkin v0.0.1b7,
+14435,ReleaseEvent,2017-11-09 14:23:00+00:00,43069751,infobloxopen/infoblox-client,9468083,johnbelamaric,8064882,infobloxopen,published,0.4.16,0.4.16,
+14456,ReleaseEvent,2017-12-02 03:34:38+00:00,70451850,scikit-build/scikit-ci-addons,219043,jcfr,8144855,scikit-build,published,latest,Latest (updated on 2017-12-02 03:12 UTC),
+14464,ReleaseEvent,2018-02-22 05:56:45+00:00,102028727,remix/partridge,331023,invisiblefunnel,8146335,remix,published,v0.6.0,v0.6.0,"* Published package no longer includes unnecessary fixtures to reduce the size.
+* Naively write a feed object to a zip file with `ptg.write_feed_dangerously`.
+* Read the earliest, busiest date and it's `service_id`s from a feed with `ptg.read_busiest_date`.
+* Bug fix: Handle calendar.txt/calendar_dates.txt entries w/o applicable trips.
+"
+14494,ReleaseEvent,2015-12-10 19:03:54+00:00,7803088,pylast/pylast,1324225,hugovk,8259519,pylast,published,1.5.0,Release 1.5.0,
+14652,ReleaseEvent,2016-03-12 12:43:33+00:00,53560764,log2timeline/dfdatetime,3888750,joachimmetz,8701971,log2timeline,published,20160311,dfdatetime-20160311,Release of version 20160311
+14783,ReleaseEvent,2016-02-11 19:36:08+00:00,45062555,F5Networks/f5-common-python,12940387,swormke,8935905,F5Networks,published,v0.1.1a2,Alpha Release v0.1.1a2,"### THIS IS AN UNSUPPORTED ALPHA RELEASE
+
+This release provides initial functionality with a limited set of configuration objects for use by other F5 OpenStack projects.
+
+This is being released to support project milestones and should not be considered as production quality code and should not be used by other projects."
+14802,ReleaseEvent,2016-01-18 22:18:44+00:00,44190278,F5Networks/f5-icontrol-rest-python,12940387,swormke,8935905,F5Networks,published,v1.0.1,Release v1.0.1,Initial non-development release.
+15237,ReleaseEvent,2017-02-22 15:47:42+00:00,40975824,common-workflow-language/schema_salad,1316612,tetron,9947495,common-workflow-language,published,2.2.20170222151604,,
+15658,ReleaseEvent,2017-06-23 20:24:43+00:00,46268279,cartologic/cartoview,24391550,hishamkaram,10973185,cartologic,published,1.1.54,V1.1.54,"Cartoview For Geonode 2.6.1
+Installation instructions here
+New Cartoview Template"
+15744,ReleaseEvent,2016-04-27 10:55:53+00:00,35542593,zalando-stups/zign,510328,hjacobs,11431876,zalando-stups,published,1.0.23,1.0.23,* #15: only return tokens if they are valid for at least 5 more minutes
+15782,ReleaseEvent,2016-02-02 19:16:27+00:00,50213716,Illumina/interop,2104878,ezralanglois,11462464,Illumina,published,test-1.10,,
+15877,ReleaseEvent,2016-07-01 09:25:02+00:00,32568910,UpCloudLtd/upcloud-python-api,6632349,elnygren,11679135,UpCloudLtd,published,v0.3.5,v0.3.5,"Bugfix: allow new Firewall attributes, add comment attribute default
+
+The above fix is necessary for upcloud's firewall ansible module to work."
+15969,ReleaseEvent,2017-11-09 04:25:10+00:00,99273369,NeurodataWithoutBorders/pynwb,32185786,nwb-bot,12140348,NeurodataWithoutBorders,published,latest,Latest (updated on 2017-11-09 04:11 UTC),
+16377,ReleaseEvent,2018-02-13 15:26:44+00:00,43645564,ganga-devs/ganga,16020241,ganga-ci,13271048,ganga-devs,published,1.1.2,1.1.2,"--------------------------------------------------------------------------------------------------------------
+ganga/python/Ganga
+--------------------------------------------------------------------------------------------------------------
+* Some nonsense
+"
+16441,ReleaseEvent,2017-11-29 09:02:05+00:00,31315021,Kinto/kinto,546692,leplatrem,13413813,Kinto,published,7.6.2,,"
+**Operational concerns**
+
+- *The schema for the Postgres ``storage`` backend has changed.* This
+  lets us prevent a race condition where deleting and creating a thing
+  at the same time can leave it in an inconsistent state (#1386). You
+  will have to run the ``kinto migrate`` command in order to migrate
+  the schema.
+
+**Bug fixes**
+
+- Document how to create an account using the ``POST /accounts`` endpoint (#1385).
+
+**Internal changes**
+
+- Update dependency on pytest to move to 3.3.0 (#1403).
+- Update other dependencies: setuptools to 38.2.1 (#1380, #1381,
+  #1392, #1395), jsonpatch to 1.20 (#1393), zest.releaser to 6.13.2
+  (#1397), paste-deploy to 0.4.2 (#1384), webob to 1.7.4 (#1383),
+  simplejson to 3.13.2 (#1389, #1390).
+- Undo workaround for broken kinto-http.js in the kinto-admin plugin
+  (#1382).
+"
+16494,ReleaseEvent,2016-08-31 04:07:20+00:00,30212825,Amber-MD/pytraj,4451957,hainm,13525542,Amber-MD,published,v1.0.8.1,,
+16544,ReleaseEvent,2016-04-22 09:43:47+00:00,50338739,mpg-age-bioinformatics/AGEpy,7725685,jorgeboucas,13747837,mpg-age-bioinformatics,published,0.2.3,0.2.3,"This release incorporates the first executables:
+
+bit - git based code and data management tool
+
+david - a DAVID querying tool."
+16547,ReleaseEvent,2017-04-11 10:16:18+00:00,50338739,mpg-age-bioinformatics/AGEpy,7725685,jorgeboucas,13747837,mpg-age-bioinformatics,published,0.5.0,Split modules,"The following modules were generated:
+
+* bed.py		
+* biom.py		
+* david.py	
+* fasta.py	
+* go.py		
+* gtf.py		
+* homology.py	
+* kegg.py		
+* meme.py		
+* plots.py	
+* rbiom.py	
+* sam.py
+
+Import can now also be performed as
+
+```
+import AGEpy as age
+```"
+16575,ReleaseEvent,2016-10-13 21:56:34+00:00,39663289,4Catalyzer/flask-resty,3112159,taion,13967986,4Catalyzer,published,v0.10.4,v0.10.4,- **Feature:** Add `flask_resty.testing` module with commonly-used test helpers (#113)
+16798,ReleaseEvent,2016-02-03 04:48:46+00:00,43056951,graphql-python/graphene,188257,syrusakbary,15002022,graphql-python,published,v0.7.1,"Graphene 0.7.1 - Enums, Field sources and more","# Changelog
+* Added support for Enum types. And added mapping for Django and SQLAlchemy https://github.com/graphql-python/graphene/commit/e9e51a0bd45c33397d42ddc71d6b87de5beafb73
+* Added source argument to Field https://github.com/graphql-python/graphene/commit/a66f6f299076215a8b712502707669ed2eade25a (so you can do `field_name = graphene.String(source='attr_in_obj')`)
+* Fix `UnionType` resolver https://github.com/graphql-python/graphene/commit/8c3f8b170b675c0d0d4cc3dbbc94d9475ee77aed"
+17380,ReleaseEvent,2016-08-31 19:47:19+00:00,31667038,latchset/jwcrypto,8332609,simo5,17146082,latchset,published,v0.3.2,Security Release CVE-2016-6298,"The jwcrypto implementation of the RSA1_5 algorithm was found vulnerable to the Million Message Attack described in RFC 3128.
+
+A timing attack could be leveraged against the implementation to detect when a chosen ciphertext generates a valid header and padding because invalid header/padding generates a code exception and cryptographic operations are terminated earlier resulting in faster processing measurable over the network.
+
+Many thanks to Dennis Detering dennis.detering@rub.de for discovering and reporting this vulnerability.
+"
+17441,ReleaseEvent,2017-12-26 13:12:14+00:00,111819017,Hydrospheredata/hydro-serving-protos,1367469,Zajs,17550625,Hydrospheredata,published,0.0.8,0.0.8,Merge branch 'master' of https://github.com/Hydrospheredata/hydro-serving-protos<br /><br /> (Bulat)
+17725,ReleaseEvent,2018-01-21 12:51:47+00:00,57201963,python-lz4/python-lz4,992114,jonathanunderwood,18689658,python-lz4,published,v0.19.1,File handler capability,"This release adds compressed file handling capability to the `lz4.frame sub-package`. 
+
+This necessitated some changes to the API of `lz4.frame.decompress_chunk`, ad some smaller changes to the `LZ4FrameCompressor` and `LZ4FrameDecompressor` classes. Please see updated documentation for further details."
+18331,ReleaseEvent,2017-04-10 13:19:24+00:00,80707765,SectorLabs/django-postgres-extra,5777517,Photonios,22373078,SectorLabs,published,v1.8,v1.8,"# Changes
+- Fix broken support for `unique_together`.
+
+# PyPi
+
+```
+pip install django-postgres-extra==1.8
+```
+
+https://pypi.python.org/pypi/django-postgres-extra/1.8
+"
+18358,ReleaseEvent,2017-04-10 14:46:06+00:00,68376693,pybel/pybel,5069736,cthoyt,22892058,pybel,published,v0.5.1,,"## Added
+
+- Parsing of labels (#173) 
+
+## Fixed
+
+- Parsing of hasComponents lists (#172)"
+18384,ReleaseEvent,2018-05-06 21:52:56+00:00,74854230,CliMT/climt,7300413,JoyMonteiro,23116436,CliMT,published,v0.14.6,Fix py27 wheel build,
+18921,ReleaseEvent,2018-08-20 07:04:01+00:00,132834642,sarugaku/requirementslib,954310,techalchemy,39783362,sarugaku,published,v1.1.1,1.1.1 (2018-08-20),"1.1.1 (2018-08-20)
+==================
+
+Bug Fixes
+---------
+
+-   Fixed a bug which sometimes caused extras to be dropped when parsing
+    named requirements using constraint-style specifiers. #44
+-   Fix parsing error in `Requirement.as_ireq()` if requirement contains
+    hashes. #45
+"
