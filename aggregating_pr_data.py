@@ -51,8 +51,13 @@ df_org_info = pd.DataFrame()
 # In[5]:
 
 
+df_pr_i = pd.read_csv(f'data/github_clean/prEventCommits000000000001.csv', index_col = 0)
 
 
+# In[ ]:
+
+
+print("reading pr data")
 df_pr = pd.DataFrame()
 for i in range(99):
     if i < 10:
@@ -75,25 +80,25 @@ for i in range(99):
     df_org_info = pd.concat([df_org_info, df_org_i]).drop_duplicates()
 
 
-# In[7]:
+# In[ ]:
 
 
 df_pr = df_pr[~df_pr.index.isnull()]
 
 
-# In[8]:
+# In[ ]:
 
 
 get_ipython().run_cell_magic('time', '', 'files = glob.glob("data/github_clean/prReviewEvent0*")\ndf_pr_review_events = [pd.read_csv(f, index_col = 0) for f in files]\ndf_pr_review_events = pd.concat(df_pr_review_events,ignore_index=True)\ndf_pr_review_events = df_pr_review_events.drop_duplicates()')
 
 
-# In[9]:
+# In[ ]:
 
 
 get_ipython().run_cell_magic('time', '', 'files = glob.glob("data/github_clean/prReviewCommentEvent0*")\ndf_pr_review_comment_events = [pd.read_csv(f, index_col = 0) for f in files]\ndf_pr_review_comment_events = pd.concat(df_pr_review_comment_events,ignore_index=True)\ndf_pr_review_comment_events = df_pr_review_comment_events.drop_duplicates()')
 
 
-# In[10]:
+# In[ ]:
 
 
 review_comments_add = df_pr_review_comment_events.copy()
@@ -105,13 +110,13 @@ review_comments_add['pr_review_state'] = 'commented'
 review_comments_add.drop(['pr_review_comment_site_admin'], axis = 1, inplace = True)
 
 
-# In[11]:
+# In[ ]:
 
 
 get_ipython().run_cell_magic('time', '', "df_pr_all_reviews = pd.concat([df_pr_review_events, review_comments_add]).drop_duplicates().reset_index(drop = True)\ndf_pr_all_reviews['created_at'] = pd.to_datetime(df_pr_all_reviews['created_at'])")
 
 
-# In[12]:
+# In[ ]:
 
 
 df_pr_all_reviews.sort_values('pr_review_body', inplace = True)
@@ -119,7 +124,7 @@ df_pr_all_reviews.drop_duplicates(subset = ['created_at', 'repo_id', 'actor_id',
                                             'pr_review_commit_id', 'pr_review_state'], keep = 'first', inplace = True)
 
 
-# In[13]:
+# In[ ]:
 
 
 def cleanParquetPR(file):
@@ -131,53 +136,60 @@ def cleanParquetPR(file):
         return pd.DataFrame()
 
 
-# In[14]:
+# In[ ]:
 
 
-get_ipython().run_cell_magic('time', '', 'files = glob.glob("data/github_commits/parquet/*_pr_*")\ndf_parquet_pr_data = [cleanParquetPR(f) for f in files]\ndf_parquet_pr = pd.concat(df_parquet_pr_data,ignore_index=True)')
+get_ipython().run_cell_magic('time', '', 'print("reading pr parquet files")\nfiles = glob.glob("data/github_commits/parquet/*_pr_*")\ndf_parquet_pr_data = [cleanParquetPR(f) for f in files]\ndf_parquet_pr = pd.concat(df_parquet_pr_data,ignore_index=True)')
 
 
-# In[15]:
+# In[ ]:
 
 
-get_ipython().run_cell_magic('time', '', "df_parquet_pr.sort_values('pr_state', inplace = True)\ndf_parquet_pr.drop_duplicates(\n    subset = ['pr_number', 'repo_id', 'repo_name', 'actor_id', 'actor_login', 'org_id', 'org_login','commit sha',\n              'commit author name', 'commit author email', 'committer name', 'commmitter email', 'commit message', 'commit additions',\n              'commit deletions', 'commit changes total', 'commit files changed count', 'commit time'], inplace = True)")
+get_ipython().run_cell_magic('time', '', 'print("dropping duplicate parquet pr entries")\ndf_parquet_pr.sort_values(\'pr_state\', inplace = True)\ndf_parquet_pr.drop_duplicates(\n    subset = [\'pr_number\', \'repo_id\', \'repo_name\', \'actor_id\', \'actor_login\', \'org_id\', \'org_login\',\'commit sha\',\n              \'commit author name\', \'commit author email\', \'committer name\', \'commmitter email\', \'commit message\', \'commit additions\',\n              \'commit deletions\', \'commit changes total\', \'commit files changed count\', \'commit time\'], inplace = True)')
 
 
-# In[16]:
+# In[ ]:
 
 
 df_parquet_pr['commit time'] = pd.to_datetime(df_parquet_pr['commit time'],unit='s')
 
 
-# In[17]:
+# In[ ]:
 
 
+print("turning stuff into lists")
 for col in ['pr_assignees', 'pr_requested_reviewers', 'pr_requested_teams', 'pr_label', 'commit_list']:
     print(col)
     df_pr[col] = df_pr[col].apply(lambda x: [] if type(x) == float or type(x) == type(None) or                                   (type(x) == str and x == "'float' object has no attribute 'split'") else x)
     df_pr[col] = df_pr[col].apply(lambda x: ast.literal_eval(x) if type(x) == str else x)
 
 
-# In[18]:
+# In[ ]:
+
+
+print("various data cleaning commands")
+
+
+# In[ ]:
 
 
 df_pr['pr_id'] = pd.to_numeric(df_pr['pr_id'])
 
 
-# In[19]:
+# In[ ]:
 
 
 df_pr['valid_vals'] = df_pr.count(axis = 1)
 df_pr['retrieved_commits'] = df_pr['commit_list'].apply(len)
 
 
-# In[20]:
+# In[ ]:
 
 
 df_pr = df_pr.sort_values(['valid_vals', 'retrieved_commits', 'created_at'], ascending = False)
 
 
-# In[21]:
+# In[ ]:
 
 
 df_pr['actor_id_state'] = df_pr['actor_id'].astype(str)+" | " 
@@ -190,39 +202,45 @@ df_parquet_pr['actor_id_state'] = df_parquet_pr['actor_id'].astype(str)+" | " + 
 df_parquet_pr['actor_id_state'] = df_parquet_pr['actor_id_state'] + df_parquet_pr['pr_state'].apply(lambda x: 'NAN STATE' if type(x) != str else x) 
 
 
-# In[22]:
+# In[ ]:
 
 
 get_ipython().run_cell_magic('time', '', "df_pr['actor_id_list'] = df_pr['actor_id_state'].groupby(df_pr['pr_id']).transform(lambda x: [x.tolist()]*len(x))\ndf_pr['actor_id_list'] = df_pr['actor_id_list'].apply(np.unique)")
 
 
-# In[23]:
+# In[ ]:
 
 
 df_pr_nodup = df_pr.drop_duplicates(subset = ['repo_id', 'pr_id'], keep = 'first')
 
 
-# In[24]:
+# In[ ]:
 
 
 get_ipython().run_cell_magic('time', '', 'df_parquet_pr[\'pr_id_temp\'] = df_parquet_pr[\'repo_id\'].astype(str)+"_"+df_parquet_pr[\'pr_number\'].astype(str)\ndf_parquet_pr[\'actor_id_list\'] = df_parquet_pr[\'actor_id_state\'].groupby(df_parquet_pr[\'pr_id_temp\']).transform(lambda x: [x.tolist()]*len(x))\ndf_parquet_pr[\'actor_id_list\'] = df_parquet_pr[\'actor_id_list\'].apply(np.unique)')
 
 
-# In[25]:
+# In[ ]:
 
 
 df_parquet_pr_nodup = df_parquet_pr.drop_duplicates(
     subset = ['repo_id', 'pr_id_temp', 'commit time', 'commit sha'], keep = 'first')
 
 
-# In[26]:
+# In[ ]:
 
 
 df_parquet_pr_nodup['actor_id_list'] = df_parquet_pr_nodup['actor_id_list'].apply(lambda x: sorted(x))
 df_pr_nodup['actor_id_list'] = df_pr_nodup['actor_id_list'].apply(lambda x: sorted(x))
 
 
-# In[27]:
+# In[ ]:
+
+
+print(" created merged commit data")
+
+
+# In[ ]:
 
 
 df_pr_commits = pd.merge(df_pr_nodup.drop(['type', 'actor_id', 'org_id', 'pr_state', 'pr_author_association', 'actor_id_state',
@@ -232,14 +250,20 @@ df_pr_commits = pd.merge(df_pr_nodup.drop(['type', 'actor_id', 'org_id', 'pr_sta
                          how = 'left')
 
 
-# In[28]:
+# In[ ]:
+
+
+print("clean merged commit data")
+
+
+# In[ ]:
 
 
 df_pr_commits.rename({'actor_id_list_y':'commit_actor_id_list',
                       'actor_id_list_x':'pr_actor_id_list'}, axis= 1, inplace = True)
 
 
-# In[29]:
+# In[ ]:
 
 
 df_pr_commits['created_at'] = pd.to_datetime(df_pr_commits['created_at'])
@@ -249,7 +273,7 @@ df_pr_commits['pr_updated_at'] = pd.to_datetime(df_pr_commits['pr_updated_at'])
 df_pr_commits['commit time'] = pd.to_datetime(df_pr_commits['commit time'],unit='s')
 
 
-# In[30]:
+# In[ ]:
 
 
 df_pr_commits['merge_day'] = df_pr_commits['pr_merged_at'].apply(lambda x: x.day)
@@ -265,20 +289,20 @@ df_pr_commits['commit_month'] = df_pr_commits['commit time'].apply(lambda x: x.m
 df_pr_commits['commit_year'] = df_pr_commits['commit time'].apply(lambda x: x.year)
 
 
-# In[31]:
+# In[ ]:
 
 
 df_pr_commits['commit parent'] = df_pr_commits['commit_groups'].apply(lambda x: x[0] if type(x) == list and len(x)>0 else '')
 
 
-# In[32]:
+# In[ ]:
 
 
 df_pr_commits.drop(['pr_id_temp', 'commit_groups', 'commit_list'], 
                    axis = 1, inplace = True)
 
 
-# In[33]:
+# In[ ]:
 
 
 null_commit_time = df_pr_commits[df_pr_commits['commit_year'].isnull()].index
@@ -286,7 +310,7 @@ df_pr_commits.loc[null_commit_time,
     ['commit_day', 'commit_month', 'commit_year']] = df_pr_commits.loc[null_commit_time, ['merge_day', 'merge_month', 'merge_year']]
 
 
-# In[34]:
+# In[ ]:
 
 
 df_pr_commits['pr_commits_wt'] = df_pr_commits['pr_commits'] / df_pr_commits.groupby('pr_id')['pr_id'].transform('count')
@@ -296,7 +320,7 @@ df_pr_commits['pr_changed_files_wt'] = pd.to_numeric(df_pr_commits['pr_changed_f
 df_pr_commits['retrieved_commits_wt'] = pd.to_numeric(df_pr_commits['retrieved_commits']) / df_pr_commits.groupby('pr_id')['pr_id'].transform('count')
 
 
-# In[35]:
+# In[ ]:
 
 
 df_pr_commits['pr_assignees_list'] = df_pr_commits['pr_assignees'].apply(lambda x: [ele['id'] for ele in x] if len(x)>0 else [])
@@ -304,14 +328,14 @@ df_pr_commits['pr_requested_reviewers_list'] = df_pr_commits['pr_requested_revie
 df_pr_commits['pr_requested_teams_list'] = df_pr_commits['pr_requested_teams'].apply(lambda x: [ele['id'] for ele in x] if len(x)>0 else [])
 
 
-# In[36]:
+# In[ ]:
 
 
 df_pr_commits['closed_wt'] = (1-df_pr_commits['pr_closed_at'].isna()) / df_pr_commits.groupby('pr_id')['pr_id'].transform('count')
 df_pr_commits['merged_wt'] = 1-df_pr_commits['pr_merged_at'].isna() / df_pr_commits.groupby('pr_id')['pr_id'].transform('count')
 
 
-# In[37]:
+# In[ ]:
 
 
 df_pr_commits['pr_actors'] = df_pr_commits['pr_actor_id_list'].apply(lambda x: [ele.split("|")[0].strip() for ele in x])
@@ -319,15 +343,21 @@ df_pr_commits['pr_commit_actors'] = df_pr_commits['commit_actor_id_list'].apply(
 df_pr_commits['all_pr_actors'] = (df_pr_commits['pr_actors']+df_pr_commits['pr_commit_actors']).apply(lambda x: list(set(x)))
 
 
-# In[39]:
+# In[ ]:
 
 
-df_pr_commits['pr_orgs'] = df_pr_commits['pr_actor_id_list'].apply(lambda x: [ele.split("|")[2].strip() for ele in x])
-df_pr_commits['pr_commit_orgs'] = df_pr_commits['commit_actor_id_list'].apply(lambda x: [ele.split("|")[2].strip() for ele in x] if type(x) == list else [])
+df_pr_commits['pr_orgs'] = df_pr_commits['pr_actor_id_list'].apply(lambda x: [ele.split("|")[1].strip() for ele in x])
+df_pr_commits['pr_commit_orgs'] = df_pr_commits['commit_actor_id_list'].apply(lambda x: [ele.split("|")[1].strip() for ele in x] if type(x) == list else [])
 df_pr_commits['all_pr_orgs'] = (df_pr_commits['pr_orgs']+df_pr_commits['pr_commit_orgs']).apply(lambda x: list(set([ele for ele in x if ele != 'NAN ORG'])))
 
 
-# In[40]:
+# In[ ]:
+
+
+df_pr_commits['commit file changes'] = df_pr_commits['commit file changes'].apply(lambda x: x.decode() if type(x) == bytes else x)
+
+
+# In[ ]:
 
 
 df_pr_commits['commit file changes'] = df_pr_commits['commit file changes'].apply(
@@ -335,19 +365,19 @@ df_pr_commits['commit file changes'] = df_pr_commits['commit file changes'].appl
 df_pr_commits['commit file changes'] = df_pr_commits['commit file changes'].apply(lambda x: ast.literal_eval(x) if type(x) == str else x)
 
 
-# In[41]:
+# In[ ]:
 
 
 df_pr_commits['committer info'] = df_pr_commits['committer name'] + " | " + df_pr_commits['commmitter email']
 
 
-# In[42]:
+# In[ ]:
 
 
 print("done cleaning df_pr_commits")
 
 
-# In[43]:
+# In[ ]:
 
 
 # function to turn list of lists into lists
@@ -355,14 +385,14 @@ def rollIntoOne(series):
     return len(series.apply(pd.Series).stack().reset_index(drop=True).unique())
 
 
-# In[44]:
+# In[ ]:
 
 
 def dropNAUnique(x):
     return x.dropna().unique().tolist()
 
 
-# In[45]:
+# In[ ]:
 
 
 def getList(x):
@@ -372,7 +402,7 @@ def getList(x):
         return [ele['file'] for sublst in x for ele in sublst]
 
 
-# In[46]:
+# In[ ]:
 
 
 def aggData(df, group_cols):
@@ -408,6 +438,12 @@ def aggData(df, group_cols):
 # In[ ]:
 
 
+print("now exporting merged data")
+
+
+# In[ ]:
+
+
 get_ipython().run_cell_magic('time', '', "df_pr_commits.to_csv('data/merged_data/merged_commit_pr.csv', encoding='utf-8')")
 
 
@@ -422,31 +458,25 @@ df_org_info.to_csv('data/merged_data/pr_org.csv')
 # In[ ]:
 
 
-df_pr_commits['commit file changes']
+get_ipython().run_cell_magic('time', '', 'print("merge date, monthly")\nimport warnings\nwith warnings.catch_warnings():\n    warnings.filterwarnings("ignore", message="divide by zero encountered in divide")\n    df_pr_monthly = aggData(df_pr_commits, [\'merge_month\', \'merge_year\', \'repo_id\'])\n    df_pr_monthly.to_csv(\'data/aggregated_data/aggregated_monthly_labor_pr.csv\', encoding=\'utf-8\')')
 
 
 # In[ ]:
 
 
-get_ipython().run_cell_magic('time', '', 'import warnings\nwith warnings.catch_warnings():\n    warnings.filterwarnings("ignore", message="divide by zero encountered in divide")\n    df_pr_monthly = aggData(df_pr_commits, [\'merge_month\', \'merge_year\', \'repo_id\'])\n    df_pr_monthly.to_csv(\'data/aggregated_data/aggregated_monthly_labor_pr.csv\', encoding=\'utf-8\')')
+get_ipython().run_cell_magic('time', '', 'print("commit date, monthly")\nwith warnings.catch_warnings():\n    warnings.filterwarnings("ignore", message="divide by zero encountered in divide")\n    df_pr_monthly_commit = aggData(df_pr_commits, [\'commit_month\', \'commit_year\', \'repo_id\'])\n    df_pr_monthly_commit.to_csv(\'data/aggregated_data/aggregated_monthly_labor_commit_pr.csv\', encoding=\'utf-8\')')
 
 
 # In[ ]:
 
 
-get_ipython().run_cell_magic('time', '', 'with warnings.catch_warnings():\n    warnings.filterwarnings("ignore", message="divide by zero encountered in divide")\n    df_pr_monthly_commit = aggData(df_pr_commits, [\'commit_month\', \'commit_year\', \'repo_id\'])\n    df_pr_monthly_commit.to_csv(\'data/aggregated_data/aggregated_monthly_labor_commit_pr.csv\', encoding=\'utf-8\')')
+get_ipython().run_cell_magic('time', '', 'print("merge date, daily")\nwith warnings.catch_warnings():\n    warnings.filterwarnings("ignore")\n    df_pr_commits_merged = df_pr_commits[~df_pr_commits[\'pr_merged_at\'].isna()]\n    df_pr_monthly_merged = aggData(df_pr_commits_merged, [\'merge_month\', \'merge_year\', \'repo_id\'])\n    df_pr_monthly_merged.to_csv(\'data/aggregated_data/aggregated_monthly_labor_pr_merged_only.csv\', encoding=\'utf-8\')')
 
 
 # In[ ]:
 
 
-get_ipython().run_cell_magic('time', '', 'with warnings.catch_warnings():\n    warnings.filterwarnings("ignore", message="divide by zero encountered in divide")\n    df_pr_commits_merged = df_pr_commits[~df_pr_commits[\'pr_merged_at\'].isna()]\n    df_pr_monthly_merged = aggData(df_pr_commits_merged, [\'merge_month\', \'merge_year\', \'repo_id\'])\n    df_pr_monthly_merged.to_csv(\'data/aggregated_data/aggregated_monthly_labor_pr_merged_only.csv\', encoding=\'utf-8\')')
-
-
-# In[ ]:
-
-
-get_ipython().run_cell_magic('time', '', 'with warnings.catch_warnings():\n    warnings.filterwarnings("ignore", message="divide by zero encountered in divide")\n    df_pr_commits_merged = df_pr_commits[~df_pr_commits[\'pr_merged_at\'].isna()]\n    df_pr_monthly_commit_merged = aggData(df_pr_commits_merged, [\'commit_month\', \'commit_year\', \'repo_id\'])\n    df_pr_monthly_commit_merged.to_csv(\'data/aggregated_data/aggregated_monthly_labor_commit_pr_merged_only.csv\', encoding=\'utf-8\')')
+get_ipython().run_cell_magic('time', '', 'print("merge date, daily")\nwith warnings.catch_warnings():\n    warnings.filterwarnings("ignore", message="divide by zero encountered in divide")\n    df_pr_commits_merged = df_pr_commits[~df_pr_commits[\'pr_merged_at\'].isna()]\n    df_pr_monthly_commit_merged = aggData(df_pr_commits_merged, [\'commit_month\', \'commit_year\', \'repo_id\'])\n    df_pr_monthly_commit_merged.to_csv(\'data/aggregated_data/aggregated_monthly_labor_commit_pr_merged_only.csv\', encoding=\'utf-8\')')
 
 
 # In[ ]:
