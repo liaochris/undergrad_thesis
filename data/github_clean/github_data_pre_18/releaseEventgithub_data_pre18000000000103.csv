@@ -1,0 +1,200 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,release_action,release_tag_name,release_name,release_body
+803,ReleaseEvent,2016-07-27 11:21:09+00:00,5473383,keleshev/schema,23648,skorokithakis,,,published,v0.6.1,,"
+### Fix
+* Handle None as the error message properly.
+"
+810,ReleaseEvent,2017-08-17 16:16:31+00:00,76513276,kislyuk/domovoi,862013,kislyuk,,,published,v1.2.3,v1.2.3,"- Chalice 1.0 compat, part 2"
+989,ReleaseEvent,2017-12-27 21:03:16+00:00,94554082,dylanaraps/pywal,6799467,dylanaraps,,,published,1.0.0,1.0.0,"This release of `pywal` contains some large changes and may very well break things for some users. Expect bugs and expect additional releases to fix them. The version has been bumped to `1.0.0` as I'm now happy with where `pywal` is featurewise.
+
+
+### Removal of `-r`
+
+The flag `-r` was removed as it was basically a glorified `cat` of the `sequences` file with **300ms** of python overhead. The new recommended way to load the schemes is to replace `wal -r` with `cat ~/.cache/wal/sequences`.
+
+### Removal of `-t`
+
+Yup! The `-t` flag to fix garbage in VTE terminals (termite, xfce4-terminal, gnome-terminal) is no longer needed. I've come up with a workaround that really **shouldn't work** but does. ¯\\\_(ツ)_/¯
+
+The problem: The sequence  `\033[708;#000000\007` is unsupported by VTE and VTE's sequence parsing doesn't hide unknown sequences, instead it just displays them as plain text. We can't add an if statement or a check for VTE terminals as we're writing to each terminal via it's file descriptor. The only thing that is interpreted is escape sequences.
+
+The workaround: The problem sequence is wrapped in a series of other escape sequences so that the unsupported sequence isn't echo'd to the terminal.
+
+How it works:
+
+```
+    # \0337                # Save cursor position.
+    # \033[1000H           # Move the cursor off screen.
+    # \033[8m              # Conceal text.
+    # \033]708;#000000\007 # Garbage sequence.
+    # \0338                # Restore cursor position.
+
+    \0337\033[1000H\033[8m\033]708;#000000\007\0338
+```
+
+This took a lot of trial and error to make sure it works across all terminals and doesn't cause issues for underlying terminal programs.
+
+### Added User Template Support
+
+You can now define your own custom `pywal` template files or you can overwrite the default template files. Any files stored in `~/.config/wal/templates` will be processed and exported to `~/.cache/wal/` under the same name. 
+
+The user template files follow the exact same syntax as the built-in templates. See the built-in templates for syntax examples: https://github.com/dylanaraps/pywal/tree/master/pywal/templates
+
+For example: To define a custom `rofi` template file to set the background transparent.
+
+Save this file to `~/.config/wal/templates/colors-rofi.Xresources` and re-run wal. Rofi will now use the colors defined below instead.
+
+```
+#define BG #CC{background.strip}
+#define HI #CC{color1.strip}
+#define FG {color15}
+#define TX {color15}
+
+! State:           bg, fg, bg2,  hlbg, hlfg
+rofi.color-normal: BG, FG, BG,   HI,   TX
+rofi.color-active: BG, FG, BG,   HI,   TX
+rofi.color-urgent: BG, HI, BG,   HI,   FG
+rofi.color-window: BG, BG, BG
+```
+
+### Templates
+
+- Added template file for `rofi`.
+- Added template file for `st.
+- Added template file for `tabbed`.
+- Added template file for `dwm`."
+1014,ReleaseEvent,2017-07-18 15:50:21+00:00,78573084,flennerhag/mlens,19593480,flennerhag,,,published,0.1.5,0.1.5,"- Possible to set environmental variables
+- multiprocessing default backend
+- ``spawn`` as default start method for parallel jobs (w. multiprocessing)
+- Possible to specify ``y`` as partition input in clustered subsumable partitioning
+- Minor bug fixes
+- Refactored backend for streamlined front-end feature development
+"
+1175,ReleaseEvent,2018-05-12 11:28:34+00:00,112461400,axnsan12/drf-yasg,6382979,axnsan12,,,published,1.7.2,1.7.2,"- **FIXED:** fixed generation of default ``SECURITY_REQUIREMENTS`` to match documented behaviour
+- **FIXED:** ordering of ``SECURITY_REQUIREMENTS`` and ``SECURITY_DEFINITIONS`` is now stable
+"
+1242,ReleaseEvent,2016-10-23 00:32:56+00:00,19165491,jacebrowning/yorm,939501,jacebrowning,,,published,v1.1,v1.1,
+1516,ReleaseEvent,2017-06-05 08:34:27+00:00,79981521,raghur/easyblogger,516267,raghur,,,published,v2.0.0,Easyblogger 2.0,"key changes:
+
+1. TOML header while processing file.
+2. TOML header generated when downloading posts.
+3. Parallel downloads
+4. Many fixes
+
+See https://blog.rraghur.in/2017/06/05/ann-easyblogger-2.0-released/
+
+Installation:
+```
+pip install easyblogger
+```
+"
+1598,ReleaseEvent,2017-09-20 18:31:47+00:00,22226849,ymyzk/python-gyazo,3383281,ymyzk,,,published,v0.15.0,Version 0.15.0,"## Breaking Changes
+- Remove `star` attribute from `Image` model #49
+- Drop Python 3.3 support #50 
+ 
+## Internal
+- Improve type hints
+- Update test environment #40 #46 
+- Update libraries #41 #44 
+- Improve versioning #42 
+- Improve packaging #43  
+- Refactoring #45 #51 
+"
+1850,ReleaseEvent,2017-04-27 23:37:17+00:00,16603537,cdgriffith/Reusables,3275435,cdgriffith,,,published,0.9.0,Version 0.9.0,"+ Adding datetime_format, dtf methods
++ Adding datetime_from_iso, dtiso methods
++ Adding catch_it and retry_it wrappers
++ Adding CONTRIBUTING file
++ Changing Namespace now operates more like ""dict"" on init, and can accept both iterable and kwargs
++ Changing major structure of reusables to better group similar functionality
++ Changing wrapper time_it now uses .time for older versions instead of the .clock
++ Depreciation Warning: get_logger is changing to setup_logger
++ Breaking change: log_exception has new and changed kwargs
++ Breaking change: removing Cookie Management in favor of separate library
++ Breaking change: removing sort_by
++ Breaking change: removing namespace.from_dict()
++ Breaking change: removing DateTime class in favor of singular methods datetime_format and datetime_from_iso"
+2120,ReleaseEvent,2018-08-24 16:40:24+00:00,67365593,danicarrion/pyrestcli,498023,danicarrion,,,published,v0.6.7,v0.6.7,
+2135,ReleaseEvent,2017-09-30 01:37:23+00:00,57872901,facelessuser/backrefs,1055125,facelessuser,,,published,2.1.0,2.1.0,"## 2.1.0
+
+- **NEW**: Handle Unicode and byte notation in Re replace templates.
+- **NEW**: Rework algorithm to handle replace casing back references in Python 3.7 development builds in preparation for Python 3.7 release.
+- **NEW**: Add support for case back references when using the Regex module's `subf` and `subfn`.
+- **NEW**: Add new convenience method `expandf` to Regex that can take a format string and apply format style replaces.
+- **NEW**: Add `FORMAT` flag to `compile_replace` to apply format style replaces when applicable.
+- **NEW**: Add the same support that Regex has in relation to format style replacements to Re.
+- **NEW**: Compiled replacements are now immutable.
+- **NEW**: Various logic checking proper types and values.
+- **FIX**: Fix octal/group logic in Regex and Re.
+- **FIX**: Fix issue dealing with trailing backslashes in replace templates."
+2380,ReleaseEvent,2016-10-04 23:39:42+00:00,41068823,ppannuto/python-saleae,339422,ppannuto,,,published,v0.5.0,Version bump for API addition from @ohhorob,- Add support for returning analyzer data to this library by passing `data_response=True` to `export_analyzer`
+2398,ReleaseEvent,2016-12-23 11:02:39+00:00,54639247,thombashi/pathvalidate,15517661,thombashi,,,published,v0.10.0,,- Add LTSV support
+2978,ReleaseEvent,2016-05-27 20:09:14+00:00,9051843,linsomniac/python-memcached,466380,linsomniac,,,published,1.58,Fixing performance regression on Python 2,"This version fixes performance issues with pickling in Python 2 by reverting to cPickle in that case.  Also includes slab stats and removal of the ""time"" argument to delete when it is not specifically set (this has been deprecated in the memcache server)."
+2980,ReleaseEvent,2017-12-15 16:03:54+00:00,9051843,linsomniac/python-memcached,466380,linsomniac,,,published,1.59,Many bug-fixes.,"   *  Added testing for Python 3.5 and 3.6 (PR from Tim Graham) #110, #131
+
+   *  Fixed typos in docstrings (PR from Romuald Brunet, reviewed by Tim
+      Graham) #105
+
+   *  Removing Python 2.6, 3.2, and 3.3 testing (PR from Tim Graham) #115, #116
+
+   *  Removing unnecessary parens in return statements (PR from Tim Graham)
+      #113
+
+   *  Remove unused _has_unicode/_str_cls vars (PR from Tim Graham) #111
+
+   *  Add flake8 testing and cleanups (PR from Tim Graham, cleanups from Sean
+      Reifschneider) #112
+
+   * Fixed storing non-ASCII values on Python 2 and binary values on Python 3
+     (PR from Nicolas Noé) #135
+
+   * Fixed touch(..., time=0) command (PR from Nicolas Noé) #137"
+3001,ReleaseEvent,2016-07-23 18:44:53+00:00,22785341,Changaco/python-libarchive-c,1581590,Changaco,,,published,2.5,2.5,"Changes to the library:
+
+- don't hardcode errno constants (#33)
+
+Packaging:
+
+- set umask to `022` in `setup.py` (36859c99e270a95da479a9732f4385fdcd98d8b8)
+
+Tests:
+
+- fix a test to be compatible with libarchive 3.2 (#35)
+"
+3142,ReleaseEvent,2017-08-20 21:28:07+00:00,95458169,Vaelor/python-mattermost-driver,6680834,Vaelor,,,published,v2.1.0,2.1.0,"Thanks @sscherfke @elpatron68 for these.
+
+- Client and Websocket classes are customizable (#4)
+- Fixed an error which caused the port to be ignored in the options (#2)"
+3186,ReleaseEvent,2017-02-19 14:12:16+00:00,63619003,klis87/django-cloudinary-storage,11601850,klis87,,,published,v0.1.9,v0.1.9,"Fixed issue #3 :
+Implemented `size` method.
+"
+4190,ReleaseEvent,2017-04-23 02:44:21+00:00,16431132,dropbox/PyHive,2019426,jingw,559357,dropbox,published,v0.3.0,v0.3.0,"- Presto query cancellation
+- Presto HTTPS option
+- Hive Kerberos/LDAP
+- Python 3 support"
+4249,ReleaseEvent,2018-02-01 08:01:44+00:00,12442243,nephila/djangocms-installer,714711,yakky,630341,nephila,published,1.0,1.0: * Dropped cmsplugin-filer in favor of core plugins which now use filer,* Added django CMS 3.5
+4614,ReleaseEvent,2016-09-13 08:23:57+00:00,51914365,mozilla-services/kinto-dist,229453,Natim,1066228,mozilla-services,published,0.8.2,,"**Upgrade to kinto 3.3.3**
+
+**Bug fixes**
+
+- Fix heartbeat transaction locks with PostgreSQL backends (fixes Kinto/kinto#804)
+"
+5486,ReleaseEvent,2018-01-02 13:51:56+00:00,67251415,RegioHelden/django-datawatch,1055731,MounirMesselmeni,2706103,RegioHelden,published,0.2.3,Hotfix of FieldError,
+5954,ReleaseEvent,2018-07-06 20:51:31+00:00,49976939,learningequality/kolibri,2367265,indirectlylit,3926525,learningequality,published,v0.11.0-alpha4,v0.11.0-alpha4,
+6123,ReleaseEvent,2017-06-21 02:30:54+00:00,19141770,etalab/udata-gouvfr,11269941,odtvince,5313610,etalab,published,v1.0.8,,- Updated the Licences page [#183](https://github.com/etalab/udata-gouvfr/pull/183)
+6168,ReleaseEvent,2017-10-13 23:35:51+00:00,100658303,dwavesystems/dimod,8395238,arcondello,5449030,dwavesystems,published,0.3.1,0.3.1,Bug fixes for qubo_index_labels decorator.
+6306,ReleaseEvent,2015-07-16 22:05:23+00:00,15286013,allure-framework/allure-python,1905393,mavlyutov,5879127,allure-framework,published,1.6.7,Internal update,get rid of deprecated ```__multicall__``` pytest statement
+7064,ReleaseEvent,2017-11-15 22:11:51+00:00,70451850,scikit-build/scikit-ci-addons,219043,jcfr,8144855,scikit-build,published,latest,Latest (updated on 2017-11-15 22:11 UTC),
+7370,ReleaseEvent,2018-06-09 05:54:18+00:00,26661222,tinode/chat,5938143,or-else,9325720,tinode,published,v0.15.1,Minor changes,"* Option to configure MySQL DSN
+* Bug fix: don't send key press notifications from one user's session to the other sessions of the same user."
+7699,ReleaseEvent,2018-01-23 22:10:23+00:00,50213716,Illumina/interop,2104878,ezralanglois,11462464,Illumina,published,v0.9.2,Test Ignore will be deleted,Test Ignore will be deleted. This is a test for uploading files to PyPI
+8527,ReleaseEvent,2018-02-02 20:36:59+00:00,53549881,anymail/django-anymail,639984,medmunds,17517617,anymail,published,v1.3,v1.3,"#### Security fix
+
+v1.3 includes the v1.2.1 security fix released at the same time. Please review the [v1.2.1 release notes](https://github.com/anymail/django-anymail/releases/tag/v1.2.1), below, if you are using Anymail's tracking webhooks.
+
+#### New features
+
+* **Inbound handling:** Add normalized inbound message event, signal, and webhooks for all supported ESPs. (See new [*Receiving mail*](http://anymail.readthedocs.io/en/stable/inbound/) docs.) This hasn't been through much real-world testing yet; bug reports and feedback are very welcome.
+* **API network timeouts:** For Requests-based backends (all but SparkPost), use a default timeout of 30 seconds for all ESP API calls, to avoid stalling forever on a bad connection. Add a REQUESTS_TIMEOUT Anymail setting to override. (See #80.)
+* **Test backend improvements:** Generate unique tracking `message_id` when using the [test backend](https://anymail.readthedocs.io/en/stable/tips/test_backend/); add console backend for use in development. (See #85.)
+"
+8801,ReleaseEvent,2018-01-11 09:16:16+00:00,47995577,CiwPython/Ciw,9679702,geraintpalmer,20789286,CiwPython,published,v1.1.5,v1.1.5,Released on 11/01/2018.
+9215,ReleaseEvent,2018-06-22 08:17:05+00:00,61813823,PyThaiNLP/pythainlp,8536487,wannaphongcom,32934255,PyThaiNLP,published,1.6.0.7,PyThaiNLP 1.6.0.7,- edit dropbox url for thai2vec
