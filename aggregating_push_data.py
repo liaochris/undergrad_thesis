@@ -15,7 +15,7 @@
 # 1. Measure 1: Compare within repository groups
 # 2. Measure 2: Find some other way to weight what a "download" means? 
 
-# In[4]:
+# In[1]:
 
 
 import os
@@ -24,19 +24,20 @@ import ast
 #from pandarallel import pandarallel
 import glob
 import json
+import sys
 import numpy as np
 from itertools import chain
 import dask.dataframe as da
 import numpy as np
 
 
-# In[5]:
+# In[2]:
 
 
 #pandarallel.initialize(progress_bar=False)
 
 
-# In[6]:
+# In[3]:
 
 
 df_repo_info = pd.DataFrame()
@@ -44,14 +45,20 @@ df_actor_info = pd.DataFrame()
 df_org_info = pd.DataFrame()
 
 
-# In[7]:
+# In[4]:
 
 
+folder = sys.argv[1]
+print("reading push data")
 df_push = pd.DataFrame()
-for i in range(99):
-    if i < 10:
+file_count = np.array([int(ele.replace("pushEvent000000000","").replace(".csv","")) for ele in os.listdir(f'data/github_clean/{folder}/') if 'pushEvent000000000' in ele])
+
+for i in range(max(file_count)+1):
+    if int(i) < 10:
         i = f"0{i}"
-    df_push_i = pd.read_csv(f'data/github_clean/pushEvent0000000000{i}.csv', index_col = 0)
+    if int(i) < 100:
+        i = f"0{i}"
+    df_push_i = pd.read_csv(f'data/github_clean/{folder}/pushEvent000000000{i}.csv', index_col = 0)
     df_push = pd.concat([df_push_i[['type', 'created_at', 'repo_id', 'actor_id', 'org_id', 'push_id',
                                     'push_size', 'push_size_distinct', 'push_before', 'push_head']],
                          df_push])
@@ -64,7 +71,7 @@ for i in range(99):
     df_org_info = pd.concat([df_org_info, df_org_i]).drop_duplicates()
 
 
-# In[8]:
+# In[5]:
 
 
 def cleanParquetPushes(f):
@@ -82,47 +89,47 @@ def cleanParquetPushes(f):
     return df_parquet_repo
 
 
-# In[9]:
+# In[6]:
 
 
-files = glob.glob("data/github_commits/parquet/*_push_*")
+files = glob.glob(f"data/github_commits/parquet/{folder}/*_push_*")
 df_parquet_pushes_data = [cleanParquetPushes(f) for f in files]
 df_parquet_pushes = pd.concat(df_parquet_pushes_data,ignore_index=True)
 
 
-# In[10]:
+# In[7]:
 
 
 df_parquet_pushes['commit_groups'] = df_parquet_pushes['commit_groups'].apply(lambda x: ast.literal_eval if type(x) == str else x)
 df_parquet_pushes['commit parent'] = df_parquet_pushes['commit_groups'].apply(lambda x: x[0] if len(x)>0 else '')
 
 
-# In[11]:
+# In[8]:
 
 
 df_parquet_pushes.drop('commit_groups', axis = 1, inplace = True)
 
 
-# In[12]:
+# In[9]:
 
 
 df_push['created_at'] = pd.to_datetime(df_push['created_at'])
 
 
-# In[13]:
+# In[10]:
 
 
 df_push_commits = pd.merge(df_push, df_parquet_pushes, how = 'left',
                            on = ['repo_id', 'push_id', 'actor_id'])
 
 
-# In[14]:
+# In[11]:
 
 
 df_push_commits['commit time'] = pd.to_datetime(df_push_commits['commit time'],unit='s')
 
 
-# In[15]:
+# In[12]:
 
 
 df_push_commits['push_day'] = df_push_commits['created_at'].apply(lambda x: x.day)
@@ -134,26 +141,26 @@ df_push_commits['commit_month'] = df_push_commits['commit time'].apply(lambda x:
 df_push_commits['commit_year'] = df_push_commits['commit time'].apply(lambda x: x.year)
 
 
-# In[16]:
+# In[13]:
 
 
 df_push_commits = df_push_commits.rename({'push_size_x':'push_size'}, axis = 1).drop('push_size_y', axis = 1)
 
 
-# In[17]:
+# In[14]:
 
 
 df_push_commits['commit file changes'] = df_push_commits['commit file changes'].apply(
     lambda x: [] if type(x) == float or type(x) == type(None) else x)
 
 
-# In[18]:
+# In[15]:
 
 
 df_push_commits_s = df_push_commits#.sample(100000)
 
 
-# In[19]:
+# In[16]:
 
 
 null_commit_time = df_push_commits_s[df_push_commits_s['commit_year'].isnull()].index
@@ -161,19 +168,19 @@ df_push_commits_s.loc[null_commit_time,
     ['commit_day', 'commit_month', 'commit_year']] = df_push_commits_s.loc[null_commit_time, ['push_day', 'push_month', 'push_year']]
 
 
-# In[20]:
+# In[17]:
 
 
 get_ipython().run_cell_magic('time', '', "#df_push_commits_s = pd.read_csv('data/merged_data/merged_commit_push.csv', index_col = 0)")
 
 
-# In[21]:
+# In[18]:
 
 
 df_push_commits_s['committer info'] = df_push_commits_s['committer name'] + " | " + df_push_commits_s['commmitter email']
 
 
-# In[22]:
+# In[19]:
 
 
 def getList(x):
@@ -183,24 +190,18 @@ def getList(x):
         return [ele['file'] for sublst in x for ele in sublst]
 
 
-# In[23]:
+# In[20]:
 
 
 df_push_commits_s['commit file changes'] = df_push_commits_s['commit file changes'].apply(lambda x: x.decode() if type(x) == bytes else x)
 
 
-# In[24]:
+# In[21]:
 
 
 del df_push
 del df_parquet_pushes
 del df_push_commits
-
-
-# In[ ]:
-
-
-
 
 
 # In[ ]:
@@ -260,37 +261,51 @@ def aggData(group_cols):
 # In[ ]:
 
 
-get_ipython().run_cell_magic('time', '', "df_push_commits_s.to_csv('data/merged_data/merged_commit_push.csv')")
+get_ipython().run_cell_magic('time', '', "\ndf_push_commits_s.to_csv(f'data/merged_data/{folder}/merged_commit_push.csv')")
 
 
 # In[ ]:
 
 
-get_ipython().run_cell_magic('time', '', "df_push_commits_grouped_monthly = aggData(['repo_id', 'push_year', 'push_month'])\ndf_push_commits_grouped_monthly.to_csv('data/aggregated_data/aggregated_monthly_labor.csv', encoding='utf-8')")
+"""%%time
+df_push_commits_grouped_monthly = aggData(['repo_id', 'push_year', 'push_month'])
+df_push_commits_grouped_monthly.to_csv('data/aggregated_data/aggregated_monthly_labor.csv', encoding='utf-8')"""
 
 
 # In[ ]:
 
 
-get_ipython().run_cell_magic('time', '', "df_push_commit_time_grouped_monthly = aggData(['repo_id', 'commit_year', 'commit_month'])\ndf_push_commit_time_grouped_monthly.to_csv('data/aggregated_data/aggregated_monthly_labor_commit_time.csv', encoding='utf-8')")
+"""%%time
+df_push_commit_time_grouped_monthly = aggData(['repo_id', 'commit_year', 'commit_month'])
+df_push_commit_time_grouped_monthly.to_csv('data/aggregated_data/aggregated_monthly_labor_commit_time.csv', encoding='utf-8')"""
 
 
 # In[ ]:
 
 
-get_ipython().run_cell_magic('time', '', "df_push_commits_grouped_daily = aggData(['repo_id', 'push_year', 'push_month', 'push_day'])\ndf_push_commits_grouped_daily.to_csv('data/aggregated_data/aggregated_daily_labor.csv', encoding='utf-8')")
+"""%%time
+df_push_commits_grouped_daily = aggData(['repo_id', 'push_year', 'push_month', 'push_day'])
+df_push_commits_grouped_daily.to_csv('data/aggregated_data/aggregated_daily_labor.csv', encoding='utf-8')"""
 
 
 # In[ ]:
 
 
-get_ipython().run_cell_magic('time', '', "df_push_commit_time_grouped_daily = aggData(['repo_id', 'commit_year', 'commit_month', 'commit_day'])\ndf_push_commit_time_grouped_daily.to_csv('data/aggregated_data/aggregated_daily_labor_commit_time.csv', encoding='utf-8')")
+"""%%time
+df_push_commit_time_grouped_daily = aggData(['repo_id', 'commit_year', 'commit_month', 'commit_day'])
+df_push_commit_time_grouped_daily.to_csv('data/aggregated_data/aggregated_daily_labor_commit_time.csv', encoding='utf-8')"""
 
 
 # In[ ]:
 
 
-df_repo_info.to_csv('data/merged_data/push_repo.csv')
-df_actor_info.to_csv('data/merged_data/push_actor.csv')
-df_org_info.to_csv('data/merged_data/push_org.csv')
+df_repo_info.to_csv(f'data/merged_data/{folder}/push_repo.csv')
+df_actor_info.to_csv(f'data/merged_data/{folder}/push_actor.csv')
+df_org_info.to_csv(f'data/merged_data/{folder}/push_org.csv')
+
+
+# In[ ]:
+
+
+
 
