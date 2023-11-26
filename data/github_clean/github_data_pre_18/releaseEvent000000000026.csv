@@ -1,0 +1,487 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,release_action,release_tag_name,release_name,release_body
+866,ReleaseEvent,2018-03-18 20:30:09+00:00,37556070,gplepage/gvar,1808545,gplepage,,,published,v8.3.6,gvar version 8.3.6,Minor update to handle changes in numpy (for tests).
+877,ReleaseEvent,2016-01-20 18:54:22+00:00,27025717,jaedb/spotmop,1711444,jaedb,,,published,2.5.7,2.5.7,- Bugfix: Discover wasn't working due to code issue
+888,ReleaseEvent,2018-04-11 21:49:35+00:00,53005545,kislyuk/aegea,862013,kislyuk,,,published,v2.1.6,v2.1.6,- Fix Python compat issue in key_fingerprint
+968,ReleaseEvent,2017-02-14 06:26:08+00:00,22937749,rasbt/mlxtend,5618407,rasbt,,,published,v0.5.1,Version 0.5.1,"### Version 0.5.1 (2017-02-14)
+
+
+The CHANGELOG for the current development version is available at
+[https://github.com/rasbt/mlxtend/blob/master/docs/sources/CHANGELOG.md](https://github.com/rasbt/mlxtend/blob/master/docs/sources/CHANGELOG.md).
+
+##### Downloads
+
+- [Source code (zip)](https://github.com/rasbt/mlxtend/archive/0.5.1.zip)
+- [Source code (tar.gz)](https://github.com/rasbt/mlxtend/archive/v0.5.1.tar.gz)
+
+##### New Features
+
+- The `EnsembleVoteClassifier` has a new `refit` attribute that prevents refitting classifiers if `refit=False` to save computational time.
+- Added a new `lift_score` function in `evaluate` to compute lift score (via [Batuhan Bardak](https://github.com/bbardakk)).
+- `StackingClassifier` and `StackingRegressor` support multivariate targets if the underlying models do (via [kernc](https://github.com/kernc)).
+- `StackingClassifier` has a new `use_features_in_secondary` attribute like `StackingCVClassifier`.
+
+##### Changes
+
+- Changed default verbosity level in `SequentialFeatureSelector` to 0
+- The `EnsembleVoteClassifier` now raises a `NotFittedError` if the estimator wasn't `fit` before calling `predict`. (via [Anton Loss](https://github.com/avloss))
+- Added new TensorFlow variable initialization syntax to guarantee compatibility with TensorFlow 1.0
+
+##### Bug Fixes
+
+- Fixed wrong default value for `k_features` in `SequentialFeatureSelector`
+- Cast selected feature subsets in the `SequentialFeautureSelector` as sets to prevent the iterator from getting stuck if the `k_idx` are different permutations of the same combination (via [Zac Wellmer](https://github.com/zacwellmer)).
+- Fixed an issue with learning curves that caused the performance metrics to be reversed (via [ipashchenko](https://github.com/ipashchenko))
+- Fixed a bug that could occur in the `SequentialFeatureSelector` if there are similarly-well performing subsets in the floating variants (via [Zac Wellmer](https://github.com/zacwellmer))."
+1230,ReleaseEvent,2018-03-19 18:34:00+00:00,73047402,dhermes/bezier,520669,dhermes,,,published,0.8.0,0.8.0,"[![PyPI link to release 0.8.0](https://img.shields.io/pypi/v/bezier/0.8.0.svg)](https://pypi.org/project/bezier/0.8.0/) [![Documentation for release 0.8.0](https://readthedocs.org/projects/bezier/badge/?version=0.8.0)](https://bezier.readthedocs.io/en/0.8.0/)
+
+New Features
+------------
+
+-   Adding support for surface-surface intersections that have coincident segments shared between each surface ([cfa2b93](https://github.com/dhermes/bezier/commit/cfa2b93792695b87f11ece9da1959013ecf77678), [0a9645c](https://github.com/dhermes/bezier/commit/0a9645c9a3f1df3274677ad3def3d934c590b642)). See cases:
+    -   4: [10Q-18Q](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/surfaces10Q_and_18Q.png)
+    -   5: [10Q-19Q](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/surfaces10Q_and_19Q.png)
+    -   43: [29Q-42Q](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/surfaces29Q_and_42Q.png)
+    -   44: [29Q-43Q](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/surfaces29Q_and_43Q.png)
+    -   45: [10Q-44Q](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/surfaces10Q_and_44Q.png)
+    -   46: [1Q-45Q](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/surfaces1Q_and_45Q.png)
+    -   47: [1Q-2C](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/surfaces1Q_and_2C.png)
+-   Adding support for curve-curve intersections that are also points of tangency. This was accomplished by five broad changes to the geometric intersection algorithm:
+    -   Checking if almost-linear curves have disjoint bounding boxes **before** intersecting the linearized segments ([05f0343](https://github.com/dhermes/bezier/commit/05f0343ca1962dbc5ab3b143b5c6fe20b87272d1)).
+    -   Adding a ""full"" Newton iteration for finding `B1(s) = B2(t)` when known to be near a solution. In particular, this has **special** handling for tangencies, which cause a singular Jacobian and make convergence drop from quadratic to linear and stalls out convergence early ([13a5be5](https://github.com/dhermes/bezier/commit/13a5be5d80d6a07a1a71326493baa06dbda70f13), [4bac61a](https://github.com/dhermes/bezier/commit/4bac61a243b08002c4b0154d2b346cc356097eaf)).
+    -   Changing how ""bad"" linearized segments are handled. After subdividing to approximately linear curve segments, there were two problems which are now being handled in the same way. If the line segments connecting the subdivided curve endpoints
+
+        -   are parallel, then the algorithm failed with a `PARALLEL` status
+        -   intersect outside of the unit interval (for either `s` or `t`), the curve-curve candidate was rejected (a small amount, `0.5^{16}`, of ""wiggle"" room was allowed outside of `[0, 1]`).
+
+        Now both cases are handled in the same way. First, the subdivided curve segments will have a convex hull check applied (which is more strict than a bounding box check). If their convex hulls do collide, they are treated as a normal intersection of curved segments ([4457f64](https://github.com/dhermes/bezier/commit/4457f64eaf28bb9fb5c91a8740cd0d618fafc3da), [fe453c3](https://github.com/dhermes/bezier/commit/fe453c3839b19ce4a85dfd0b5ad78f71a0973daf)).
+    -   Using the newly added ""full"" Newton's iteration for all intersections. Before, a single Newton step was applied after intersection the linearized segments ([d06430f](https://github.com/dhermes/bezier/commit/d06430fbb027eb9d62b6b724f70e62d0efb0732b)).
+    -   Changing how a candidate pair of `s-t` parameters is added. ([c998445](https://github.com/dhermes/bezier/commit/c998445026a5487c59af17c9cbdfc9a6cf4d72c0)). In the previous implementation, a pair was considered a duplicate only if there was a difference of at most 1 [ULP](https://en.wikipedia.org/wiki/Unit_in_the_last_place) from an existing intersection (though this could be toggled via `set_similar_ulps()`). Now, the pair is ""normalized"" so that `s` and `t` are away from `0`. For example, if `s < 2^{-10}` then we use `1 - s` instead. (This is perfectly ""appropriate"" since evaluating a B&#xe9;zier curve requires using both `s` and `1 - s`, so both values are equally relevant.) Once normalized, a relative error threshold is used.
+-   Four curve-curve functional test cases have gone from failing to passing:
+    -   11: [14-15](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/curves14_and_15.png)
+    -   31: [38-39](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/curves38_and_39.png)
+    -   43: [58-59](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/curves58_and_59.png)
+    -   44: [60-59](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/curves60_and_59.png)
+
+    and two surface-surface cases have as well:
+
+    -   10: [20Q-21Q](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/surfaces20Q_and_21Q.png)
+    -   42: [41Q-21Q](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/surfaces41Q_and_21Q.png)
+
+    In order to support the aforementioned surface-surface cases, special support for ""tangent corners"" was added ([12b0de4](https://github.com/dhermes/bezier/commit/12b0de4e4dae1d84e0681386fd312794ac8736ff)).
+
+ABI Changes
+-----------
+
+### Breaking Changes
+
+-   Removed `BAD_TANGENT` status enum ([b89b2b1](https://github.com/dhermes/bezier/commit/b89b2b1de1726cdc9f508bd761f4c20e7d655321)). The case where that failure was issued has now been handled as an acceptable `TANGENT_BOTH` classification for surface-surface intersection points. (See the `classify_intersection()` [function](http://bezier.readthedocs.io/en/0.8.0/algorithm-helpers.html#bezier._surface_helpers.classify_intersection) for an example.)
+-   Adding `BAD_INTERIOR` status enum ([6348dc6](https://github.com/dhermes/bezier/commit/6348dc63b5d11453fa8312997429448bbdad0a3f)). (This is a **breaking** change rather than additive because it re-uses the enum value of `5` previously used by `BAD_TANGENT`.) This value is used by `interior_combine()` in the case that the curved polygon intersection(s) cannot be determined from the edge-edge intersections for a given surface-surface pair. See [#101](https://github.com/dhermes/bezier/issues/101).
+-   Removed `PARALLEL` status enum ([fe453c3](https://github.com/dhermes/bezier/commit/fe453c3839b19ce4a85dfd0b5ad78f71a0973daf)). Now when doing geometric curve-curve intersection, parallel linearized segments are handled by checking if the convex hulls collide and then (if they do) using a modifed Newton iteration to converge to a root.
+-   Adding `BAD_MULTIPLICITY` status enum ([fe453c3](https://github.com/dhermes/bezier/commit/fe453c3839b19ce4a85dfd0b5ad78f71a0973daf)). (This is a **breaking** change rather than additive because it re-uses the enum value of `1` previously used by `PARALLEL`.) This is used when Newton's method fails to converge to either a simple intersection or a tangent intersection. Such failures to converge, when already starting near an intersection, may be caused by one of:
+    -   The intersection was of multiplicity greater than 2
+    -   The curves don't actually intersect, though they come very close
+    -   Numerical issues caused the iteration to leave the region of convergence
+-   Removed `ulps_away()` ([c998445](https://github.com/dhermes/bezier/commit/c998445026a5487c59af17c9cbdfc9a6cf4d72c0)).
+-   Removed `set_similar_ulps()` and `get_similar_ulps()` ([c998445](https://github.com/dhermes/bezier/commit/c998445026a5487c59af17c9cbdfc9a6cf4d72c0)).
+
+### Surface Changes
+
+-   Added `SINGULAR` status enum for cases when a linear system can't be solved due to a singular matrix ([4457f64](https://github.com/dhermes/bezier/commit/4457f64eaf28bb9fb5c91a8740cd0d618fafc3da)).
+-   Adding `status` as a return value in `newton_refine_curve_intersect()`. This way, when the Jacobian is singular (which happens at points of tangency), the `SINGULAR` status can be returned ([4457f64](https://github.com/dhermes/bezier/commit/4457f64eaf28bb9fb5c91a8740cd0d618fafc3da)). The old behavior would've resulted in a division by zero.
+
+### Non-Public API
+
+-   Adding custom linear solver for the `2 x 2` case ([a3fb476](https://github.com/dhermes/bezier/commit/a3fb476cf9a82a34754bdd9b9881fbe857883d57)). This is modelled after `dgesv` from LAPACK.
+
+Python Changes
+--------------
+
+-   (**Bug fix**) The `0.7.0` release broke `Surface.plot()` and `CurvedPolygon.plot()` (when the nodes were transposed, the plotting helpers were not correctly updated). The `add_patch()` helper was fixed to account for the changes in data layout ([80bfaaa](https://github.com/dhermes/bezier/commit/80bfaaa74219f9053585aa8970131018baa516d1)).
+-   Added custom `UnsupportedDegree` [exception](http://bezier.readthedocs.io/en/0.8.0/reference/bezier.html#bezier.UnsupportedDegree) to be used by routines that have implementations that are hard-coded for specific degrees ([87a1f21](https://github.com/dhermes/bezier/commit/87a1f2171f6b810516544ff1691856d7fadfa12f)). See [#103](https://github.com/dhermes/bezier/issues/103).
+-   Removed `ulps_away()` ([c998445](https://github.com/dhermes/bezier/commit/c998445026a5487c59af17c9cbdfc9a6cf4d72c0)).
+-   Removed `set_similar_ulps()` and `get_similar_ulps()` ([c998445](https://github.com/dhermes/bezier/commit/c998445026a5487c59af17c9cbdfc9a6cf4d72c0)).
+
+### Non-Public API
+
+-   Returning `coincident` flag from curve-curve `all_intersections` ([ebe6617](https://github.com/dhermes/bezier/commit/ebe66178d0ab6f359ba206ded7b5d629d849955c)).
+-   Adding a `TANGENT_BOTH` classification for surface-surface intersection points that are interior to both surfaces at the point of tangency ([b89b2b1](https://github.com/dhermes/bezier/commit/b89b2b1de1726cdc9f508bd761f4c20e7d655321)). This previously failed with a `NotImplementedError`.
+-   Added `COINCIDENT` classification for surface-surface intersection points that occur on a segment that is coincident on an edges of each surface ([8b1c59d](https://github.com/dhermes/bezier/commit/8b1c59d2b48281d38275af6c5b6e11c1699b92c6)). Such points previously failed classification because they were interpreted as being tangent and having the same curvature (because the segments are identical).
+-   Added a `COINCIDENT_UNUSED` classification ([cfa2b93](https://github.com/dhermes/bezier/commit/cfa2b93792695b87f11ece9da1959013ecf77678)) for cases where coincident segments are moving in opposite directions (i.e. the surfaces don't share a common interior). For example see case 44 ([29Q-43Q](https://github.com/dhermes/bezier/blob/0.8.0/docs/images/surfaces29Q_and_43Q.png)).
+-   Adding custom linear solver for the `2 x 2` case ([764e56d](https://github.com/dhermes/bezier/commit/764e56db5bb4987d31e3c9f5fbabbe6564d6e0c0)). This is modelled after `dgesv` from LAPACK.
+-   Adding some support for B&#xe9;zier clipping algorithm ([fbed62d](https://github.com/dhermes/bezier/commit/fbed62df305b8c2679ff260bba4f57d414e79a77), [ada4ea3](https://github.com/dhermes/bezier/commit/ada4ea34bf31cff5cc34491d6689f0f3a2b9f0a1)). See the original [paper](https://dx.doi.org/10.1016/0010-4485(90)90039-F) by Sederberg and Nishita for more information.
+"
+1351,ReleaseEvent,2016-12-07 15:02:40+00:00,15563341,metaodi/osmapi,538415,metaodi,,,published,v0.7.0,Release 0.7.0,Switch from httplib to requests
+1696,ReleaseEvent,2015-07-03 17:26:32+00:00,4477733,kevin1024/vcrpy,1246619,IvanMalison,,,published,v1.6.0,Tornado Support and Minor Bugfixes,"[#120] Tornado support thanks (thanks @abhinav), [#147] packaging fixes (thanks @graingert), [#158] allow filtering post params in requests (thanks @MrJohz), [#140] add xmlrpclib support (thanks @Diaoul)."
+1716,ReleaseEvent,2018-07-19 00:31:46+00:00,27283062,ktbyers/netmiko,899716,ktbyers,,,published,v2.2.2,Netmiko 2.2.2 Release,
+2100,ReleaseEvent,2017-08-11 19:51:45+00:00,58630272,glut23/webvtt-py,3470638,glut23,,,published,0.3.2,Hot fix for compatibility,The goal of this release if to allow the WebVTT parser to be able to read caption files that contain metadata headers that extend to more than one line.
+2135,ReleaseEvent,2017-07-30 19:24:37+00:00,42377037,kynan/nbstripout,346079,kynan,,,published,0.2.4,v0.2.4,"* Add ``__version__`` and ``version`` command (#12).
+* Add bumpversion config.
+* Add contributing guidelines (#13)."
+2524,ReleaseEvent,2018-02-06 14:56:07+00:00,120079872,holgern/py-scrypt,2202263,holgern,,,published,1.0.55,1.0.55,wheel from appveyor
+2525,ReleaseEvent,2018-02-08 12:47:18+00:00,120079872,holgern/py-scrypt,2202263,holgern,,,published,untagged-47f806af03a945ef632e,,
+2567,ReleaseEvent,2018-03-23 13:45:42+00:00,83010650,kakulukia/pypugjs,96352,kakulukia,,,published,v5.5.0,v5.5.0,. better caching 
+3018,ReleaseEvent,2017-08-11 15:44:38+00:00,36625204,kislyuk/watchtower,862013,kislyuk,,,published,v0.4.0,v0.4.0,"- Do not shut down on flush()
+    
+    - Enhancement: boto3 auth profile option (#41)
+    
+    - Documentation improvements"
+3168,ReleaseEvent,2016-04-25 02:08:17+00:00,56998522,skorokithakis/catt,23648,skorokithakis,,,published,v0.1.3,,"
+### Fix
+* Fix setup.py crash due to missing history.
+
+### Documentation
+* Delete history.
+"
+3315,ReleaseEvent,2018-07-16 14:18:48+00:00,113474125,Devoxin/Lavalink.py,15076404,Devoxin,,,published,2.1.7,Lavalink.py 2.1.7,"- Exceptions caused by track hooks are now caught and logged rather than stopping the event dispatching completely
+- Players can now be removed from cache by calling PlayerManager#remove. Method takes a single parameter consisting of a guild_id
+- BasePlayer now has a `cleanup` method that can be used to clean up any leftover objects on custom player implementations. The method is only called when a player is removed from cache
+- Retrieving `position` from lavalink `playerUpdate` JSON should no longer throw under some circumstances
+- `_attempt_reconnect` method should now be compatible with AutoShardedClient
+"
+3319,ReleaseEvent,2017-05-20 16:17:51+00:00,33266451,JimmXinu/FanFicFare,11446969,JimmXinu,,,published,v2.12.0,FanFicFare v2.12.0,"# Installation instructions:
+
+## Calibre Plugin:
+
+Install attached plugin zip file, or use Calibre's 'Get plugins' feature.
+
+## Web service:
+
+http://fanficfare.appspot.com/
+
+## Command line interface:
+
+Rather being delivered as a zip file with dependencies included, FanFicFare is delivered as a `pip` Python package.  It's been tested on Python 2.6 and 2.7, but not on Python 3.
+
+`pip install FanFicFare`
+or
+`pip install --upgrade FanFicFare`
+...to update.
+
+(pip will automatically install dependencies beautifulsoup4, html5lib, chardet and six.)
+
+Run `fanficfare -h` from command-line.
+
+## Changes:
+
+This is bug fix release:
+- FIX for issue with Epub Update discarding existing images in Epub. Oops. :-( (Came from ffnet img referer fix.)
+
+Previous release:
+- Change fanficauthors.net to https.
+- Catch other common complete/in-progress statuses for calibre yes/no columns.
+- adapter_wwwaneroticstorycom: 'Complete'->'Completed'
+- Reorder sections in defaults.ini files alphabetically, save script that does it.
+- Remove a debug output from adapter_fanficauthorsnet
+- One-off normalize Reject List URLs to save doing it all the time. Also, automatically save plugin version in prefs.
+- Update translations. (For: Let PI search inside zip(html) and txt formats for story URLs.)
+- Clear extratags: for tgstorytime.com and fictionmania.tv.
+- Fix error with std_cols_newonly if user has never saved config.
+- Adapt to masseffect2.in redesign - thanks PlushBeaver
+- Let PI search inside zip(html) and txt formats for story URLs.
+- Fix AO3 use_view_full_work feature for 1 chapter works.
+- New site alternatehistory.com as a base_xenforoforum_adapter. Plus base_xenforoforum_adapter fixes.
+- Add site specific extracategories to new sites.
+- Fix for PI suppressauthorsort/suppresstitlesort interacting wrong with Author/Title New Only. (PI only)
+- Fix CLI -f option help for text vs txt.
+- Add AO3 feature use_view_full_work -- true by default.
+- Update included dependency packages
+  - Update html5lib from 0.9x7 to 0.9x9.
+  - Update to BeautifulSoup 4.5.3.
+  - Update six.py to 1.10.0.
+  - Update chardet to 3.0.2.
+  - Update html2text to (2016, 9, 19).
+  - Add chardet_confidence_limit option for 'auto' encoding setting.
+  - Add webencodings to included_dependencies.  Needed by in web service with newer html5lib.
+  - Don't include html5lib(and webencodings) and six in PI zip--uses calibre's versions anyway.
+- New sites from GComyn: 
+- Add calibre_series_meta optional feature to include series metadata like calibre in epubs. For CLI & Web Service.
+- Updated date added to webnovel by cryzed
+- AO3 site-specific metadata bookmarktags bookmarksummary and option always_login added.
+- Fixes for adapter_gravitytalescom from GComyn.
+- New sites from GComyn:
+  - inkbunny.net
+  - lcfanfic.com
+  - noveltrove.com
+  - gravitytales.com
+  - imrightbehindyou.com
+  - mtt.just-once.net
+  - obidala.net
+  - sword.borderline-angel.com
+  - tasteofpoison.inkubation.net
+  - unknowableroom.org
+  - www.13hours.org
+  - www.aneroticstory.com
+  - www.deandamage.com
+  - www.fiction.thebrokenworld.org
+  - www.narutofic.org
+  - www.starskyhutcharchive.net
+  - www.thedelphicexpanse.com
+  - www.thundercatsfans.org
+  - www.webnovel.com
+- Add Story Notes to base_efiction_adapter.
+- Don't send Referer:None -- hpfanficarchive.com doesn't like it.
+- Additional tags collected for wuxiaworld--thanks GComyn
+- Add download.archiveofourown.org for AO3 due to old downloaded AO3 epubs
+- Fix for author including Updated in desc in adapter_ashwindersycophanthexcom.
+- Fix ""got more than 100 headers""-issue adapter_royalroadl.py only.
+- Fix ffnet referer for cover images.
+- Fix for a mistaken Norwegian Bokmål translation.
+- Fix ffnet referer for cover images.
+"
+3533,ReleaseEvent,2017-06-29 22:13:06+00:00,62165703,kalaspuff/tomodachi,89139,kalaspuff,,,published,0.2.14,0.2.14,"* New ""transport"" invoker for service functions: `schedule`. It works like cron type scheduling where specific functions will be run on the specified interval. For example a function can be specified to run ""_once per day at a specific time_"" or ""_every second minute_"", or ""_the last Tuesday of the January and March at 05:30 AM_"".
+
+* Values for keyword arguments invoked by transport decorators were earlier always set to `None`, despite having other default values. This is now corrected."
+3627,ReleaseEvent,2017-06-24 18:09:54+00:00,95295862,nateshmbhat/pyttsx3,23279926,nateshmbhat,,,published,v1.0,pyttsx3,**pyttsx3 is a Text To Speech library which works for both python2 and python3 .**
+3937,ReleaseEvent,2017-06-03 02:13:38+00:00,90407498,jbasko/configmanager,632910,jbasko,,,published,v1.11.0,v1.11.0,Hooks - Config.hooks.not_found available
+4421,ReleaseEvent,2016-04-23 06:18:48+00:00,37154906,fboender/ansible-cmdb,2477515,fboender,,,published,1.14,v1.14,"This is a bugfix and feature release, featuring the following changes:
+
+* Look for ansible.cfg and use hostfile setting.
+* html_fancy: Properly sort vcpu and ram columns.
+* html_fancy: Remember which columns the user has toggled.
+* html_fancy: display groups and hostvars even if no host information was collected.
+* html_fancy: support for facter and custom facts.
+* html_fancy: Hide sections if there are no items for it.
+* html_fancy: Improvements in the rendering of custom variables.
+* Apply Dynamic Inventory vars to all hostnames in the group.
+* Many minor bugfixes.
+"
+4696,ReleaseEvent,2016-12-11 01:50:14+00:00,53180953,thombashi/pingparsing,15517661,thombashi,,,published,v0.4.0,,"- Change behaviour of waittime: #21
+- Add count property to PingTransmitter class: #22
+- Bug fixes
+"
+4946,ReleaseEvent,2017-01-05 03:31:21+00:00,22305196,mission-liao/pyswagger,1988671,mission-liao,,,published,v0.8.24,fix bugs,- wrong extension when loading from folder with dot https://github.com/mission-liao/pyswagger/issues/91
+5772,ReleaseEvent,2016-08-12 20:34:04+00:00,18353524,derek73/python-nameparser,18306,derek73,,,published,v0.5.1,v0.5.1,Fix error for names that end with conjunction (#54)
+6192,ReleaseEvent,2015-07-09 23:04:06+00:00,17457558,tylertreat/BigQuery-Python,552817,tylertreat,,,published,v1.3.0,BigQuery-Python Release 1.3.0,"- Support Python 3
+- Fix timestamp parsing bug with nested records in schema_from_record
+- Add support for numeric job ids in wait_for_job"
+6224,ReleaseEvent,2017-10-29 23:26:06+00:00,56568022,eht16/python-logstash-async,617017,eht16,,,published,1.3.1,1.3.1,"* Call flush on worker thread only if it is running (prevent errors when application shuts down before anything was logged)
+* Rewrite utils.ichunked to not raise StopIteration (for future Python 3.7 compability)
+
+
+For details see https://pypi.python.org/pypi/python-logstash-async/1.3.1"
+6623,ReleaseEvent,2017-10-30 14:38:18+00:00,4911554,cyface/django-termsandconditions,49695,cyface,,,published,v1.2.5,Improved Username Compatibility,Changed to user.get_username() for folks not using user.username.
+7094,ReleaseEvent,2017-06-12 13:02:41+00:00,60014038,APSL/django-kaio,2037027,sastred,469968,APSL,published,0.7.0,0.7.0,* Add support for SECURE_PROXY_SSL_HEADER in SecurityMixin.
+7326,ReleaseEvent,2018-02-07 14:36:25+00:00,80529037,cfpb/wagtail-flags,654645,chosak,1071563,cfpb,published,2.0.8,2.0.8,"- Simplify the testing matrix and add isort #22
+- Update docs regarding timestamps in UTC #24
+- Alphabetize flags and conditions #25"
+7383,ReleaseEvent,2018-07-07 16:08:30+00:00,81013996,cs50/cli50,20504399,bot50,788676,cs50,published,v2.3.3,v2.3.3,
+8222,ReleaseEvent,2018-05-06 18:28:29+00:00,74854230,CliMT/climt,7300413,JoyMonteiro,23116436,CliMT,published,v0.14.2,Fix for pip API change,
+8771,ReleaseEvent,2015-08-04 22:49:51+00:00,37571213,minio/minio-py,622699,harshavardhana,695951,minio,published,0.2.3,More compatibility fixes,
+8998,ReleaseEvent,2017-06-29 09:56:45+00:00,68376693,pybel/pybel,5069736,cthoyt,22892058,pybel,published,v0.6.2,,Add environment variable for data locations
+9001,ReleaseEvent,2017-11-07 19:14:09+00:00,68376693,pybel/pybel,5069736,cthoyt,22892058,pybel,published,v0.9.5,,
+9188,ReleaseEvent,2015-08-03 17:23:14+00:00,12487496,UMIACS/rgwadmin,37177,liammonahan,13200674,UMIACS,published,1.0.1,v1.0.1,"This is a bug fix release that fixes the following issue:
+* Some fixes a parsing case where the Admin API encodes its response in the headers instead of the body.  The location of this info in the headers can vary depending on the operation, so we now genericize how this information is searched for and extracted."
+10373,ReleaseEvent,2017-11-13 03:35:59+00:00,51625787,vatlab/SoS,9889312,BoPeng,20074389,vatlab,published,0.9.10.12,Introduction of path and paths types,"This version introduces `path` and `paths` data types to make it easier to handle pathnames in SoS. The `path` type is derived from `pathlib.Path` and now has a lot of functions, while the old format strings are kept."
+10728,ReleaseEvent,2016-03-12 03:26:58+00:00,53549881,anymail/django-anymail,639984,medmunds,17517617,anymail,published,v0.1.dev2,0.1.dev2,"* Added SendGrid backend
+* Added attach_inline_image_file helper
+* Changed inline-attachment handling to look for
+  `Content-Disposition: inline`, and to preserve
+  filenames where supported by the ESP."
+11590,ReleaseEvent,2018-06-03 18:06:37+00:00,12442243,nephila/djangocms-installer,714711,yakky,630341,nephila,published,1.0.1,1.0.1,"* Pinned django-polymorphic version to fix issues with django < 1.11
+* Pinned djangocms core plugins versions
+"
+11859,ReleaseEvent,2017-11-10 21:02:57+00:00,27458716,pyexcel/pyexcel-io,4280312,chfw,16431467,pyexcel,published,v0.5.4,v0.5.4,Find 0.5.4 in changelog for more details
+11862,ReleaseEvent,2016-07-11 16:02:54+00:00,27458716,pyexcel/pyexcel-io,4280312,chfw,16431467,pyexcel,published,v0.2.1,support pyexcel-cli,See changelog.rst for more details
+12401,ReleaseEvent,2017-09-21 12:41:49+00:00,77054015,KE-works/pykechain,1391724,jberends,24698346,KE-works,published,v1.12.3,v1.12.3,"1.12.3 (21SEP17)
+----------------
+ * Fixing the warning: 'could not any envfile' from envparse. Which is suppressed for cosmetics. It is advised to provide a pathname for the envfile when you want to load the environment variables from an envfile. (#195)
+ * Fixed tests for the envparse warning and refactored the tests to better deal with in-test settings of the environment.
+
+1.12.2 (15SEP17)
+----------------
+ * Removed a logical error in the checking of the existing of the environment variables
+
+1.12.1 (15SEP17)
+----------------
+ * Added the ability to enforce the use of environment variables when the KECHAIN_FORCE_ENV_USE is set to a true value in the environment. Altered documentation and altered tests for that (#193)
+
+1.12 (14SEP17)
+--------------
+ * Added a new helper `get_project()` to bootstrap a pykechain client and return a project (aka Scope) immediately. You can retrieve a project using direct arguments `url`, `token` (or `username` and `password`), and `scope_id` (or `scope` name). Alternatively, you can provide an `.env` file or provide the arguments from the environment as the environment variables `KECHAIN_URL`, `KECHAIN_TOKEN` (or `KECHAIN_USERNAME` and `KECHAIN_PASSWORD`), and `KECHAIN_SCOPE_ID` (or `KECHAIN_SCOPE`) (#185). This is ideal for `pykechain` scripts in the KE-chain SIM, as we provide support for this to make your scripting experience in KE-chain buttersmooth. An example:
+
+```
+    >>> from pykechain import get_project
+    >>> project = get_project(url='http://localhost:8000', username='foo', password='bar', scope='Bike Project')
+    >>> print(project.name)
+```
+
+ * Added additional checks for the `Client` to check if the url provided is correct (#185)
+ * Improved the state of the project on codacy, a nice code quality monitor, from B to A grade. Removed over 100 insecure code elements, according to codacy. See: https://www.codacy.com/app/KE-works/pykechain/dashboard (#187)
+ * Updated dependent versions of pyopenssl to 1.1.2 (#188), pytest to 3.2.2 (#183) and tox to 2.8.2 (#184)
+ * Updated coverage of the files to internal standards. The critical models are now 100% tested such as the `Client`, `Activity` and `Part`. (#190) see: https://coveralls.io/github/KE-works/pykechain."
+12410,ReleaseEvent,2018-05-23 09:14:01+00:00,77054015,KE-works/pykechain,1391724,jberends,24698346,KE-works,published,v2.2.1,v2.2.1,"2.2.1 (23MAY18)
+---------------
+ * We ensured that old pykechain code to create a property model when not using the `PropertyType` enums is still compatible with changes introduced in version 1.16.0 (MAR18). We improved the documentation for `Client.create_property()` and `enums.PropertyTypes`. Using 'CHAR' (pre 1.16 style) instead of 'CHAR_VALUE' (enum style) will result in a warning (with suggestion to change this) for old code and will be corrected. Using an invalid `property_type` will result in an `IllegalArgumentError`. (#326)
+
+2.2.0 (14MAY18)
+---------------
+
+Major feature: Property validators
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~``
+ * We added support for validators to KE-chain v2.12.0-139 and pykechain. Validators objects are stored on a property and can be used to validate the value of a property. The validator objects are also visualised in the KE-chain frontend. (#317)
+
+Validators have a representation in the frontend of KE-chain 2 (see also documentation on: https://support.ke-chain.com/). The validators are stored on the `Property` object and currently the following validators are implemented:
+
+ * `NumericRangeValidator`: When you provide a range, the validate can check if the value of the property is within range. It can even check a stepsize. See the documentation for `NumericRangeValidators`. A representation in KE-chain is available when the value does not conform to this range.
+ * `RequiredFieldValidator`: When you add this to a property (model), the property validates when a value is provided. There is a representation in KE-chain frontend available.
+ * `RegexStringValidator`: A special validation to check a string (eg textfield) against a regex pattern. There *no representation in KE-chain 2 in version v2.12.0-138*.
+ * `OddNumberValidator` and `EvenNumberValidator`: a validator that checks a numeric field (decimal or integer field) if it is an even or odd number. There *no representation in KE-chain 2 in version v2.12.0-138*.
+ * `SingleReferenceValidator`: a special validator that ensures that there can only be a single referenced part selected in a (multi) reference property.
+
+To validate the property object there are several new functions available. :meth:`Property.validate()` to validate all validators attached to the property using the :attr:`Property.value` as basis for the validation. You will be provided back a resulting list with all validations including their validation reason.
+
+To only check if the Property and its value conforms to the list of Validators, use the :attr:`Property.is_valid` and :attr:`Property.is_invalid` properties.
+
+To retrieve the `PropertyValidator` objects that are stored on the `Property` use the property :meth:`Property.validators`. You can set a list of `PropertyValidator` objects to this property as well, which will be stored on the `Property` in KE-chain using an API call.
+
+To add validators to a property (model)::
+
+    >>> bike_model = project.model(name='Bike')  # type: Part
+    >>> electric_range = bike_model.property('electric_range')  # type: Property
+    >>> range = NumericRangeValidator(minvalue=0, maxvalue=100)  # instantiate a range validation between 0 and 100
+    >>> reqd = RequiredFieldValidator()  # instantiate a requiredFieldValidator
+    >>> electric_range.validators = [range, reqd]  # save the validators on the property to KE-chain
+
+To validate a value against a validator::
+
+    >>> bike = project.part(name='Bike')  # type: Part
+    >>> electric_range = bike.property('electric_range')  # type: Property
+    >>> electric_range.value
+    None
+    >>> electric_range.is_valid  # No value set, invalid according to the requiredFieldValidator
+    False
+    >>> electric_range.value = 50
+    >>> electric_range.is_valid  # Value is provided AND value is within the range (0, 100)
+    True
+    >>> electric_range.value = -1
+    >>> electric_range.is_valid  # However, the value itself is invalid according to the range validation
+    False
+    >>> electric_range.validate(reason=True)  # use the explicit validation
+    [(False, ""Value '-1' should be between 0 and 100""), (True, ""Value is provided"")]
+
+
+For more documentation of Validators, please refer to the API documentation at: http://pykechain.readthedocs.io/en/latest/developer_api.html
+
+Fixes and improvements
+~~~~~~~~~~~~~~~~~~~~~~
+ * A fix was made for the the `Part.populate_descendants()` to be working for part of category `MODEL` too. Thanks to a fix of @raduiordache. (#320)
+
+"
+12667,ReleaseEvent,2018-05-04 15:56:02+00:00,50095521,conan-io/conan-package-tools,3807515,lasote,15212165,conan-io,published,0.17.1,0.17.1 (4-May-2018),"- Bugix: Upload remote was not passed to docker container when using the ""upload"" parameter instead of `CONAN_UPLOAD` environment variable.
+- Feature: Printed in a table the parameters of the invocation of `conan create` for debugging purpose."
+13050,ReleaseEvent,2017-07-18 22:19:26+00:00,96243904,labstack/labstack-python,314036,vishr,2624634,labstack,published,0.1.0,v0.1.0,First release
+13187,ReleaseEvent,2016-11-01 16:58:18+00:00,51204639,sagemath/cysignals,1423682,malb,982721,sagemath,published,1.3.1,,
+13195,ReleaseEvent,2018-06-28 05:44:21+00:00,132834642,sarugaku/requirementslib,954310,techalchemy,39783362,sarugaku,published,v1.0.8,1.0.8 (2018-06-27),"1.0.8 (2018-06-27)
+==================
+
+Bug Fixes
+---------
+
+- Requirementslib will no longer incorrectly write absolute paths or uris where relative paths were provided as inputs.
+- Fixed a bug with formatting VCS requirements when translating implicit SSH URIs to ssh URLs. (#20)"
+13823,ReleaseEvent,2016-02-04 08:57:45+00:00,1257514,quantmind/pulsar,144320,lsbardel,144099,quantmind,published,1.1.2,WSGI File Wrapper,"* Removed ``release`` application and created a new repository for it (https://github.com/quantmind/agile)
+* ``wait`` method in ``greenio`` app accepts an extra parameter for checking if in child greenlet
+* Specialised ``MustBeInChildGreenlet`` error for functions which should be called on a child greenlet
+* Critical bug fix in ``pubsub`` subscribe method for Redis backend
+* Added an asynchronous ``wsgi.file_wrapper`` to the WSGI environment
+* Added ``file_response`` utility to serve local files
+* Introduced ``pulsar.ensure_future`` in place of ``pulsar.async``"
+13943,ReleaseEvent,2017-04-17 22:32:44+00:00,83606106,uw-it-aca/uw-restclients-sws,9834194,fanglinfang,3730428,uw-it-aca,published,0.5.3.2,add section label validation function,
+13954,ReleaseEvent,2016-09-16 16:49:46+00:00,39744863,4Catalyzer/flask-annex,3112159,taion,13967986,4Catalyzer,published,v0.0.5,v0.0.5,- **Chore:** Add package information (#7)
+14621,ReleaseEvent,2017-09-28 01:06:27+00:00,22072746,pantsbuild/pex,1883523,kwlzn,3065172,pantsbuild,published,v1.2.12,pex 1.2.12,"---
+
+## 1.2.12
+
+- Create --pex-path argument for pex cli and load pex path into pex-info metadata #417
+"
+14722,ReleaseEvent,2018-06-26 06:45:33+00:00,7209075,pantsbuild/pants,157586,jsirois,3065172,pantsbuild,published,release_1.9.0.dev0,,
+15132,ReleaseEvent,2018-08-27 17:44:00+00:00,3470471,FortAwesome/Font-Awesome,132895,robmadole,1505683,FortAwesome,published,5.3.0,Release 5.3.0,"### Added
+* New Religion, and Marketing category
+* New icons in the Mathematics, and Business category
+* New stats for signal, volume, and wifi icons
+* New brand icon for the-red-yeti and alipay
+
+### Changed
+* Adding ethereum to Currency category
+* Adding bitcoin and btc to Payments & Shopping
+
+### Fixed
+* Incorrect name for layer-minus and layer-plus in sponsors.yml
+* Reversing route-highway and route-interstate
+* Correct version identifier in OTF and web font files
+* CSS keyframe names are not minified (and renamed) to prevent conflict with user or app specific names
+* Sass placeholder selector added for %fa-icon to fix CSS precendence issue with font-weight"
+15918,ReleaseEvent,2017-11-02 03:42:59+00:00,71932349,ray-project/ray,113316,pcmoritz,22125274,ray-project,published,ray-0.2.2,ray-0.2.2,
+16058,ReleaseEvent,2017-12-05 16:11:56+00:00,55245781,sassoftware/saspy,17710182,tomweber-sas,5289877,sassoftware,published,v2.1.9,V2.1.9,V2.1.8 ended up with a bug where the dtypes of dataframes created with sasdata2dataframe weren't consistently being propagated. This fixes that issue and has a couple other minor nls fixes too.  
+16635,ReleaseEvent,2018-05-09 21:33:42+00:00,114060493,dwavesystems/dwavebinarycsp,8395238,arcondello,5449030,dwavesystems,published,0.0.2,0.0.2,
+16664,ReleaseEvent,2017-03-14 19:39:55+00:00,78880128,instagrambot/instabot,5613295,ohld,26087671,instagrambot,published,0.3.3.6,"Several account support, saving counters and SUPER DUPER CLI SCRIPT"," * Now Instabot can work with several accounts - just run your favorite scripts and read the script's output. 
+ * Now your counters (number of likes, follows, unfollows etc.) will save even if you close the script! 
+ * Go and check the multi_script_CLI.py! This is a dialogue script that is so easy to run that you will be the happiest man."
+16698,ReleaseEvent,2016-08-02 10:45:40+00:00,55883665,meta-toolkit/metapy,1378336,skystrife,6588029,meta-toolkit,published,v0.0.1.dev7,,
+16779,ReleaseEvent,2018-08-13 23:02:19+00:00,70451850,scikit-build/scikit-ci-addons,219043,jcfr,8144855,scikit-build,published,latest,Latest (updated on 2018-08-13 23:08 UTC),
+16780,ReleaseEvent,2017-12-01 05:54:29+00:00,70451850,scikit-build/scikit-ci-addons,219043,jcfr,8144855,scikit-build,published,latest,Latest (updated on 2017-12-01 05:12 UTC),
+16782,ReleaseEvent,2018-07-04 21:08:42+00:00,70451850,scikit-build/scikit-ci-addons,219043,jcfr,8144855,scikit-build,published,latest,Latest (updated on 2018-07-04 21:07 UTC),
+17382,ReleaseEvent,2018-03-18 16:04:22+00:00,28765925,home-assistant/netdisco,1444314,balloob,13844975,home-assistant,published,1.3.1,1.3.1, - Ignore Sony Bravia TVs from Songpal detection (#180 - @rytilahti) 
+17386,ReleaseEvent,2017-03-01 04:22:41+00:00,28765925,home-assistant/netdisco,1444314,balloob,13844975,home-assistant,published,0.8.3,0.8.3," - Revert fluxled (@balloob)
+ - Add NUPNP Hue discovery (@grunskis)"
+17844,ReleaseEvent,2015-08-25 20:31:53+00:00,40117755,inveniosoftware/invenio-oauthclient,517546,tiborsimko,1157480,inveniosoftware,published,v0.1.1,Invenio-OAuthClient v0.1.1,"============================
+ Invenio-OAuthClient v0.1.1
+============================
+
+Invenio-OAuthClient v0.1.1 was released on August 25, 2015.
+
+About
+-----
+
+Invenio module that provides OAuth web authorization support.
+
+*This is an experimental development preview release.*
+
+Improved features
+-----------------
+
+- Improves the account setup for the CERN oauthclient.
+
+Bug fixes
+---------
+
+- Adds missing `invenio_upgrader` dependency and amends past upgrade
+  recipes following its separation into standalone package.
+
+- Sends a validation email only if the option is enabled in the
+  config.  (#4)
+
+Installation
+------------
+
+   $ pip install invenio-oauthclient==0.1.1
+
+Documentation
+-------------
+
+   http://invenio-oauthclient.readthedocs.org/en/v0.1.1
+
+Happy hacking and thanks for flying Invenio-OAuthClient.
+
+| Invenio Development Team
+|   Email: info@invenio-software.org
+|   IRC: #invenio on irc.freenode.net
+|   Twitter: http://twitter.com/inveniosoftware
+|   GitHub: https://github.com/inveniosoftware/invenio-oauthclient
+|   URL: http://invenio-software.org
+"
+18029,ReleaseEvent,2017-10-20 07:05:13+00:00,41284151,frictionlessdata/tabulator-py,557395,roll,5912125,frictionlessdata,published,v1.9.0,v1.9.0,
+18129,ReleaseEvent,2018-08-02 15:30:44+00:00,49976939,learningequality/kolibri,374612,benjaoming,3926525,learningequality,published,v0.10.1-beta1,v0.10.1-beta1,Release notes: TBD @benjaoming
+18349,ReleaseEvent,2015-04-30 07:43:00+00:00,30919022,ImmobilienScout24/aws-monocyte,2291138,jbspeakr,1132872,ImmobilienScout24,published,v0.0.3,v0.0.3,v0.0.3
+18669,ReleaseEvent,2017-06-26 23:21:45+00:00,16316451,GoogleCloudPlatform/google-cloud-python,242750,tseaver,2810941,GoogleCloudPlatform,published,bigquery-0.25.0,bigquery-0.25.0,"- Update `google-cloud-core` dependency to ~= 0.25.
+- Fix display of `_EnumProperty` ValueError messages. (PR #3520)
+- Make `QueryResponse.fetch_data` return an iterator. (PR #3484, issue #2840)
+- Add read-only `Query.num_dml_affected_rows` property. (PR #3460, issue #2920)
+- Marshal row data correctly in `Table.insert_data()` (PR #3426, issue #2957)
+- Fix support for loading AVRO files from the local filesystem (PR #3427, issue #3416)
+- Fix support for creating partitioned tables. (PR #3381)
+- Update BigQuery Query parameter reference to better indicate that `timeout_ms` sets timeout on the request, not on the query. (PR #3320, issue #3317)"
+18947,ReleaseEvent,2017-01-24 06:04:19+00:00,60025264,Alignak-monitoring-contrib/alignak-webui,2932687,mohierf,14056682,Alignak-monitoring-contrib,published,0.6.11,,"Version published on PyPi:
+- run Alignak Web UI with an installed script (alignak-webui-uswgi)
+- compatible with the most recent alignak backend
+- not yet edition enabled but coming soon :wink: "

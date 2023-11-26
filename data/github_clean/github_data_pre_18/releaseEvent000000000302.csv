@@ -1,0 +1,931 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,release_action,release_tag_name,release_name,release_body
+240,ReleaseEvent,2017-12-30 22:31:14+00:00,37620216,kipe/pycron,1581122,kipe,,,published,v0.80.0,v0.80.0,"- Add anacron style `has_been` function (#1, #3)
+- Add support for alternative datetime libraries (#4, #9)
+- Make sure both timezone aware and naive datetimes are supported (#2, #3, #6)
+- Drop support for Python 2.6, 3.2, 3.3 (#8)"
+323,ReleaseEvent,2017-03-25 12:17:20+00:00,82588597,youfou/wxpy,16631068,youfou,,,published,0.3.2,wxpy 0.3.2 (2017-3-25),"* [新增] 转发消息，目前支持 7 种消息类型 `Message.forward()` ([文档](http://wxpy.readthedocs.io/zh/latest/messages.html#wxpy.Message.forward))
+
+    例如，将公司群中的老板消息转发出来
+
+     ```python
+    from wxpy import *
+
+    bot = Bot()
+
+    # 定位公司群
+    company_group = ensure_one(bot.groups().search('公司微信群'))
+
+    # 定位老板
+    boss = ensure_one(company_group.search('老板大名'))
+
+    # 将老板的消息转发到文件传输助手
+    @bot.register(company_group)
+    def forward_boss_message(msg):
+        if msg.member == boss:
+            msg.forward(bot.file_helper, prefix='老板发言')
+
+    # 堵塞线程
+    embed()
+
+     ```
+
+* [新增] 在多个群中同步消息 `sync_message_in_groups()` ([文档](http://wxpy.readthedocs.io/zh/latest/utils.html#wxpy.sync_message_in_groups))
+    
+    ```python
+    my_groups = [group1, group2, group3 ...]
+
+    @bot.register(my_groups, except_self=False)
+    def sync_my_groups(msg):
+        sync_message_in_groups(msg, my_groups)
+    ```
+    
+* [新增] 上传文件并获得 media_id，可用于重复发送 `Bot.upload_file()` ([文档](http://wxpy.readthedocs.io/zh/latest/bot.html#wxpy.Bot.upload_file))
+
+* [新增] 堵塞进程，直到结束消息监听 (例如，机器人被登出时) `Bot.join()` ([文档](http://wxpy.readthedocs.io/zh/latest/bot.html#wxpy.Bot.join))
+* [新增] 群聊中的机器人自身(作为群成员) `Group.self`
+* [修复] 群消息中，当发送者为机器人自身时，msg.member 为 None 的问题
+"
+746,ReleaseEvent,2017-08-09 13:44:06+00:00,87705200,amanusk/s-tui,7280933,amanusk,,,published,v0.4.0,v0.4.0,"Change log:
+* Add support for additional devices
+* Temperature read related bug fixed
+* Restructure code for simpler modification
+* Minor UI changes"
+969,ReleaseEvent,2017-10-02 16:10:59+00:00,13943006,MrYsLab/PyMata,5189838,MrYsLab,,,published,v2.16,Updated setup.py for affero license.,No code changes.
+1066,ReleaseEvent,2018-07-25 19:43:45+00:00,130414108,chathika/NL4Py,789414,chathika,,,published,v0.4.0,v0.4.0,NetLogoControllerServer is packaged with client now and is downloaded upon pip install nl4py
+1366,ReleaseEvent,2016-06-02 18:33:05+00:00,41076741,sibson/redbeat,125162,sibson,,,published,v0.9.3rc3,,
+1780,ReleaseEvent,2015-12-03 02:38:12+00:00,43704742,sckott/habanero,577668,sckott,,,published,v0.1.3,habanero v0.1.3,"0.1.3 (2015-12-02)
+--------------------
+* Fix wheel file to be a universal to install on python2 and python3 (#25)
+* Added method `csl_styles` to get CSL styles for use in content negotiation (#27)
+* More documentation for content negotiation (#26)
+* Made note in docs that `sample` param ignored unless `/works` used (#24)
+* Made note in docs that funders without IDs don't show up on the `/funders` route (#23)"
+2061,ReleaseEvent,2017-09-04 15:13:07+00:00,42585968,holgern/pyedflib,2202263,holgern,,,published,v0.1.10,pyEDFlib v0.1.10,"- Add function for access subset of data
+- Improved error messages
+
+Authors
+=======
+
+* Holger Nahrstaedt
+
+
+Issues closed for v0.1.10
+------------------------
+- #19 : IOError: the file is not EDF(+) or BDF(+) compliant (Label)
+- #20 : access subset of data
+
+Pull requests for v0.1.10
+------------------------
+"
+2273,ReleaseEvent,2018-07-01 08:56:12+00:00,65270000,wuyue92tree/crwy,7899044,wuyue92tree,,,published,1.0.9,v1.0.9,"set添加srem方法，修改部分说明信息;
+添加依赖retrying，imapclient;
+添加超级鹰api;
+last_insert_id返回调整;
+为redis添加单例模式，保证线程内连接池共享;
+为sql模块对象添加单例模式支持，实现连接池共享及更名db模块为sqlalchemy;
+新增scrapy_plugs自定义常用中间件;
+RedisRFPDupeFilter添加SPIDER_NAME检查;
+添加有序集合，用于采集时，进行按时间点去重;
+添加scrapy_plugs;
+添加从consul加载配置文件逻辑。;
+添加cls_singleton关键词用于控制单例模式是否生效;
+添加zscore;
+添加DUPEFILTER_DELAY_DAY选项，若该值大于0，则采用有序集合进行去重，time.time()时间戳作为score;
+dict2obj 添加change_dict选项，用于控制是否转换target内部dict为obj;
+修复通过zscore判断失效时间时，时间计算错误问题;
+添加过滤日志;
+添加aby代理下载中间件;
+在meta选项中添加对duperliter_delay_day监听，添加DUPEFILTER_DO_HASH选项;
+修改代理中间件;
+移动redis_m模块到no_sql."
+2366,ReleaseEvent,2018-07-03 08:48:07+00:00,89598064,andrasmaroy/pconf,3441609,andrasmaroy,,,published,1.3.3,1.3.3 release,"Bugfixes:
+* use YAML `safe_load` instead of `load` to avoid arbitrary code execution with [CVE-2017-18342](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2017-18342)"
+2481,ReleaseEvent,2017-09-09 19:48:48+00:00,15408116,ergoithz/browsepy,5426406,ergoithz,,,published,0.5.6,,* Windows-related fixes.
+2661,ReleaseEvent,2017-02-13 05:41:12+00:00,23058769,nabla-c0d3/sslyze,1915165,nabla-c0d3,,,published,1.0.0,SSLyze v1.0.0,"* Significant refactoring to simplify and enhance SSLyze's Python API. It is now fully documented and should be considered stable; see http://nabla-c0d3.github.io/sslyze/documentation/.
+* Renamed `--certinfo_basic` command to `--certinfo` for consistency with other plugins.
+* The `--certinfo` command will now use any trust store that successfully validated the server's certificate chain to run further checks against the server's chain (such as the chain order, or the presence of a SHA1-signed certificate), instead of only trying with the Mozilla trust store.
+* The `--certinfo` command will now properly validate OCSP Stapling.
+* Significant internal changes including:
+    * A revamped plugin system that is a lot simpler to maintain and extend. 
+    * Progress toward Python3 compatibility.
+* With a clean, fully documented Python API, SSLyze is now ready for a 1.0.0 release!"
+2980,ReleaseEvent,2015-11-23 20:55:27+00:00,30908907,greginvm/pyclipper,10724016,greginvm,,,published,1.0.1,,
+2981,ReleaseEvent,2015-03-18 16:30:46+00:00,30908907,greginvm/pyclipper,10724016,greginvm,,,published,0.9.1b0,,
+2990,ReleaseEvent,2015-05-01 09:08:23+00:00,28453253,hughperkins/DeepCL,123560,hughperkins,,,published,v4.2.0,v4.2.0,"### New:
+- added weight decay to python wrappers.  Accessible by calling `setWeightDecay(0.001)` on SGD object
+- added weight decay to lua wrappers.  Accessible by calling `setWeightDecay(0.001)` on SGD object
+"
+3311,ReleaseEvent,2018-01-23 16:35:13+00:00,33266451,JimmXinu/FanFicFare,11446969,JimmXinu,,,published,v2.22.0,FanFicFare v2.22.0,"(I accidentally skipped v2.21.)
+
+# Installation instructions:
+
+## Calibre Plugin:
+
+Install attached plugin zip file, or use Calibre's 'Get plugins' feature.
+
+## Web service:
+
+http://fanficfare.appspot.com/
+
+## Command line interface:
+
+Rather being delivered as a zip file with dependencies included, FanFicFare is delivered as a `pip` Python package.  It's been tested on Python 2.6 and 2.7, but not on Python 3.
+
+`pip install FanFicFare`
+or
+`pip install --upgrade FanFicFare`
+...to update.
+
+(pip will automatically install dependencies beautifulsoup4, html5lib, chardet and six.)
+
+Run `fanficfare -h` from command-line.
+
+## Changes:
+- Tweak 'Chapter not found...' check for ffnet for changed/new text.
+- Set siteabbrev for adapter_wattpadcom
+- Handle QQ threads w/o threadmarks correctly.
+- Additional CLI python version checking.
+- fimfiction adapter: add new tag types, fix groups (#259), thanks FaceDeer! "
+3529,ReleaseEvent,2017-10-02 14:34:27+00:00,62165703,kalaspuff/tomodachi,89139,kalaspuff,,,published,0.4.9,0.4.9,* Solves issue with Segmentation fault in Python 3.6 during hot-reload on Linux.
+3622,ReleaseEvent,2017-06-25 17:19:24+00:00,95295862,nateshmbhat/pyttsx3,23279926,nateshmbhat,,,published,v2.6,pyttsx3,**pyttsx3 is an Offline cross-platform Text To Speech library which is compatible with both python2 and python3 .**
+3653,ReleaseEvent,2017-08-21 18:13:19+00:00,16967699,prjemian/spec2nexus,2279984,prjemian,,,published,2017.901.0,2017.901.0,"Python 3 now supported
+
+* see [release notes](https://github.com/prjemian/spec2nexus/wiki/releasenotes__2017-09-python3)
+* Released during Great American Solar Eclipse (2017-08-21)
+"
+3715,ReleaseEvent,2018-08-10 13:07:52+00:00,4156651,tomerfiliba/plumbum,4616906,henryiii,,,published,v1.6.7,Version 1.6.7,"* Commands: Added `run_*` methods as an alternative to modifiers #386
+* CLI: Added support for `ALLOW_ABREV` #401 
+* CLI: Added `DESCRIPTION_MORE`, preserves spacing #378
+* Color: Avoid throwing error in atexit in special cases (like pytest) #393
+* Including Python 3.7 in testing matrix.
+* Smaller bugfixes and other testing improvements."
+3842,ReleaseEvent,2018-03-10 14:24:29+00:00,41525596,chrissimpkins/cinder,4249591,chrissimpkins,,,published,v0.10.1,v0.10.1,
+4291,ReleaseEvent,2016-12-09 20:25:34+00:00,24219208,LettError/MutatorMath,1243961,LettError,,,published,2.0,MutatorMath release 2.0,"No major changes compared to master, but for some consumers it is good to have a release. So here it is. "
+4592,ReleaseEvent,2018-06-25 14:44:26+00:00,58070676,thombashi/sqlitebiter,15517661,thombashi,,,published,v0.17.1,,
+4594,ReleaseEvent,2018-03-19 02:54:03+00:00,58694159,timdaman/check_docker,4292968,timdaman,,,published,1.0.5,V1.0.5,
+4620,ReleaseEvent,2015-09-29 20:52:28+00:00,42685638,vstoykov/django-clamd,902381,vstoykov,,,published,0.1.0,First version 0.1.0,Initial release of `django-clamd`
+4825,ReleaseEvent,2015-10-08 04:18:51+00:00,22305196,mission-liao/pyswagger,1988671,mission-liao,,,published,v0.8.13,fix issue," - fix #42 , in swagger 2.0, when empty operationId and non-empty tags, SchemaError would be raised."
+4833,ReleaseEvent,2016-05-12 06:34:15+00:00,30548625,munkychop/angular-uuid,547631,munkychop,,,published,0.0.3,Publish to Bower,
+4914,ReleaseEvent,2016-03-08 11:58:24+00:00,30243109,Danielhiversen/pyRFXtrx,650502,Danielhiversen,,,published,0.6,0.6,
+5040,ReleaseEvent,2016-11-05 17:35:24+00:00,14761593,ellmetha/django-machina,3720615,ellmetha,,,published,0.4.0,0.4.0,[Read the release notes](http://django-machina.readthedocs.io/en/stable/release_notes/v0.4.html)
+5187,ReleaseEvent,2016-08-16 20:06:44+00:00,13540909,simonsdave/cloudfeaster,2046104,simonsdave,,,published,v0.9.0,v0.9.0,"### Added
+
+- support docker 1.12
+
+### Changed
+
+- version bumps for dependancies:
+    - chromedriver 2.22
+    - selenium 2.53.6
+    - requests 2.11.0
+    - ndg-httpsclient 0.4.2
+- set of simplifications in dev env setup
+
+### Removed
+
+- temporary removal of authenticated proxy support"
+5260,ReleaseEvent,2017-09-20 19:20:39+00:00,3491275,WoLpH/python-progressbar,270571,WoLpH,,,published,3.34.3,,
+5292,ReleaseEvent,2015-09-27 14:59:50+00:00,40718289,byt3bl33d3r/CrackMapExec,5151193,byt3bl33d3r,,,published,v1.0.3,CrackMapExec v1.0.3,"- Added an option to execute custom commands with Invoke-Mimikatz
+- Replaced Powersploits Invoke-Mimikatz with Empire's
+- Each successful login will now print a status line (Useful if you just want credential validation)"
+5424,ReleaseEvent,2017-08-25 21:13:11+00:00,28647308,sjkingo/python-freshdesk,476440,sjkingo,,,published,v1.0.1,Version 1.0.1,"# v1.0.1 - 2017-08-26
+
+  * Allow clients to specify empty filter name (@brephophagist)"
+5820,ReleaseEvent,2016-10-26 18:36:06+00:00,69747799,alorence/django-modern-rpc,1702273,alorence,,,published,release_0.3.2,2016-10-26: version 0.3.2,"- Include missing templates in pypi distribution packages
+- HTML documentation automatically generated for an entry point
+- 'system.multicall' is now supported, only in XML-RPC
+- Many tests added"
+5897,ReleaseEvent,2015-06-27 23:55:41+00:00,35990433,kata198/AdvancedHTMLParser,8461115,kata198,,,published,6.0.1,Stable 6.0.1,"* 6.0.1 June 27 2015
+- Add more docstrings and add pydoc documentation
+
+* 6.0.0 June 23 2015
+- Split Indexing out into new IndexedAdvancedHTMLParser class to greatly
+simplify the base class.
+- Get rid of the onlyIndex* on the default constructor of
+IndexedAdvancedHTMLParser, make all fields indexed by default, and add
+useIndex to every get* method which can be set to False to ignore the index
+- Add an indexed_example
+- Modify example to include addition of element
+- Split source into several files
+- Simplify a few sections
+- Ensure formatHTML ends with a newline
+
+* 5.0.1 June 10 2015
+ - Add AdvancedHTMLFormatter class and formatHTML Script
+ - Add getFormattedHTML to AdvancedHTMLParser
+ - Fix (invalid for html, but okay for subsections) multiple root node support
+ - Auto-set isSelfClosing on an AdvancedTag when they are created ad-hoc.
+"
+6161,ReleaseEvent,2017-10-11 14:26:40+00:00,8657026,roryk/ipython-cluster-helper,414586,roryk,,,published,v0.5.7,v0.5.7,Output SLURM engine logs with proper job IDs.
+6423,ReleaseEvent,2018-07-25 11:14:01+00:00,35374734,viniciuschiele/flask-apscheduler,392495,viniciuschiele,,,published,1.10.1,,- Add LICENSE file to the package.
+6513,ReleaseEvent,2017-04-05 04:37:16+00:00,56381052,NikhilNarayana/FRC-YouTube-Uploader,6331403,NikhilNarayana,,,published,v2.6.1,Version 2.6.1,Safety check before uploading thumbnail. Update README.md
+7221,ReleaseEvent,2018-01-25 10:13:36+00:00,14581902,fkie/catkin_lint,725758,roehling,1744968,fkie,published,1.4.17,,"* Fix erroneous missing depend error if a package uses its own plugin
+* Add support for dynamic_reconfigure scripts
+"
+7702,ReleaseEvent,2017-04-28 21:04:00+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-component-2.0.2,azure-cli-component 2.0.2,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.python.org/pypi/azure-cli-component/2.0.2
+"
+7717,ReleaseEvent,2017-02-17 23:52:54+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-role-0.1.2rc1,azure-cli-role 0.1.2rc1,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.python.org/pypi/azure-cli-role/0.1.2rc1
+"
+7765,ReleaseEvent,2017-07-07 16:23:55+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-profile-2.0.8,azure-cli-profile 2.0.8,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.org/project/azure-cli-profile/2.0.8
+
+Full release notes at https://docs.microsoft.com/en-us/cli/azure/release-notes-azure-cli
+
+"
+8828,ReleaseEvent,2015-08-12 14:52:12+00:00,3342046,RDFLib/rdflib,464192,joernhees,1401847,RDFLib,published,4.2.1,RDFLib 4.2.1,"This is a bug-fix release.
+
+Minor enhancements:
+-------------------
+* Added a Networkx connector
+  [#471](https://github.com/RDFLib/rdflib/pull/471),
+  [#507](https://github.com/RDFLib/rdflib/pull/507)
+* Added a graph_tool connector
+  [#473](https://github.com/RDFLib/rdflib/pull/473)
+* Added a `graphs` method to the Dataset object
+  [#504](https://github.com/RDFLib/rdflib/pull/504),
+  [#495](https://github.com/RDFLib/rdflib/issues/495)
+* Batch commits for `SPARQLUpdateStore`
+  [#486](https://github.com/RDFLib/rdflib/pull/486)
+
+Bug fixes:
+----------
+* Fixed bnode collision bug
+  [#506](https://github.com/RDFLib/rdflib/pull/506),
+  [#496](https://github.com/RDFLib/rdflib/pull/496),
+  [#494](https://github.com/RDFLib/rdflib/issues/494)
+* fix `util.from_n3()` parsing Literals with datatypes and Namespace support
+  [#503](https://github.com/RDFLib/rdflib/pull/503),
+  [#502](https://github.com/RDFLib/rdflib/issues/502)
+* make `Identifier.__hash__` stable wrt. multi processes
+  [#501](https://github.com/RDFLib/rdflib/pull/501),
+  [#500](https://github.com/RDFLib/rdflib/issues/500)
+* fix handling `URLInputSource` without content-type
+  [#499](https://github.com/RDFLib/rdflib/pull/499),
+  [#498](https://github.com/RDFLib/rdflib/pull/498)
+* no relative import in `algebra` when run as a script
+  [#497](https://github.com/RDFLib/rdflib/pull/497)
+* Duplicate option in armstrong `theme.conf` removed
+  [#491](https://github.com/RDFLib/rdflib/issues/491)
+* `Variable.__repr__` returns a python representation string, not n3
+  [#488](https://github.com/RDFLib/rdflib/pull/488)
+* fixed broken example
+  [#482](https://github.com/RDFLib/rdflib/pull/482)
+* trig output fixes
+  [#480](https://github.com/RDFLib/rdflib/pull/480)
+* set PYTHONPATH to make rdfpipe tests use the right rdflib version
+  [#477](https://github.com/RDFLib/rdflib/pull/477)
+* fix RDF/XML problem with unqualified use of `rdf:about`
+  [#470](https://github.com/RDFLib/rdflib/pull/470),
+  [#468](https://github.com/RDFLib/rdflib/issues/468)
+* `AuditableStore` improvements
+  [#469](https://github.com/RDFLib/rdflib/pull/469),
+  [#463](https://github.com/RDFLib/rdflib/pull/463)
+* added asserts for `graph.set([s,p,o])` so `s` and `p` aren't `None`
+  [#467](https://github.com/RDFLib/rdflib/pull/467)
+* `threading.RLock` instances are context managers
+  [#465](https://github.com/RDFLib/rdflib/pull/465)
+* SPARQLStore does not transform Literal('') into Literal('None') anymore
+  [#459](https://github.com/RDFLib/rdflib/pull/459),
+  [#457](https://github.com/RDFLib/rdflib/issues/457)
+* slight performance increase for graph.all_nodes()
+  [#458](https://github.com/RDFLib/rdflib/pull/458)
+
+Testing improvements:
+---------------------
+* travis: migrate to docker container infrastructure
+  [#508](https://github.com/RDFLib/rdflib/pull/508)
+* test for narrow python builds (chars > 0xFFFF) (related to
+    [#453](https://github.com/RDFLib/rdflib/pull/453),
+    [#454](https://github.com/RDFLib/rdflib/pull/454)
+  )
+  [#456](https://github.com/RDFLib/rdflib/issues/456),
+  [#509](https://github.com/RDFLib/rdflib/pull/509)
+* dropped testing py3.2
+  [#448](https://github.com/RDFLib/rdflib/issues/448)
+* Running a local fuseki server on travis and making it failsafe
+  [#476](https://github.com/RDFLib/rdflib/pull/476),
+  [#475](https://github.com/RDFLib/rdflib/issues/475),
+  [#474](https://github.com/RDFLib/rdflib/pull/474),
+  [#466](https://github.com/RDFLib/rdflib/pull/466),
+  [#460](https://github.com/RDFLib/rdflib/issues/460)
+* exclude `def main():` functions from test coverage analysis
+  [#472](https://github.com/RDFLib/rdflib/pull/472)
+"
+8946,ReleaseEvent,2017-11-30 23:15:17+00:00,34864402,apache/incubator-mxnet,11234557,cjolivier01,47359,apache,published,1.0.0.rc1,MXNet 1.0.0.rc1,"MXNet Change Log
+================
+## 1.0.0
+### Performance
+  - Enhanced the performance of `sparse.dot` operator.
+  - MXNet now automatically set OpenMP to use all available CPU cores to maximize CPU utilization when `NUM_OMP_THREADS` is not set.
+  - Unary and binary operators now avoid using OpenMP on small arrays if using OpenMP actually hurts performance due to multithreading overhead.
+  - Significantly improved performance of `broadcast_add`, `broadcast_mul`, etc on CPU.
+  - Added bulk execution to imperative mode. You can control segment size with `mxnet.engine.bulk`. As a result, the speed of Gluon in hybrid mode is improved, especially on small networks and multiple GPUs.
+  - Improved speed for `ctypes` invocation from Python frontend.
+### New Features - Gradient Compression [Experimental]
+  - Speed up multi-GPU and distributed training by compressing communication of gradients. This is especially effective when training networks with large fully-connected layers. In Gluon this can be activated with `compression_params` in Trainer.
+### New Features - Support of NVIDIA Collective Communication Library (NCCL) [Experimental]
+  - Use `kvstore=’nccl’` for (in some cases) faster training on multiple GPUs.
+  - Significantly faster than kvstore=’device’ when batch size is small.
+  - It is recommended to set environment variable `NCCL_LAUNCH_MODE` to `PARALLEL` when using NCCL version 2.1 or newer.
+### New Features - Advanced Indexing [General Availability]
+  - NDArray now supports advanced indexing (both slice and assign) as specified by the numpy standard: https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.indexing.html#combining-advanced-and-basic-indexing with the following restrictions:
+    - if key is a list type, only a list of integers is supported, e.g. `key=[1, 2]` is supported, while not for `key=[[1, 2]]`.
+    - Ellipsis (...) and np.newaxis are not supported.
+    - `Boolean` array indexing is not supported.
+### New Features - Gluon [General Availability]
+  - Performance optimizations discussed above.
+  - Added support for loading data in parallel with multiple processes to `gluon.data.DataLoader`. The number of workers can be set with `num_worker`. Does not support windows yet.
+  - Added Block.cast to support networks with different data types, e.g. `float16`.
+  - Added Lambda block for wrapping a user defined function as a block.
+  - Generalized `gluon.data.ArrayDataset` to support arbitrary number of arrays.
+### New Features - ARM / Raspberry Pi support [Experimental]
+  - MXNet now compiles and runs on ARMv6, ARMv7, ARMv64 including Raspberry Pi devices. See https://github.com/apache/incubator-mxnet/tree/master/docker_multiarch for more information.
+### New Features - NVIDIA Jetson support [Experimental]
+  - MXNet now compiles and runs on NVIDIA Jetson TX2 boards with GPU acceleration.
+  - You can install the python MXNet package on a Jetson board by running - `$ pip install mxnet-jetson-tx2`.
+### New Features - Sparse Tensor Support [General Availability]
+  - Added more sparse operators: `contrib.SparseEmbedding`, `sparse.sum` and `sparse.mean`. 
+  - Added `asscipy()` for easier conversion to scipy.
+  - Added `check_format()` for sparse ndarrays to check if the array format is valid.
+### Bug-fixes  
+  - Fixed a[-1] indexing doesn't work on `NDArray`.
+  - Fixed `expand_dims` if axis < 0.
+  - Fixed a bug that causes topk to produce incorrect result on large arrays.
+  - Improved numerical precision of unary and binary operators for `float64` data.
+  - Fixed derivatives of log2 and log10. They used to be the same with log.
+  - Fixed a bug that causes MXNet to hang after fork. Note that you still cannot use GPU in child processes after fork due to limitations of CUDA.
+  - Fixed a bug that causes `CustomOp` to fail when using auxiliary states.
+  - Fixed a security bug that is causing MXNet to listen on all available interfaces when running training in distributed mode.
+### Doc Updates
+  - Added a security best practices document under FAQ section.
+  - Fixed License Headers including restoring copyright attributions.
+  - Documentation updates. 
+  - Links for viewing source.
+ 
+ For more information and examples, see [full release notes](https://cwiki.apache.org/confluence/display/MXNET/Apache+MXNet+%28incubating%29+1.0+Release+Notes)
+
+"
+9406,ReleaseEvent,2017-05-10 15:35:02+00:00,26784827,dotnet/core,2212879,leecow,9141961,dotnet,published,v2.0.0-preview1,.NET Core 2.0.0 Preview 1,"[Release Notes](https://github.com/dotnet/core/blob/master/release-notes/2.0/2.0.0-preview1.md)
+[Download and Install](https://github.com/dotnet/core/blob/master/release-notes/download-archives/2.0.0-preview1-download.md)"
+10006,ReleaseEvent,2017-04-05 12:30:33+00:00,82338450,ripple/dactyl,7515597,mDuo13,3165523,ripple,published,v0.4.0,v0.4.0,"While still technically a ""0."" release, v0.4.0 is a major refactor of Dactyl's source code!
+
+As part of the refactor, many unintuitive or weird details have been removed. A few things have been renamed to be more consistent and sensible.
+
+Resolves:
+- #1 - specify one or more `filter_paths` in config to be able to import custom filters.
+- #2 - The hard-to-explain link substitution filter from the Dactyl core has been removed. The new `link_replacement` filter covers the same functionality in a slightly different way. Instead of link replacements being part of page definitions, they're defined in a `link_subs` map in the target definition.
+- #4 See the examples in this repo.
+- #15 - The `pdf_template` field at the global level has been renamed `default_pdf_template`. The old name still works but gives a warning.
+- #16 - Callouts now use the `dactyl-callout` HTML class by default, but you can change it back or otherwise customize it using the `callout_class` config option. Additionally, you can define custom callout types by adding a `callout_types` array to the config. (The default is still tip/note/caution/warning.)
+- #17 - Both the preprocessor and templates get new fields, with the preprocessor getting many more. See the readme for full tables.
+
+Additionally:
+- Filters get many more arguments, including access to global config, the Dactyl logger object, and categories. It's recommended that the `filter_markdown()`, `filter_html()`, and `filter_soup()` functions in a filter take a **kwargs argument to maintain compatibility with future versions of Dactyl, which may add more keyword arguments.
+- Githubify mode has been removed and replaced by a similar Markdown export mode (`--md`). Markdown mode runs the preprocessor _and_ markdown filters on the input files. It also builds every file by default. (""Githubify"" mode didn't run filters, although it attempted link substitution, and it only worked on a single file.)
+- New `--only` option allows you to build only a single file from a target. (This is similar to how Githubify used to work, except now it can be used with HTML and PDF too.) Pass the input (`*.md`) or output (`*.html`) filename as the argument.
+- Output paths can now contain folders. Dactyl automatically creates folders as necessary.
+- New built-in filters: `link_replacement` (replaces the removed link substitution functionality) and `demote_headers` (helps to adjust header levels to fit appropriately in your hierarchy without editing the markdown files directly; can be run only in PDF mode, too)
+- The `sidebar_content` template variable has been renamed (more semantically) `page_toc`; the old name remains as an alias. Dactyl no longer sets the `sidebar` field of a page automatically."
+10088,ReleaseEvent,2017-01-30 17:09:24+00:00,51625787,vatlab/SOS,9889312,BoPeng,20074389,vatlab,published,0.9.3,Side panel for scratch execution and display of preview content,
+10212,ReleaseEvent,2016-02-05 16:51:56+00:00,6248645,ARM-DOE/pyart,1050278,jjhelmus,2540600,ARM-DOE,published,v1.6.0,Py-ART version 1.5.0,
+10797,ReleaseEvent,2015-09-23 20:13:41+00:00,12024074,conekta/conekta-python,193205,julianceballos,3752329,conekta,published,v2.0,conekta api version upgrade,Update conekta API version from 0.0.3 to 1.0.0
+11619,ReleaseEvent,2018-01-11 21:12:57+00:00,27458716,pyexcel/pyexcel-io,4280312,chfw,16431467,pyexcel,published,v0.5.6,v0.5.6,Find 0.5.6 in changelog for more details
+11971,ReleaseEvent,2017-06-13 19:06:20+00:00,73851042,ucfopen/canvasapi,1991607,Thetwam,20798260,ucfopen,published,v0.3.0,0.3.0 - 2017-03-30,"### New Endpoint Coverage
+
+- Appointment Groups
+- Assignment Groups
+- Bookmarks
+- Calendar Events
+- Discussions
+- External Tools
+
+### General
+
+- Updated CHANGELOG.md format
+- Created AUTHORS.md
+- Added LICENSE
+- Added `pycodestyle` and `pyflakes` requirements
+- Added setup.cfg with `pycodestyle` max-line-length definition
+- Moved .coveragerc settings to setup.cfg
+- Changed `assert` statements to use the assertion methods built into unittest."
+11975,ReleaseEvent,2017-01-04 11:34:55+00:00,70525386,uktrade/directory-api-client,5485798,richtier,15107524,uktrade,published,3.1.0,3.1.0,
+12137,ReleaseEvent,2017-09-04 12:19:09+00:00,77054015,KE-works/pykechain,1391724,jberends,24698346,KE-works,published,v1.11.0,v1.11.0,"1.11 (4SEP17)
+-------------
+ * In KE-chain 2.5 the way we use task customization has changed drastically. Pykechain (from 1.11 onwards) supports this by implementing a new concept in the activity called `Activity.customization()` (#161). This provides you an `ExtCustomization` object, which you can inspect and add new widgets. Please see the documentation on `ExtCustomization` and `Activity.customization()` for more details. An example to use is:
+
+    >>> activity = project.activity(name='Customizable activity')
+    >>> customization = activity.customization()
+    >>> part_to_show = project.part(name='Bike')
+    >>> customization.add_property_grid_widget(part_to_show, custom_title=""My super bike""))
+
+ * Removed previously announced deprecated method for `activity.create_activity()` (use `Activity.create()`).
+ * Added deprecation warnings when using `InspectorComponent` objects and old style `Customization` components. They will be removed in November 2017 (introduced in pykechain 1.9)
+ * Added the ability to retrieve a list of project members and managers with the `Scope.members()` method (#169)
+ * Added the ability to manage member and managers of a scope. See the `Scope.add_member`, `add_manager`, `remove_member`, `remove_manager` (#175)
+ * Added the ability to add additional keyword arguments for the methods `Part.update()`, `Part.add_with_properties()` and `Part.edit()`. This will allow to provide additional (including undocumented) arguments to the KE-chain API. (eg. 'suppress_kevents=True') (#177)
+ * Added the ability to edit the name of the property, its description and the unit (#146, PR #179)
+ * Added classification enumeration (#175)
+ * Updated the documentation structure to better access all the pykechain models related documentation. See http://pykechain.readthedocs.io/en/latest/developer_api.html
+ * Updated dependent version of tox to 2.8.0 (#178) and further to 2.8.1 (#180)
+ * Updated all tests such that our coverage aim of 96%+ is maintained.
+"
+12146,ReleaseEvent,2018-08-20 16:29:31+00:00,12541301,Mangopay/mangopay2-python-sdk,24458463,mickaelpois,4931078,Mangopay,published,3.5.1,Fix typo on CompanyNumber for LegalUsers,
+12240,ReleaseEvent,2018-07-06 20:08:32+00:00,37076376,aio-libs/janus,223335,jettify,7049303,aio-libs,published,v0.3.2,janus 0.3.2 release,"Changes
+=======
+- Fixed python3.7 support #97"
+12491,ReleaseEvent,2016-03-03 20:19:59+00:00,8566509,delph-in/pydelphin,1428419,goodmami,6363662,delph-in,published,v0.4.0,v0.4.0,See the [CHANGELOG](../master/CHANGELOG.md#v040).
+12867,ReleaseEvent,2017-12-15 09:16:01+00:00,78797564,palantir/python-language-server,1928052,gatesn,303157,palantir,published,0.12.0,0.12.0,"* Fixes some bugs in Rope completions
+* Fixes some bugs in Jedi completions
+* Adds support for configuration providers
+* Do not exit on KeyboardInterrupt
+* Extract parameter docstrings
+"
+12972,ReleaseEvent,2018-01-16 15:38:56+00:00,11322495,solvebio/solvebio-python,7460,davecap,4605768,solvebio,published,v2.4.1,v2.4.1,"* Fix issue with filenames when downloading files
+* Fix issue with ~ expansion from shell commands
+* Validate object full paths when retrieving"
+13471,ReleaseEvent,2018-03-09 10:47:27+00:00,44758575,peopledoc/django-formidable,25185,brunobord,1080062,peopledoc,published,1.5.0,,"was released on 2018-03-09
+
+
+- Trim whitespaces in the generated ``formidable.js`` file. This is more than just cosmetics, it prevents to have a polluted history on this file (#306).
+- Added tests to use conditional rules with drop down lists (#304)
+- Added possibility to restrict types of the conditional rules (#304)
+- Hotfix: Extract conditions and filter them using the fields that exist in the form (#308).
+- Added typing to the demo requirements (#311)
+- Make the conditional rule name optional (#307)
+"
+13689,ReleaseEvent,2018-04-09 21:33:46+00:00,39663289,4Catalyzer/flask-resty,3112159,taion,13967986,4Catalyzer,published,v0.15.3,v0.15.3,"- **Feature:** Make the merged `view_func` a wrapper to get correct view name in e.g. New Relic (#175)
+- **Bugfix:** Fix compatibility with newer apispec releases (#176)"
+13705,ReleaseEvent,2016-08-04 20:07:44+00:00,45062555,F5Networks/f5-common-python,14225800,pjbreaux,8935905,F5Networks,published,v1.1.0,Release v1.1.0,"This is a feature release.
+
+#### Release Highlights 
+
+ * #597 redefinition of the `update` method, it now uses the `patch` HTTP verb, in place of `put` 
+
+ * #582 #595 add linux packaging tools
+
+ * Automated testing has been enhanced to cover 11.5.4 hf1, 11.6.0, 12.0.0 and 12.1.0 hf1. These platforms are now tested against automatically upon pull request. PRs should take considerably less time to complete.
+
+ * #558 Sets the correct attribute and state from among a mutually-exclusive set of boolean attributes and ensures the request sent to the device has the appropriate state. This protects a consumer of f5-sdk from submitting requests that are either inconsistent, or unsupported by the device.
+
+See the [changelog](https://github.com/F5Networks/f5-common-python/compare/v1.0.2...v1.1.0) for the full list of changes in this release.
+
+See the project issues page for a full list of open issues in this release.
+"
+13800,ReleaseEvent,2015-03-08 18:50:53+00:00,3274387,RallyTools/RallyRestToolkitForPython,1248618,klehman-rally,1643197,RallyTools,published,v1.1.1,,
+13803,ReleaseEvent,2017-07-03 19:39:02+00:00,80707765,SectorLabs/django-postgres-extra,5777517,Photonios,22373078,SectorLabs,published,v1.12,v1.12,"# Changes
+- Fixes #22 - `PostgresQuerySet.update` not working with boolean values.
+
+# PyPi
+
+```
+pip install django-postgres-extra==1.12
+```
+
+https://pypi.python.org/pypi/django-postgres-extra/1.12
+"
+13915,ReleaseEvent,2018-07-09 18:59:36+00:00,82982475,ceptontech/cepton_sdk_redist,815124,spectralflight,25591731,ceptontech,published,v1.1,,"* Added `saturated` flag for all returned points.
+* Improved calibrations and better support for intensity output
+* Improved support for HR80T Rev2
+* Renamed data_exporter to cepton_data_exporter
+* Bugfixes and improvements"
+14264,ReleaseEvent,2015-08-17 21:19:46+00:00,40508353,mementoweb/py-memento-client,4702031,shawnmjones,1854798,mementoweb,published,v0.5.1,,"Today we proudly announce version 0.5.1 of the py-memento-client library available for Python.  This library has been developed with extensive feedback from Wikipedia and is used by their pywikibot.
+
+Source repository:  https://github.com/mementoweb/py-memento-client
+Pypi page:  https://pypi.python.org/pypi/memento_client/0.5.1
+Report issues here:  https://github.com/mementoweb/py-memento-client/issues
+
+Our goal was to make a memento client library that was easy to use for those new to Memento, but that also provided more advanced parameters for use by the initiated.
+
+To install the library, merely run the following command:
+    pip install memento_client
+
+The simple use case of this library is as follows:
+````python
+    import datetime
+    from memento_client import MementoClient
+    dt = datetime.datetime(2010, 4, 24, 19, 0)
+    uri = ""http://lanl.gov""
+    mc = MementoClient()
+    uri_m = mc.get_memento_info(uri, dt).get(""mementos"").get(""closest"").get(""uri"")[0]
+````
+
+Version 0.5.1 supports the following functionality:
+
+* support for Python 2.7 and 3.4
+* a MementoClient class that, by default, uses the Memento Aggregator as a TimeGate
+* the MementoClient class provides the following methods:
+    * get_memento_info - performs datetime negotiation using inputs URI-R and Accept-Datetime; output resembles the JSON API documented at http://timetravel.mementoweb.org/guide/api/#memento-json
+    * get_native_timegate_uri - issues request to URI-R and extracts value for URI-G from Link header (used for CMS systems)
+    * get_original_uri - issues request to URI and extracts value of URI-R from Link header
+* the MementoClient class provides the following optional initialization parameters:
+    * user-supplied timegate (URI-G) for use in datetime negotiation
+    * boolean to turn off the use of native TimeGates supplied in Memento headers, so one can override the TimeGate information supplied by a CMS
+    * configurable number of redirects to follow (default is 30)
+* in addition, here is a short list of some of the static functions available:
+    * is_timegate - determines if a given URI, or user-supplied HTTP response, is a TimeGate by examining the Link headers
+    * is_memento - determines if a given URI, or user-supplied HTTP response, is a Memento by examining the headers
+    * parse_link_header - parses the link header to return any and all information available as a Python dictionary
+    * get_uri_dt_for_rel - pivots the output of parse_link_header to form a dictionary whose keys are relations
+
+By our next version, we will provide the ability to perform as a client for TimeMaps, providing functionality for parsing and interacting with TimeMaps.
+
+Enjoy the new py-memento-client the next time you need to use Memento in Python."
+14566,ReleaseEvent,2017-11-14 11:31:33+00:00,2121420,pypiserver/pypiserver,501585,ankostis,9453664,pypiserver,published,v1.2.1dev0,"2017-11-05: minor enhancements, docs and PiPy fallback fix","Changes
+======
+
+- Matrix-based authorization, allowing users to have multiple actions
+  (thanks @khornberg, #132)
+
+- FIX propagation of certain ``pypiserver`` settings via a ``paste.ini`` config
+  file (thanks @luismsgomes, #156)
+
+- FIX update default fallback URL to be https for compliance with PyPI
+  (thanks @uSpike, #182)
+
+- FIX resolved a regression preventing spinning up multiple pypiservers
+  via a paste config (thanks @bertjwregeer, #173)
+
+- FIX cmdline parsing of stray comparison consuming many flags (e.g. ``--help``),
+  and docs about ``auther``
+  - (thanks to @sakurai-youhei, #162).
+
+- Travis CI testing for Python 3.6 and pypy3 (#183)
+
+- Several documentation improvements (thanks @tescalada, #166, #161, #172)
+
+Known Limitations
+--------------------
+- https://github.com/pypiserver/pypiserver/issues/186 
+- https://github.com/pypiserver/pypiserver/issues/175"
+15257,ReleaseEvent,2017-03-07 21:18:52+00:00,19412239,ambitioninc/django-data-schema,227575,thinkt4nk,6206775,ambitioninc,published,0.13.0,Duration Field Type,Added duration field type
+15309,ReleaseEvent,2017-09-15 14:50:52+00:00,54189815,blue-yonder/turbodbc,8329826,MathMagique,6234170,blue-yonder,published,2.3.0,Turbodbc 2.3.0,"Highlights:
+
+* `cursor.fetchallarrow()` now supports representing string fields as [Apache Arrow's dictionary arrays](http://turbodbc.readthedocs.io/en/latest/pages/advanced_usage.html#apache-arrow-support). This is helpful for string fields containing only a limited number of distinct entries, e.g., cities, countries, colors, etc.
+
+Please see the [changelog](https://github.com/blue-yonder/turbodbc/blob/master/CHANGELOG.rst#version-230) for more details"
+15472,ReleaseEvent,2018-08-16 09:33:27+00:00,126276169,jdcloud-api/jdcloud-sdk-python,7589619,oulinbao,37397724,jdcloud-api,published,v1.2.11,v1.2.11,"1) add cps apis
+2) update rds/vpc/streambus/streamcomputer/jmr apis
+
+"
+15652,ReleaseEvent,2018-04-09 16:53:56+00:00,51442999,python-cmd2/cmd2,28899027,kmvanbrunt,17161025,python-cmd2,published,0.8.3,"0.8.3 (April 09, 2018)","* Bug Fixes
+    * Fixed ``help`` command not calling functions for help topics
+    * Fixed not being able to use quoted paths when redirecting with ``<`` and ``>``
+
+* Enhancements
+    * Tab completion has been overhauled and now supports completion of strings with quotes and spaces.
+    * Tab completion will automatically add an opening quote if a string with a space is completed.
+    * Added ``delimiter_complete`` function for tab completing delimited strings
+    * Added more control over tab completion behavior including the following flags. The use of these flags is documented in cmd2.py
+        * ``allow_appended_space``
+        * ``allow_closing_quote``
+    * Due to the tab completion changes, non-Windows platforms now depend on [wcwidth](https://pypi.python.org/pypi/wcwidth).
+    * An alias name can now match a command name.
+    * An alias can now resolve to another alias.
+
+* Attribute Changes (Breaks backward compatibility)
+    * ``exclude_from_help`` is now called ``hidden_commands`` since these commands are hidden from things other than help, including tab completion
+        * This list also no longer takes the function names of commands (``do_history``), but instead uses the command names themselves (``history``)
+    * ``excludeFromHistory`` is now called ``exclude_from_history``
+    * ``cmd_with_subs_completer()`` no longer takes an argument called ``base``. Adding tab completion to subcommands has been simplified to declaring it in the
+    subcommand parser's default settings. This easily allows arbitrary completers like path_complete to be used.
+    See [subcommands.py](https://github.com/python-cmd2/cmd2/blob/master/examples/subcommands.py) for an example of how to use
+    tab completion in subcommands. In addition, the docstring for ``cmd_with_subs_completer()`` offers more details.
+"
+16298,ReleaseEvent,2015-06-13 20:44:47+00:00,1750874,django-money/django-money,374612,benjaoming,12234694,django-money,published,0.7.0,Stable,
+16364,ReleaseEvent,2017-12-27 17:00:43+00:00,23820144,log2timeline/dfvfs,3888750,joachimmetz,8701971,log2timeline,published,20171227,dfvfs-20171227,Release of version 20171227
+16471,ReleaseEvent,2018-08-20 12:46:15+00:00,70451850,scikit-build/scikit-ci-addons,219043,jcfr,8144855,scikit-build,published,latest,Latest (updated on 2018-08-20 12:08 UTC),
+16863,ReleaseEvent,2015-11-24 23:31:20+00:00,33120392,zalando-stups/senza,510328,hjacobs,11431876,zalando-stups,published,1.0.24,1.0.24,"* #152: fix ""senza traffic .."" output message"
+16921,ReleaseEvent,2016-08-23 08:22:48+00:00,46374199,IntelRealSense/librealsense,6958867,dorodnic,14095512,IntelRealSense,published,v0.9.3,v0.9.3 community release,Includes fix for Windows 10 RS1 + fix for DS4 Raw10 + support for ROS debian package
+17007,ReleaseEvent,2016-05-19 03:29:54+00:00,43056951,graphql-python/graphene,188257,syrusakbary,15002022,graphql-python,published,v0.9.1,Graphene 0.9.1 - Fixed compatibility issue,"# Changelog
+* Fixed package compatibility issue 71153061568dddd166276cff9390f237fc3d7525"
+17456,ReleaseEvent,2015-06-22 10:05:09+00:00,2665618,inveniosoftware/invenio,517546,tiborsimko,1157480,inveniosoftware,published,v1.1.3,Invenio v1.1.3,"```
+--------------------------------------------------------------------
+Invenio v1.1.3 is released
+February 25, 2014
+http://invenio-software.org/
+--------------------------------------------------------------------
+
+Invenio v1.1.3 was released on February 25, 2014.
+
+This stable release contains a number of minor fixes and improvements.
+It is recommended to all Invenio sites using v1.1.2 or previous stable
+release series (v0.99, v1.0).
+
+What's new:
+-----------
+
+ *) BatchUploader: rights to ::1 for robot upload; avoid
+    tempfile.tempdir redefinition (#1594)
+
+ *) BibCatalog: no newlines in subject for RT plugin
+
+ *) BibDocFile: RHEL6 magic bindings support (#1466)
+
+ *) BibFormat: fix for BibTeX regression tests; better BibTeX title
+    and collaboration
+
+ *) BibRank: temporary file storage in CFG_TMPDIR (#1594)
+
+ *) BibSword: author MARC tag definition fix
+
+ *) BibUpload: FFT replace warning in guide
+
+ *) I18N: PO file update for the release of v1.1.3; PO file update for
+    the release of v1.0.6; PO file update for the release of v0.99.9;
+    collection demo names for new translations
+
+ *) OAIHarvest: for for bad exception handling
+
+ *) OAIRepository: optional support for --notimechange
+
+ *) Travis CI: initial release of configuration
+
+ *) WebSearch: nonexisting record API test case fix (#1692); correct
+    record sums from hosted colls (#1651); space between records in
+    MARC HTML; fix for BibTeX regression tests; field-filtered MARCXML
+    API output (#1591); more complete API regression test suite;
+    get_fieldvalues_alephseq_like() utils; asciification of `oe`
+    grapheme (#1582); bug fix for SPIRES date math search
+
+ *) WebSession: fix mail cookie expiration (#1596)
+
+ *) WebSubmit: fix for typo in Shared_Functions; optional pdftk
+    regression tests
+
+ *) dbquery: closes redundant connection
+
+ *) git: addition of compile to gitignore; new entry in gitignore
+
+ *) global: language value always in link URLs
+
+ *) installation: pip requirement version updates; pip requirements;
+    no user prompt for warnings; empty Travis configuration; location
+    of jquery-1.7.1.min.js; location of flot; information about
+    unidecode; fix autotools rsync instructions
+
+ *) intbitset: no crash when intbitset is on rhs (#1287)
+
+ *) inveniocfg: fix for mod_headers
+
+ *) kwalitee: list comprehensions instead of lambdas; compatibility
+    with pylint 1.0.0
+
+Download:
+---------
+
+  <http://invenio-software.org/download/invenio-1.1.3.tar.gz>
+  <http://invenio-software.org/download/invenio-1.1.3.tar.gz.md5>
+  <http://invenio-software.org/download/invenio-1.1.3.tar.gz.sig>
+
+Installation notes:
+-------------------
+
+Please follow the INSTALL file bundled in the distribution tarball.
+
+Upgrade notes:
+--------------
+
+Please proceed as follows:
+
+ a) Stop your bibsched queue and your Apache server.
+
+ b) Install the update:
+
+     $ tar xvfz invenio-1.1.3.tar.gz
+     $ cd invenio-1.1.3
+     $ sudo rsync -a /opt/invenio/etc/ /opt/invenio/etc.OLD/
+     $ sh /opt/invenio/etc/build/config.nice
+     $ make
+     $ make check-upgrade
+     $ sudo -u www-data make install
+     $ sudo rsync -a /opt/invenio/etc.OLD/ \
+         --exclude invenio-autotools.conf \
+         /opt/invenio/etc/
+       # Note: if you are upgrading from previous stable release
+       # series (v0.99 or v1.0), please don't rsync but diff, in order
+       # to inspect changes and adapt your old configuration to the
+       # new v1.1 release series.
+     $ sudo -u www-data /opt/invenio/bin/inveniocfg --update-all
+     $ sudo -u www-data /opt/invenio/bin/inveniocfg --upgrade
+
+ c) Restart your Apache server and your bibsched queue.
+
+ d) If your records may contain `oe` UTF-8 graphemes, please schedule
+    reindexing of concerned indexes at a convenient time, for example:
+
+     $ sudo -u www-data /opt/invenio/bin/bibindex -w title -f100000 -R
+
+- end of file -
+```"
+17602,ReleaseEvent,2017-11-30 17:28:16+00:00,26501582,PaloAltoNetworks/pandevice,10454391,shinmog,4855743,PaloAltoNetworks,published,0.5.2,0.5.2,Release notes:  http://pandevice.readthedocs.io/en/latest/history.html
+17627,ReleaseEvent,2018-02-12 00:25:40+00:00,68423917,adobe-type-tools/psautohint,93914,khaledhosny,2768660,adobe-type-tools,published,v1.1.0,v1.1.0,First public release as a standalone package.
+17957,ReleaseEvent,2018-02-01 23:28:03+00:00,94256653,materialsproject/maggma,16827130,shyamd,867057,materialsproject,published,0.3.0,Monthly Release Schedule,"We're on our 3rd major release and chugging along. We'll try and adopt a monthly release schedule for now, to ensure we clean up updates in a timely manner. 
+
+Major changes since v0.2.0:
+- removed processor serialization from the runner object to be more concise in the json output
+- added a group_by for mongolike Stores
+- added a VaultStore that uses Vault to grab MongoStore credentials
+- removed LAVA as this was not being worked on and was un-necessarily cumbersome
+- Added a way to setup a Schema for a collection and assign that to a Store
+- Updated the multiprocessing to use Pool.imap and take advantage of its worker refreshing"
+18001,ReleaseEvent,2016-06-28 13:11:49+00:00,51914365,mozilla-services/kinto-dist,546692,leplatrem,1066228,mozilla-services,published,0.6.0,,"
+This release moves to the Kinto 3 series. This version merges Cliquet
+into ``kinto.core`` and all plugins have been updated to work with this
+change. This is a change to code structure, but there is a
+user-visible change, which is that settings referring to Cliquet
+module paths should now be updated to refer to ``kinto.core.`` module
+paths. For example::
+
+    kinto.cache_backend = cliquet.cache.postgresql
+
+Should be changed to::
+
+    kinto.cache_backend = kinto.core.cache.postgresql
+
+
+### Kinto
+
+
+**kinto 2.1.2 → 3.2.0**: https://github.com/Kinto/kinto/releases/tag/3.2.0
+
+**Protocol**
+
+- Added the ``GET /contribute.json`` endpoint for open-source information (fixes #607)
+- Allow record IDs to be any string instead of just UUIDs (fixes #655).
+
+Protocol is now at version **1.7**. See `API changelog <http://kinto.readthedocs.io/en/latest/api/>`_.
+
+**New features**
+
+- Major version update. Merged cliquet into kinto.core. This is
+  intended to simplify the experience of people who are new to Kinto.
+  Addresses #687.
+- Removed ``initialize_cliquet()``, which has been deprecated for a while.
+- Removed ``cliquet_protocol_version``. Kinto already defines
+  incompatible API variations as part of its URL format (e.g. ``/v0``,
+  ``/v1``). Services based on kinto.core are free to use
+  ``http_api_version`` to indicate any additional changes to their
+  APIs.
+- Simplify settings code. Previously, ``public_settings`` could be
+  prefixed with a project name, which would be reflected in the output
+  of the ``hello`` view. However, this was never part of the API
+  specification, and was meant to be solely a backwards-compatibility
+  hack for first-generation Kinto clients. Kinto public settings
+  should always be exposed unprefixed. Applications developed against
+  kinto.core can continue using these names even after they transition
+  clients to the new implementation of their service.
+- ``kinto start`` now accepts a ``--port`` option to specify which port to listen to.
+  **Important**: Because of a limitation in [Pyramid tooling](http://stackoverflow.com/a/21228232/147077),
+  it won't work if the port is hard-coded in your existing ``.ini`` file. Replace
+  it by ``%(http_port)s`` or regenerate a new configuration file with ``kinto init``.
+- Add support for ``pool_timeout`` option in Redis backend (fixes #620)
+- Add new setting ``kinto.heartbeat_timeout_seconds`` to control the maximum duration
+  of the heartbeat endpoint (fixes #601)
+
+**Bug fixes**
+
+- Fix internal storage filtering when an empty list of values is provided.
+- Authenticated users are now allowed to obtain an empty list of buckets on
+  ``GET /buckets`` even if no bucket is readable (#454)
+- Fix enabling flush enpoint with ``KINTO_FLUSH_ENDPOINT_ENABLED`` environment variable (fixes #588)
+- Fix reading settings for events listeners from environment variables (fixes #515)
+- Fix principal added to ``write`` permission when a publicly writable object
+  is created/edited (fixes #645)
+- Prevent client to cache and validate authenticated requests (fixes #635)
+- Fix bug that prevented startup if old Cliquet configuration values
+  were still around (#633)
+- Fix crash when a cache expires setting is set for a specific bucket or collection. (#597)
+- Mark old cliquet backend settings as deprecated (but continue to support them). (#596)
+
+- Add an explicit message when the server is configured as read-only and the
+  collection timestamp fails to be saved (ref Kinto/kinto#558)
+- Prevent the browser to cache server responses between two sessions. (#593)
+- Redirects version prefix to hello page when trailing_slash_redirect is enabled. (#700)
+- Fix crash when setting empty permission list with PostgreSQL permission backend (fixes Kinto/kinto#575)
+- Fix crash when type of values in querystring for exclude/include is wrong (fixes Kinto/kinto#587)
+- Fix crash when providing duplicated principals in permissions with PostgreSQL permission backend (fixes #702)
+- Add ``app.wsgi`` to the manifest file. This helps address Kinto/kinto#543.
+- Fix loss of data attributes when permissions are replaced with ``PUT`` (fixes Kinto/kinto#601)
+- Fix 400 response when posting data with ``id: ""default""`` in default bucket.
+- Fix 500 on heartbeat endpoint when a check does not follow the specs and raises instead of
+  returning false.
+
+
+### Kinto-attachment
+
+**kinto-attachment 0.5.0 → 0.7.0**: https://github.com/Kinto/kinto-attachment/releases/tag/0.7.0
+
+**Breaking changes**
+
+- When the gzip option is used during upload, the ``original`` attribute  is now within
+  the ``attachment`` information.
+
+**New features**
+
+- Kinto 3.0 compatibility update
+- Add a ``kinto.attachment.extra.base_url`` settings to be exposed publicly. (#73)
+- Add the gzip option to automatically gzip files on upload (#85)
+
+
+### kinto-amo
+
+**kinto-amo 0.1.0 → 0.2.0**: https://github.com/mozilla-services/kinto-amo/releases/tag/0.2.0
+
+- Kinto 3.0 compatibility update
+
+
+### kinto-changes
+
+**kinto-changes 0.2.0 → 0.3.0**: https://github.com/Kinto/kinto-changes/releases/tag/0.3.0
+
+- Kinto 3.0 compatibility update
+
+
+### kinto-signer
+
+**kinto-signer 0.4.0 → 0.7.0**: https://github.com/Kinto/kinto-signer/releases/tag/0.7.0
+
+**Breaking changes**
+
+- The collection timestamp is now included in the payload prior to signing.
+  Old clients won't be able to verify the signature made by this version.
+
+**Bug fixes**
+
+- Do not crash on record deletion if destination was never synced (Kinto/kinto-signer#82)
+
+**New features**
+
+- Raise configuration errors if resources are not configured correctly (Kinto/kinto-signer#88)
+
+
+### kinto-fxa
+
+**cliquet-fxa 1.4.0 → kinto-fxa  2.0.0**: https://github.com/mozilla-services/kinto-fxa/releases/tag/2.0.0
+
+**Breaking changes**
+
+- Project renamed to *Kinto-fxa* to match the rename of ``cliquet`` to
+  ``kinto.core``.
+- The setting ``multiauth.policy.fxa.use`` must now
+  be explicitly set to ``kinto_fxa.authentication.FxAOAuthAuthenticationPolicy``
+- Kinto 3.0 compatibility update
+
+**Bug fixes**
+
+- Fix checking of ``Authorization`` header when python is ran with ``-O``
+  (ref mozilla-services/cliquet#592)
+
+
+### kinto-ldap
+
+**kinto-ldap 0.1.0**: https://github.com/Kinto/kinto-ldap/releases/tag/0.1.0
+
+"
+18006,ReleaseEvent,2017-11-28 07:39:04+00:00,51914365,mozilla-services/kinto-dist,229453,Natim,1066228,mozilla-services,published,4.6.0,,"## kinto-fxa
+
+**kinto-fxa 2.3.0 → 2.4.0**: https://github.com/Kinto/kinto-fxa/releases/tag/2.4.0
+
+**New Feature**
+
+- Add support for multiple FxA Clients (mozilla-services/kinto-fxa#52)
+"
+18362,ReleaseEvent,2018-07-10 16:37:54+00:00,16316451,GoogleCloudPlatform/google-cloud-python,250995,theacodes,2810941,GoogleCloudPlatform,published,speech-0.35.0,google-cloud-speech 0.35.0,"### Implementation Changes
+
+- Re-generated the library to pick up new API features. (#5577)
+
+### Internal / Testing Changes
+
+- Add Test runs for Python 3.7 and remove 3.4 (#5295)
+- Avoid overwriting '__module__' of messages from shared modules. (#5364)
+- Modify system tests to use prerelease versions of grpcio (#5304)"
+18379,ReleaseEvent,2017-03-31 17:47:47+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,published,bigquery-0.24.0,google-cloud-bigquery 0.24.0,"- Make `Client` explicitly unpickleable. (#3230)
+- Renaming `http` argument to `Client` as `_http`. (#3235)
+- Added `__all__` to `google.bigquery` package (#3146)
+- Bugfix: Ensure that base64-encoded bytes get decoded to text for JSON. (#3195)
+- Docs fix: Update redirects and references for BigQuery docs. (#3196)
+- Allow array query parameters w/ nested structs, struct query parameters w/ nested structs and struct query parameters w/ nested arrays. (#3180)
+- Bugfix: Fix base64 encoding issue with trailing newline (#3173)
+- Bugfix: Remove trailing Z (Zulu) from timestamps (#3173)
+
+PyPI: https://pypi.python.org/pypi/google-cloud-bigquery/0.24.0
+"
+18458,ReleaseEvent,2016-08-11 12:13:26+00:00,52191533,materialsvirtuallab/flamyngo,577107,shyuep,5237956,materialsvirtuallab,published,v0.6.5,v0.6.5,* Fix for mapped unique keys.
+18542,ReleaseEvent,2017-08-24 21:13:01+00:00,23011147,scikit-learn-contrib/imbalanced-learn,7454015,glemaitre,17349883,scikit-learn-contrib,published,0.3.0,0.3.0,
+18559,ReleaseEvent,2018-05-24 14:04:42+00:00,125676721,python-useful-helpers/exec-helpers,16033331,penguinolog,37706828,python-useful-helpers,published,1.3.0,,
+18605,ReleaseEvent,2017-11-15 22:11:57+00:00,110880833,materials-data-facility/toolbox,19735345,jgaff,26417022,materials-data-facility,published,0.0.3,v0.0.3,"PyPI fixin'
+Have to tag a new release so Travis will publish the package."

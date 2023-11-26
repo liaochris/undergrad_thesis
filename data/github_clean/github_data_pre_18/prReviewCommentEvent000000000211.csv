@@ -1,0 +1,1141 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,pr_review_comment_action,pr_review_comment_id,pr_review_comment_commit_id,pr_review_comment_site_admin,pr_review_comment_body,pr_review_comment_author_association,pr_number,pr_review_comment_reactions
+177,PullRequestReviewCommentEvent,2016-10-25 10:19:30+00:00,23516699,LEW21/pydbus,417478,xZise,,,created,5620797,3a113bccd31d7fb8cb841ec633a0a95e9e88d02b,False,"Well for that there is the `@signal` decorator. For example:
+
+```python
+# In Python 3
+@signal
+def PropertiesChanged(interface_name: 's', changed_properties: 'a{sv}', invalidated_properties: 'as'):
+    pass
+```
+
+```python
+# In Python 2
+@signal
+@typed_method((""s"", ""a{sv}"", ""as""), None)
+def PropertiesChanged(interface_name, changed_properties, invalidated_properties):
+    pass
+```
+
+Now in both cases the decorator will store the method inside the `signal` class itself. And if the introspector comes along and sees a `signal` class it can access that method object and then do the almost same stuff it'd do to a normal method. The only difference is that it won't allow a return type (as far as I understand it that isn't a thing in D-Bus) and that no argument has a direction defined (or if it were it should be `out` not `in`).
+
+As a matter of fact I have actually already implemented it that way and just finished with cleaning it up. So if you wanted I could upload it soonish. (As I write this I noticed that I haven't verified that `@interface` behaves as expected)
+
+The only ugly thing there is the superfluous `pass` block. But I think apart from that it is actually quite nice.",,29,{}
+231,PullRequestReviewCommentEvent,2017-09-29 21:53:48+00:00,6662075,joke2k/faker,89607,fcurella,,,created,66280977,a5d025de9b354700f6c9d54958a2de68d2bf0550,False,"I would add a `drop_ascii = True` property on this class, check for its value in the method, and set the property to `False` for the providers in `/providers/internet/ar_*`",COLLABORATOR,609,{}
+239,PullRequestReviewCommentEvent,2018-08-20 21:39:10+00:00,6662075,joke2k/faker,152584,crd,,,created,147832842,92c4cc6bf826cfbd6d14b1f885e4e32e6934ca21,False,Got it -- I thought you meant the OrderedDict and was scratching my head over how to refactor that in a way that made it cleaner as a namedtuple. ,CONTRIBUTOR,802,{}
+264,PullRequestReviewCommentEvent,2017-11-14 21:16:21+00:00,73187175,note35/sinon,26097025,jonathan-benn,,,created,76597456,f4a19c6abafbbcfd87bb2c2faa1dfc092654dcae,False,"I think `SinonStubCondition` should be renamed to `_SinonStubCondition`, because it should never be instantiated directly by the end user. It's just an internal implementation detail. Please see the [Pull Request](https://github.com/note35/sinon/pull/34) I created for this.",NONE,27,{}
+373,PullRequestReviewCommentEvent,2017-03-01 10:52:11+00:00,10144140,Diaoul/enzyme,319220,Diaoul,,,created,24449322,49ded485a0a319bbc3d5c7dbbb5767351fe00425,False,"Never use a list as default argument, you can read more on that extensively on the internet",,25,{}
+444,PullRequestReviewCommentEvent,2016-10-06 06:43:11+00:00,27806545,mewwts/addict,1848670,mewwts,,,created,3053140,bfb82d79c52dc0bb74ea491f13855ed324b8408b,False,Would this be better as `if not self.keys():`?,,69,{}
+459,PullRequestReviewCommentEvent,2018-03-09 01:29:36+00:00,48846863,pavoni/pyvera,19241798,toggledbits,,,created,102520977,7bb9375cbb6fd6090828d3fb8163d00e8654605b,False,"Yeah, no problem. HA is very responsive. Moreso than Vera's native UI, so there's obviously goodness in your choices there.",NONE,87,{}
+564,PullRequestReviewCommentEvent,2017-11-13 18:00:42+00:00,16331291,davisking/dlib,2297572,reunanen,,,created,76194011,69214dbed2cc4bfb7b4752acb3bd450e0f05998e,False,"Actually, maybe it's no longer needed here, when [it's in dnn.h](https://github.com/davisking/dlib/commit/2ee26aa5bd3398dbd714f1666ba570dfbb80a0b7). So just removed it from here.",CONTRIBUTOR,943,{}
+576,PullRequestReviewCommentEvent,2018-04-26 17:58:51+00:00,16331291,davisking/dlib,6682061,pjuzeliunas,,,created,115686143,881b29ae46d90a3bf1773ef095375455857c6e6d,False,"Yes, you are right. Fixed.",NONE,1277,{}
+646,PullRequestReviewCommentEvent,2015-11-21 11:37:55+00:00,45875786,nschloe/meshio,181628,nschloe,,,created,,3871a212d29bb5bac5d9c4e91a79ce63f2734a07,False,typo: `hexahedron`,,19,{}
+791,PullRequestReviewCommentEvent,2016-05-28 15:44:24+00:00,1600411,jsocol/pystatsd,180459,jsocol,,,created,,ba96bdc0e03fb662f772e2815ae1b517a36608ba,False,"and similarly for other ""by socket type"" configs",,76,{}
+928,PullRequestReviewCommentEvent,2018-05-20 18:08:22+00:00,83177341,ambv/flake8-mypy,55281,ambv,,,created,121650840,5b81741d5a559e5c87c3eb1a638e6f2ceb37b2ca,False,`line.encode()` here might fail exactly like the `f.write()` line above.,OWNER,12,{}
+1093,PullRequestReviewCommentEvent,2018-04-24 15:44:54+00:00,9289343,svinota/pyroute2,10729954,cherusk,,,created,114847355,56fe04100a6f1be67ce96894c8519eccc377318f,False,"Oh, I should have been more precise. Look at the conditional in the very next, subsequent line. If you take that out, you'll see what I was referring to. Seems some minor indexing glitch or something along those lines.",CONTRIBUTOR,485,{}
+1118,PullRequestReviewCommentEvent,2018-01-31 22:55:34+00:00,1998014,Diaoul/subliminal,110295,sprt,,,created,93115137,f4f51a088f37f1acf7cb4f4972c2ae6e16def1a6,False,"So if I understand correctly, if `guess['format']` contains a single format that does not match `video.format`, we should not call `matches.add('format')`? So basically, replace `any` with `all`? Might be misunderstanding.",NONE,769,{}
+1359,PullRequestReviewCommentEvent,2018-05-30 08:20:19+00:00,32283257,philpep/testinfra,387511,philpep,,,created,124288622,b58ddb85bac92926e0e6be3668f848e59c301094,False,"Instead of handling the 4 cases we could build a `kubectlcmd` string and a `cmd_args` array.
+
+````python
+kubectlcmd = 'kubectl '
+cmd_args = []
+if self.namespace is not None:
+    kubectlcmd += '-n %s '
+    cmd_args.append(self.namespace)
+if self.container is not None:
+    kubectlcmd += '-c %s '
+    cmd_args.append(self.container)
+kubectlcmd += 'exec %s -- /bin/sh -c %s'
+cmd_args.extend([self.name, cmd])
+out = self.run_local(kubectlcmd, *cmd_args)
+```",OWNER,317,{}
+1551,PullRequestReviewCommentEvent,2015-01-10 01:21:45+00:00,26627596,robertlugg/easygui,6054540,robertlugg,,,created,,1bb8ea2a282e9b5920288b6985e61a7d47b24028,False,"I'll make this update, but just changing this to print(demo_textbox()) is all that is needed.",,43,{}
+1571,PullRequestReviewCommentEvent,2018-07-19 21:09:32+00:00,56998522,skorokithakis/catt,23648,skorokithakis,,,created,138852155,46b04ae5500d3d3736c7bc88a8c51863db3addc6,False,Which do you mean?,OWNER,120,{}
+1583,PullRequestReviewCommentEvent,2016-11-02 23:07:01+00:00,36919582,thisbejim/Pyrebase,10917363,thisbejim,,,created,6928817,85cf21455e2b263a1f40cc36f3dc1fbf7166c1c1,False,"Yeah that's right, the full source of sseclient comes bundled with Pyrebase now because at some point I have to make some changes to solve some streaming issues we are having. ",,93,{}
+1596,PullRequestReviewCommentEvent,2017-12-02 22:49:59+00:00,8292338,ultrabug/py3status,11820748,girst,,,created,80687128,f128813e1d8535cc5a611fde5e3dc3fce198ba51,False,don't see why not^^,CONTRIBUTOR,1175,{}
+1598,PullRequestReviewCommentEvent,2016-04-11 09:55:24+00:00,8292338,ultrabug/py3status,56311,tobes,,,created,,d5052fbc0766b8d0bb19bd433f144ae4f08eb7c0,False,updated,,262,{}
+1600,PullRequestReviewCommentEvent,2017-02-03 08:20:25+00:00,8292338,ultrabug/py3status,56311,tobes,,,created,19963585,31b4d048307e5e0f7821629542410c9d414dee9e,False,I don't like this param I think we can get things working without it.  I'd need to see the other stuff cleaned up first though.,,722,{}
+1605,PullRequestReviewCommentEvent,2017-10-30 22:38:04+00:00,8292338,ultrabug/py3status,852504,lasers,,,created,73009251,1fc0eda98ead3c94719adf2c2d412e9060aa1855,False,Wrong issue. #1114. Sorry. Cheers. Sure on tomorrow.,CONTRIBUTOR,1136,{}
+1617,PullRequestReviewCommentEvent,2017-04-11 06:17:04+00:00,8292338,ultrabug/py3status,852504,lasers,,,created,32020377,cf8238b05e10d4acbf617b22a6101aa86f12345b,False,"If we omit this `substitute_by_value`, then we took the users format into account... only if they have one. Same thing works with with default `always_show = False`... only if they have one.
+What about those with both configs? 
+
+I think we remove all deprecation and merge in. 😇 ",,879,{}
+1620,PullRequestReviewCommentEvent,2016-10-30 18:22:15+00:00,8292338,ultrabug/py3status,56311,tobes,,,created,6368575,237057811a8c9443898282c64a223cb4af0b1b9c,False,"I'd prefer `format_rate= ""{value} {unit}""` but saying that I haven't run the module yet so not sure how jumpy it is but I think we can do better on the displaying non jumpy.  But may need some more formatter  fun",,530,{}
+1654,PullRequestReviewCommentEvent,2018-01-11 05:37:44+00:00,101940687,SamLau95/nbinteract,2468904,SamLau95,,,created,88061132,65c871339267db11ca2660a970e119c295bd0c91,False,"nit:
+
+```
+In order to handle more complicated visualizations, we recommend the `nbinteract`
+graphing functions described in the ""nbinteract Graphing"" section.
+```
+
+is a bit more succinct. Can we also link to the Graphing section there?",OWNER,16,{}
+1790,PullRequestReviewCommentEvent,2016-06-01 19:53:13+00:00,6872298,mwilliamson/spur.py,391876,mwilliamson,,,created,,b7fc8497717f09186333be7c9d9654ee269908ee,False,Any reason for getting rid of the trailing comma? I normally keep them in for multi-line arguments for consistency.,,42,{}
+1808,PullRequestReviewCommentEvent,2018-04-24 11:51:57+00:00,34479027,robshakir/pyangbind,37809,tarkatronic,,,created,114746150,2d7e912964a59d3ab6bac25bc3a6302449e152cf,False,"It should work fine...
+
+```sh
+(pyangbind-27) [jwilhelm@LMIT-JWILH pyangbind]$ python setup.py sdist
+running sdist
+...
+creating dist
+Creating tar archive
+removing 'pyangbind-0.7.0' (and everything under it)
+(pyangbind-27) [jwilhelm@LMIT-JWILH pyangbind]$ tar -tzvf dist/pyangbind-0.7.0.tar.gz | grep test
+(pyangbind-27) [jwilhelm@LMIT-JWILH pyangbind]$
+```
+Although, strangely, I guess it's a good thing I'm looking at this dist. It seemed to only pick up the `plugin` folder, which is.... very odd. This really should have gotten `helpers`, `lib`, and `plugin`.",COLLABORATOR,192,{}
+1890,PullRequestReviewCommentEvent,2016-12-29 22:03:50+00:00,16603537,cdgriffith/Reusables,3275435,cdgriffith,,,created,14716030,437976579340986d4b82d9793c91f81616b5f56c,False,`if decimal and int(decimal)`,,28,{}
+1906,PullRequestReviewCommentEvent,2018-08-20 10:12:29+00:00,72737846,drvinceknight/Nashpy,2131546,drvinceknight,,,created,147580289,a31df7fa2a823c7a667947a8b722c5c5118c297d,False,"Thanks for the typos: have addressed in #49 (apologies).
+
+>>> this is a trivial game :)
+
+Yeah! It is in it's construction but in terms of the equilibria is isn't really, for example for `A=np.eye(5)` we still get quite a large range of different equilibria:
+
+```python
+>>> A = np.eye(N)
+>>> B = A[::-1]
+>>> game = nash.Game(A, B)
+>>> list(game.support_enumeration())
+[(array([ 0.,  0.,  1.,  0.,  0.]), array([ 0.,  0.,  1.,  0.,  0.])),
+ (array([ 0.5,  0. ,  0. ,  0. ,  0.5]),
+  array([ 0.5,  0. ,  0. ,  0. ,  0.5])),
+ (array([ 0. ,  0.5,  0. ,  0.5,  0. ]),
+  array([ 0. ,  0.5,  0. ,  0.5,  0. ])),
+ (array([ 0.33333333,  0.        ,  0.33333333,  0.        ,  0.33333333]),
+  array([ 0.33333333,  0.        ,  0.33333333,  0.        ,  0.33333333])),
+ (array([ 0.        ,  0.33333333,  0.33333333,  0.33333333,  0.        ]),
+  array([ 0.        ,  0.33333333,  0.33333333,  0.33333333,  0.        ])),
+ (array([ 0.25,  0.25,  0.  ,  0.25,  0.25]),
+  array([ 0.25,  0.25,  0.  ,  0.25,  0.25])),
+ (array([ 0.2,  0.2,  0.2,  0.2,  0.2]),
+  array([ 0.2,  0.2,  0.2,  0.2,  0.2]))]
+```
+
+An alternative would be to use a random game however that gets interesting as degenerate games could be used in which case the algorithms can become ""nonsensical"".
+
+:)",OWNER,48,{}
+1936,PullRequestReviewCommentEvent,2017-07-19 16:53:52+00:00,35960513,fabianvf/python-rake,19422700,justinkterry,,,created,50971676,9f8324bc1f8ecae783dabb704b676017b17fe6c1,False,"without spaces obv, the carrots do something to the markup",,9,{}
+1950,PullRequestReviewCommentEvent,2016-12-27 13:44:22+00:00,29987631,jeongyoonlee/Kaggler,6868283,stegben,,,created,14463503,0b7952e252070333d382d6e8f912996803e2b67e,False,Maybe try some simple hash function like Knuth's multiplicative method?,,22,{}
+2074,PullRequestReviewCommentEvent,2017-08-16 14:46:09+00:00,5323741,rdegges/flask-dynamo,386023,jaustinpage,,,created,56655268,118aa4fcd434a2899bfe38b744d793d1b3c7a0aa,False,"my fault, I should have explained a little better...
+
+`    def create_all(self, wait=False):
+        tables_name_list = [table.name for table in self._connection.tables.all()]
+        for table in self._table_config:
+            if table['TableName'] not in tables_name_list:
+                self._connection.create_table(**table)
+                if wait:
+                    self.wait_exists(table['TableName'])`
+
+Here is the snippet as i imagined it... I should have said ""You can just tab over these 2 statements, so that you only hit them when you create a table...""",,26,{}
+2260,PullRequestReviewCommentEvent,2017-11-07 21:10:40+00:00,83989500,rytilahti/python-miio,6697940,houndci-bot,,,created,74908818,1ce83c2cb7f833e42100606f7f1102f26e6c2255,False,line too long (90 > 79 characters),NONE,115,{}
+2333,PullRequestReviewCommentEvent,2018-05-02 14:02:07+00:00,5739134,b-ryan/powerline-shell,1183997,b-ryan,,,created,116908118,2f27bc2f902aefaf91cc7482917c6edb4f0cb38d,False,This needs to be updated for the recent changes.,OWNER,397,{}
+2623,PullRequestReviewCommentEvent,2017-02-05 18:25:39+00:00,32296825,CamDavidsonPilon/tdigest,2110529,tkluck,,,created,20175178,e0acbee7ac74bddb51f8eaa90186d9d7839d6bbf,False,"Ah yes, I see where you are coming from. No, I don't think we're not adding the value twice. Because when we visit `node` in that function, we are not sure that we need the *entire* accumulation under `node`, which is why you'll notice `node.accumulation` is not accessed at all. This is the reason there is no double-counting: we *either* use `self._mapper(node.value)` *or* `node.accumulation`, but never both in the same function.
+
+Let's go over it in detail. By definition, `_get_left_accumulation(self, node, upper)` returns the sum of all nodes `n` under `node` (including `node` itself) which satisfy `n.key < upper`. ""By definition"" is to say: that's what I want it to do. Let me try to convince you that indeed, it does:
+
+```
+def _get_left_accumulation(self, node, upper):
+```
+if node is None, this accumulation is zero. This is the stopping condition for the recursion.
+```
+        if not node:
+            return self._zero
+```
+if `upper > node.key`, we now need to retrieve the sum of the following three things:
+ - node.key itself (see definition);
+ - the sum of `node.left` (`node[0]`) and all its children, because all of them have `n.key < node.key`, and therefore also `n.key < upper`. We call `_get_full_accumulation` on `node.left`;
+ - that part of the tree rooted at `node.right` that satisfies `n.key < upper`. We just call this function recursively.
+```
+        if(upper > node.key):
+            return self._reducer(
+                self._reducer(
+                    self._get_full_accumulation(node[0]),
+                    self._get_left_accumulation(node[1], upper),
+                ),
+                self._mapper(node.value),
+            )
+```
+if `upper <= node.key`, we can ignore this node and everything smaller, so we ignore `node[0]` and only recurse into `node[1]`.
+```
+        else:
+            return self._get_left_accumulation(node[0], upper)
+```
+Does this explanation help? You can reason all other functions through in the same way.",,28,{}
+2697,PullRequestReviewCommentEvent,2015-11-03 14:21:09+00:00,16474183,matllubos/django-is-core,585068,LukasRychtecky,,,created,,5aa2bd29a224c526e69be5e2f4fb4e3e6f90913f,False,This is the critical line.,,149,{}
+2719,PullRequestReviewCommentEvent,2015-03-24 17:25:22+00:00,20118512,striglia/pyramid_swagger,442180,dnephin,,,created,,79e2fbaeff83abeab2c9536dda1070f855742420,False,"I believe they should already be validated by swagger_spec_validator, but now I'm not as sure. Need to think about this some more.",,90,{}
+2720,PullRequestReviewCommentEvent,2017-03-07 09:18:35+00:00,20118512,striglia/pyramid_swagger,852075,sjaensch,,,created,25463906,11ec7484bc696f854e928c54e8a7ec30663a91b5,False,"I'm a little bit confused as your travis build says it's testing Pyramid 1.7 and Webob 1.6 and fails, so I'm assuming you're not reproducing the issue you're describing...?
+
+But anyway, if that was indeed using older versions of those libraries, that is a general incompatibility, right? Nothing that changed with this PR, as I'm not setting or unsetting charsets. And your test only fails as you mock the response object. It will never fail in ""reality"" as we use the Response object from `Webob`, so it will always be configured the proper way (either with or without content type).",,186,{}
+2732,PullRequestReviewCommentEvent,2016-04-17 15:38:41+00:00,39267795,xeroc/python-graphenelib,5755993,iPerky,,,created,,814bf7763f054e89a0f421e18bd634068e72a9f5,False,scale_cer = 1.05,,29,{}
+2785,PullRequestReviewCommentEvent,2016-05-03 15:07:24+00:00,15314657,codingjoe/django-stdimage,1772890,codingjoe,,,created,,1ecfe86edc4a70291ae33adc7143587fcc1791cb,False,you can do `.values()` on  a dictionary. ,,81,{}
+2849,PullRequestReviewCommentEvent,2017-03-06 09:56:47+00:00,77063495,maartenbreddels/ipyvolume,1765949,maartenbreddels,,,created,25204640,d0b0d735c449e21d00be1fed89e143c04c1b7f1c,False,"Could you make this a bit simpler, sth like:
+```javascript
+ if ( ... 0 or 1d check ) {
+ // don't do anything, we don't have a sequence, 
+}
+else if ( .. 2d check ...) {
+  // we have a sequence
+...
+}
+```
+I think this is more easy to read. 
+Please be consistent with whitespace, no whitespace after `if(`, ",,10,{}
+2891,PullRequestReviewCommentEvent,2016-02-20 10:27:24+00:00,4479494,serge-sans-paille/pythran,1872390,pbrunet,,,created,,4e401bfa66362b7af7e6a976a1979eff8822d656,False,A global constant for this symbole may be better.,,534,{}
+3192,PullRequestReviewCommentEvent,2018-02-28 14:17:10+00:00,26947860,facelessuser/pymdown-extensions,1055125,facelessuser,,,created,100075277,c58fca24e64a75036db001939001d30bed39a754,False,"Tests are failing because you added a trailing self closing `/` in the input tag.  This is probably better so that when people insert this into xhtml (but who is doing this these days).  So I'm fine with the change, but you need to regenerate changed, failing tasklist tests.",OWNER,249,{}
+3269,PullRequestReviewCommentEvent,2016-06-29 18:44:01+00:00,52944543,georgemarshall/django-cryptography,132688,georgemarshall,,,created,,48998c9f7c0898b74610a2999dbacf2b32dd8bd1,False,This also seems to deviate from parity with [django.core.signing.Signer](https://github.com/django/django/blob/master/django/core/signing.py#L152),,3,{}
+3324,PullRequestReviewCommentEvent,2017-10-10 20:40:48+00:00,91020334,ni/nimi-python,8085768,marcoskirsch,5598284,ni,created,68418970,445961cbbfc120257a60d8e83d31ad5cd195d7eb,False,typo,MEMBER,452,{}
+3328,PullRequestReviewCommentEvent,2017-09-07 20:12:14+00:00,91020334,ni/nimi-python,8085768,marcoskirsch,5598284,ni,created,61338320,ee2714851b7deccbbac875907b3a072b937f752e,False,"add docstring
+
+",MEMBER,269,{}
+3331,PullRequestReviewCommentEvent,2017-07-30 03:03:29+00:00,91020334,ni/nimi-python,8085768,marcoskirsch,5598284,ni,created,53087568,2a88df3ff38d1ec8880c831334d3a3b6a976e6a9,False,I don't understand these last two.,,109,{}
+3332,PullRequestReviewCommentEvent,2018-03-01 20:00:33+00:00,91020334,ni/nimi-python,8085768,marcoskirsch,5598284,ni,created,100562957,bf1d4b883e09eb0f079d5387148bf6d7c18bf411,False,"Should this be a Python 2 only limitation, because you want to avoid copies?",MEMBER,755,{}
+3337,PullRequestReviewCommentEvent,2018-01-31 23:14:48+00:00,91020334,ni/nimi-python,8085768,marcoskirsch,5598284,ni,created,93062382,35242671264e1dbb3dd12050d39b198415bc06a7,False,I guess we still call _actual_num_wfms() a bunch of times :(,MEMBER,732,{}
+3343,PullRequestReviewCommentEvent,2017-01-25 20:10:48+00:00,36870909,OCA/openupgradelib,1033124,StefanRijnhart,7600578,OCA,created,18490778,6ac71c21caeb40712528cb3025ea9a105a4c81f6,False,Can you remove all this unrelated release stuff? By convention it is committed directly on the branch and that commit is than tagged. I think merging such a commit might be messy.,,68,{}
+3385,PullRequestReviewCommentEvent,2017-03-31 07:09:23+00:00,744916,gem/oq-engine,1818657,daniviga,316546,gem,created,30179229,98bf9564741daccdd03872ea8fda934a0c79bd85,False,"Ok, these were the first place where the id of the old calculation cannot be None and then can be casted to an int",,2683,{}
+3437,PullRequestReviewCommentEvent,2016-04-13 15:15:34+00:00,30930589,Yelp/fido,26757,analogue,49071,Yelp,created,,d08ed2e675e7afec6b56a29c0b81c7cd248f750b,False,Would be easier to unit test if this was a separate method but nbd.,,26,{}
+3441,PullRequestReviewCommentEvent,2018-08-09 18:49:10+00:00,55727134,Yelp/kafka-utils,7134353,88manpreet,49071,Yelp,created,144977594,947f918c91bcdedee52995893ce3dde3fb62b0d8,False,+1,CONTRIBUTOR,183,{}
+3445,PullRequestReviewCommentEvent,2016-01-09 01:25:12+00:00,33146014,Yelp/bravado-core,1528697,prat0318,49071,Yelp,created,,1a45f6570446f6b0008d8549bb12be5c71bd6ac9,False,nit: s/mutli/multi,,65,{}
+3485,PullRequestReviewCommentEvent,2016-12-28 17:18:58+00:00,24774658,boto/boto3,145979,dstufft,327752,boto,created,14586708,f6f32729d59c3ab2bdc6942ed02fe8314faaa4e9,False,Job where it's running https://travis-ci.org/pypa/pip/jobs/187237998,,930,{}
+3494,PullRequestReviewCommentEvent,2016-02-19 19:40:14+00:00,6670942,boto/botocore,368057,jamesls,327752,boto,created,,d0445ddb1e68b967843344444b12d81152a25fb2,False,"They seem identical except for the body content correct?
+
+If that's the case, can we just pull up the test helper into a base class?",,801,{}
+3497,PullRequestReviewCommentEvent,2015-11-20 22:57:36+00:00,6670942,boto/botocore,4605355,kyleknap,327752,boto,created,,35f465c8210eee89deecd25b6d0d7ae7c01e4382,False,Yeah let's just fallback to string if nothing gets caught in this if statement tree so we do not leave it blank if the value is missed.,,710,{}
+3514,PullRequestReviewCommentEvent,2015-09-30 21:00:43+00:00,5786856,ceph/ceph-deploy,1627176,trhoden,1015767,ceph,created,,7125ce3883c1f1e7dc33edffb3a1f80901093dff,False,"I don't think any of these need return values.  the `_run()` method is calling `remoto.process.run()`, which will raise an exception (by default) if the the command returns non-zero.
+
+If any of our commands on remote nodes return non-zero, we have ceph-deploy halt it's execution.  I'm not looking to change behavior here.
+
+That being said, this does highlight that I call `return` in `InitSystem._run()`, which doesn't make any sense.  I can remove that.",,355,{}
+3516,PullRequestReviewCommentEvent,2017-02-03 05:13:13+00:00,80529037,cfpb/wagtail-flags,10562538,willbarton,1071563,cfpb,created,19949833,b8357f54dcdfc4f5f9f990a77a6818fd0ea133df,False,Right now we're supporting Django 1.8 and up. Once we get to 1.9 [we can just `simple_tag` for assignment](https://docs.djangoproject.com/en/1.10/howto/custom-template-tags/#assignment-tags).,,3,{}
+3551,PullRequestReviewCommentEvent,2015-04-30 16:42:35+00:00,11589713,deis/deis,1360539,bacongobbler,6117407,deis,created,,e515d91ae8684cc3afadefdd9f8720f7842ae4a1,False,not after the bin/boot to a go-based approach. the TTL is already hardcoded to 20 seconds: https://github.com/deis/deis/blob/master/cache/main.go#L18-L19,,3592,{}
+3574,PullRequestReviewCommentEvent,2015-06-16 22:13:26+00:00,11589713,deis/deis,1360539,bacongobbler,6117407,deis,created,,afb8a72cf6ba0611b2e07b99f949d3a3cce804ea,False,"Two lines are required here as per @mboersma's comment about PEP8. It recommends one line between import groupings and two lines separating class definitions, variables, methods and import statements from each other. I think we skip the scheduler package entirely from `make test-style` due to the longevitiy of some lines (the container templates in fleet.py, more specifically) but it's still good to follow best practices whenever possible.",,3692,{}
+3593,PullRequestReviewCommentEvent,2018-05-22 23:54:55+00:00,122896249,dmlc/gluon-cv,8041160,zhanghang1989,11508361,dmlc,created,122393496,af34a32a214df1c492fff850d59d87fe6942abf4,False,"Actually, this hacky implementation can't be hybridized due to the `.size` method is used.",MEMBER,136,{}
+3610,PullRequestReviewCommentEvent,2017-09-28 21:23:34+00:00,58479957,juju/python-libjuju,801183,tvansteenburgh,4604548,juju,created,66003195,8d201e29e143f5f26c594c0d4e247e00f0e458f4,False,Same question as above.,MEMBER,163,{}
+3651,PullRequestReviewCommentEvent,2018-04-12 16:33:01+00:00,102692863,onnx/onnx,1791495,NiklasGustafsson,31675368,onnx,created,111699803,7f62cd639f7002814eed64a7238e85ceeb783cd6,False,"Doing so would, it seems to me, create a cycle in the graph from the node's output to its input, which is explicitly disallowed in the spec. ",CONTRIBUTOR,720,{}
+3654,PullRequestReviewCommentEvent,2017-10-27 21:05:48+00:00,102692863,onnx/onnx,5194557,linkerzhang,31675368,onnx,created,72630467,033b810a0a4a3d7e79ff083b2e994fd78549d5fb,False,"the name ""new"" may be not good although :) ",CONTRIBUTOR,148,{}
+3659,PullRequestReviewCommentEvent,2018-03-19 19:54:22+00:00,102692863,onnx/onnx,4685384,jamesr66a,31675368,onnx,created,105114560,46aed3e8c12ab648552bf37afb8384457c745e2c,False,enum class,MEMBER,564,{}
+3661,PullRequestReviewCommentEvent,2017-12-20 00:11:10+00:00,102692863,onnx/onnx,9300575,bddppq,31675368,onnx,created,84631231,f4f0448ecaecd02da8030dd9b30d925ae23878f9,False,Does the compiler complain if you remove the cast here? It would be convenient to not need to explicitly cast in all the schemas.,MEMBER,378,{}
+3667,PullRequestReviewCommentEvent,2018-02-01 23:00:36+00:00,102692863,onnx/onnx,4685384,jamesr66a,31675368,onnx,created,93469489,635ed717c308345e470390ac7d7d6247d0da24fa,False,"(a) Let me discuss this with the team. Will update later. But my instinctual response is that control flow operators are sufficiently changing the core semantics of the spec (in terms of analysis, optimization, etc) that it's okay to special-case this
+
+(b) Beam search with a dynamic stopping condition as well as a max trip count is an example. This is a concrete use case we have that we want to support in ONNX
+
+(c) The trip count gives semantic information to backends for optimization purposes. In the case where we have a trip count, backends can bulk allocate all required memory and/or do more fancy things like emit specific kernels for a given sequence length, etc. This would be harder to do if we have to pattern match the indexing machinery",MEMBER,436,{}
+3703,PullRequestReviewCommentEvent,2018-04-20 14:49:05+00:00,79510167,pypa/pipenv,605277,uranusjr,647025,pypa,created,114007885,55121bd2aec64d7fdf776647419ab24a21b5160b,False,"Probably need to extend the if-else branching:
+
+* if Windows: use ASCII characters.
+* else if colorblind: use Unicode blocks without colors.
+* else: call crayons.",COLLABORATOR,2030,{}
+3719,PullRequestReviewCommentEvent,2017-12-10 01:19:44+00:00,79510167,pypa/pipenv,954310,techalchemy,647025,pypa,created,82339332,aac675235e2c8623bbb76f22cfa8c53d1b218786,False,See https://github.com/pypa/pipenv/pull/1186#issuecomment-350517997 for more info,MEMBER,1183,{}
+3772,PullRequestReviewCommentEvent,2015-08-11 19:17:21+00:00,38906603,uber/tchannel-python,263587,breerly,538264,uber,created,,2f8608024b05711b832dc61c24fdf9dec1008e59,False,can you specify all the kwargs here?,,97,{}
+3798,PullRequestReviewCommentEvent,2017-02-09 18:24:50+00:00,51040886,Azure/azure-cli,5723682,tjprescott,6844498,Azure,created,21069921,7d5deb4ea702a6af5be9cd0fa51319dcc863da58,False,Same comment as earlier about restructuring this.,,2001,{}
+3804,PullRequestReviewCommentEvent,2017-03-20 18:13:55+00:00,51040886,Azure/azure-cli,6014209,yugangw-msft,6844498,Azure,created,27923965,532220ec4b61f41f2821dadf51b1a3953eb06570,False,"This will not be a pylint error, rather PEP 8 style check should catch it. I have opened #2562 to get that done.",,2550,{}
+3807,PullRequestReviewCommentEvent,2017-11-07 01:03:26+00:00,51040886,Azure/azure-cli,31109331,corquiri,6844498,Azure,created,74613890,3535b24f1298cc4a91ba8f1597404765a5168667,False,Summary added for all parameters,NONE,4838,{}
+3811,PullRequestReviewCommentEvent,2017-12-12 18:09:49+00:00,51040886,Azure/azure-cli,16448634,derekbekoe,6844498,Azure,created,82927980,9896ee6894477b768c7a816adaee65c2ccb634f9,False,You can remove this since it's already defined in help.py.,MEMBER,5078,{}
+3812,PullRequestReviewCommentEvent,2018-08-22 19:35:22+00:00,51040886,Azure/azure-cli,169061,sptramer,6844498,Azure,created,148632700,ce09c7f229f4d3c9475597726db74f23e5ae9a3e,False,Capitalization: `The Microsoft Bot Builder SDK`,CONTRIBUTOR,7046,{}
+3816,PullRequestReviewCommentEvent,2018-04-09 22:07:24+00:00,51040886,Azure/azure-cli,1329240,troydai,6844498,Azure,created,110611230,18b0f68e3fc72c497b03a6a00b6c919d046db481,False,Can't this positional argument at random places?,CONTRIBUTOR,6055,{}
+3820,PullRequestReviewCommentEvent,2017-06-06 17:01:03+00:00,51040886,Azure/azure-cli,1050156,lmazuel,6844498,Azure,created,42374435,a77f118633223060f34c653065deade5c4076628,False,"Same, compat only. If you think this is internal enough, the whole file can disappear.",,3621,{}
+3822,PullRequestReviewCommentEvent,2016-08-19 21:50:02+00:00,51040886,Azure/azure-cli,5723682,tjprescott,6844498,Azure,created,,025096b212bc9048fb4b832fefb2c7427484a978,False,">completer=get_enum_type_completion_list(RecordTy [](start = 138, length = 48)
+
+You don't need to specify a completer if you specify a choice list. Same with record_type. The choice list automatically doubles as a completer.",,718,{}
+3826,PullRequestReviewCommentEvent,2017-10-17 04:04:09+00:00,51040886,Azure/azure-cli,1329240,troydai,6844498,Azure,created,69761111,ad082f01dc91ed3f9276e3b1b73e72ba4fda9786,False,"Ok, this is not the right way to do dependency version control. If you will introduce breaking change to the package, you should bump the minor or major version. Otherwise, you bump the micro version.
+
+For example
+`1.0.0` -> `2.0.0` major change
+`1.0.0` -> `1.1.0` contains breaking change
+`1.0.0` -> `1.0.1` -> `1.0.2` ... bug fixes, minor version, downstream packages don't need to be updated.
+
+The idea that leaves 10 versions in between is not stable. So, using `<` is fitting, but it should be like:
+```
+'vsts-cd-manager<1.1.0` 
+``",CONTRIBUTOR,4498,{}
+3828,PullRequestReviewCommentEvent,2017-05-11 18:41:53+00:00,51040886,Azure/azure-cli,5723682,tjprescott,6844498,Azure,created,37665512,64d41c3b729ef919145ec8e8f09bdf12b3e22c77,False,This looks like it should be an enum but the help text reads like a flag. ,,3331,{}
+3834,PullRequestReviewCommentEvent,2017-05-19 23:16:20+00:00,51040886,Azure/azure-cli,16448634,derekbekoe,6844498,Azure,created,39289998,f34b1f657ed8e129a949b6d3f18a7e40a31fef69,False,Why do the others use the 'X#{}' format whilst this one is `custom_path + 'string'`?,,3402,{}
+3852,PullRequestReviewCommentEvent,2017-10-27 18:14:12+00:00,51040886,Azure/azure-cli,14087829,yolo3301,6844498,Azure,created,72588151,7b30df4f2e7f5c92132bab02b41a9f10b192a6b8,False,Good to know,CONTRIBUTOR,4751,{}
+3855,PullRequestReviewCommentEvent,2018-08-01 20:03:29+00:00,51040886,Azure/azure-cli,6014209,yugangw-msft,6844498,Azure,created,142525982,395b4f55b70094561412dcad9591380788313d7c,False,Need to capture exceptions here so CLI wouldn't crash? ,CONTRIBUTOR,6682,{}
+3868,PullRequestReviewCommentEvent,2018-01-22 19:13:26+00:00,94585736,Azure/service-fabric-cli,4260977,Christina-Kang,6844498,Azure,created,90591377,a07e34d17d221fc6f14dbf111d04b7cc8b9f10b9,False,Remove white line. Thanks!,NONE,62,{}
+3869,PullRequestReviewCommentEvent,2018-01-16 18:42:31+00:00,94585736,Azure/service-fabric-cli,26749906,samedder,6844498,Azure,created,89204197,06ed3c670c5edb4125483e33fe3f0c0a1f80fc56,False,Can you instead move this help string into a new file in `src/sfctl/helps`. That's where all new docstrings should go since it supports more features and YAML formatting. ,CONTRIBUTOR,62,{}
+3909,PullRequestReviewCommentEvent,2018-05-30 22:53:07+00:00,89531383,Azure/azure-python-devtools,1050156,lmazuel,6844498,Azure,created,124621866,b3a0953982d5e642a86057204aae28e449d16626,False,"Pipfile is the new black
+https://github.com/pypa/pipfile
+https://github.com/pypa/pipenv
+",MEMBER,45,{}
+3914,PullRequestReviewCommentEvent,2016-09-21 19:09:10+00:00,62902455,Azure/azure-data-lake-store-python,6042212,martindurant,6844498,Azure,created,,1b108f69fcf3b1bc2f70196d3ec3e7c3986745f7,False,as above,,76,{}
+3947,PullRequestReviewCommentEvent,2015-08-24 13:44:05+00:00,31315021,Kinto/kinto,229453,Natim,13413813,Kinto,created,,9691dbe916c90329e0cdb3c46aeea03a9903b871,False,"This is missing ""data""",,39,{}
+3948,PullRequestReviewCommentEvent,2018-04-18 13:11:46+00:00,31315021,Kinto/kinto,229453,Natim,13413813,Kinto,created,113210287,58cb8a13144c31ee91804507f3fa0284da11ab6f,False,I guess we should raise a 400 for objects here.,OWNER,1592,{}
+3962,PullRequestReviewCommentEvent,2016-05-02 14:25:37+00:00,31315021,Kinto/kinto,546692,leplatrem,13413813,Kinto,created,,fef34a9cf643a1a5280140ef850102da0267a544,False,nit: ask**s**,,576,{}
+3964,PullRequestReviewCommentEvent,2015-08-25 15:02:52+00:00,31315021,Kinto/kinto,625232,phrawzty,13413813,Kinto,created,,2a000bac6ba2689f3f008be4c311ea26411af0d9,False,"While semi-colons can be used in lists, this is generally only the case in ""complex"" lists (i.e. lists where each item is a list in itself). There is another case where lists and semi-colons are used, but this is neither the time nor the place for an excursion deep into the jungle of English grammar. :wink: 
+
+tl;dr These list items should be terminated with periods (and start with capital letters).",,156,{}
+3967,PullRequestReviewCommentEvent,2016-06-14 11:39:34+00:00,31315021,Kinto/kinto,229453,Natim,13413813,Kinto,created,,92e37f05e07de171ed999adfa0149a54c14078a7,False,Should we add the email address?,,663,{}
+3969,PullRequestReviewCommentEvent,2018-07-05 22:38:47+00:00,71482397,Parsl/parsl,181489,yadudoc,26490185,Parsl,created,134838281,6363ac7e0be88a3a5676ab167247e3f36e9733ee,False,"We should add a task type ""stage_in"" , ""stage_out"" tag rather than check func_names",CONTRIBUTOR,372,{}
+3992,PullRequestReviewCommentEvent,2016-12-02 10:36:33+00:00,11003251,acorg/dark-matter,132978,terrycojones,4853692,acorg,created,11138527,cf8cb331810b82fd172df151598af1fe329ac421,False,OK.,,471,{}
+4003,PullRequestReviewCommentEvent,2018-07-19 17:54:08+00:00,112676803,apple/turicreate,1875987,srikris,10639145,apple,created,138784743,d5dd4100a4365d84cd73ecf910fd37bf94e3e224,False,Oh. Okay. Never mind then.,COLLABORATOR,854,{}
+4010,PullRequestReviewCommentEvent,2018-02-10 01:03:55+00:00,112676803,apple/turicreate,5673251,znation,10639145,apple,created,95598995,bf2fecb0ee0bb595a9948a53678820f06106dd65,False,"`hasNext`, `peek`, and `pop` are not used and can be removed.",CONTRIBUTOR,264,{}
+4012,PullRequestReviewCommentEvent,2018-06-15 18:42:05+00:00,112676803,apple/turicreate,1875987,srikris,10639145,apple,created,129278828,c656f6961da2773068a0c0c1a47c1482782e2306,False,This won't render correctly in Sphinx. Can you check how this will render in bumpy docs.,COLLABORATOR,678,{}
+4069,PullRequestReviewCommentEvent,2016-02-26 02:13:27+00:00,6235174,conda/conda,1418419,kalefranz,6392739,conda,created,,eac31a1a85dbbbe879861cf0c17d2b34357ddbac,False,"I'm going to go ahead and merge this. If really need to add this back in, we can do it in a future PR.",,2135,{}
+4118,PullRequestReviewCommentEvent,2016-11-01 14:53:01+00:00,17720373,crate/crash,1038966,bogensberger,4048232,crate,created,6627233,9d68f5315eef94e3434454c1cca4f1e0649e121e,False,blank line,,152,{}
+4128,PullRequestReviewCommentEvent,2017-06-19 16:24:02+00:00,88571641,dbcli/cli_helpers,637013,j-bennet,11810727,dbcli,created,44890344,3b5cb5ec3ec8f139f79f50a9af2756cab48e5ce1,False,"This actually does not work for numbers formatted with a thousand separator.
+
+```
+ipdb> float('1,000,000.0')
+*** ValueError: invalid literal for float(): 1,000,000.0
+```
+
+And because `align_decimals` now comes after `format_numbers`, aligning decimals stopped working if a thousand separator is specified in `pgclirc`.",,14,{}
+4199,PullRequestReviewCommentEvent,2017-01-25 02:39:24+00:00,50104322,muccg/django-useraudit,2595116,aahunter,2595123,muccg,created,18317016,6a120b4a8368b7cbc50d0dcb61d63a00a14f5e7c,False,This method doesn't always return a value.,,19,{}
+4219,PullRequestReviewCommentEvent,2015-07-11 17:18:11+00:00,12968651,pgmpy/pgmpy,2332955,abinashpanda,5500131,pgmpy,created,,d391962bc0caf27a62758ec2e6fd79d1e077bdbd,False,Please stick to the documentation format used everywhere. Do you even look at the code written elsewhere?,,447,{}
+4225,PullRequestReviewCommentEvent,2017-11-09 14:02:20+00:00,12968651,pgmpy/pgmpy,8940456,khalibartan,5500131,pgmpy,created,75445751,2c1dd56ffcbbcb36b32d9f22acc2355da99cbd2f,False,@ankurankan It is an internal method and is not supposed to be used by user. That's why I didn't added it in the first place,MEMBER,943,{}
+4228,PullRequestReviewCommentEvent,2015-11-05 05:44:42+00:00,12968651,pgmpy/pgmpy,1461453,ankurankan,5500131,pgmpy,created,,4becb9bce784aa67966a111f7fd159c2efc63f12,False,@kshitij10496 I think this should be `self.Independencies1` ? ,,498,{}
+4233,PullRequestReviewCommentEvent,2015-06-05 08:14:46+00:00,12968651,pgmpy/pgmpy,2332955,abinashpanda,5500131,pgmpy,created,,daf756a2f8858e4b8088a3a7c9e2bcec3acf4a51,False,"The method name is also a misnomer. ```compute_initial_state``` gives us a sense that it returns something, whereas it  doesn't. Rename it to something like ```initialize_initial_state``` or something like this.",,410,{}
+4234,PullRequestReviewCommentEvent,2016-12-28 15:48:21+00:00,12968651,pgmpy/pgmpy,1461453,ankurankan,5500131,pgmpy,created,14576845,0d4b494fa90f2de865e64a8b0b8cba635b3f68a7,False,@raghavg7796 Okay. Then this seems fine.,,797,{}
+4249,PullRequestReviewCommentEvent,2017-04-06 07:13:17+00:00,2419246,plone/plone.testing,157140,jensens,72034,plone,created,31237577,45e3a13cadb4ea2efe4e94e2427e2a249d999cab,False,"Ok, I just followed the pattern used at other places in the file, I think hence this is not test code but test setup code import in the header is fine. I will change it and remove also the other occurrences.",,30,{}
+4271,PullRequestReviewCommentEvent,2016-02-29 21:50:21+00:00,1977148,plone/plone.app.multilingual,157140,jensens,72034,plone,created,,791c1c71ea5e416adce85380a94d643e87f01f97,False,keep it - make absolutly sense,,213,{}
+4277,PullRequestReviewCommentEvent,2017-01-22 02:03:52+00:00,2432511,plone/plone.app.linkintegrity,157140,jensens,72034,plone,created,17818566,05ad17fd656f1e02eeb94df9b4e3459551cc9dc7,False,what about a simple ``logger.exception()``? Better than eating it up completly.,,46,{}
+4286,PullRequestReviewCommentEvent,2018-06-29 05:20:52+00:00,30895522,pvlib/pvlib-python,1385621,mikofski,11037261,pvlib,created,133100545,cc6c976db5ea62c1734c27d1ef2049f0aa5a7a31,False,✔️ ,CONTRIBUTOR,409,{}
+4349,PullRequestReviewCommentEvent,2017-08-30 20:30:22+00:00,43852872,PulpQE/pulp-smash,1012989,Ichimonji10,14839747,PulpQE,created,59684203,2b9e9b27ba7ed8f324137a384342f8771f209337,False,How about dropping this `subTest` context manager for the reason outlined above?,CONTRIBUTOR,767,{}
+4351,PullRequestReviewCommentEvent,2018-04-26 20:15:31+00:00,43852872,PulpQE/pulp-smash,90741,dekimsey,14839747,PulpQE,created,115732165,56e70eb6f936ad7fe16ba1100514be945f25048d,False,All of these values default to None. But the pydoc for the class suggests they default to useful values. The current default-enforcing behavior is actually in `.read()`,NONE,975,{}
+4389,PullRequestReviewCommentEvent,2017-08-18 04:31:50+00:00,82863327,airbnb/omniduct,124910,matthewwardrop,698437,airbnb,created,57109266,0bbec39204bb7148b7c9b0ee262c0f58af28ebbf,False,"And maybe, rather than raising KeyError here, can we add an error to `omniduct/errors.py`:
+
+```
+class DuctProtocolUnknown(RuntimeError):
+    pass
+```
+
+And raise that instead?",,15,{}
+4406,PullRequestReviewCommentEvent,2018-07-04 03:51:36+00:00,34864402,apache/incubator-mxnet,5178350,sxjscience,47359,apache,created,134230465,c4bae4dc7b44d36bccfe98f8871bff1a034705a0,False,"@szha Actually, the dtype of indices can be float16. There is no need to remove the option.",MEMBER,11134,{}
+4425,PullRequestReviewCommentEvent,2018-08-21 22:09:30+00:00,34864402,apache/incubator-mxnet,3307514,zhreshold,47359,apache,created,148270560,55abd3c1715411671fc991c565cc010c220e395d,False,why bumping to 0.8 directly?,MEMBER,12276,{}
+4426,PullRequestReviewCommentEvent,2018-07-02 17:38:16+00:00,34864402,apache/incubator-mxnet,3307514,zhreshold,47359,apache,created,133715458,b31fcfe453a928eb9b51b7fbc2398c9a41e9572d,False,convention for variables is `xxx_` for private members,MEMBER,11502,{}
+4437,PullRequestReviewCommentEvent,2018-07-19 21:51:07+00:00,34864402,apache/incubator-mxnet,11465736,haojin2,47359,apache,created,138865644,498b150b9ca3398fb99a9c9f23bf481f54e8fe40,False,Pay attention to the `num_csr_cols - 1` above.,CONTRIBUTOR,11825,{}
+4441,PullRequestReviewCommentEvent,2018-07-06 18:02:29+00:00,34864402,apache/incubator-mxnet,18629099,marcoabreu,47359,apache,created,135106963,68ea32ec89a3c3c8d5d174d83181a092bf9eba7c,False,"Well the purpose of this script is specifically to detect flaky tests, right? I'd expect that the expectation would then be that it passes all the time.
+
+Sure, we won't achieve perfect coverage and at some points you get diminishing returns, but I have seen that even you usually use 10000 runs as the standard value for your tests. Time should also not be that much of a factor (even a few hours are fine) because this is intended to he run in the background. Robustness tests are a time intensive task and they should be designed to leave as few room for errors as possible (with costs in mind).
+
+For CI you don't have to worry, this will run asynchronously and we'll make a proper assessment what are be best values for which case - it will probably be a Time-Boxed execution. But we are not at that stage yet.
+
+Fyi, we got 455 tests < 0.1s, 509 < 1s, 565 < 3s and 63 > 3s. 628 tests in total.",CONTRIBUTOR,11572,{}
+4451,PullRequestReviewCommentEvent,2018-05-11 06:16:31+00:00,34864402,apache/incubator-mxnet,2626883,szha,47359,apache,created,119327408,d33c81590dc4b3ec7ce04ee6633468db5ba7e996,False,This is now handled in `update()`.,MEMBER,10861,{}
+4453,PullRequestReviewCommentEvent,2018-01-17 01:01:29+00:00,34864402,apache/incubator-mxnet,568948,piiswrong,47359,apache,created,89294553,21d00c19201b37a067d51a22b42a653b3eb1315d,False,"Default is different from defaultstorage. The name is confusing.
+
+How about IsVectorized()?
+
+Also, move this function out of `#if MXNET_USE_MKLDNN` to avoid excessive switches across the codebase.",CONTRIBUTOR,8302,{}
+4454,PullRequestReviewCommentEvent,2018-08-06 12:48:24+00:00,34864402,apache/incubator-mxnet,18629099,marcoabreu,47359,apache,created,143576367,b2bea2a27abec4cd07f1e126d17521858a5febec,False,Done,CONTRIBUTOR,12000,{}
+4459,PullRequestReviewCommentEvent,2017-10-10 15:35:26+00:00,34864402,apache/incubator-mxnet,11234557,cjolivier01,47359,apache,created,68326610,2b9355d6947a0f22fd314ee8cd0bd1ad5945f94b,False,"ok, reverted",CONTRIBUTOR,7935,{}
+4470,PullRequestReviewCommentEvent,2018-07-06 08:05:00+00:00,34864402,apache/incubator-mxnet,928489,larroy,47359,apache,created,134921418,c808b1bdfaee6405e44f55f93d4ded6c08890c1a,False,Can you tell me how to test?,CONTRIBUTOR,11562,{}
+4477,PullRequestReviewCommentEvent,2018-08-08 12:49:50+00:00,34864402,apache/incubator-mxnet,18629099,marcoabreu,47359,apache,created,144400843,56e5526d5bb76087aac426909dd87b2806059ed2,False,"Since these strings are only used once, does it make sense to make them constants? It would then be along the lines of 
+```
+FAILURE_HANDLER_ARG = 'failure_handler'
+...
+args[FAILURE_HANDLER_ARG]()
+```
+
+Given that situation, do you think it adds value?",CONTRIBUTOR,12000,{}
+4478,PullRequestReviewCommentEvent,2018-04-17 16:39:04+00:00,34864402,apache/incubator-mxnet,70481,zheng-da,47359,apache,created,112897703,529f0b49fc2f2c23c1893225051b0e3d84779cd1,False,is this related to this PR?,CONTRIBUTOR,10578,{}
+4487,PullRequestReviewCommentEvent,2017-10-30 22:23:16+00:00,34864402,apache/incubator-mxnet,5545640,eric-haibin-lin,47359,apache,created,73006342,7ed4accdf78ee63cd5c8f822402df69d008ce2e5,False,"We should also check in[i] >=0, and csr_indices are expected to be in sorted order per row:
+https://mxnet.incubator.apache.org/versions/master/api/python/ndarray/sparse.html#mxnet.ndarray.sparse.CSRNDArray 
+We should also add test for this. 
+e.g. this is invalid CSR in MXNet:
+shape = (1, 3)
+data=[1,2,3]
+indptr = [0,3]
+indices = [3,2,1] --> not in ascending order
+
+",CONTRIBUTOR,8259,{}
+4496,PullRequestReviewCommentEvent,2016-11-04 02:59:55+00:00,33884891,apache/incubator-airflow,153965,jlowin,47359,apache,created,7140105,c19bb7c23b71b94213bd2c56bc99b0974961bf1d,False,This line has to change first,,1806,{}
+4497,PullRequestReviewCommentEvent,2018-03-08 12:35:45+00:00,33884891,apache/incubator-airflow,1134248,Fokko,47359,apache,created,102282692,8167cb8f84482d8be24798bca860de9a682cff85,False,Please make the namespace configurable using the connection,CONTRIBUTOR,3112,{}
+4510,PullRequestReviewCommentEvent,2018-08-31 07:39:20+00:00,33884891,apache/incubator-airflow,1134248,Fokko,47359,apache,created,151286998,b0ed8fb2ac86ed2a0367e33471955a10b9fdef27,False,"Please add the logging mixin to the class itself: `class NullFernet(LoggingMixin):
+`",CONTRIBUTOR,3805,{}
+4521,PullRequestReviewCommentEvent,2017-11-01 19:58:01+00:00,33884891,apache/incubator-airflow,4282712,bolkedebruin,47359,apache,created,73599159,ef069bd1a43742c36a8c592977745bf08a94e851,False,Ah sorry you are looking at the cli method. I'll have a look,CONTRIBUTOR,2745,{}
+4531,PullRequestReviewCommentEvent,2018-02-15 00:06:10+00:00,33884891,apache/incubator-airflow,1322934,thekashifmalik,47359,apache,created,96702812,4d5c923c1a4311e95f7a8bf17bd7fe3e2072196e,False,I could do that.,NONE,3036,{}
+4539,PullRequestReviewCommentEvent,2017-07-25 23:54:30+00:00,33884891,apache/incubator-airflow,3968709,saguziel,47359,apache,created,52228969,0331f0f25aedd170aca5417bbb3f5e7f63c12a72,False,better to say `is not None`,,2464,{}
+4545,PullRequestReviewCommentEvent,2017-12-05 18:29:13+00:00,33884891,apache/incubator-airflow,4282712,bolkedebruin,47359,apache,created,81288348,502fe6a449d4c590dcb6d88a53d49f666403ffef,False,use the setter,CONTRIBUTOR,2832,{}
+4550,PullRequestReviewCommentEvent,2016-05-28 12:42:36+00:00,648332,assimp/assimp,1309172,wise86-android,265533,assimp,created,,5d0fb7f9531c92dc8804c0b673097d2b3b5731e0,False,"No matrix[0] return the pointer to the data buffer for be able to use matrix[i][j].
+
+see https://github.com/assimp/assimp/blob/master/include/assimp/matrix4x4.inl#L241",,748,{}
+4593,PullRequestReviewCommentEvent,2017-02-16 17:47:55+00:00,64884021,celery/django-celery-beat,2214541,AJRenold,319983,celery,created,22316866,b557029e95d8244f937b7def8b09cc8116b2581e,False,"I'm aware that this is private to the parent class Scheduler and the tick function. Maybe the tick function can have a method to call which indicates if the schedule has been changed since it last ran, if the schedule has changed, then the heap needs to be invalidated because it now has un-sycned task entries",,25,{}
+4604,PullRequestReviewCommentEvent,2016-01-29 07:22:18+00:00,39268745,data-8/datascience,2468904,SamLau95,12195212,data-8,created,,4ed3faaf0fd94d703bed2c3b74dd447b95c44283,False,"Looks like the warning doesn't show up (also tried in the repl):
+
+![screenshot 2016-01-28 23 21 30](https://cloud.githubusercontent.com/assets/2468904/12669501/f44bdac2-c615-11e5-9d36-c23056cb5f28.png)
+",,187,{}
+4606,PullRequestReviewCommentEvent,2018-07-04 15:25:38+00:00,8140822,dimagi/commcare-export,2367539,esoergel,94514,dimagi,created,134420007,41e185552453ede7d33fe2eb87a3cc05503fc568,False,:+1: ,NONE,86,{}
+4640,PullRequestReviewCommentEvent,2016-06-24 21:04:48+00:00,26784827,dotnet/core,2608468,richlander,9141961,dotnet,created,,148989ceb8154605f8158e716a684bb16669ec51,False,"We should probably remove the version number from ASP.NET Core. Increasingly, as it includes SignalR and other stuff, the version number won't matter.",,137,{}
+4693,PullRequestReviewCommentEvent,2017-04-28 18:43:25+00:00,50359589,girder/girder_worker,555959,zachmullen,5150517,girder,created,35433902,e9ab5152a7b3c93bf265ed2f30494e1dda3a1a26,False,"We have per-plugin requirements files that can be installed as extras, so this should go in plugins/docker/requirements.txt.",,96,{}
+4695,PullRequestReviewCommentEvent,2017-04-18 20:48:03+00:00,50359589,girder/girder_worker,1031053,cjh1,5150517,girder,created,33347014,2331e4c63520083ef769d179eff76de3afcb8250,False,Are we OK with the extra \r?,,96,{}
+4715,PullRequestReviewCommentEvent,2017-03-10 17:04:50+00:00,53438969,globus/globus-cli,1300022,sirosen,6120321,globus,created,26322838,ccb020b2e65b40db7dce7cf1bbe4626ed6b7c974,False,"I don't object to us doing our own parsing logic if there's a reason, but why not use [`datetime.strptime`](https://docs.python.org/2/library/datetime.html#datetime.datetime.strptime) or [`time.strptime`](https://docs.python.org/2/library/time.html#time.strptime)?
+
+If we have a reason that we can't use those (e.g. the tighter coupling with `click`'s `fail()`), that should be stated in a comment or docstring.
+
+If the error messaging is the only reason, I'd contest the necessity of custom parsing. A message like ""20160124 is not of the format YYYY-MM-DD or of the format YYYY-MM-DD HH:MM:SS"" seems fine.",,228,{}
+4717,PullRequestReviewCommentEvent,2017-03-23 19:05:26+00:00,53344710,globus/globus-sdk-python,214142,jaswilli,6120321,globus,created,28749023,c5066ce298e01b844b9311301cd29578f63905ad,False,We definitely have some internal usage of these properties that will need to be refactored if they get dropped.,,162,{}
+4762,PullRequestReviewCommentEvent,2017-09-25 17:59:06+00:00,21404763,google/python-adb,306100,fahhem,1342004,google,created,64982500,2251459c22efd6fe12aa19960513b20a8260a5ae,False,nit: space after comma,MEMBER,63,{}
+4837,PullRequestReviewCommentEvent,2017-02-19 12:42:58+00:00,23960826,jxtech/wechatpy,1556054,messense,12945147,jxtech,created,22658950,54a107d0962453c2553d5ef1e66146ea32972211,False,这些 `key` 增加 `appid` 前缀？,,195,{}
+4894,PullRequestReviewCommentEvent,2018-08-09 21:05:56+00:00,72477752,pulumi/pulumi,1224093,pgavlin,21992475,pulumi,created,145025685,c6e8d5c0ee044b3b75f96939087407e468b41b8a,False,"I think we want to wordsmith this a bit: something like ""resource %s was interrupted during a %s during a previous update"".
+
+We might not even want to display anything here, and instead relegate these warnings/errors to the ""start a preview/update"" paths.",MEMBER,1742,{}
+4916,PullRequestReviewCommentEvent,2016-08-11 20:43:42+00:00,38581626,pybind/pybind11,1203629,wjakob,17565521,pybind,created,,79fb616c16fae9dfd336f366ff4886c782f529dc,False,"Correct me if I'm wrong: the semantics here seem to be a little different: the prior ``cout`` calls printed information about the lifetime of an instance which is managed via the ``ref<>`` wrapper. Here, you are actually tracking ``this``, i.e. the memory address of the individual ``ref<>`` wrappers which is less relevant.",,324,{}
+5034,PullRequestReviewCommentEvent,2017-12-15 18:16:35+00:00,26552706,vmware/pyvcloud,24319,pacogomez,473334,vmware,created,83885385,01296e350750af804965eae6522692ee1b442958,False,"yes, will update.",MEMBER,149,{}
+5075,PullRequestReviewCommentEvent,2016-07-26 16:54:51+00:00,6248645,ARM-DOE/pyart,1050278,jjhelmus,2540600,ARM-DOE,created,,0fa32eaeb18436937d2e7829e8eecbf5d15da23f,False,The `read_rainbow_wrl` function should be added to the docstring at the top of this module so that the function is included in the User Reference Manual.  ,,555,{}
+5082,PullRequestReviewCommentEvent,2016-09-02 08:40:04+00:00,46265005,ARMmbed/mbed-flasher,3822425,jupe,8916057,ARMmbed,created,,d6e3b3f90352b56b30a3848d2809d846ab30b0c8,False,"this is not good approach.. its enough to verify first sentence,, otherwise we have to update this every time when we add more target support...",,30,{}
+5101,PullRequestReviewCommentEvent,2017-10-14 11:14:39+00:00,61572326,DataDog/dd-trace-py,1560405,palazzem,365230,DataDog,created,69389965,3981c1d97573ce214d968119646fea2d1e908d1f,False,good catch!,MEMBER,349,{}
+5106,PullRequestReviewCommentEvent,2017-03-08 19:33:33+00:00,61572326,DataDog/dd-trace-py,3237580,talwai,365230,DataDog,created,25862595,fc5bc143b4f8ff49920857c7d7b05bdf01d924fc,False,using `deep_getattr` may save you some lines https://github.com/DataDog/dd-trace-py/blob/020e9d7a77cb685178509f3e4759bdfd2b26eaee/ddtrace/util.py#L23,,209,{}
+5115,PullRequestReviewCommentEvent,2017-06-02 18:40:07+00:00,61572326,DataDog/dd-trace-py,22001182,furmmon,365230,DataDog,created,41840273,09fee4a2eea06f2a9dabcb79045012972ad94ca1,False,"Tried the mock `@MotoService('lambda')` with botocore no patch, doesn't work either. Since this is an issue due to the mocking library we might want to skip this test. Anyway for the moment aiobotocore supports officially only s3, great work on it by the way 😄 ",,257,{}
+5116,PullRequestReviewCommentEvent,2017-08-01 08:03:48+00:00,61572326,DataDog/dd-trace-py,1560405,palazzem,365230,DataDog,created,53427420,2a2451a45623f73c421cbdef47d124e7c4fa2801,False,"Here we can convert it as:
+```python
+patch_all(redis=False, cassandra=False)
+```
+
+since the API for `patch_all()` is to use kwargs (that's why you need to add `**` to the previous example)",,321,{}
+5118,PullRequestReviewCommentEvent,2016-04-18 13:53:55+00:00,47986260,Juniper/jxmlease,12263474,jonlooney,3935164,Juniper,created,,6c07d0c681c34171f1574589dab9f3b2386347b3,False,"Agreed. In testing, I tried multiple ways of escaping these... but, not this way. ;-)
+
+I'll change them.",,11,{}
+5123,PullRequestReviewCommentEvent,2015-04-24 12:01:04+00:00,23924195,Lasagne/Lasagne,43829,benanne,11752110,Lasagne,created,,e2540f6e47d13c9addd353ac7fbc522283a44cf6,False,"maybe not. I added it there to make sure it shows up in the docs, but we can probably work around it if we don't want it in `lasagne.layers`. I'll remove it and see what happens.",,221,{}
+5142,PullRequestReviewCommentEvent,2017-06-09 14:53:56+00:00,23924195,Lasagne/Lasagne,629706,f0k,11752110,Lasagne,created,43176557,bf11291747e100c8838a1e9941719e681fdc56b0,False,"Don't forget the comma in the end, so we can add more lines without touching the existing ones.",,840,{}
+5152,PullRequestReviewCommentEvent,2015-11-10 21:26:28+00:00,4978045,Parsely/pykafka,780001,yungchin,779641,Parsely,created,,4281b073b296164b96c76b96ec687979c382ed5f,False,"If we pass over `SocketDisconnectedError` here, the next loop iteration will still be talking to `broker` which we selected in L287, so wouldn't that remain disconnected? I wonder if a `self.update()` would be in order, but not entirely sure if that's safe in the middle of this.",,327,{}
+5179,PullRequestReviewCommentEvent,2017-07-18 09:39:24+00:00,70260962,Tubular/sparkly,1926182,drudim,2808498,Tubular,created,50557721,69d37ecc7ee377d8b0a0a95607b5f39b6c5cd57b,False,"don't have a use-case, but the signature will be much simpler in this case:
+```
+t (DataType) instead of t(ArrayType, MapType, StructType)
+```
+I am ok to leave it as is.",,45,{}
+5182,PullRequestReviewCommentEvent,2018-01-17 00:31:50+00:00,12494657,Unidata/siphon,221526,dopplershift,613345,Unidata,created,89296233,e5df7d1051eada8ad2247fa261df80b523b72229,False,"I don't think that comment is correct any more 😁 
+
+Would also need to be updated to use `requests`.",OWNER,177,{}
+5193,PullRequestReviewCommentEvent,2018-02-18 01:30:56+00:00,91356408,allenai/allennlp,16001974,DeNeutoy,5667695,allenai,created,97389661,be87fb722e2a6405c8279c8f7a1ce93ab62f5d3b,False,I'm actually a fan of pinning this - it's randomly broken a few times and was in fact the original reason why I switched away from tensorboardX in the first place.,CONTRIBUTOR,876,{}
+5194,PullRequestReviewCommentEvent,2017-08-16 17:20:22+00:00,91356408,allenai/allennlp,954798,schmmd,5667695,allenai,created,56702389,9d31d31b0dd93f7881ca136bea5ac954bea3fdf0,False,"I will remove those lines.  @matt-gardner you had brought up this cause in the past (upgrading sanic) and I found it to be true.  I don't know how, but I repeatedly bust my conda environment.",,134,{}
+5202,PullRequestReviewCommentEvent,2018-03-22 17:10:09+00:00,91356408,allenai/allennlp,16001974,DeNeutoy,5667695,allenai,created,106215538,4d6d009161c759b2abcd64f4a6af973a318c01cf,False,"Ok - I see what you mean - but I think that makes the semantics of what I am checking much more confusing. It's not directly a case of checking user input, because I have to mask it first to do the check, so to me it seems clearer to have the check closer to where it would break. It's also the same as in the BidirectionalEndpointSpanExtractor.",CONTRIBUTOR,1005,{}
+5211,PullRequestReviewCommentEvent,2018-03-25 18:01:04+00:00,91356408,allenai/allennlp,7272031,nelson-liu,5667695,allenai,created,106738022,821908df4543ed47b667f9bbcc5db5056be6ef6c,False,"I copied it from PTB reader (I originally wanted to return trees as well as tokens in this dataset, so I started there, but ended up not doing it), but yes you're right.",CONTRIBUTOR,1032,{}
+5220,PullRequestReviewCommentEvent,2016-06-21 00:31:48+00:00,12345160,ansible/tower-cli,1385596,AlanCoding,1507452,ansible,created,,71055c1220ed0a5efb8cc0a69bac92c33b4701ef,False,note to self for later - we'll add this to the list of things to update pre-release,,155,{}
+5252,PullRequestReviewCommentEvent,2018-06-25 15:56:39+00:00,93721432,awslabs/sockeye,363737,tdomhan,3299148,awslabs,created,131672600,3b2ba83d013fd0baa5282e1747a076384c35610b,False,"could you make this a proper doc-string for the method?
+```
+def benchmark(...):
+   """"""
+    doc goes here
+   """"""
+```
+
+Also applies for the other functions below.",CONTRIBUTOR,361,{}
+5268,PullRequestReviewCommentEvent,2018-08-20 21:54:22+00:00,105830539,awslabs/mxnet-model-server,36211508,vdantu,3299148,awslabs,created,147837170,7b90734d8eb065c4ed2ce25005f2ce76c1b147e0,False,"Also, could you move this to the 'extras_require' ? Why is this a global? ",MEMBER,490,{}
+5289,PullRequestReviewCommentEvent,2017-12-21 00:48:24+00:00,26516210,certbot/certbot,6504915,bmw,17889013,certbot,created,84941041,dd52dfaa98579a652bb28f83d0151e973c2e79d8,False,"If there's a way we can easily do that, I'm certainly not against it, however, I'm not sure it's that simple because we're installing Python 3.4 using Red Hat tooling, package names, and a repository that only works on systems based on RHEL 6.",CONTRIBUTOR,5329,{}
+5307,PullRequestReviewCommentEvent,2017-11-07 14:13:34+00:00,26516210,certbot/certbot,292650,cpu,17889013,certbot,created,74759796,6a8f9c387fc7a38b0bca0cd8727bcb1336ee9c6f,False,"I don't think this works in practice. I'm not familiar enough with Python & this module to point out the reason.
+
+Against a Pebble instance I'm seeing this code break:
+```
+Traceback (most recent call last):
+  File ""./chisel2.py"", line 216, in <module>
+    auth_and_issue(domains)
+  File ""./chisel2.py"", line 120, in auth_and_issue
+    client = make_client(email)
+  File ""./chisel2.py"", line 51, in make_client
+    terms_of_service_agreed=True))
+  File ""/home/daniel/Code/certbot/acme/acme/client.py"", line 104, in register
+    url = self.directory.new_reg
+  File ""/home/daniel/Code/certbot/acme/acme/messages.py"", line 199, in __getattr__
+    raise AttributeError(str(error) + ': ' + name)
+AttributeError: 'Directory field not found': new_reg
+```
+
+In practice adding a `pdb.set_trace()` above this line it seems like there's no `new_acct` or `new_reg` attribute on `self.directory` at this point in execution.
+
+For reference this is the directory Pebble returned:
+```
+DEBUG:requests.packages.urllib3.connectionpool:http://localhost:14000 ""GET /dir HTTP/1.1"" 200 248
+DEBUG:acme.client:Received response:
+HTTP 200
+Cache-Control: public, max-age=0, no-cache
+Content-Type: application/json
+Replay-Nonce: M2dDhbD8hqGa5sv7I1ne1w
+Date: Tue, 07 Nov 2017 14:10:08 GMT
+Content-Length: 248
+
+{
+   ""meta"": {
+      ""terms-of-service"": ""data:text/plain,Do%20what%20thou%20wilt""
+   },
+   ""new-account"": ""http://localhost:14000/sign-me-up"",
+   ""new-nonce"": ""http://localhost:14000/nonce-plz"",
+   ""new-order"": ""http://localhost:14000/order-plz""
+}
+```",MEMBER,5204,{}
+5314,PullRequestReviewCommentEvent,2017-08-30 17:14:53+00:00,26516210,certbot/certbot,5235109,joohoi,17889013,certbot,created,59629782,a13dad4630f11d374ffaafc525fb29e1e0f57e9e,False,"If handle-sites is true, we're handling the include using distribution specific manner (eg, enabling the site) in deploy_cert method instead.",MEMBER,4104,{}
+5325,PullRequestReviewCommentEvent,2017-06-05 20:38:06+00:00,26516210,certbot/certbot,408880,zjs,17889013,certbot,created,42147041,01a5ada7eeaca5d112e02a670c6dd2679b7cef4c,False,"01a5ada solves this for me. The standalone plugin now binds to IPv6 on my machine (Ubuntu, Python 2.7).",,4773,{}
+5381,PullRequestReviewCommentEvent,2017-10-19 07:30:03+00:00,12235583,elastic/curator,1020383,untergeek,6764390,elastic,created,70442684,21e29f29463bc1ea501a3fa4d239010e7524157e,False,"You're missing the trailing `)` here, and that's why the test is failing.  It was there before, so you probably removed it by accident.",MEMBER,1060,{}
+5400,PullRequestReviewCommentEvent,2018-03-13 13:45:47+00:00,9801644,elastic/elasticsearch-py,32132,HonzaKral,6764390,elastic,created,103434068,ab327fd5d2952ec0337f8c9be07cff3fae71b214,False,"the headers should be modified in `__init__` so it only happens once at initializatin and not with every single request, see where `self.headers` are created. Also please use lowercase for `content-encoding` to be consistent.",MEMBER,704,{}
+5419,PullRequestReviewCommentEvent,2016-05-18 19:19:57+00:00,14993021,ipython/traitlets,1588357,ssanderson,230453,ipython,created,,e933e57f0fca560345ecf3c9867093bb960a4a25,False,"Any argument for making this a dynamic default so that the default value gets read at application construction time rather than at import time?  I imagine that would make this easier to test, if nothing else.",,228,{}
+5422,PullRequestReviewCommentEvent,2018-03-02 15:22:42+00:00,14993021,ipython/traitlets,151929,minrk,230453,ipython,created,100798509,d12c0a827fcbe37126b21bc2860479770224a6ac,False,"All 'real' (user-facing) traits need to keep these detailed docstrings with examples. If anything, every PR should aim to *increase* the amount of docstring info we have, not decrease it.",OWNER,477,{}
+5433,PullRequestReviewCommentEvent,2015-04-01 22:44:48+00:00,23984796,jupyter/nbgrader,83444,jhamrick,7388996,jupyter,created,,e3d473a41e5d2835ee2b819c0a3e3a42c298ee3a,False,Won't this not work unless nbgrader and jupyterhub are running in the same directory? Perhaps there should be an additional argument for the directory that this command should be run in?,,189,{}
+5466,PullRequestReviewCommentEvent,2016-03-07 12:56:30+00:00,33653601,jupyter/notebook,45380,bollwyvl,7388996,jupyter,created,,295e0a5aed3fb7ce5632bad23d82d96e2c924eec,False,`Symlinking`,,879,{}
+5467,PullRequestReviewCommentEvent,2017-10-20 08:58:01+00:00,33653601,jupyter/notebook,327925,takluyver,7388996,jupyter,created,70780660,f8ef57359212c70841552a3a8a57195b94693efc,False,"Nitpick: as this is an integer option, there are no longer meaningful positive values less than the minimum. I'd drop that sentence.",OWNER,2910,{}
+5471,PullRequestReviewCommentEvent,2018-02-15 18:18:11+00:00,33653601,jupyter/notebook,836375,rgbkrk,7388996,jupyter,created,96952445,901f1e9492f70ff0c32e45dd5788f11d4aeb7da3,False,I'm thinking using only one header is good. For now I think the value you've set here is a very sane default and further enhancements on merging content security policies can be separate work.,OWNER,3341,{}
+5478,PullRequestReviewCommentEvent,2015-10-29 18:13:22+00:00,33653601,jupyter/notebook,83444,jhamrick,7388996,jupyter,created,,e4c92b20b294c4ca1831e6fb62e7f0853a5a9542,False,"Yeah, probably a good idea.",,684,{}
+5483,PullRequestReviewCommentEvent,2015-10-13 00:40:53+00:00,33653601,jupyter/notebook,27600,ellisonbg,7388996,jupyter,created,,f4c6883003c718fcae832a00edc2d10fbbaab5ca,False,"Opps, good catch.",,598,{}
+5533,PullRequestReviewCommentEvent,2016-08-19 18:14:35+00:00,40684033,mozilla/sops,45590,oremj,131524,mozilla,created,,eca5943708f9dfb37af98324bff490992b62e16a,False,"Oh, I see below, it is because Encrypt does require `interface{}`",,82,{}
+5537,PullRequestReviewCommentEvent,2017-09-11 17:34:20+00:00,40684033,mozilla/sops,4430892,milescrabill,131524,mozilla,created,61896056,aee7253db68aa257272eaddfc251b80a99341e57,False,"OK, as long as it's thoroughly documented that this is the case it's ok.",CONTRIBUTOR,238,{}
+5540,PullRequestReviewCommentEvent,2016-01-06 09:06:27+00:00,26752147,mozilla/PyFxA,229453,Natim,131524,mozilla,created,,0fb38722ac838486de25cca05fee527ef8164f64,False,"Maybe we can make it look like:
+
+    fxa-client --create bearer browserid",,36,{}
+5548,PullRequestReviewCommentEvent,2016-11-28 10:25:06+00:00,60273704,mozilla/DeepSpeech,5991088,tilmankamp,131524,mozilla,created,10288212,29ec75a58cd0f6e2953b1d1584bfe2febae8976f,False,How about checking for `not is_validation_step` to avoid double-saving?,,240,{}
+5553,PullRequestReviewCommentEvent,2017-11-03 15:49:57+00:00,60273704,mozilla/DeepSpeech,5991088,tilmankamp,131524,mozilla,created,74125681,c0302c8e1bcca03b786043711367efc463ed1005,False,Indirectly done already - see next lines...,CONTRIBUTOR,890,{}
+5570,PullRequestReviewCommentEvent,2017-07-07 13:54:22+00:00,60273704,mozilla/DeepSpeech,5991088,tilmankamp,131524,mozilla,created,48611899,76cd26d67144ff83903521ec03c25a01b0578578,False,Don't see it...,,700,{}
+5572,PullRequestReviewCommentEvent,2016-11-17 21:04:26+00:00,8463294,mozilla/treeherder,44410,armenzg,131524,mozilla,created,9117213,2a44e04b373f1da0bda2b4bac623059986de4d23,False,"I don't know the implications of using one over the other. One is python's standard library and the other from django.
+I'm only using django's timezone for the tests (since I saw it in other tests and tutorials).
+
+@wlach do you have any preference?",,1957,{}
+5578,PullRequestReviewCommentEvent,2016-11-30 17:03:05+00:00,8463294,mozilla/treeherder,501702,edmorley,131524,mozilla,created,10799503,79a4ff927b7a6cecc8bf7a140978a565b3607ae0,False,"Ah that occurred to me to when looking at this PR, however `modified` here is referring to the modified time from Bugzilla (as is ""when was this bug last changed""), so isn't auto-generated.",,2004,{}
+5582,PullRequestReviewCommentEvent,2015-07-21 18:03:35+00:00,8463294,mozilla/treeherder,20569,wlach,131524,mozilla,created,,0b8fbd800108edeb75b8e65b799c912d162e1146,False,comparesubtestctrl.html also needs this change. Bonus points for creating a directive and using that in both places. :) See https://github.com/mozilla/treeherder/blob/master/ui/js/directives/perf/compare.js and https://github.com/mozilla/treeherder/blob/master/ui/partials/perf/compareconfidence.html for an example of this.,,792,{}
+5600,PullRequestReviewCommentEvent,2016-11-23 21:46:29+00:00,8463294,mozilla/treeherder,20569,wlach,131524,mozilla,created,9950164,7e7f9df92696c91d9ffafdff7e8f4f5264bb6cca,False,Yeah probably doesn't hurt to change / fix this. :),,1985,{}
+5601,PullRequestReviewCommentEvent,2015-08-14 22:45:34+00:00,8463294,mozilla/treeherder,419924,camd,131524,mozilla,created,,9414cee6df3aeb59bb09b482eca3b783ff41f6db,False,yep yep.  good call.  :),,872,{}
+5607,PullRequestReviewCommentEvent,2015-05-15 16:07:02+00:00,8463294,mozilla/treeherder,508377,maurodoglio,131524,mozilla,created,,2628850a6f359814b5e417653006242a8e2e5402,False,now that we are using request we should just use response.raise_for_status if it's not called already by thclient,,533,{}
+5611,PullRequestReviewCommentEvent,2015-07-15 10:56:09+00:00,8463294,mozilla/treeherder,508377,maurodoglio,131524,mozilla,created,,88b8b248e52fdeba45f87c93c07acd9127141d14,False,"This permission class only check if a user is authenticated. As far as I understand you wanted to expose this functionality only to sheriffs, right? In order to do do that, you need to add a new permission class to treeherder/webapp/api/permissions.py, something like this:
+```python
+class IsStaff(permissions.BasePermission):
+
+    """"""
+    The request is authenticated as an admin staff (eg. sheriffs).
+    """"""
+
+    def has_permission(self, request, view):
+        return (request.user and request.user.is_authenticated() and
+                   request.user.is_staff)
+```
+and use that class to the action decorator",,760,{}
+5613,PullRequestReviewCommentEvent,2015-08-05 21:43:17+00:00,8463294,mozilla/treeherder,20569,wlach,131524,mozilla,created,,ca4a2d08558e57a0f50a025e4083c1a8c71a45a2,False,I don't think it's necessary to check that summary is a dictionary all the time,,836,{}
+5614,PullRequestReviewCommentEvent,2018-02-20 16:53:21+00:00,8463294,mozilla/treeherder,501702,edmorley,131524,mozilla,created,97902984,840bffed223f5ab5d719481f4f2b3218235d2f5d,False,It would be good to remove this hard coding at some point soon (doesn't necessarily need to be in this PR) - since at the moment there are no tests to ensure the chosen `id` matches what's defined on the backend.,MEMBER,3211,{}
+5617,PullRequestReviewCommentEvent,2018-01-18 16:56:31+00:00,8463294,mozilla/treeherder,501702,edmorley,131524,mozilla,created,89833933,f1afdaf47d4a2ef8d5fe339afd5cfffb44a3b3e7,False,"Looking at the Auth0 docs they say to use [python-jose-cryptodome](https://github.com/capless/python-jose-cryptodome) rather than [python-jose](https://github.com/mpdavis/python-jose) (https://auth0.com/docs/quickstart/backend/python#install-the-dependencies).
+
+However their recommendation doesn't have much GitHub activity and appears to just be a fork of python-jose that changed the vulnerable pycrypto dependency for pycryptodome ([blog post about the vulnerability]()), but (a) hasn't kept up with python-jose, (b) is now redundant since python-jose has just switched to pycryptodome too (https://github.com/mpdavis/python-jose/commit/98406bc02bb42e0a7373307cb7aad44293086d1a).
+
+Also looking at https://jwt.io/#libraries-io there appears to be yet another JWT option that's much more popular/active than python-jose:
+https://github.com/jpadilla/pyjwt/
+
+As such, I think it would be good to:
+1. Double check which of python-jose and PyJWT is best for our use-case/long term reliability
+2. At some point file an issue against the Auth0 docs getting them to recommend python-jose and not the stale python-jose-pycryptodome package",MEMBER,3144,{}
+5637,PullRequestReviewCommentEvent,2017-01-27 22:51:23+00:00,37496521,nteract/nteract,10944582,jdetle,12401040,nteract,created,18948487,b1dded3167338f2ef508372dca43f1793f8b469f,False,Good catch.,,1366,{}
+5639,PullRequestReviewCommentEvent,2017-11-30 22:58:34+00:00,37496521,nteract/nteract,836375,rgbkrk,12401040,nteract,created,80359401,8c31ce544db11ccbcbd04925dfcb74300e5cbf8e,False,"The node based library for `url` was not getting properly imported with webpack, so I used this ""polyfill"".",OWNER,2119,{}
+5653,PullRequestReviewCommentEvent,2018-08-07 15:07:04+00:00,37496521,nteract/nteract,10944582,jdetle,12401040,nteract,created,144042981,e5c451dc31fd961a49b23b6c187834fa346ebab7,False,"Object is *any* object, this is an object that never gets accessed. It seems to be a shortcoming (or feature) of Flow that an Object that is never accessed, but only checked for existence, is essentially an empty object. I'm also slowly realizing that type doesn't do type inference unless you specifically tell it to, which is cool. I figure if we ever start using a `msg` key or something similar, then Flow will error, so it acts a bit as like our snapshot tests. ",MEMBER,3198,{}
+5664,PullRequestReviewCommentEvent,2016-09-23 19:46:06+00:00,37496521,nteract/nteract,10944582,jdetle,12401040,nteract,created,,a69e0f7608475af2920a62c6d3eae2ac2c368f98,False,"So I think this stems from a lack of understanding. In the case of a new user authenticating, there will be multiple 'dom-ready' events, if that's the case I want to destroy the window after the first event. If there is a more elegant way of doing this sort of thing, please let me know.",,826,{}
+5667,PullRequestReviewCommentEvent,2017-12-19 18:25:22+00:00,37496521,nteract/nteract,2482408,mpacer,12401040,nteract,created,84544718,867ae18cf308103220602c76bd952acc4cca89a2,False,I don't think you need to have --scope repeated each time. ,CONTRIBUTOR,2204,{}
+5682,PullRequestReviewCommentEvent,2015-04-15 16:40:51+00:00,9252533,numenta/nupic,15566,rhyolight,1039191,numenta,created,,849f29867277a9433d4eccb951021ba7d8dce6eb,False,Shouldn't this use `self._logger`?,,1929,{}
+5695,PullRequestReviewCommentEvent,2015-09-02 00:29:39+00:00,9252533,numenta/nupic,310282,chetan51,1039191,numenta,created,,00fe533a71e77bb94f1cac6083917401423aa4e5,False,Please remove print statements from tests,,2501,{}
+5714,PullRequestReviewCommentEvent,2016-06-16 00:08:49+00:00,16366081,numenta/nupic.core,1441066,vitaly-krugl,1039191,numenta,created,,d20831a8344a6db584f655408cbc0084398cdf36,False,"The status quo naming convention in this module (and other nupic.core's cmake scripts) is to use lower-case variable names for variables not intended for export to other cmake modules, as is the case with `COMPILER_SUPPORTS_GENERIC_TUNING`, which is used only within this script. Please fix the case of all such variables in this PR.",,975,{}
+5715,PullRequestReviewCommentEvent,2016-09-13 02:57:30+00:00,16366081,numenta/nupic.core,239726,scottpurdy,1039191,numenta,created,,47a0701e2036b9acf31a08f00c700c33e4d21bed,False,sp,,1076,{}
+5730,PullRequestReviewCommentEvent,2018-03-28 23:45:35+00:00,16366081,numenta/nupic.core,15566,rhyolight,1039191,numenta,created,107887669,860459cf4b318f497eeb59dbf2df805d45fdbf3a,False,I suggest you add a negative test. Change something in one cells4 and assert they are not equal. ,OWNER,1409,{}
+5731,PullRequestReviewCommentEvent,2018-08-29 16:40:42+00:00,53143022,oduwsdl/ipwb,2514780,machawk1,4416806,oduwsdl,created,150653015,4ec17c6ee7716ee76606605965489d4d2360b64a,False,"Also, futzing with what the endpoint returns will break the landing page interaction.",MEMBER,544,{}
+5772,PullRequestReviewCommentEvent,2017-09-19 14:46:19+00:00,73328905,pytorch/vision,9305875,chsasank,21003710,pytorch,created,63686335,47800d49cd10f4a516145c8225a91289361301b8,False,"how about `i, j, h, w`?",CONTRIBUTOR,240,{}
+5778,PullRequestReviewCommentEvent,2017-12-07 11:29:36+00:00,73328905,pytorch/vision,687194,alykhantejani,21003710,pytorch,created,81822197,9c8f16acacb9683a9cb41f26dc5b19601a9030ad,False,"we should rename this to be `erase` and pass in the randomly generated values `target_area` and `aspect_ratio` thus removing the randomness from this function.
+
+The generation of these random parameters can be moved into `RandomErasing.get_params()` as is done for example in the [RandomCrop](https://github.com/pytorch/vision/blob/master/torchvision/transforms/transforms.py#L235) transform",COLLABORATOR,335,{}
+5797,PullRequestReviewCommentEvent,2018-06-11 09:20:02+00:00,120178010,resonai/ybt,290943,itamaro,29039874,resonai,created,127490185,5d1e9ef841ad15aaf2da5d028f8562d9f3b8c01b,False,"it's not a hermetic environment. I rather not even support the ""copy-to-bin-dir"" option.",COLLABORATOR,37,{}
+5836,PullRequestReviewCommentEvent,2015-02-22 17:49:21+00:00,5888353,spotify/luigi,26338,berkerpeksag,251374,spotify,created,,a935782902179b06b592c3a89f23d293fd1c35ae,False,"or `if not kwargs.get('check_consistency', True):`",,769,{}
+5844,PullRequestReviewCommentEvent,2015-05-11 13:18:35+00:00,5888353,spotify/luigi,294349,Tarrasch,251374,spotify,created,,3e50457b7c94328a12f5b4c717873682d41c2074,False,"Can you use the new syntax instead? `core().visualization_graph` I mean, and set the parameter to have a default of ""svg"" maybe?
+
+On the other hand this is in the server code. Maybe it's good to not intermix with the client logic.",,920,{}
+5845,PullRequestReviewCommentEvent,2017-03-30 14:53:26+00:00,5888353,spotify/luigi,14202480,dmohns,251374,spotify,created,30016102,f777cbffaf6dea79931cba67f31ae942a10ce791,False,"Unfortunately I don't have the time to test it. I was doing something similar some time back and remember it failed because the ABC's from the base class where still abstract on instantiation. 
+As this is just based on my memory your code might be correct already. Maybe someone else can help out?",,2068,{}
+5883,PullRequestReviewCommentEvent,2016-06-30 20:15:49+00:00,58406499,tableau/document-api-python,94549,RussTheAerialist,828667,tableau,created,,2539a8bc52317f99bf58702617473a795b4bf135,False,"the bracket names are the most precise names we have for columns and how we would refer to them in calculations, etc, so I think it's an okay overhead.",,45,{}
+5913,PullRequestReviewCommentEvent,2016-11-07 14:10:44+00:00,26827282,tilezen/mapbox-vector-tile,53770,rmarianski,19462720,tilezen,created,7420823,279702fd62813a9e3b7693fddd8af8154c74b63b,False,"Did you meant to check in the print?
+",,74,{}
+5922,PullRequestReviewCommentEvent,2017-06-27 04:54:26+00:00,3409513,twisted/klein,716529,glyph,716546,twisted,created,46442683,fd0e2f99fa77e68dbc2ec671d149b10fa9698144,False,Doesn't this just copy the coverage file from the `coverage_combine` environment?  i.e. nothing?,,187,{}
+5928,PullRequestReviewCommentEvent,2016-10-04 13:23:20+00:00,318058,twisted/txmongo,7396121,oddjobz,716546,twisted,created,2710126,fa522c7f08f86c8684500980a95b2e5c4a9fb6ee,False,"Ok, in my defence I was just copying other people's code with regards to index creation, and if one of those indexes is obsolete, it would imply the current method for specifying index creation is also rather redundant. I've done a little reading too now ( :) ) so here's another shot with one index, with a slightly more direct specification, and also I modified the test to it runs under both Python2 ""and"" Python3.",,189,{}
+5942,PullRequestReviewCommentEvent,2017-02-15 07:19:31+00:00,27610253,ubyssey/dispatch,2547035,psiemens,10091792,ubyssey,created,21933806,ae1d3287ff42d2085a652140ca5ad7d06f88641c,False,"This is nit-picky, but I like to put all external imports before project imports. Can you move this up one line?",,451,{}
+5964,PullRequestReviewCommentEvent,2017-08-24 13:50:27+00:00,58059785,zalando/expan,4135248,shansfolder,1564818,zalando,created,58382594,07c61a922fbd8232ecb9ffe5270caa8e3fb79650,False,"We already have ```self.metadata``` when the experiment object is initialized, so I would read ```self.metadata first``` and then add these two fields to it.",,153,{}
+5965,PullRequestReviewCommentEvent,2017-08-13 10:36:07+00:00,38744670,zalando/patroni,19940114,codacy-bot,1564818,zalando,created,55961666,80a047347e1f498d64552e63f71ab3020e8d51a5,False,![Codacy](https://www.codacy.com/assets/images/favicon.png) Issue found: [No exception type(s) specified](https://www.codacy.com/app/cyberdemn/patroni/pullRequest?prid=829489),,500,{}
+5967,PullRequestReviewCommentEvent,2017-04-13 12:02:52+00:00,38744670,zalando/patroni,3407345,CyberDem0n,1564818,zalando,created,32612159,74bd49f92d37bf0ed0d7616c7de4ed02f45ac89e,False,"We return from try block, therefore this branch will never be executed.",,429,{}
+5983,PullRequestReviewCommentEvent,2016-12-04 11:58:33+00:00,35882519,zalando/connexion,3493830,phoracek,1564818,zalando,created,11293285,45446a6f368d7dd246956bc67121b477f84dc1e6,False,"Fixed, always miss this one.",,352,{}
+5986,PullRequestReviewCommentEvent,2018-06-21 06:40:57+00:00,35882519,zalando/connexion,610121,dtkav,1564818,zalando,created,130683563,1db906093b774119d6f6fc00d86ef2945ad64252,False,"I don't _think_ body_name can be blank in swagger2 as ""name"" is a required field(https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#parameterObject). It is set to `None` in oas3 because `requestBody` replace the `in[""body""]` parameters of swagger2, so `body_parameters = [{}]`.
+
+I find all this interspersed logic really yucky, so I'm open to ideas for how to split it out by spec version.
+This file is especially bad :disappointed: 
+related: see my other branch that does this with the Operation class https://github.com/dtkav/connexion/compare/18a7c28...dtkav:oas3_class_separation#diff-f4018bfc9e3bdfe01ab150a7069d72ceL183",CONTRIBUTOR,591,{}
+6048,PullRequestReviewCommentEvent,2018-06-12 21:05:19+00:00,124587275,Trick-17/clang-build,20553080,NOhs,24659237,Trick-17,created,128147449,8c56e3b53ed7ebf44610c75a569f5e0f57434cb2,False,`DLLEXPORT` is not needed for pybind11,COLLABORATOR,47,{}
+6121,PullRequestReviewCommentEvent,2017-08-07 16:59:11+00:00,18470884,aio-libs/aiodocker,3018448,cecton,7049303,aio-libs,created,54714360,486cb3d409da5480c09d91a85be9f1af5254e29d,False,"Yes, we could simply use an image that runs ""sleep 60"", that's a container service that will be running and that all we actually need for the test. ",,97,{}
+6132,PullRequestReviewCommentEvent,2017-09-03 08:18:00+00:00,36618494,aio-libs/aiobotocore,1986397,terrycain,7049303,aio-libs,created,60290827,eea6417a5ede3377c94cb7cc72aceb76d2f7fb30,False,Good shout,NONE,336,{}
+6159,PullRequestReviewCommentEvent,2015-11-03 19:35:55+00:00,41557383,cloudant/python-cloudant,623360,gadamc,44642,cloudant,created,,f3fa4793c087e880cc6b67e6e1738e7e18cfc7bd,False,ConfigParser is pretty standard in python: https://docs.python.org/2/library/configparser.html. Can fix it later.,,26,{}
+6215,PullRequestReviewCommentEvent,2015-01-02 00:08:52+00:00,4802269,dnanexus/dx-toolkit,146557,psung,1161297,dnanexus,created,,2ffec7bce02cc8b5c1e390307197c00056b79710,False,"I think it's more appropriate for this to be explicitly named as a keyword arg to the `_new` method. The `media_type` argument for `DXFile` object might be a useful precedent here, since it's an option specific to files, just as `close` is an option specific to records.",,83,{}
+6217,PullRequestReviewCommentEvent,2018-06-06 21:50:47+00:00,4802269,dnanexus/dx-toolkit,8069902,ocbrewing,1161297,dnanexus,created,126568911,f08394b10486b2fc668aa59bd3c5b08a1c142c2a,False,"one thing I'm not sure of.. do I need to put some sort of skip on this test? I'm attempting to make sure that the environment is the same after this test as it was before, so I don't see why we should skip it - but maybe I'm missing something?",CONTRIBUTOR,355,{}
+6221,PullRequestReviewCommentEvent,2016-05-27 10:57:01+00:00,4802269,dnanexus/dx-toolkit,18344833,ivoloshanenko,1161297,dnanexus,created,,015305f30fa1905a4839b0aaae4df4f5fbb3357b,False,@ptn24 what do you mean? Looks like I already did this.. :(,,150,{}
+6234,PullRequestReviewCommentEvent,2018-07-30 15:35:38+00:00,77478378,ethereum/py-evm,824194,pipermerriam,6250754,ethereum,created,141591166,ed1cff13b55a682d7a4cac4d23778ebce935c53e,False,https://github.com/ethereum/py-evm/pull/1113,MEMBER,1100,{}
+6236,PullRequestReviewCommentEvent,2018-05-10 17:58:37+00:00,77478378,ethereum/py-evm,824194,pipermerriam,6250754,ethereum,created,119184725,ed6515c0d7d6bca55d8a727ca84c52d660a34115,False,I'm with you but I don't think it's fair to do it anytime in the near term future.  We *just* forced everyone to upgrade to 3.x and while `3.5 -> 3.6` is not a significant as `2.x -> 3.x` it's still not something we can just throw at the community imho.  I'm sure that there are people for whom the upgrade would require some non-trivial amount of infrastructure upgrades to get all of their ops infrastructure in a 3.6 environment.,MEMBER,674,{}
+6240,PullRequestReviewCommentEvent,2018-06-06 10:51:27+00:00,77478378,ethereum/py-evm,521109,cburgdorf,6250754,ethereum,created,126323389,8b2f82553cd975ba1e86068950e7ba2dc20e0b3b,False,@pipermerriam I created #877 regarding the `PeerPool` issue.,CONTRIBUTOR,867,{}
+6242,PullRequestReviewCommentEvent,2018-08-06 16:33:19+00:00,77478378,ethereum/py-evm,824194,pipermerriam,6250754,ethereum,created,143669629,5c06aac2b04fb2c777053c1eb12d917b621d018e,False,@cburgdorf one of the tasks that I don't think there is a detailed issue for but is likely to be a core part of one of the subsequent milestones is to tease out the rest of this EVM logic from the `p2p` module.  Exactly how isn't clear but it might look something like you mentioned.,MEMBER,1138,{}
+6243,PullRequestReviewCommentEvent,2018-03-12 11:16:49+00:00,77478378,ethereum/py-evm,412274,gsalgado,6250754,ethereum,created,103000586,f59eb4e3560424873e1b556d55941c0acd960c51,False,"The two methods above seem to return a block header, yet the return type is `BaseBlock`",COLLABORATOR,446,{}
+6245,PullRequestReviewCommentEvent,2018-07-26 14:06:37+00:00,77478378,ethereum/py-evm,824194,pipermerriam,6250754,ethereum,created,140704463,0153ffb1f56fab293edc0e1ad303a47ac90e0adf,False,If none of the peers we are connected to have a node we're looking for this loop will never terminate.,MEMBER,1097,{}
+6254,PullRequestReviewCommentEvent,2018-01-24 18:25:51+00:00,56251096,ethereum/web3.py,824194,pipermerriam,6250754,ethereum,created,91279650,18dcbd62f66763dec3b689338dbdfa302c32bf16,False,"Alternatively, this could be made generic in `PropertyCheckingFactory` if we changed everything to use `class_name` for this argument.",MEMBER,575,{}
+6274,PullRequestReviewCommentEvent,2016-07-18 18:41:56+00:00,6930489,facebook/watchman,180618,sid0,69631,facebook,created,,7492a05d0fcf25be154afc3aa1ac23f4fae27a2f,False,This should be included in the split out from the previous diff. Remember that each diff must stand independently.,,270,{}
+6297,PullRequestReviewCommentEvent,2016-08-02 13:21:22+00:00,31482659,gangverk/flask-swagger,467317,atlithorn,1301121,gangverk,created,,b4810cda9588f8d59f7981afb896215d5e652766,False,I would prefer from_file_keyword to be default None in which case skip the find_from_file process,,35,{}
+6303,PullRequestReviewCommentEvent,2017-01-10 07:34:08+00:00,33678988,genialis/resolwe,1026716,mstajdohar,2120224,genialis,created,15686777,e09cc2c5d32d2b77be7278d3eda859ad50b87f76,False,"Start comments with a capital letter. Also write what is the default networking mode that is used here. From PEP8:
+> Comments should be complete sentences. If a comment is a phrase or sentence, its first word should be capitalized, unless it is an identifier that begins with a lower case letter (never alter the case of identifiers!).",,187,{}
+6310,PullRequestReviewCommentEvent,2018-03-27 07:42:37+00:00,46388888,genialis/resolwe-bio,2889622,jkokosar,2120224,genialis,created,107181568,14b2a87c5a44adc155a3bea69e6ea2277ea5ae20,False,:+1:,MEMBER,525,{}
+6312,PullRequestReviewCommentEvent,2017-11-29 00:39:43+00:00,46388888,genialis/resolwe-bio,26652775,jvrakor,2120224,genialis,created,79705220,54e6e6a711db920349400c992f7b097c2b9d50e1,False,Add a new line,CONTRIBUTOR,424,{}
+6317,PullRequestReviewCommentEvent,2018-07-23 09:41:28+00:00,46388888,genialis/resolwe-bio,26635159,mzganec,2120224,genialis,created,139400778,5fef27aee9a9bec46ee38b73246cc503a68d5610,False,Order alphabetically.,CONTRIBUTOR,603,{}
+6319,PullRequestReviewCommentEvent,2017-08-23 06:41:33+00:00,46388888,genialis/resolwe-bio,2518544,tjanez,2120224,genialis,created,57679399,88bb3617ca54aeea54129645794bd1b4eefd351a,False,"How many of the packages below are required by `abyss`?
+
+Please, use new lines to structure the contents of the file. Also add comments on why something is needed where is appropriate.",,335,{}
+6342,PullRequestReviewCommentEvent,2017-11-30 15:33:58+00:00,9322649,html5lib/html5lib-python,1324225,hugovk,4092973,html5lib,created,80222888,0d8aab81586a021ebf4ccfa92de70a6a329dce86,False,"""filelike"" -> ""file-like"" (plus three others below)",CONTRIBUTOR,374,{}
+6350,PullRequestReviewCommentEvent,2016-09-28 07:45:41+00:00,924812,jazzband/django-constance,197540,therefromhere,15129049,jazzband,created,1882094,b2ce8c59b69c8ea6f28e3c85955ff22d3855f3b6,False,fixed,,164,{}
+6375,PullRequestReviewCommentEvent,2017-09-08 00:00:43+00:00,46453832,linkedin/luminol,10409276,brennv,357098,linkedin,created,61384444,866689b2591704e2b8da6f1141ddbfa0da41bbd2,False,"Yes, this is definitely better. Making the change now.",CONTRIBUTOR,28,{}
+6402,PullRequestReviewCommentEvent,2015-11-12 16:42:49+00:00,12604160,pennlabs/penn-sdk-python,3457673,dlakata,1159028,pennlabs,created,,296f481bec1982aa7ecfaa11ba9202e3c9e7a760,False,```if r.status_code != 200```,,46,{}
+6448,PullRequestReviewCommentEvent,2017-06-07 03:27:57+00:00,52136436,sendgrid/python-http-client,357317,w-,181234,sendgrid,created,42496041,ff3e16d121252f5f8ec6fd92cfa025659752cdb6,False,correct.,,17,{}
+6449,PullRequestReviewCommentEvent,2015-11-09 22:18:24+00:00,23335328,signalfx/signalfx-python,15616259,kruze-sfx,8184587,signalfx,created,,608badda32685a4024d23f90a108645132fe9a8e,False,"Done... I added a new constant called DEFAULT_AWS_TIMEOUT  (to avoid confusion with the ingest workflow, which is also HTTP)",,13,{}
+6488,PullRequestReviewCommentEvent,2016-01-05 08:20:53+00:00,2843531,4teamwork/ftw.upgrade,7469,jone,681821,4teamwork,created,,7d809a3ed31f550d1e1463a3fb4983f1b18b72c2,False,"The non-JSON output is now a python dict:
+With all sites:
+```sh
+% ./bin/upgrade list --profiles -A
+INFO: Acting on site /Plone
+INFO: Acting on site /blubber
+{u'/blubber': u'Installed profiles:\nID:                                 Title:                          Versions (DB/FS):  \nProducts.CMFEditions:CMFEditions    CMFEditions                     4 / 4              \nProducts.TinyMCE:TinyMCE            TinyMCE Editor Support          7 / 7              \nplone.app.querystring:default       Querystring parser/builder      5 / 5              \nplone.app.jquerytools:default       Plone JQuery Tools Integration  3 / 3              \nplone.app.discussion:default        Plone Discussions               101 / 101          \nplone.app.jquery:default            Plone JQuery Integration        3 / 3              \nplonetheme.sunburst:default         Sunburst Theme                  3 / 3', u'/Plone': u'Installed profiles:\nID:                                 Title:                          Versions (DB/FS):  \nProducts.CMFEditions:CMFEditions    CMFEditions                     4 / 4              \nProducts.TinyMCE:TinyMCE            TinyMCE Editor Support          7 / 7              \nplone.app.querystring:default       Querystring parser/builder      5 / 5              \nplone.app.jquerytools:default       Plone JQuery Tools Integration  3 / 3              \nplone.app.discussion:default        Plone Discussions               101 / 101          \nplone.app.jquery:default            Plone JQuery Integration        3 / 3              \nplonetheme.sunburst:default         Sunburst Theme                  3 / 3'}
+```
+With one site for comparison:
+```sh
+% ./bin/upgrade list --profiles -L
+Installed profiles:
+ID:                                 Title:                          Versions (DB/FS):
+Products.CMFEditions:CMFEditions    CMFEditions                     4 / 4
+Products.TinyMCE:TinyMCE            TinyMCE Editor Support          7 / 7
+plone.app.querystring:default       Querystring parser/builder      5 / 5
+plone.app.jquerytools:default       Plone JQuery Tools Integration  3 / 3
+plone.app.discussion:default        Plone Discussions               101 / 101
+plone.app.jquery:default            Plone JQuery Integration        3 / 3
+plonetheme.sunburst:default         Sunburst Theme                  3 / 3
+```
+
+
+---
+
+
+We could either change this print statement so that we print the `info` in a better format, or we could remove it here and print the info directly above if we have no json argument, for example by extending the `if` above:
+```diff
+diff --git a/ftw/upgrade/command/__init__.py b/ftw/upgrade/command/__init__.py
+index 491f0e4..8818b8c 100644
+--- a/ftw/upgrade/command/__init__.py
++++ b/ftw/upgrade/command/__init__.py
+@@ -154,13 +154,13 @@ class UpgradeCommand(object):
+                     if getattr(args, 'json', False):
+                         # ""[]"" must be turned into [].
+                         output = json.loads(output)
+-                    info[args.picked_site] = output
++                        info[args.picked_site] = output
++                    else:
++                        print output
+                 except StopIteration:
+                     break
+             if getattr(args, 'json', False):
+                 print(json.dumps(info))
+-            else:
+-                print(info)
+         else:
+             args.func(args)
+```
+
+---
+
+What do you think?",,99,{}
+6497,PullRequestReviewCommentEvent,2018-07-25 11:32:27+00:00,4752317,4teamwork/ftw.simplelayout,437933,maethu,681821,4teamwork,created,140269845,35e6e9a1b2a87b1c8b440814b996819803d6968a,False,getrennt. ,MEMBER,480,{}
+6522,PullRequestReviewCommentEvent,2016-04-20 12:24:06+00:00,34906350,BlueBrain/NeuroM,15011025,eleftherioszisis,1479142,BlueBrain,created,,e22108f45dec89464bf24b18b4fa76dbe8a1e9c1,False,Sure.,,306,{}
+6530,PullRequestReviewCommentEvent,2015-11-23 13:17:55+00:00,34906350,BlueBrain/NeuroM,675013,juanchopanza,1479142,BlueBrain,created,,cee3b150b1a8b1a2bc3bfba13e4f0a356d4317a5,False,Could we have a copy of this test using plain arrays or tuples?,,163,{}
+6537,PullRequestReviewCommentEvent,2016-05-30 08:46:37+00:00,51756569,BlueBrain/BluePyOpt,3098670,wvangeit,1479142,BlueBrain,created,,7e0a90ef43ddff9b4c65b806db2ba15058b98e79,False,"Is this what Neurodamus does ? 
+Mmm, need to discuss this with M. Hines, should probably be .5",,102,{}
+6538,PullRequestReviewCommentEvent,2016-02-15 22:26:19+00:00,51756569,BlueBrain/BluePyOpt,3098670,wvangeit,1479142,BlueBrain,created,,f5d9d90e039abe43c1cf44dee633e22f2ba3bf54,False,"And anyway, don't spend too much time on this. Almost this entire string has to disappear. We can do almost everything from python, in the end there will be only two or three lines of hoc code left",,1,{}
+6562,PullRequestReviewCommentEvent,2017-08-01 14:48:34+00:00,63005398,PyProphet/pyprophet,4172900,grosenberger,11459058,PyProphet,created,53525422,54e6254b9a6b5326fee53891b2f258ba1ac8dc50,False,"@hroest Yes, this is possible to obtain from the OSW files. There is an example in the prototype SQLite-enabled branch: https://github.com/grosenberger/pyprophet/blob/feature/sqlite/pyprophet/data_handling.py#L41",,9,{}
+6571,PullRequestReviewCommentEvent,2017-11-13 23:15:33+00:00,41010216,atlassian/asap-authentication-python,389695,grantisu,168166,atlassian,created,76283449,8cad6051505e72a411b4740801bbf4d6e273a14b,False,"That would allow an unexpected message to sneak in without throwing an error.
+
+Currently, a bad message will get logged (if debugging is turned on) and then the server will 500 since `kwargs` isn't set. Using a default `kwargs` would allow typos and other unrecognized messages through to the client with no errors.",CONTRIBUTOR,65,{}
+6577,PullRequestReviewCommentEvent,2018-08-29 19:28:03+00:00,74428198,castlecms/castle.cms,2897351,CorySanin,20521618,castlecms,created,150718547,1ac58acc17aaee7752c03587bbd8ad8c5c16d585,False,How much earlier? It can't be before `if api.user.is_anonymous()`,COLLABORATOR,172,{}
+6671,PullRequestReviewCommentEvent,2018-08-28 22:01:51+00:00,15510233,openfisca/openfisca-france,1175927,benjello,1794404,openfisca,created,150334904,7c329c2459ba8ee2e5e3be24c09febec8a0ccbec,False,"Je voulais dire c'est dans les barèmes IPP.
+Ce sont des paramètres que j'ai ajouté pour permettre de remonter dans le passé sans que cela casse. Je les vire.",MEMBER,1101,{}
+6672,PullRequestReviewCommentEvent,2016-08-24 16:30:21+00:00,15510233,openfisca/openfisca-france,12686,cbenz,1794404,openfisca,created,,84493fd4b8c6cdabc4b5cba90e62533161522123,False,"I thinked about features which involve changes in all repos (like I did about introspection data). So I needed to switch branch from travis, so I needed to install from git.",,552,{}
+6741,PullRequestReviewCommentEvent,2017-05-31 15:34:55+00:00,52238733,pyta-uoft/pyta,3333115,david-yz-liu,18420574,pyta-uoft,created,41267719,7e60de609bbcc9dfcd1aa13b42c921d340601d71,False,This suggests that `THIS_DIR` can be replaced entirely with `TEMPLATES_DIR` (which you need for the image below anyway).,,224,{}
+6768,PullRequestReviewCommentEvent,2017-12-08 12:41:26+00:00,41092776,superdesk/superdesk-core,179249,petrjasek,5527298,superdesk,created,82144717,7e1f4f0f3812d5776c7b0d1a54a5b8ec51c9af15,False,item here is a value from `item.place` so imo it won't have language set,MEMBER,1113,{}
+6780,PullRequestReviewCommentEvent,2015-11-06 21:08:25+00:00,26985599,swift-nav/libsbp,60851,mfine,1069835,swift-nav,created,,29bf4f12fc3210c733ede07d1f6a5b44369a20e0,False,cool!,,291,{}
+6786,PullRequestReviewCommentEvent,2015-10-15 16:40:37+00:00,26384672,ua-parser/uap-python,375744,mattrobenolt,1764972,ua-parser,created,,297b039d89dfb65cd6b15126925fab19d01ed1c6,False,"fwiw, this is only complicated because of these weird submodule dependency on `uap-core`. :)",,27,{}
+6813,PullRequestReviewCommentEvent,2016-02-29 22:10:54+00:00,45062555,F5Networks/f5-common-python,640955,zancas,8935905,F5Networks,created,,2aff5b959157a2f977c536a8406a79090ab56bf7,False,"kwargs must be passed to ""get"" for get to receive url-modifying parameters.",,229,{}
+6836,PullRequestReviewCommentEvent,2017-08-19 16:41:25+00:00,66641037,LonamiWebs/Telethon,6297805,Lonami,9887454,LonamiWebs,created,57353878,0f3e40df86de830b012f2af5c964874388c2f8df,False,"Haven't tested but this will:
+```python
+raise ImportError('libssl.so not found')
+```
+
+If the `'ssl'` library is not found, correct? Shouldn't this rather be:
+```python
+try:
+    from . import libssl
+except ImportError:
+    libssl = None
+```
+
+And then below check `if libssl`?",,204,{}
+6841,PullRequestReviewCommentEvent,2015-08-06 06:33:46+00:00,11591264,PyWavelets/pywt,98330,rgommers,13541085,PyWavelets,created,,8b1d6cdef63928083a93a2d9b0fc39dd60261a02,False,"style nitpick: maybe break this line for readability, ``current_wavelet.rec_len)))`` lined up with ``current_wavelet.dec_len,``. 
+And move the ``int``coercion from the line below to this line, because ``input_length_power`` is meant to be integer.",,93,{}
+6890,PullRequestReviewCommentEvent,2016-11-21 12:38:10+00:00,65545148,bigchaindb/bigchaindb-driver,1793187,r-marques,17097586,bigchaindb,created,9443549,4bc54565f79328610c776d0288dbcbd82da67572,False,Do we really need the `*`? There are no keyword elements in this method,,143,{}
+6905,PullRequestReviewCommentEvent,2018-04-26 20:49:25+00:00,24375248,blockstack/blockstack-core,459947,jcnelson,8165984,blockstack,created,115742051,0e0da8ad22cf7f54a82bcec96b42f16909904c70,False,"I can do this as well, but if so, please open an issue so I remember to do it :) ",MEMBER,805,{}
+6935,PullRequestReviewCommentEvent,2016-05-12 16:12:22+00:00,7137821,cloudtools/troposphere,219296,chrisgilmerproj,3028687,cloudtools,created,,c37325de2ea2ed88bcf9825aaf79097b49bdd3e7,False,My linter complained :( It's not necessary but its apparently more correct.  Let me know if you'd like me to remove it.,,491,{}
+6976,PullRequestReviewCommentEvent,2016-08-02 13:11:58+00:00,43645564,ganga-devs/ganga,61316,milliams,13271048,ganga-devs,created,,36965a83207af677c57ee686360070d351a05306,False,No problem. I'm happy to play it safe here and look at removing these `addProxy` in the future.,,706,{}
+6986,PullRequestReviewCommentEvent,2016-09-26 09:50:24+00:00,43645564,ganga-devs/ganga,1102021,rob-c,13271048,ganga-devs,created,,efb01695f3a6a7b61bd2d51e03730da182f5ca0d,False,"I was looking to reduct the total number of objects created and the special test for LCGSEFile (there were lots of lists created which didn't look appropriate. I'll switch back to lists which is imo more confusing but is what we had, and this shouldn't effect the user as in both cases they just get a list back)",,744,{}
+7008,PullRequestReviewCommentEvent,2017-04-20 18:15:58+00:00,55101236,googleapis/artman,14846209,michaelbausor,16785467,googleapis,created,33846912,b8c72afbb47d75e24aa8d7bb22e1626f0cd7c966,False,"I don't think I fully understand the significance of underscores vs. hyphens in this situation. The git repo name is api-client-staging, so why do we need to support conversion from underscores?",,162,{}
+7017,PullRequestReviewCommentEvent,2016-10-01 19:48:03+00:00,32887098,googleapis/googleapis,5120183,jcanizales,16785467,googleapis,created,2437946,3544c49364917ed7a28bf6ca036ec7968ece129a,False,Regenerated as `com.google.cloud.debugger.spi.v2` and `google.cloud.gapic.debugger.v2`.,,145,{}
+7020,PullRequestReviewCommentEvent,2017-08-18 18:12:19+00:00,32887098,googleapis/googleapis,13341017,garrettjonesgoogle,16785467,googleapis,created,57274073,5e0b14ed1a53682d76148d98097504441984da99,False,One option to not be disruptive is to allow both old form (lower/upper) and new form (ga:lower/upper),,427,{}
+7047,PullRequestReviewCommentEvent,2017-10-03 11:30:45+00:00,92856339,inspirehep/inspire-dojson,381280,jacquerie,356664,inspirehep,created,66724712,78ea452f30a49860311c2373a0ea57cc02fb7df9,False,"I know I used to do this, but I now prefer to pass the entire `value` to the helper, so that it (potentially) becomes reusable.",CONTRIBUTOR,105,{}
+7053,PullRequestReviewCommentEvent,2017-09-26 09:27:56+00:00,99112999,inspirehep/inspire-query-parser,8048761,ammirate,356664,inspirehep,created,65152826,c28667e1fd7677425e10b4150b653fd2e78d3665,False,"I think these are leftovers, since they are not used anywhere ",CONTRIBUTOR,21,{}
+7060,PullRequestReviewCommentEvent,2018-06-14 02:29:23+00:00,135504777,keras-team/keras-preprocessing,14262417,yashk2810,34455048,keras-team,created,128624641,f5b47596b806bec597e61c7903b92342737929f6,False,Done,NONE,11,{}
+7066,PullRequestReviewCommentEvent,2018-08-02 13:01:36+00:00,71948498,localstack/localstack,2807888,whummer,28732122,localstack,created,142780967,ca7b7fc9622d7147aba1b4df29fbb7d84fb6785d,False,Better replace `'/'` with `os.path.sep` here.,COLLABORATOR,864,{}
+7087,PullRequestReviewCommentEvent,2017-09-07 15:30:31+00:00,55808787,openthread/openthread,16142208,jwhui,16142269,openthread,created,61257151,46f34e1c5c43f62618e0e7a20735604bfb59edd8,False,Agree that we should be consistent.  Currently none of the other diag commands in this file provide usage.,OWNER,2139,{}
+7090,PullRequestReviewCommentEvent,2017-04-24 16:48:32+00:00,55808787,openthread/openthread,25351219,DuaneEllis-TI,16142269,openthread,created,34354154,47a7a151779164d5feb05f7198f35878abe30662,False,"The include guard here does not seem to match the filename.
+Any particular reason?
+",,1361,{}
+7097,PullRequestReviewCommentEvent,2016-05-26 21:09:39+00:00,55808787,openthread/openthread,16142208,jwhui,16142269,openthread,created,,e0319cb5842e59599a46496e659316e94d0609df,False,"Anything `Platform*` is platform-specific.  In fact, anything not prefixed with `ot*` is platform-specific.",,78,{}
+7101,PullRequestReviewCommentEvent,2017-10-15 10:38:24+00:00,55808787,openthread/openthread,19217991,librasungirl,16142269,openthread,created,69413338,149c5ee32cd74842b318bcd09b61dba142a5bf8c,False,"parameter: destination
+comment: destination_node
+unify them?
+
+""Address query"" -> ""Address Query""?",COLLABORATOR,2214,{}
+7103,PullRequestReviewCommentEvent,2016-06-21 09:08:09+00:00,55808787,openthread/openthread,77641,turon,16142269,openthread,created,,2c0c27f2d98c0b3c604cad30a0e1497ddc8aca63,False,Closed license.,,184,{}
+7104,PullRequestReviewCommentEvent,2017-02-03 13:10:10+00:00,55808787,openthread/openthread,9209665,KaSroka,16142269,openthread,created,20007999,f6e2c4fb85c297ece1f6ff1902a77d152117e249,False,I'm using `sListen` flag (which is altered by this command) to determine whether I should process and print received frame or not.,,1238,{}
+7109,PullRequestReviewCommentEvent,2018-08-03 12:03:11+00:00,55808787,openthread/openthread,37304790,ChrIgiSta,16142269,openthread,created,143154417,44c1f4b111484c5952306fd59f353c094c19bf6b,False,yes. now check by cipher suite.,NONE,2716,{}
+7119,PullRequestReviewCommentEvent,2017-05-17 06:03:13+00:00,55808787,openthread/openthread,15324140,georgecpr,16142269,openthread,created,38576133,a2de1ea82b91c1670e7b0afa763b6138fa19627b,False,Fixed.,,1774,{}
+7123,PullRequestReviewCommentEvent,2017-04-05 16:06:11+00:00,55808787,openthread/openthread,16142208,jwhui,16142269,openthread,created,31095186,2b4ca2a8ec735fb6964e1938d96e5574e03ebe5f,False,"You can initialize `message` to `NULL` upon declaration, then check if `message != NULL` before calling `otMessageFree()`.",,1539,{}
+7124,PullRequestReviewCommentEvent,2016-12-20 15:37:07+00:00,55808787,openthread/openthread,23213044,JakubBrachTieto,16142269,openthread,created,13784765,e35e5efebac364d09eca083e72acfa638401e095,False,Implemented in e35e5efebac364d09eca083e72acfa638401e095.,,919,{}
+7125,PullRequestReviewCommentEvent,2018-01-26 20:21:54+00:00,55808787,openthread/openthread,16142208,jwhui,16142269,openthread,created,91957347,68f89c2ef002d0caa72cb67fb556c1db6b520c1f,False,nit: `GetNetif()` -> `netif`,OWNER,2474,{}
+7128,PullRequestReviewCommentEvent,2018-01-03 19:22:08+00:00,64881795,optimizely/python-sdk,1548776,aliabbasrizvi,1274132,optimizely,created,86465877,658e11aa29e23663dea353e3d91ddc9ac414b856,False,Please undo the renaming.,COLLABORATOR,95,{}
+7134,PullRequestReviewCommentEvent,2017-10-17 20:35:08+00:00,7209075,pantsbuild/pants,1883523,kwlzn,3065172,pantsbuild,created,70021193,d03e4888fbb073440715e25946d2249a72da7909,False,done,MEMBER,4931,{}
+7143,PullRequestReviewCommentEvent,2018-07-15 16:58:39+00:00,7209075,pantsbuild/pants,46740,stuhood,3065172,pantsbuild,created,137272077,b6322890d2f2746be100ecd1833d831dad45df54,False,"Hm... I think that from my perspective, `Select(IO)` is approximately what `Select(Console)` does currently: ie, represents exclusive access to a console.
+
+I'm not sure I see the advantage of the console being an output product when the other guarantees need to be met (exclusive, foreground access). Even in a world where we added back streaming of the console product `Stream(Console)`, the API would seem to be unnecessarily restrictive given that we know it ""owns"" the console while running.",MEMBER,6088,{}
+7145,PullRequestReviewCommentEvent,2017-11-20 14:46:00+00:00,7209075,pantsbuild/pants,1131704,illicitonion,3065172,pantsbuild,created,77772592,de3881a39dc099306d5f82487d0ffc604671db08,False,`future::err(e)`?,CONTRIBUTOR,5117,{}
+7152,PullRequestReviewCommentEvent,2018-04-25 21:00:02+00:00,7209075,pantsbuild/pants,7378,baroquebobcat,3065172,pantsbuild,created,115351348,a2c3f69eae871c312505bd4f31894f46663e9acf,False,maybe use `normalized_os_name`?,CONTRIBUTOR,5747,{}
+7153,PullRequestReviewCommentEvent,2018-06-01 18:12:06+00:00,7209075,pantsbuild/pants,1131704,illicitonion,3065172,pantsbuild,created,125265045,f10994c8bdf0f5147210206fbcb6403badde89d2,False,"I imagine this will want to end up being something like:
+
+
+`bash -c ""echo foo ; echo bar >&2 ; touch some-file ; sleep 100 ; touch some-other-file""` expecting output files `some-file` and `some-other-file`
+and assert that stdout and stderr are properly populated, that the exit code is -15, and that the output directory contains `some-file` but not `some-other-file`",CONTRIBUTOR,5895,{}
+7157,PullRequestReviewCommentEvent,2018-05-21 21:01:51+00:00,7209075,pantsbuild/pants,46740,stuhood,3065172,pantsbuild,created,121939059,725d56347ed555fdf05718039a986e9246377750,False,Could you open a ticket about this one? Or fix it in the base class maybe?,MEMBER,5838,{}
+7164,PullRequestReviewCommentEvent,2017-03-29 15:38:13+00:00,7209075,pantsbuild/pants,7378,baroquebobcat,3065172,pantsbuild,created,29759421,3641367ed9a54e09c17dff23b683b125d992f11b,False,Is there a test case that exercises this target here?,,4395,{}
+7174,PullRequestReviewCommentEvent,2018-05-31 14:15:52+00:00,7209075,pantsbuild/pants,1131704,illicitonion,3065172,pantsbuild,created,124818024,e0e39b9e3af4d79bb97dbcfc0e6c35f54fd5d147,False,"Is there anything we can do to provide a little more certainty about this freezing?
+
+Either making an ""immutable"" copy of the underlying datastructures, or having a super-class which has no mutating methods and adding the mutating methods on a subclass, or something?",CONTRIBUTOR,5889,{}
+7175,PullRequestReviewCommentEvent,2017-07-21 18:20:56+00:00,7209075,pantsbuild/pants,1883523,kwlzn,3065172,pantsbuild,created,51548929,125b87849bed62d3d75dd5de402ff3b06c83d869,False,wonder if it might be better to blow up in this case than to make this assumption?,,4759,{}
+7204,PullRequestReviewCommentEvent,2017-08-17 14:22:43+00:00,17714713,pre-commit/pre-commit-hooks,1810591,asottile,6943086,pre-commit,created,56941583,38bd34f828ce9685c87f7dbafc59b74ac36d8376,False,"Here's that in patch form:
+
+```diff
+diff --git a/pre_commit_hooks/string_fixer.py b/pre_commit_hooks/string_fixer.py
+index 3523e8a..59b832f 100644
+--- a/pre_commit_hooks/string_fixer.py
++++ b/pre_commit_hooks/string_fixer.py
+@@ -11,15 +11,15 @@ double_quote_starts = tuple(s for s in tokenize.single_quoted if '""' in s)
+ 
+ 
+ def handle_match(token_text):
+-    if '""""""' in token_text or ""'''"" in token_text:
++    if b'""""""' in token_text or b""'''"" in token_text:
+         return token_text
+ 
+     for double_quote_start in double_quote_starts:
+         if token_text.startswith(double_quote_start):
+             meat = token_text[len(double_quote_start):-1]
+-            if '""' in meat or ""'"" in meat:
++            if b'""' in meat or b""'"" in meat:
+                 break
+-            return double_quote_start.replace('""', ""'"") + meat + ""'""
++            return double_quote_start.replace(b'""', b""'"") + meat + b""'""
+     return token_text
+ 
+ 
+@@ -32,15 +32,15 @@ def get_line_offsets_by_line_no(src):
+ 
+ 
+ def fix_strings(filename):
+-    contents = io.open(filename).read()
++    contents = open(filename, 'rb').read()
+     line_offsets = get_line_offsets_by_line_no(contents)
+ 
+     # Basically a mutable string
+-    splitcontents = list(contents)
++    splitcontents = bytearray(contents)
+ 
+     # Iterate in reverse so the offsets are always correct
+     tokens = reversed(list(tokenize.generate_tokens(
+-        io.StringIO(contents).readline,
++        io.BytesIO(contents).readline,
+     )))
+     for token_type, token_text, (srow, scol), (erow, ecol), _ in tokens:
+         if token_type == tokenize.STRING:
+@@ -50,9 +50,9 @@ def fix_strings(filename):
+                 line_offsets[erow] + ecol
+             ] = new_text
+ 
+-    new_contents = ''.join(splitcontents)
++    new_contents = bytes(splitcontents)
+     if contents != new_contents:
+-        with io.open(filename, 'w') as write_handle:
++        with open(filename, 'wb') as write_handle:
+             write_handle.write(new_contents)
+         return 1
+     else:
+diff --git a/tests/string_fixer_test.py b/tests/string_fixer_test.py
+index a65213b..0603adf 100644
+--- a/tests/string_fixer_test.py
++++ b/tests/string_fixer_test.py
+@@ -1,3 +1,4 @@
++# -*- coding: utf-8 -*-
+ from __future__ import absolute_import
+ from __future__ import print_function
+ from __future__ import unicode_literals
+@@ -49,3 +50,11 @@ def test_rewrite(input_s, output, expected_retval, tmpdir):
+     retval = main([path.strpath])
+     assert path.read() == output
+     assert retval == expected_retval
++
++
++def test_non_utf8_file(tmpdir):
++    f_py = tmpdir.join('f.py')
++    f_py.write_binary('# -*- coding: cp1252 -*-\nx = ""€""\n'.encode('cp1252'))
++    assert main((f_py.strpath,)) == 1
++    after = f_py.read_binary()
++    assert after == ""# -*- coding: cp1252 -*-\nx = '€'\n"".encode('cp1252')
+```
+
+This passes the tests in python 2, but I don't think `tokenize` works for bytes in python 3... hmm...  Instead the code could do the encoding dance (parse the comment cookie, assume utf-8 otherwise, decode to text, encode to the detected encoding) maybe?",,231,{}
+7235,PullRequestReviewCommentEvent,2017-09-13 02:57:52+00:00,34739117,pytest-dev/pluggy,1085180,nicoddemus,8897583,pytest-dev,created,62319016,1f6dc215338747f596f6df664ef2f7cd500c658f,False,"> Only if the hook is called with less then the spec's args and some hookimpl is trying to accept those new args.
+That will happen anyway; this code makes no difference.
+
+Indeed it will happen, but I would expect it to happen sooner (as soon as the new `spec` argument was introduced) than later (only after a `hookimpl` which needs it).
+
+But now that we mention #15 it makes sense, because then the `hookiml` will receive the *default value* defined in the spec, instead of things blow up.
+
+If this is a half-way measure to get there I think we are fine then.
+
+Thanks for the explanation! 😉 ",OWNER,89,{}
+7242,PullRequestReviewCommentEvent,2017-08-08 09:06:35+00:00,33952074,pytest-dev/pytest-html,122800,davehunt,8897583,pytest-dev,created,54875593,19cc6d6ca5b349b4c8b5076aeaa357c18bb6cbef,False,"Rather than having a condition within a parameter, could we just have an additional parameter with a skip/xfail if necessary for specific versions of Python?",,126,{}
+7265,PullRequestReviewCommentEvent,2016-11-18 11:57:45+00:00,36670205,quantopian/pyfolio,674200,twiecki,1393215,quantopian,created,9212913,c505be096a1c26d9ae8fccd75c816dd7150b21e5,False,Why does `returns` take `positions` now?,,351,{}
+7285,PullRequestReviewCommentEvent,2015-03-29 21:04:25+00:00,1855847,sdelements/django-security,202400,danpalmer,739346,sdelements,created,,becf8538f3c36282a7d4ecbd9705c85e0b8c8d78,False,"In several places I have reformatted some statements (mostly to avoid line length issues) into a format like this. I find the benefit is that diffs contain less noise, as modifications are generally contained to only the relevant lines.",,38,{}
+7294,PullRequestReviewCommentEvent,2016-06-14 12:50:20+00:00,34963904,spyder-ide/qtpy,506348,Nodd,1284937,spyder-ide,created,,c9dc1cb0519188baf37e3a94f08c9459e306da23,False,"The test file itself is importable, isn't it sufficient ?
+Otherwise I think that having a separate file in the test directory containing the class is fine. Your workaround works but seems needlessly complex to me.",,27,{}
+7310,PullRequestReviewCommentEvent,2016-09-23 21:43:31+00:00,68402336,streamlink/streamlink,1396878,gravyboat,22243823,streamlink,created,,74514403220f15a02997cc983aea033ad12d1db3,False,We might not want to endorse any specific broadcaster here to ensure we stay neutral.,,34,{}
+7312,PullRequestReviewCommentEvent,2017-02-10 17:53:32+00:00,68402336,streamlink/streamlink,16033421,beardypig,22243823,streamlink,created,21303602,d809e8082bac0f2bf2ce84bf383930466932ff2f,False,"This comment could also be a `docstring`.
+```python
+def get_stream_info(self, html):
+    """"""
+    Returns a list of each stream_url, stream_quality_url and stream_quality_name 
+    occurrence in the JS.
+    """"""
+```
+",,566,{}
+7321,PullRequestReviewCommentEvent,2017-04-06 19:19:23+00:00,68402336,streamlink/streamlink,1396878,gravyboat,22243823,streamlink,created,31404194,6a50c74b01a1da07750e963545de273a266e5856,False,Operating system version would be a good addition in case people are using XP or something.,,772,{}
+7350,PullRequestReviewCommentEvent,2017-12-14 18:36:16+00:00,91379993,tensorflow/tensorboard,3082188,qiuminxu,15658638,tensorflow,created,83602526,7b85b0b5d7d27460fa72871ac5085cc322429d1f,False,Done!,CONTRIBUTOR,813,{}
+7353,PullRequestReviewCommentEvent,2017-06-23 03:57:53+00:00,91379993,tensorflow/tensorboard,1400023,dandelionmane,15658638,tensorflow,created,45894701,7ebe678cc0be9a9a5b9cf1812a357cbb8a64ac34,False,"This looks kind of funky, but I verified that it works.",,141,{}
+7356,PullRequestReviewCommentEvent,2018-03-01 21:15:18+00:00,91379993,tensorflow/tensorboard,918892,sagipe,15658638,tensorflow,created,100595578,bdbf2da368ce65699129d2058546fb7e9a7ca685,False,"Add comma:
+If empty, the",NONE,972,{}
+7359,PullRequestReviewCommentEvent,2017-11-14 18:29:38+00:00,91379993,tensorflow/tensorboard,2294279,dsmilkov,15658638,tensorflow,created,76545744,9d9a9658fa8ffbe29e55ed375f2abd97019f4591,False,"""Append to current selection"" might be clearer, but I'm open to other suggestions if you find that confusing.",MEMBER,697,{}
+7364,PullRequestReviewCommentEvent,2018-05-24 00:52:05+00:00,91379993,tensorflow/tensorboard,710113,nfelt,15658638,tensorflow,created,122815065,5bcb3923d9fbcbf8bbffaafd9498b2cf3882caca,False,Do we not want `--verbose_failures` and `--test_verbose_timeout_warnings` any more?,COLLABORATOR,1207,{}
+7557,PullRequestReviewCommentEvent,2017-03-06 09:30:00+00:00,31209762,WessexWater/chellow,19204119,JuviAndaya,11159960,WessexWater,created,25205483,a826a8831df625aa065abc4c838198c1f85b949c,False,the test scripts failed. I compared it with master and there's no finished loading in the auto importer. ,,11,{}
+7634,PullRequestReviewCommentEvent,2017-12-28 16:07:08+00:00,85677006,hyperledger/indy-sdk,21102430,ashcherbakov,7657900,hyperledger,created,85843515,5f80590380ad509698bb81d56c9d4de1871775c7,False,Need to get Claim Def of Faber here,CONTRIBUTOR,458,{}
+7653,PullRequestReviewCommentEvent,2018-06-20 13:19:12+00:00,77021566,hyperledger/indy-node,28005170,dsurnin,7657900,hyperledger,created,130386802,aa20d0aa5891b9a2e116e92d93278c7ef5ce5c40,False,fixed,CONTRIBUTOR,776,{}
+7656,PullRequestReviewCommentEvent,2017-12-11 08:07:26+00:00,51585028,hyperledger/indy-plenum,12845163,andkononykhin,7657900,hyperledger,created,82409581,736abe71c5d20a0a946f6bebc0f0df3aa22657fd,False,"Yes, it might be so for now.",CONTRIBUTOR,470,{}
+7657,PullRequestReviewCommentEvent,2018-03-14 16:15:43+00:00,51585028,hyperledger/indy-plenum,21102430,ashcherbakov,7657900,hyperledger,created,103890567,6fa9efb68e083d3b34dc0954dd54445abe5d6982,False,In this test we restart nodes one by one. What if we restart all the nodes? (per_add_timeout=None),MEMBER,572,{}
+7658,PullRequestReviewCommentEvent,2018-02-20 09:29:44+00:00,51585028,hyperledger/indy-plenum,31342446,sergey-shilov,7657900,hyperledger,created,97753877,8773548874c78ff81166741cf641630f6487d1c3,False,"Of course ""assert name"" should be before logging.
+If name is None then Apocalypse has come. It can not be None by design, otherwise implementation is incorrect.",CONTRIBUTOR,539,{}
+7662,PullRequestReviewCommentEvent,2018-06-22 13:11:32+00:00,51585028,hyperledger/indy-plenum,9585587,cam-parra,7657900,hyperledger,created,131187579,cc62e4fb878ebe791e33867cbb61ba74bd53634d,False,"I second this concern 
+",NONE,767,{}
+7671,PullRequestReviewCommentEvent,2015-07-24 06:40:10+00:00,26516210,letsencrypt/letsencrypt,106176,kuba,9289019,letsencrypt,created,,82147f1f5e3373ed9e623cbee618339ba8a3f2a6,False,good catch!,,622,{}
+7677,PullRequestReviewCommentEvent,2016-01-13 20:23:45+00:00,26516210,letsencrypt/letsencrypt,106176,kuba,9289019,letsencrypt,created,,d8130974c71835b79dc33bf83fe569b7aee9f9f9,False,"if we're really going with this approach (see https://github.com/letsencrypt/letsencrypt/pull/1665/files#r49645236), then please use a `tests_require` variable just as we do for all other package lists",,1665,{}
+7683,PullRequestReviewCommentEvent,2015-09-29 19:41:56+00:00,26516210,letsencrypt/letsencrypt,6504915,bmw,9289019,letsencrypt,created,,dc0b26c2781132a1c3f0622c40c93f4e64bf1f53,False,Purpose was to hit this line of code for cover: https://github.com/letsencrypt/letsencrypt/blob/master/letsencrypt/cli.py#L355.,,859,{}
+7686,PullRequestReviewCommentEvent,2016-01-01 23:37:53+00:00,26516210,letsencrypt/letsencrypt,4323539,TheNavigat,9289019,letsencrypt,created,,dfdf546533f47677816f53231471410260ed2e8f,False,"```side_effect``` has precedence over ```return_value```. ```self.mock_dv_auth.perform.side_effect``` has to be set to ```None``` first, or to be removed from the ```setUp``` function. Or maybe set inside ```test_name1_tls_sni_01_1``` and ```test_name3_tls_sni_01_3_rectok_3```.
+
+Simply changing ```side_effect``` to ```return_value``` won't work.",,1876,{}
+7725,PullRequestReviewCommentEvent,2016-01-13 22:29:38+00:00,26516210,letsencrypt/letsencrypt,106176,kuba,9289019,letsencrypt,created,,25e428ce4b71f4ceba47b01629b0297172209a38,False,FTR Remark 1. goes together with my generic comment about `conditional_requirements.py` from https://github.com/letsencrypt/letsencrypt/pull/1665/files#r49646113.,,1665,{}
+7737,PullRequestReviewCommentEvent,2015-12-05 00:07:14+00:00,16469697,mps-youtube/mps-youtube,2263150,ids1024,12987682,mps-youtube,created,,236472a3d75c0480013cc26087af6202cc6e621c,False,"I don't think this is correct. `\\` would make it a literal backslash character.
+
+It would probably be better to use `line = line.strip()`.",,391,{}
+7739,PullRequestReviewCommentEvent,2016-02-23 00:43:52+00:00,49166869,opentracing/opentracing-python,3523016,yurishkuro,15482765,opentracing,created,,bd3c0e941c3c20f3d03046d717764078c30b6811,False,"it allows code like this:
+```python
+with span:
+    # do stuff
+```
+which guarantees the span will be finished even if exception is thrown (we can add this to comments)",,19,{}
+7777,PullRequestReviewCommentEvent,2018-06-01 23:12:43+00:00,71932349,ray-project/ray,249517,robertnishihara,22125274,ray-project,created,125330293,d41b1d0b4eb4eff58800cb07f3badc20caae4c9b,False,"if we're going to include this special case here, then the condition should probably be something like `wait_state.found.size() >= num_required_objects || wait_ms == 0`.
+
+That said, I think it makes sense to handle this case after firing off the `LookupLocations` calls.",CONTRIBUTOR,2162,{}
+7779,PullRequestReviewCommentEvent,2017-03-16 22:14:09+00:00,71932349,ray-project/ray,2560516,stephanie-wang,22125274,ray-project,created,27473300,8e80e4975a925e1a3481966e5c33b6a2ec400131,False,"I think I will fix this in another PR that switches to flatbuffers for plasma manager, like @pcmoritz suggested.",,347,{}
+7781,PullRequestReviewCommentEvent,2018-07-27 07:50:22+00:00,71932349,ray-project/ray,19700184,salah-man,22125274,ray-project,created,141014881,b38fbe2698c51e11b97e4a0e149189d26cfd7f29,False,"Yes, i think the format suggested by you is quiet good @robertnishihara . How about just let these points enumerated in this PR @raulchen ?",CONTRIBUTOR,2491,{}
+7789,PullRequestReviewCommentEvent,2017-06-26 20:52:36+00:00,71932349,ray-project/ray,249517,robertnishihara,22125274,ray-project,created,46374852,ddcb4a08052771b9f14873d9ce0dc07aef577dd9,False,"We can safely assume that all of these fields are present, so we don't need the if statements. In fact, we could simplify this by doing something more like the following
+
+```
+... = {
+    ""class_id"": binary_to_hex(x[b""class_id""]),
+    ""driver_id"": binary_to_hex(x[b""driver_id""]),
+    ...
+}
+```",,690,{}
+7800,PullRequestReviewCommentEvent,2018-04-27 17:47:35+00:00,71932349,ray-project/ray,249517,robertnishihara,22125274,ray-project,created,116025345,7f98fb4b73e0070fd80af6d48c84dc81fabc20d4,False,"@stephanie-wang this hashing scheme will likely be a problem with the new way xray is encoding information in the Object IDs, right?
+
+I don't want to address it in this PR, since this PR should not change the hash function, but just want to bring it up.",CONTRIBUTOR,1957,{}
+7807,PullRequestReviewCommentEvent,2018-08-09 10:27:42+00:00,71932349,ray-project/ray,2883335,raulchen,22125274,ray-project,created,144776003,92a36a24575c927adda46ae4cb57e5e310289819,False,"Document these methods in this class. (Old Java code is lack of documents, let's start adding documents for new code :)",CONTRIBUTOR,2606,{}
+7818,PullRequestReviewCommentEvent,2018-05-14 19:49:58+00:00,71932349,ray-project/ray,249517,robertnishihara,22125274,ray-project,created,119983067,75c89c547d5e5316525f4b8ca4ee807ea0289dfe,False,"Fixed, thx",CONTRIBUTOR,2052,{}
+7930,PullRequestReviewCommentEvent,2018-07-26 00:44:06+00:00,60626727,tensorlayer/tensorlayer,19940114,codacy-bot,32261543,tensorlayer,created,140546986,3652f7a4599ea95b7064c1af09b06018c32021d0,False,![Codacy](https://app.codacy.com/assets/images/favicon.png) Issue found: [Use of possibly insecure function - consider using safer ast.literal_eval.](https://app.codacy.com/app/tensorlayer/tensorlayer/pullRequest?prid=1937730),NONE,751,{}
+7940,PullRequestReviewCommentEvent,2018-08-03 13:28:42+00:00,60626727,tensorlayer/tensorlayer,19940114,codacy-bot,32261543,tensorlayer,created,143180256,1a7466b52e63f2e872399969aa6a0e9e9b4c92a8,False,![Codacy](https://app.codacy.com/assets/images/favicon.png) Issue found: [Unused import inspect](https://app.codacy.com/app/tensorlayer/tensorlayer/pullRequest?prid=1994333),NONE,773,{}
+7946,PullRequestReviewCommentEvent,2018-05-25 12:14:29+00:00,60626727,tensorlayer/tensorlayer,19940114,codacy-bot,32261543,tensorlayer,created,123347976,02e403e0d53f3aabbd96a624cfd82cf50cf0f323,False,![Codacy](https://app.codacy.com/assets/images/favicon.png) Issue found: [Pin versions in pip. Instead of `pip install <package>` use `pip install <package>==<version>`](https://app.codacy.com/app/tensorlayer/tensorlayer/pullRequest?prid=1692551),NONE,648,{}
+7956,PullRequestReviewCommentEvent,2017-10-17 18:32:00+00:00,81612762,trailofbits/manticore,18771,yan,2314423,trailofbits,created,69983774,08aa115b255056f40915b466eb68ef7400c06437,False,under what situations can `make_initial_state` return a non-`State` object?,OWNER,521,{}
+8007,PullRequestReviewCommentEvent,2018-05-29 21:47:37+00:00,48904888,Cog-Creators/Red-DiscordBot,18455011,Redjumpman,23690422,Cog-Creators,created,124185187,e55dbe35b63fbf780dad137ef928d11204dc60b6,False,Done.,NONE,1733,{}
+8081,PullRequestReviewCommentEvent,2015-02-20 14:28:34+00:00,1151051,django-oscar/django-oscar,133575,mbertheau,9057806,django-oscar,created,,ece6a83cd191e59b214e0d884f572a3a0658cf53,False,"Ah, indeed, I missed the fact that you compare against `full_slug`. Should be alright then :)
+
+I'd be alright with removing the slug-only variant, but I'd check history to see whether there's more clue as to why that was introduced in the first place.",,1674,{}
+8133,PullRequestReviewCommentEvent,2017-03-03 15:55:22+00:00,19141754,opendatateam/udata,3556,davidbgk,19330690,opendatateam,created,25004423,402f984cb1fc37e9cb7c3b3129400e6434b1f48a,False,We want a Flask response here to be able to compute ETag for instance + to cache the full response to be returned by the cache without further processing.,,802,{}
+8134,PullRequestReviewCommentEvent,2016-07-01 08:48:35+00:00,19141754,opendatateam/udata,15725,noirbizarre,19330690,opendatateam,created,,214e8fcfc6fcd2dd62dedfa6bffe3b2626a221b8,False,SwaggerUI requires jQuery to be a global. This syntax is from the webpack expose plugin (expose both `$` and `jQuery`),,503,{}
+8136,PullRequestReviewCommentEvent,2017-06-22 11:52:37+00:00,19141754,opendatateam/udata,15725,noirbizarre,19330690,opendatateam,created,45696506,4ab1203c54318a9cf86e397e024e6e7f7292d000,False,Mine is crying without :cry: ,,966,{}
+8142,PullRequestReviewCommentEvent,2016-07-04 15:51:53+00:00,19141754,opendatateam/udata,15725,noirbizarre,19330690,opendatateam,created,,13e4d6e3a2fb3367fa937222b373d886e51864f9,False,Sadly it's required because Swagger apply a scope if not binded.,,513,{}
+8143,PullRequestReviewCommentEvent,2017-01-18 21:33:00+00:00,19141754,opendatateam/udata,15725,noirbizarre,19330690,opendatateam,created,17330528,a713c162fc3fb6f0f8b102803dcd38d39597d4ec,False,I fixed it because it's weird but it seems to work with this syntax 😱 ,,725,{}
+8160,PullRequestReviewCommentEvent,2016-05-03 22:43:08+00:00,21749516,scikit-build/scikit-build,219043,jcfr,8144855,scikit-build,created,,169667a30776de70cb3529880afdd5ba53c0530f,False,Could you add the result of investigation as comment here ?,,31,{}
+8164,PullRequestReviewCommentEvent,2016-08-05 04:52:52+00:00,2014929,scikit-image/scikit-image,1315589,soupault,897180,scikit-image,created,,80da47de1035af28739f10b4846654efd6342d46,False,"@jni you had merged this one :trollface:.
+Just to remind, we use a ""fair"" discrete bi-laplacian for each defect point (https://github.com/scikit-image/scikit-image/blob/master/skimage/restoration/inpaint.py#L30-L35) .
+Not sure about cropping, as we work with image only via block indexing (https://github.com/scikit-image/scikit-image/blob/master/skimage/restoration/inpaint.py#L38-L48) and do not really use any information from beyond the scope (https://github.com/scikit-image/scikit-image/blob/master/skimage/restoration/inpaint.py#L50-L56).
+I'd say this (https://github.com/scikit-image/scikit-image/blob/master/skimage/restoration/inpaint.py#L22) is the only line which could get a speedup from your proposed trick.",,2234,{}
+8165,PullRequestReviewCommentEvent,2016-07-17 21:54:42+00:00,2014929,scikit-image/scikit-image,2184487,JDWarner,897180,scikit-image,created,,63c29fe48f2c84d74f7ee2371d4af510707bba2c,False,"When I wrote this, PEP 257 still called for an empty line at the end of docstrings. It no longer does, so let's just remove it.",,2052,{}
+8174,PullRequestReviewCommentEvent,2015-06-27 01:03:26+00:00,2014929,scikit-image/scikit-image,492549,jni,897180,scikit-image,created,,8aa208823922c3443aa44a943cae7e658f3df3b3,False,Don't put more than one blank line in a row within methods/functions.,,1570,{}
+8178,PullRequestReviewCommentEvent,2015-05-26 12:52:33+00:00,2014929,scikit-image/scikit-image,3343990,jaimefrio,897180,scikit-image,created,,280606898685a9b358ca20c0d87eed3e860829d4,False,"Unfortunately you cannot do this... At least not without previously checking that the array being iterated is aligned and its type not byteswapped. The dtype object has a pointer to a `copyswap` function, see [nere](http://docs.scipy.org/doc/numpy/reference/c-api.types-and-structures.html#c.PyArray_ArrFuncs.copyswap), that can be sued to copy data into an aligned buffer which you can then dereference without worries.",,1510,{}
+8179,PullRequestReviewCommentEvent,2017-04-13 11:54:45+00:00,2014929,scikit-image/scikit-image,1315589,soupault,897180,scikit-image,created,32609674,d98ddae6f7cd52c9e42a913d0f49259fb725a236,False,@jni How do I ```[ ] Check that new features are mentioned in `doc/release/release_dev.rst`.```? :D ,,2584,{}
+8182,PullRequestReviewCommentEvent,2015-03-29 21:21:58+00:00,2014929,scikit-image/scikit-image,2184487,JDWarner,897180,scikit-image,created,,9add87226a83023258c1c00dc0bbf7ff9b8df294,False,One too many spaces of indentation.,,1459,{}
+8186,PullRequestReviewCommentEvent,2015-05-09 17:51:57+00:00,2014929,scikit-image/scikit-image,45071,stefanv,897180,scikit-image,created,,32f4a2e52ba3898e3f7a0312def3688e4a9c3c59,False,"```
+except Exception as ex
+```
+
+is what you want for testing purposes.  And then you can narrow it down a bit more.",,1483,{}
+8201,PullRequestReviewCommentEvent,2016-04-29 07:29:57+00:00,2014929,scikit-image/scikit-image,45071,stefanv,897180,scikit-image,created,,35b193aa09db552b8323cf1ea904df4ea3288c4d,False,PEP8,,2058,{}
+8206,PullRequestReviewCommentEvent,2017-03-27 12:36:40+00:00,2014929,scikit-image/scikit-image,1961991,paalge,897180,scikit-image,created,29170468,5c0439164965d7285a78b9169d1828247ed07803,False,"As far as I know, scikit image doesn't have an exif reader, and I do not want to add a dependency on one. But I've added a small comment on the exif",,1539,{}
+8207,PullRequestReviewCommentEvent,2018-05-21 12:21:08+00:00,2014929,scikit-image/scikit-image,492549,jni,897180,scikit-image,created,121735027,5ca5a17d30da248818531ecb79331ea552961d5e,False,The current `peak_local_max` implementation uses the keyword `exclude_border`. Probably we should use that here also.,CONTRIBUTOR,3022,{}
+8208,PullRequestReviewCommentEvent,2016-06-15 19:10:55+00:00,2014929,scikit-image/scikit-image,492549,jni,897180,scikit-image,created,,d119f992f08af02d46454b3ac86856e7ced50e6a,False,@Hiyorimi remove this blank line. =),,2139,{}
+8209,PullRequestReviewCommentEvent,2018-06-22 20:25:02+00:00,2014929,scikit-image/scikit-image,1315589,soupault,897180,scikit-image,created,131332544,aa0ef01fba2b013b830fd1cac933594c0bf0589a,False,"`test_throws_when_intensity_range_255` -> `test_throws_when_intensity_range_equals_background` or something. Also, please specify the background value explicitly in the function call below.",MEMBER,3216,{}
+8246,PullRequestReviewCommentEvent,2018-07-27 08:14:55+00:00,1605598,bulletphysics/bullet3,725468,erwincoumans,6955508,bulletphysics,created,141021343,d7c68dd822fd8d828ed5af3229e56b106661039f,False,"The check is to avoid accessing non-existing elements in the array (userDataHandles[0], while the size == 0). It causes asserts in debug mode.",MEMBER,1804,{}
+8262,PullRequestReviewCommentEvent,2017-01-10 16:46:28+00:00,63442716,canonical-ols/talisker,1042,bloodearnest,17836138,canonical-ols,created,15958987,b5527b40ef7014896e4e0edf9757c8ab0099243d,False,"Key thing to understand is that the underlying local storage can go away at any time (end of request, etc). So I've explicitly invalidated _flat for all instances of ContextStack when this happens.
+
+I don't like werkzeugs local storage impl much, I think I might roll my own, as a dict, rather than an object
+",,43,{}
+8263,PullRequestReviewCommentEvent,2018-05-04 11:13:05+00:00,63442716,canonical-ols/talisker,2429141,cjwatson,17836138,canonical-ols,created,117565557,901f26cd51c5b5e9fbf1fd0ef53a244cc019b2be,False,"I guess there *shouldn't* be anything sensitive in the process command line, but it's not unheard of to perpetrate quick hacks there that then stick around.  Have you audited our existing services for sensitive information on command lines?",NONE,213,{}
+8284,PullRequestReviewCommentEvent,2017-03-03 07:12:19+00:00,53636425,emc-openstack/storops,3829504,peter-wangxu,6210145,emc-openstack,created,24915223,34bc8093303385ede65fb1f1463bf5359718455e,False,ditto,,95,{}
+8291,PullRequestReviewCommentEvent,2015-10-27 14:34:43+00:00,24777832,galaxyproject/planemo,458683,erasche,7937847,galaxyproject,created,,44f16baee18ce0433a09ca6d09444bec53be4c1d,False,"interesting. Thanks for that, I'll update it accordingly",,350,{}
+8297,PullRequestReviewCommentEvent,2018-02-27 16:14:28+00:00,48335886,galaxyproject/galaxy-lib,4924623,nsoranzo,7937847,galaxyproject,created,99748732,db66bd0e4eb4fe89811a326c4fc82e855f7aa742,False,What about `m.update(smart_str(repository))` using `smart_str` from `galaxy.util`? It's basically the inverse of `unicodify`.,MEMBER,94,{}
+8334,PullRequestReviewCommentEvent,2018-03-08 18:08:14+00:00,81267552,projectfluent/python-fluent,265818,stasm,24696436,projectfluent,created,102399845,4b702399cd2fa837f2e150a8f30609965b9abd41,False,Good point. How about I rename `flatten_elements` to `chain_elements` which is closer to `itertools.chain`?,OWNER,54,{}
+8335,PullRequestReviewCommentEvent,2017-11-03 12:14:43+00:00,81267552,projectfluent/python-fluent,43494,Pike,24696436,projectfluent,created,74050415,e38a55086f66279418d512a9f9fc1f400c8e28a7,False,"Looking at how confused I was that that could happen, maybe it's worth explicitly testing that re-applying a transform returns an empty merge_changeset?",COLLABORATOR,24,{}
+8356,PullRequestReviewCommentEvent,2017-06-24 04:27:49+00:00,58676252,web-push-libs/pywebpush,243830,kitcambridge,19820480,web-push-libs,created,46119157,7931358050575d1c9b05e10d4f0cf9b48e3931a7,False,"Nit: You use `content_encoding == ""aesgcm""` here, and `content_encoding != ""aes128gcm""` below. Let's pick one so that it's consistent throughout.",,64,{}
+8372,PullRequestReviewCommentEvent,2017-12-04 18:41:11+00:00,93565055,HumanCellAtlas/dcp-cli,862013,kislyuk,26391798,HumanCellAtlas,created,80944459,260886a253079e2601d4853e44c496e6eb7d2d65,False,"Great point, removed.",OWNER,77,{}
+8399,PullRequestReviewCommentEvent,2018-01-15 07:15:39+00:00,46374199,IntelRealSense/librealsense,22654243,zivsha,14095512,IntelRealSense,created,88731474,b253d4c2345cb6980bd3e0bda1dce65b3404c27b,False,Same comment for the rest of the defines here.,COLLABORATOR,1010,{}
+8401,PullRequestReviewCommentEvent,2017-03-02 15:17:19+00:00,26839425,arista-eosplus/pyeapi,22682817,mharista,6643264,arista-eosplus,created,24755507,cb4b43873b18eebf7c53778102f6a65158f7cb29,False,"So is the recommendation here to remove the rd check in its entirety?
+
+The error returned from EOS is 'Ambiguous command' for an incorrect rd format and that error is stored in the connection object instead of raising the exception.",,133,{}
+8414,PullRequestReviewCommentEvent,2017-05-19 00:54:33+00:00,53442595,globality-corp/microcosm-flask,477722,jessemyers,11172782,globality-corp,created,39089845,a8601fc6ec3930a831352e6b614c70a2cccceb97,False,"I piggy-backed on existing ""port forwarding"" functionality. It's a poor naming, but it's already used everywhere.",,127,{}
+8459,PullRequestReviewCommentEvent,2015-09-28 07:54:01+00:00,13512018,python-diamond/Diamond,84372,jaingaurav,5668086,python-diamond,created,,a32f74efea7412f2f526f3e1dc49cfeda64c293c,False,"So this looks like a great catch, but I think the unpublished API is still a little bit busted in that it expects a dictionary. We should just make it take a list of keys. Nothing that necessarily needs to be done in this PR, as it would likely involve changing a bunch of test cases.",,287,{}
+8467,PullRequestReviewCommentEvent,2017-05-09 21:10:31+00:00,13512018,python-diamond/Diamond,3051981,shortdudey123,5668086,python-diamond,created,37156445,0f63abb36ed712e839947ccb7511411ab39fdf4d,False,probably can remove this,,646,{}
+8484,PullRequestReviewCommentEvent,2018-06-22 19:35:24+00:00,50646767,raiden-network/raiden,4785356,loredanacirstea,19666847,raiden-network,created,131321751,115cf0b7e004003da5ed795fa47482cdd88eae3d,False,"Yes, I have always added the function + the location where it is supposed to be used. Agreed, in this case it would have been clear anyway..",COLLABORATOR,1647,{}
+8487,PullRequestReviewCommentEvent,2018-03-21 20:33:58+00:00,50646767,raiden-network/raiden,1658405,LefterisJP,19666847,raiden-network,created,105896254,b75656fa728a877a158042535615f83be9fb08cd,False,Is this only about printing/logging? Docs seem to not say anything more: http://www.gevent.org/gevent.hub.html#gevent.hub.Hub.NOT_ERROR,COLLABORATOR,1317,{}
+8489,PullRequestReviewCommentEvent,2017-07-11 15:46:39+00:00,50646767,raiden-network/raiden,1026799,czepluch,19666847,raiden-network,created,49241201,64f976f88dc2463b3d86a46cb3678065af9a5138,False,"That's for a token swap. That's something else. If you look at the first tests in this file, that's not the naming that's used. Only for token swaps.",,713,{}
+8491,PullRequestReviewCommentEvent,2017-01-18 20:36:37+00:00,50646767,raiden-network/raiden,310139,hackaugusto,19666847,raiden-network,created,17319320,fab63e7f0ae12c9be29fefb2d51b0bc95a0b3e5a,False,"Ahhhh, yes",,331,{}
+8515,PullRequestReviewCommentEvent,2015-08-03 21:16:57+00:00,34542495,scrapy-plugins/scrapy-crawlera,185212,pablohoffman,13627237,scrapy-plugins,created,,df0473c9a13b3201ddc01febac72890fa46f2da4,False,"it may be time to remove this one, the change was made long ago",,6,{}
+8525,PullRequestReviewCommentEvent,2018-04-20 14:36:47+00:00,7444957,zopefoundation/BTrees,1256082,jamadden,1163184,zopefoundation,created,114002961,43ec08700a710e52a74ef2e3fdbe5b8f1a392913,False,It looks like this number can be bumped to 96% based on the coveralls.io reports.,OWNER,85,{}
+8537,PullRequestReviewCommentEvent,2015-05-19 14:47:12+00:00,8136797,zopefoundation/zope.testrunner,159967,mgedmin,1163184,zopefoundation,created,,3da65cbe7b8eb1435acbb68f9498045239373c9e,False,"This seems needlessly complicated.
+
+```python
+def  EmptySuite():
+    suite = unittest.TestSuite()
+    suite.layer = EmptyLayer()
+    return suite
+```
+
+should suffice.",,29,{}
+8539,PullRequestReviewCommentEvent,2018-01-10 11:05:17+00:00,8136797,zopefoundation/zope.testrunner,159967,mgedmin,1163184,zopefoundation,created,87789578,8efe1ae87117eab363898c1bf266c5729728dbe6,False,"I think it's ""setup and teardown events"" when ""set up"" and ""tear down"" are not verbs, but I'm not a native English speaker.",OWNER,70,{}
+8565,PullRequestReviewCommentEvent,2018-08-07 10:27:02+00:00,21987374,django-json-api/django-rest-framework-json-api,1625053,Anton-Shutik,11215076,django-json-api,created,143932619,196d8ba7ee55369998976779548de3eefe4a4a78,False,"I could, but I think it will be better to keep it separate. Otherwise all related entities described here will be available via `include` by default, and there is no way to remove it from `include` list.",CONTRIBUTOR,451,{}
+8576,PullRequestReviewCommentEvent,2017-10-12 03:08:04+00:00,66823715,intel-analytics/BigDL,1297418,yiheng,10941215,intel-analytics,created,68806498,0f45cfb3f5d08e95957c5c4e2046614e6f4cfca6,False,"## Performance Tunning
+For performance investigation, BigDL records the time-consuming distribution on each node for each step(e.g. sync weight, computing). The information can be displayed in the driver log. By default, it is suspended. To turn it on, please follow these steps:
+
+1. Prepare a log4j property file
+```
+# Root logger option
+log4j.rootLogger=INFO, stdout
+
+# Direct log messages to stdout
+log4j.appender.stdout=org.apache.log4j.ConsoleAppender
+log4j.appender.stdout.Target=System.out
+log4j.appender.stdout.layout=org.apache.log4j.PatternLayout
+log4j.appender.stdout.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+
+log4j.logger.com.intel.analytics.bigdl.optim=DEBUG,myappender
+log4j.addivity.com.intel.analytics.bigdl.optim=false
+
+log4j.appender.myappender=org.apache.log4j.ConsoleAppender
+log4j.appender.myappender.Target=System.out
+log4j.appender.myappender.layout=org.apache.log4j.PatternLayout
+log4j.appender.myappender.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n
+```
+
+2. Add an option to your spark-submit command
+```
+--conf ""spark.driver.extraJavaOptions=-Dlog4j.configuration=file:where_is_your_log4j_file.""
+```
+",CONTRIBUTOR,1546,{}
+8577,PullRequestReviewCommentEvent,2017-07-05 05:26:01+00:00,66823715,intel-analytics/BigDL,12810691,JerryYanWan,10941215,intel-analytics,created,47955788,34d9859ee6c5abfbdc10dc178880f64d989d6ad8,False,"`val gradWeightMMInBatchT = gradWeightMMInBatch.select(1, i)`",,1144,{}
+8581,PullRequestReviewCommentEvent,2017-04-26 02:44:58+00:00,66823715,intel-analytics/BigDL,9673228,dding3,10941215,intel-analytics,created,34735194,5b1361fe8e81c4a672a596c9091be68f2a83815f,False,"move this logic to previous ""if (optimMethod.isInstanceOf[EAMSGD[T]])"" ? ",,813,{}
+8582,PullRequestReviewCommentEvent,2017-01-06 16:02:04+00:00,66823715,intel-analytics/BigDL,1297418,yiheng,10941215,intel-analytics,created,15511836,ffcdb8811bf88908a9b195c78795fbfc4f8ee6d5,False,"BTW, spark mllib also have a tokenizer...
+
+https://github.com/apache/spark/blob/master/mllib/src/main/scala/org/apache/spark/ml/feature/Tokenizer.scala",,346,{}
+8583,PullRequestReviewCommentEvent,2017-01-19 14:42:24+00:00,66823715,intel-analytics/BigDL,1931082,jason-dai,10941215,intel-analytics,created,17468758,b350b208d3332256c4614e3436575b6233ce65bf,False,"""by executor core number($core) provided to spark-submit""",,380,{}
+8586,PullRequestReviewCommentEvent,2017-01-17 06:25:27+00:00,66823715,intel-analytics/BigDL,1297418,yiheng,10941215,intel-analytics,created,16928044,1ae7f54a39486e56c17108773085c8c8ce2f5c3b,False,Yes,,362,{}
+8587,PullRequestReviewCommentEvent,2017-12-12 08:08:02+00:00,66823715,intel-analytics/BigDL,10561966,yangw1234,10941215,intel-analytics,created,82745128,f38c5c6fada00a324fac93bc45e149f2c07131d1,False,I did not remove it. It is checked outside this function.,CONTRIBUTOR,1915,{}
+8588,PullRequestReviewCommentEvent,2017-04-01 06:09:45+00:00,66823715,intel-analytics/BigDL,1931082,jason-dai,10941215,intel-analytics,created,30375948,85c432949fd82895b7d5014750a273dbe83cabf7,False,This wheel distribution is provided by https://github.com/dmlc/tensorboard,,726,{}
+8590,PullRequestReviewCommentEvent,2018-05-04 02:57:48+00:00,66823715,intel-analytics/BigDL,1297418,yiheng,10941215,intel-analytics,created,117484856,3c90844f512f3644b78c477c1c60f042d89de680,False,Just name it as ReLU. The package name distinguish the class,CONTRIBUTOR,2482,{}
+8593,PullRequestReviewCommentEvent,2017-08-11 04:29:58+00:00,66823715,intel-analytics/BigDL,1837261,wzhongyuan,10941215,intel-analytics,created,55715598,224e9477649a25a6739ef50b9511a96062d0766e,False,it's default implementation so that all objects extending this trait don't need to provide implementation unless needed,,1438,{}
+8601,PullRequestReviewCommentEvent,2017-10-18 02:48:23+00:00,66823715,intel-analytics/BigDL,1297418,yiheng,10941215,intel-analytics,created,70085504,044176ed8060300c4b70f1c2c5fe73b969d3455b,False,} else {,CONTRIBUTOR,1667,{}
+8602,PullRequestReviewCommentEvent,2017-03-24 07:50:48+00:00,66823715,intel-analytics/BigDL,1931082,jason-dai,10941215,intel-analytics,created,28845384,4ccf50a459950e676fb77bf9fd233cb9ebb06f58,False,"SampleToBatch(batchSize = batchPerPartition * partitionNum, partitionNum = Some(partitionNum))",,547,{}
+8620,PullRequestReviewCommentEvent,2018-01-12 07:47:28+00:00,2665618,inveniosoftware/invenio,189798,jirikuncar,1157480,inveniosoftware,created,88399009,fe5a5e577931d4ca4ee140df7cc9ae56ab289d2a,False,I don't see any other blocker.,MEMBER,3692,{}
+8629,PullRequestReviewCommentEvent,2017-06-21 14:03:56+00:00,43819930,inveniosoftware/invenio-db,5708796,nharraud,1157480,inveniosoftware,created,45441084,9d50f1d9911490ffc70447925eddb93d12f645d2,False,"It would be better if users could follow the script from top to bottom without jumping back and forth. Also we need to explain as if the user just discovered alembic and/or invenio-db and does not now how to search for alembic scripts.
+
+What do you think instead of this:
+
+===
+
+Create an alembic upgrade script
+========================
+
+The following procedure will add an alembic upgrade script to invenio-unicorn for demonstration purpose.
+
+First you need to check if your module has already some alembic scripts. Open the `setup.py` file and see if there is an `invenio_db.alembic entrypoints` property like this:
+```python
+setup(
+    ...
+    entry_points={
+        ...
+        'invenio_db.alembic': [
+            'invenio_unicorn = invenio_unicorn:alembic',
+        ]
+...
+})
+```
+If there is one, go the the package `invenio_unicorn.alembic` and check if there is a python script in it. It should have a name similar to: `843bc79c426f_create_invenio_unicorn_branch.py` (the numbers and letters at the beginning will not be the same).
+
+If the `setup.py` file does not contain the `invenio_db.alembic` property or if the `invenio_unicorn.alembic` package is empty you need to create an upgrade branch first, continue to the next section. Otherwise you can skip the next section.
+
+Create an upgrade branch
+--------------------------
+
+...
+
+Create the new upgrade script
+------------------------------
+
+...",,88,{}
+8639,PullRequestReviewCommentEvent,2016-01-07 17:57:51+00:00,40909583,inveniosoftware/invenio-search,189798,jirikuncar,1157480,inveniosoftware,created,,327ae670e52a662ce43d2bc9cafddda8919af01a,False,@nharraud @lnielsen do you have any idea why this is failing?,,43,{}
+8652,PullRequestReviewCommentEvent,2016-09-08 11:02:49+00:00,35280261,inveniosoftware/invenio-accounts,201026,helix84,1157480,inveniosoftware,created,,62e16a5531b705526bf906b22aa8f0f0ac62a6a1,False,"""Nelze aktivovat uživatele.""",,144,{}
+8654,PullRequestReviewCommentEvent,2016-01-25 19:59:41+00:00,40646712,inveniosoftware/invenio-previewer,189798,jirikuncar,1157480,inveniosoftware,created,,2948560f7bc3df10465ce33632ce7d12e292fce1,False,"2015, 2016",,5,{}
+8781,PullRequestReviewCommentEvent,2018-07-07 12:34:24+00:00,49976939,learningequality/kolibri,2150991,bonidjukic,3926525,learningequality,created,135203137,c06d268a1fab6e1709ab561bb68a6d8901018d04,False,"I mean, it's not like I changed any previous behaviour here, this wasn't working on Python 2 anyway, I just added a message to the user to avoid them having to figure out what's going on.",CONTRIBUTOR,3854,{}
+8785,PullRequestReviewCommentEvent,2016-07-08 18:48:08+00:00,49976939,learningequality/kolibri,1680573,rtibbles,3926525,learningequality,created,,bdde37d52a32c1a9e48ceab34900af582f7b2a9b,False,"I could be wrong, but I think 0 is not falsy to Vue.",,214,{}
+8791,PullRequestReviewCommentEvent,2016-05-10 21:32:20+00:00,49976939,learningequality/kolibri,374612,benjaoming,3926525,learningequality,created,,8105161bc7a0293e5e6432ba3e8b4ad4947c5fc6,False,"As I understood the previous intention by Richard, we wanted to be able to either register an asset to be: 
+
+ * auto-loaded together with all the other front end assets. That happens in `{% base_frontend_assets %}`
+ * To be loaded on-demand... that's the `{% webpack_assets 'default_frontend' %}` example
+ * To be loaded by event identifiers... that's the `async` stuff. But I found the names containing `sync` to be a bit confusing for my own understanding. As perhaps an old-school frontend dev I was just thinking ""how do I include an asset"".. the sync/async was a bit over my head, so I went for a more webpack-oriented definition. Like, ""using this tag means using webpack for building and including your JS asset. Done"".
+
+But maybe there are better naming conventions?",,66,{}
+8793,PullRequestReviewCommentEvent,2017-04-25 20:46:49+00:00,49976939,learningequality/kolibri,1680573,rtibbles,3926525,learningequality,created,34682990,05b90e390e6371e9026f226bd2c77994f3074469,False,"It makes the function call nicer, it also means that when you have a very long list of parameters, it i less cumbersome to call because it is the name of the parameter, not the specific order that determines the output. I think overall it is a more robust way and descriptive way to call a function.",,1317,{}
+8796,PullRequestReviewCommentEvent,2017-05-02 19:11:14+00:00,49976939,learningequality/kolibri,10248067,jonboiser,3926525,learningequality,created,35863112,a2d8be49264211714bc9ff18a00acb6f6c97ebb3,False,"Gotcha. I scanned it wrong. It might be more readable if you combined the two conditions:
+
+```
+return (this.username !== '') && !re.test(this.username)
+```
+
+To me, it reads as ""user name is not blank and it is not alphanumeric"".
+
+Also, in general, it's sometimes better to defined predicates in terms of the positive case (e.g. `usernameIsAlphaNum`) and then you would just negate it inside `usernameInvalid`",,1409,{}
+8798,PullRequestReviewCommentEvent,2017-06-01 20:54:48+00:00,49976939,learningequality/kolibri,1680573,rtibbles,3926525,learningequality,created,41633870,cb072b6e8577ee8832759f005e01ab16051ce660,False,Special method to return a collection that queries the `all_content` list endpoint.,,1581,{}
+8803,PullRequestReviewCommentEvent,2017-03-06 18:28:21+00:00,49976939,learningequality/kolibri,5577205,66eli77,3926525,learningequality,created,25325777,b170e3191075c48ef16785f0b707b3ef21e9feb3,False,I thought you oppose the idea to have action directly control the view via promise.,,992,{}
+8805,PullRequestReviewCommentEvent,2017-10-23 21:19:05+00:00,49976939,learningequality/kolibri,374612,benjaoming,3926525,learningequality,created,71333383,242cf29ccc389ce53cebeb30f13b0e762dce7736,False,"This is more like the last recorded API interaction, but not necessarily overall activity? It might also sit well in middleware?",OWNER,2502,{}
+8813,PullRequestReviewCommentEvent,2017-01-06 02:10:52+00:00,49976939,learningequality/kolibri,2367265,indirectlylit,3926525,learningequality,created,15432267,d5b58ab0aa2fc7102452a7055944b75e8a5b8e8a,False,"this change seems to introduce breakage in the layout of the manage app.
+
+what was the intent?",,749,{}
+8815,PullRequestReviewCommentEvent,2016-04-03 22:37:03+00:00,49976939,learningequality/kolibri,618416,jamalex,3926525,learningequality,created,,a0f831c817e840a52b00980032a19463f4ddae7a,False,"Yeah, the naming didn't feel quite right. I'll adapt it to the `user.can_delete(object)` format you suggest, as it does read more naturally. These methods can then defer to the `object.permissions.*` methods as appropriate. (I would hesitate to use the `has_perm` naming, as it could get confused with the built-in Django permissions methods).",,51,{}
+8819,PullRequestReviewCommentEvent,2017-03-06 21:49:10+00:00,68139052,learningequality/morango,6361732,ralphiee22,3926525,learningequality,created,25373768,16e90e2d2b2238d28532eba18c2bbb97247f91db,False,"Since the `ready` method in apps.py is called when the app is loaded, and during management commands, if there is no initial database, then the above queries will fail. This was a workaround to allow it to `migrate` a database without making any queries.",,8,{}
+8865,PullRequestReviewCommentEvent,2015-03-02 17:00:23+00:00,30921526,mozilla-services/cliquet,67073,ametaireau,1066228,mozilla-services,created,,852d8295b73ee96bfb84e1e0e8de8e25ecaa915a,False,"nit: we should add "";"" at the end of each option.",,52,{}
+8868,PullRequestReviewCommentEvent,2015-11-03 10:59:27+00:00,30921526,mozilla-services/cliquet,546692,leplatrem,1066228,mozilla-services,created,,90ebf612e5daeaa6943486619a55d4a55401e68b,False,"nit: I'm not 100% sure that it is better, but you could do `json_serializer = functools.partial(json.dumps, escape_forward_slashes=False)`",,537,{}
+8921,PullRequestReviewCommentEvent,2016-12-14 18:24:37+00:00,3510804,GalSim-developers/GalSim,5103390,arunkannawadi,1462196,GalSim-developers,created,12969651,abdd7fa10fd78b7b1b80ce89648af00a82c4a83d,False,Why was the word 'of' removed?,,843,{}
+8925,PullRequestReviewCommentEvent,2018-03-06 00:35:29+00:00,3510804,GalSim-developers/GalSim,3650485,jmeyers314,1462196,GalSim-developers,created,101382712,9f9c00a7f213ed5cc74c484125f9c93d5d5c1ffb,False,">I wonder if math.factorial got faster in python 3.
+
+Yep, this looks like it is the case.  Here's the first plot again, but in py2.7
+
+![unknown-4](https://user-images.githubusercontent.com/3650485/37007399-fc992666-2091-11e8-9e08-508104824894.png)
+
+So a strong dependence on n instead of being mostly flat (for the naive algorithm).
+
+>Python 3 is the future anyway, so might as well optimize for that to the extent we should bother optimizing this at all.
+
+Sounds good to me.",OWNER,951,{}
+8951,PullRequestReviewCommentEvent,2017-02-23 02:10:22+00:00,42875585,jupyter-incubator/sparkmagic,654204,aggFTW,14002361,jupyter-incubator,created,23384552,c19399a832d90a2c2b262d41ff36150164746e5f,False,Why are we checking that `add_session` executes?,,333,{}
+8952,PullRequestReviewCommentEvent,2017-01-11 00:20:54+00:00,42875585,jupyter-incubator/sparkmagic,654204,aggFTW,14002361,jupyter-incubator,created,16041797,69de9e361ba8e837ca5afb89e4d0b5f9ad162285,False,Can you add a unit test for this please?,,314,{}
+8963,PullRequestReviewCommentEvent,2018-02-03 18:11:03+00:00,32737992,napalm-automation/napalm,6246622,dbarrosop,16415577,napalm-automation,created,93823153,c4665b018fa95e7e14a875aec70de26082b4ed80,False,I think this is missing indentation as it seems to be outside the previous for loop.,OWNER,531,{}
+8978,PullRequestReviewCommentEvent,2017-06-21 12:37:45+00:00,64120851,zalando-incubator/bubuku,2656223,antban,18533786,zalando-incubator,created,45417310,a62853bdf0b96e3d95d457c469a193564dd6113d,False,@adyach Fixed https://github.com/zalando-incubator/bubuku/pull/97/commits/a62853bdf0b96e3d95d457c469a193564dd6113d,,97,{}
+8979,PullRequestReviewCommentEvent,2016-09-08 09:17:03+00:00,64120851,zalando-incubator/bubuku,2656223,antban,18533786,zalando-incubator,created,,e3f891ce6ea0fcde76c5f6cdafa760f91303017d,False,"@v-stepanov Well, my previous comment is really strange. 
+There are 2 types of startup timeout: `linear` and `progressive`. And they have different parameters - `step` and `scale`. I wanted to encapsulate this information to a single parameter, because `STARTUP_TIMEOUT_STEP` will not have any meaning for `progressive` timeout.
+
+That means that  `STARTUP_TIMEOUT_STEP` (`SCALE`) depends on STARTUP_TIMEOUT_TYPE. I wanted to have this information in one place, because having step and scale defined in the same time may lead to confusion, but having it defined in the same parameter won't have this problem, and it's simpler to understand what is the real configuration",,58,{}
+9001,PullRequestReviewCommentEvent,2017-09-15 16:41:36+00:00,75772625,secure-systems-lab/securesystemslib,3520883,vladimir-v-diaz,9352491,secure-systems-lab,created,63094998,cd938203e1e7b6a3e42eca7245bd6f757dce21bf,False,"Maybe name it `private_pem_encrypted_rsa` to make it clear that it's an RSA PEM, similar to `private_pem_ec`?",CONTRIBUTOR,57,{}
+9010,PullRequestReviewCommentEvent,2015-03-27 15:53:26+00:00,16316451,GoogleCloudPlatform/gcloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,73d60b73c1170d6de00941aca79b99d98baf213e,False,Yes.,,761,{}
+9012,PullRequestReviewCommentEvent,2015-03-26 15:45:35+00:00,16316451,GoogleCloudPlatform/gcloud-python,242750,tseaver,2810941,GoogleCloudPlatform,created,,1b94f9fa5a89fa0a1b72512c14dd908b90fa4891,False,How is this ever going to happen?  Doesn't `httplib2` always return bytes?,,756,{}
+9013,PullRequestReviewCommentEvent,2016-02-18 21:08:29+00:00,16316451,GoogleCloudPlatform/gcloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,2e8b2dac95857a97d8ad0181ef493e272569c202,False,"Destination seems to be free-form (a bucket, a dataset, a topic, a man, a plan, a canal panama)",,1488,{}
+9015,PullRequestReviewCommentEvent,2015-08-26 13:35:53+00:00,16316451,GoogleCloudPlatform/gcloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,d40072d5c73777de27d31b1bd27bd111ff10d50b,False,On it.,,1090,{}
+9019,PullRequestReviewCommentEvent,2016-07-06 21:59:16+00:00,16316451,GoogleCloudPlatform/gcloud-python,242750,tseaver,2810941,GoogleCloudPlatform,created,,1f593467628a0ab78c95d86cd69b1e681c8f300e,False,Should this method take parameters to allow filling the `ErrorContext` field?,,1946,{}
+9025,PullRequestReviewCommentEvent,2016-08-03 22:43:23+00:00,16316451,GoogleCloudPlatform/gcloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,87eba80a97af097bd8717a3ae7cbe4a559a87689,False,"It seems that `RetryResult` could be used without having to also define `RetryInstanceState`
+
+```python
+def _job_reload():
+    job.reload()
+    return job
+
+retry = RetryResult(_job_done, max_tries=7)
+retry(_job_reload)()
+```",,2050,{}
+9027,PullRequestReviewCommentEvent,2016-05-07 06:35:46+00:00,16316451,GoogleCloudPlatform/gcloud-python,242750,tseaver,2810941,GoogleCloudPlatform,created,,6faad34efff1ac01c8384d622cb0265f6df94413,False,"> What in particular are you uncomfortable with?
+
+I don't like the use of `**kw` for arguments which would better be checked / enforced by Python itself.  The `translator` factory I proposed solves that problem by having the explicit arguments (`target_language`, `format`, etc.) separated from the `*values`.",,1772,{}
+9029,PullRequestReviewCommentEvent,2016-04-27 20:01:50+00:00,16316451,GoogleCloudPlatform/gcloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,de913a1ac105ae0f738908b21670669a38820bc8,False,"Gotcha. The reasoning behind why it was `[A, B]` or nothing was that meanings were completely foreign outside of GAE so modifying a property that had a meaning would drop all that information.
+
+We could track individual elements, but it is almost certainly more trouble than it's worth. The check `orig_value is not value` means literally the same object. A `list` is mutable though, so users could make it shorter or longer or move items into a different order without making it a different object. Hence our decision to just ""assume"" that no changes means no changes.",,1758,{}
+9032,PullRequestReviewCommentEvent,2016-03-02 23:09:34+00:00,16316451,GoogleCloudPlatform/gcloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,86b21ea405e5b68a15df8db552df179d837c3b94,False,Can you confirm it is necessary?,,1560,{}
+9036,PullRequestReviewCommentEvent,2015-11-16 22:54:35+00:00,16316451,GoogleCloudPlatform/gcloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,481b4715615bde06e7fc2ff01b23fa4d8fec8488,False,"Is this class used anywhere? Shouldn't we just use the native type from Python? Also, any method that isn't implemented should be removed (and a bug filed if we intend to do it ""one day"").",,1209,{}
+9043,PullRequestReviewCommentEvent,2016-01-08 01:19:57+00:00,16316451,GoogleCloudPlatform/gcloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,7a89de9c616f1d7ba91b134766448d5d2cada333,False,"I can't remember but I think that I was under the impression that `connection` was a module. For the rest, I was thinking something like
+
+```python
+headers = {'User-Agent': connection.USER_AGENT}
+headers.update(_REQ_HEADERS)
+```",,1318,{}
+9045,PullRequestReviewCommentEvent,2016-03-18 16:19:52+00:00,16316451,GoogleCloudPlatform/gcloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,31fd1fcff7c72a299fe3ebdb743f2f56e7038b97,False,I don't know what `PathTemplate` does but `instantiate` seems like the wrong verb for an instance method,,1629,{}
+9046,PullRequestReviewCommentEvent,2016-08-18 20:05:20+00:00,16316451,GoogleCloudPlatform/gcloud-python,360806,rimey,2810941,GoogleCloudPlatform,created,,3facc5c405fbb1cd2fa9490e35f51dc846f221a3,False,"This went wrong. Now the comment in front of the second time series talks about constructing two. Delete ""couple of"".",,2071,{}
+9055,PullRequestReviewCommentEvent,2017-08-08 20:51:12+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,55067181,af20bc84fcf5308741409d710f6b7ebf2e6c555a,False,@lukesneeringer Isn't this wrong? i.e. you still want to return `NotImplemented` if `__eq__` does,,3765,{}
+9064,PullRequestReviewCommentEvent,2017-07-11 15:12:54+00:00,16316451,GoogleCloudPlatform/google-cloud-python,4346,lukesneeringer,2810941,GoogleCloudPlatform,created,49229614,44362adc473fcb0c6a25483fac3a4e4ac0de8e62,False,Looks like `CustomException` is used here.,,3590,{}
+9065,PullRequestReviewCommentEvent,2016-09-20 23:56:24+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,988b7d659b4c1602e91b8103a320072214767fea,False,Can you track down what the issue might be?,,2344,{}
+9066,PullRequestReviewCommentEvent,2016-11-03 19:49:48+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,7087064,ccbddb747b663c7608cb117720ae6d82d73c39ef,False,`reimported` is a new Pylint error? (hopefully this disable will become irrelevant when I square away the doctest collection / running process),,2675,{}
+9070,PullRequestReviewCommentEvent,2017-05-02 21:33:42+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,35896648,5db8c8b55f64e622ff4e40e4402df83a273cbbe4,False,Should de-dent these to be at the same indent level as everything else,,3355,{}
+9073,PullRequestReviewCommentEvent,2017-07-07 20:50:50+00:00,16316451,GoogleCloudPlatform/google-cloud-python,1445223,csilvers,2810941,GoogleCloudPlatform,created,48715185,449b54777e36a4f6a11cc11076c11045ac5e1428,False,(I'll do it that way.),,3593,{}
+9077,PullRequestReviewCommentEvent,2016-09-21 16:29:52+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,ea11bd49ee60697ae00c57e4493fbf0320a169fc,False,"You've traded a pragma in source for a pragma in test. If you use the UTF-8 encoding, this could be avoided.",,2348,{}
+9078,PullRequestReviewCommentEvent,2017-12-17 04:42:51+00:00,16316451,GoogleCloudPlatform/google-cloud-python,3982092,chemelnucfin,2810941,GoogleCloudPlatform,created,83989808,2cb263b37753a3ca9e0c35c67234864571321bf0,False,"I guess just to be consistent with the other parameters, I'll keep it like that.",COLLABORATOR,4595,{}
+9080,PullRequestReviewCommentEvent,2017-09-29 20:57:53+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,66270018,cc8f07eb95b7e31ef526b949d3deb2b9a7bbe0eb,False,This isn't very useful unless we add blobs first?,MEMBER,4089,{}
+9088,PullRequestReviewCommentEvent,2016-10-03 21:39:06+00:00,16316451,GoogleCloudPlatform/google-cloud-python,247555,tswast,2810941,GoogleCloudPlatform,created,2611106,ca7228f9eedb41e8c559fbdf39542dd0d9c50dda,False,Removed.,,2485,{}
+9090,PullRequestReviewCommentEvent,2018-07-24 15:31:22+00:00,16316451,GoogleCloudPlatform/google-cloud-python,99305,sduskis,2810941,GoogleCloudPlatform,created,139949208,cd23281a498136325e436f665defefd70ad4bffa,False,"Can you move this logic into the `reload` method, pelase?",CONTRIBUTOR,5663,{}
+9101,PullRequestReviewCommentEvent,2017-12-15 18:41:26+00:00,16316451,GoogleCloudPlatform/google-cloud-python,608338,duggelz,2810941,GoogleCloudPlatform,created,83891569,39e4567eba58467169c76084bc94306613c2af05,False,"Just a general question whenever I see a 'bool' parameter: Is there any scenario you can image where you might want a third choice?  In which case, make this an enum instead of bool?",MEMBER,4595,{}
+9102,PullRequestReviewCommentEvent,2018-01-05 17:14:13+00:00,16316451,GoogleCloudPlatform/google-cloud-python,242750,tseaver,2810941,GoogleCloudPlatform,created,86965839,1592759bd06acb6640419315cf3edcb6ef75a9de,False,"It is being used to mock a single function:  do we set `spec=['__call__']` as a rule in such cases?  I'd originally written it as an inline function:
+
+```python
+        def requests_get(*args, **kw):
+              raise requests.exceptions.RequestsException('test')
+```
+
+which seemed clearer, but you have an allergy for them. :)",MEMBER,4698,{}
+9104,PullRequestReviewCommentEvent,2017-12-18 21:54:36+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,84282358,435cd08e1b8a25a2d156f5914dc92efd664e018d,False,@lukesneeringer Note that I went with `not_will_accept` over `will_not_accept` here to make `git grep will_accept` slightly more useful. I can change to better grammar if you see fit.,MEMBER,4616,{}
+9109,PullRequestReviewCommentEvent,2017-02-01 00:33:16+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,19459974,e8857e8e936db2de952eacfa54667f0985898fe3,False,This triply-nested call is icky (though I realize why it's necessary),,2979,{}
+9112,PullRequestReviewCommentEvent,2016-09-08 16:33:37+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,5b435a93d2e3a0bed43bda81933c954ce930b8c9,False,`gcloud` -> `google-cloud`,,2267,{}
+9113,PullRequestReviewCommentEvent,2017-06-12 20:11:15+00:00,16316451,GoogleCloudPlatform/google-cloud-python,242750,tseaver,2810941,GoogleCloudPlatform,created,43548811,056b0cda0dc7bb7baef51a20487aa9594a85de49,False,"`nox -e lint` doesn't barf there.  It seems clear to me what is happening, and adding the `getattr` doesn't make it any clearer (lint might barf at not using the return value ;)",,3490,{}
+9118,PullRequestReviewCommentEvent,2017-11-06 17:23:33+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,74494232,b1258fef87d94123a7b7e39bad7c72c81e8bdcd3,False,Yes,MEMBER,4343,{}
+9121,PullRequestReviewCommentEvent,2017-06-15 00:21:17+00:00,11852493,GoogleCloudPlatform/compute-image-packages,3740548,Sarsate,2810941,GoogleCloudPlatform,created,44181079,71ecc1c406d503f80dfa0224f62c3239958b0c83,False,Done.,,413,{}
+9124,PullRequestReviewCommentEvent,2018-07-02 10:21:21+00:00,11852493,GoogleCloudPlatform/compute-image-packages,11065451,helen-fornazier,2810941,GoogleCloudPlatform,created,133570540,6a96a6120c89cbe11b807496fcf8cd38fb352c2e,False,"What do you think if we instead use a function in the utils.py as the previous commit [1], and use the `__new__` function in the original class `google_compute_engine.networking.ip_forwarding.IpForwardingUtils` which will return an instance created by utils.py ?
+This would keep the utils.py with the same pattern (overriding functions).
+
+
+[1] https://github.com/GoogleCloudPlatform/compute-image-packages/pull/622/commits/1a9dfb323793c11ac7f3b15ec687d665c262e4eb#diff-ffd46ac80f68d2b94cbe7060700b93b5R49",CONTRIBUTOR,622,{}
+9139,PullRequestReviewCommentEvent,2018-08-07 12:35:35+00:00,97647864,kensho-technologies/graphql-compiler,2348618,obi1kenobi,26574236,kensho-technologies,created,143970213,748f59913092c7ea3c78e31af0ef79c9e0905db4,False,"So the compiler doesn't actually care about whether the `unsupported_default_directives` appear in the schema or not -- if a future version of the core GraphQL library happens to remove them, the compiler won't mind. What do you think about making the code tolerate the appearance of these directives, but not require it?
+
+So, for example, if the schema contains all the compiler-required directives, plus `deprecated` but none of the other default directives, the compiler could accept that.",CONTRIBUTOR,114,{}
+9182,PullRequestReviewCommentEvent,2015-11-03 15:17:25+00:00,9952134,python-visualization/folium,950575,ocefpaf,9969242,python-visualization,created,,0b36e1e84468b317afeed5e73c44f18de896b07b,False,Urgh!  My pep8 stupid mindset attacks again.,,234,{}
+9203,PullRequestReviewCommentEvent,2017-10-05 22:19:48+00:00,96581030,census-instrumentation/opencensus-python,608338,duggelz,26944525,census-instrumentation,created,67530861,72ec77029b7b3be5a6a331d91968b5dac0df064f,False,"Are we going to have very similar code for Flask, webapp2, etc?  It seems like it might be better if the sampler could figure this out itself.  Lookups based on __name__ tend to be fragile.  Could we have a generic (not Django-specific) settings object that we pass into the sampler and report constructors that does this lookup?",COLLABORATOR,32,{}
+9205,PullRequestReviewCommentEvent,2017-11-28 00:43:16+00:00,96581030,census-instrumentation/opencensus-python,12888824,liyanhui1228,26944525,census-instrumentation,created,79360656,f1e925d6bbae8fbe2befc54684de049d6ab7db5d,False,"Yeah agree, changed to reduce the sleep time to 1 second. Just want to make sure the spans are sent within the grace period.",CONTRIBUTOR,86,{}
+9224,PullRequestReviewCommentEvent,2017-10-19 21:44:17+00:00,99273369,NeurodataWithoutBorders/pynwb,219043,jcfr,12140348,NeurodataWithoutBorders,created,70692260,8a0135c65661f40d3b7f944150085229a42b02c8,False,"I would suggest to rename WHEEL into EXPECTED_WHEEL,",NONE,157,{}
+9244,PullRequestReviewCommentEvent,2018-04-17 13:26:30+00:00,43816051,common-workflow-language/cwltool,253413,stain,9947495,common-workflow-language,created,112807755,623fbfb491b9419d60df6bb8ae0b8859f2281f2f,False,"Independent calculation of expected sha256 sum.
+
+If you change ""Hello\n"" earlier in the test obviously these will fail. ",OWNER,676,{}

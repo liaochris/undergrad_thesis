@@ -1,0 +1,331 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,release_action,release_tag_name,release_name,release_body
+28,ReleaseEvent,2018-05-12 12:56:55+00:00,55258005,jopohl/urh,18219846,jopohl,,,published,untagged-c8aaa194f8a8aef57782,,
+344,ReleaseEvent,2018-08-17 16:32:07+00:00,122037266,wialon/gmqtt,4903778,wialon,,,published,v0.0.22,Fix odd behavior of reconnect method.,
+414,ReleaseEvent,2018-01-07 14:24:00+00:00,53763442,hni14/jismesh,9910489,hni14,,,published,v1.3.0,v1.3.0,"to_intersects関数の追加
+to_meshpoint関数からのメッシュコード次数引数を削除"
+599,ReleaseEvent,2016-09-01 15:33:11+00:00,23983011,hMatoba/Piexif,4497270,hMatoba,,,published,1.0.6,,
+689,ReleaseEvent,2016-11-30 21:41:50+00:00,30015633,phaethon/scapy,1088890,phaethon,,,published,0.19,Release 0.19 ,
+1231,ReleaseEvent,2017-12-29 10:15:13+00:00,84231584,deadc0de6/dotdrop,8973919,deadc0de6,,,published,v0.8.1,v0.8.1,adding ability to provide diff arguments through `-o` switch
+1265,ReleaseEvent,2015-11-05 11:45:43+00:00,15408116,ergoithz/browsepy,5426406,ergoithz,,,published,0.3.8,build fix,Fixes critical bug #1 .
+1277,ReleaseEvent,2015-09-01 13:19:45+00:00,21240523,glennmatthews/cot,5603551,glennmatthews,,,published,v1.4.0,Version 1.4.0,"# New Features
+
+- `cot deploy esxi` now creates serial ports after deployment (#24)
+  - Serial port connectivity must be specified either via entries in the OVF (which can be defined using `cot edit-hardware ... -S`) or at deployment time using the new `-S` / `--serial-connection` parameter to `cot deploy`.
+  - The syntax for serial port connectivity definition is based on that of QEMU's `--serial` CLI option.
+  - Currently only ""telnet"", ""tcp"", and ""device"" connection types are supported.
+- `cot edit-product` can now set product and vendor information (#38)
+- COT now tries harder to avoid unnecessary file copies, in order to save time and disk space (#39).
+
+# Other Changes and Fixes
+
+- `flake8` validation now includes `pep257` to validate docstring compliance to `PEP 257` as well.
+- Added changelog file.
+- Added `COT.file_reference` submodule in support of #39.
+- Split ESXi-specific logic out of `COT.deploy` module and into new `COT.deploy_esxi` module.
+- UT for `COT.deploy_esxi` now requires `mock` (standard library in Python 3.x, install via pip on Python 2.x)."
+1285,ReleaseEvent,2018-02-08 07:43:00+00:00,120079872,holgern/py-scrypt,2202263,holgern,,,published,untagged-bd23fc38284c9a0b8f59,,
+1687,ReleaseEvent,2018-02-04 20:12:54+00:00,34061246,Sung-Huan/ANNOgesic,6706987,Sung-Huan,,,published,v.0.7.8,ANNOgesic version 0.7.8,ANNOgesic version 0.7.8
+2276,ReleaseEvent,2017-04-24 03:28:15+00:00,49168991,kata198/QueryableList,8461115,kata198,,,published,3.1.0,3.1.0 - First Hibiscus Flower,"* 3.1.0 - Apr 23 2017
+
+- Add ""sort_by"" method, which allows returning a sorted copy of the
+collection, using the same field access _get_item_value already defined.
+
+- Add ""count"" method to return the number of items in the collection (same as
+len), which matches the interface on a lot of server-side filtering ORMs, to
+increase the compatability between the two.
+
+- Make ""all()"" method return a copy of the collection (but same elements)
+
+- Implement ""__copy__"" to do the same as ""all()"", leaving deepcopy to create
+copy of both the collection AND the elements within it
+
+- Load latest ""runTests.py"" from GoodTests.py. It is recommended that you
+delete the local copy and let it download the latest GoodTests.py if you run
+unit tests.
+
+- Some more unit tests
+
+
+* 3.0.1 - Apr 06 2017
+- Fix MANIFEST.in to include ChangeLog properly and also include the unit tests
+
+* 3.0.0 - Apr 03 2017
+- Fix __iadd__ ( += )to not make a copy, but to just inline update the list.
+Previously it was updating the list inline, so references and such
+functionally the same, but it made a copy after the inline update (so the id
+would change). Used more memory, more cpu, so fix that to just do inline.
+
+- Implement __isub__ method ( -= ) to substract elements frm the current list,
+i.e. not make a copy
+
+- Update __sub__ and impelment in __isub__ a change in behaviour, previously
+if we subtracted two lists and they contained common elements, we would only
+remove the FIRST instance of that element found (so QL['a', 'b', 'a'] -
+QL['a'] would equal ['b', 'a']). This has been updated to remove ALL
+references, (so QL['a', 'b', 'a'] - QL['a'] now will equal ['b']). I think
+this makes a lot more sense.
+
+- Document how easy and cool it is to extend QueryableList to add filtering
+capabilities to collections of your own custom modules
+
+- Add some missing docstrings, add some more comments. Remove the copy of
+README that was in the QueryableList.__init__ module docstring, too many
+copies to manage!
+
+- Update the static copy of FILTER_TYPES to when unrolling filters to use a dict comprehension
+
+
+- Update QueryBuilder with ""addFilterAnd"" and ""addFilterOr"" methods, as alias
+to ""addFilter"" with the filterType defined accordingly.
+
+- Add ""customFilter"" method which allows passing in a lambda to match on elements
+
+- Add a ""customMatch"" operation (like fieldName__customMatch=lambda x : x.isMatch()) which can take a lambda or function and match based on the results of its return
+
+- Added experimental (default disabled) value-cache impl. You can enable it by:
+   import QueryableList.Base as QLB
+   QLB.USE_CACHED = True
+Performance is not improved for normal queries (a few params to filter), but for abnormally large queries with multiples on the same field, where field access is a property that could be expensive to calculate, this may improve things.
+
+- Add test for operators, ( like +, -, +=, etc. )
+- Add some tests that seem to have been accidently not committed which tast
+basic operation
+- Add test for Operations. Implement a few of them, eventually will want to
+have all operations here (eq, ne, contains, etc)
+- Add/Transfer some common testing stuff into ""tutils.py"" test class
+
+"
+2301,ReleaseEvent,2018-01-28 03:01:05+00:00,58094079,orbingol/NURBS-Python,5276943,orbingol,,,published,v3.0.18,NURBS-Python v3.0.18,"* Marker updates on curve and surface plots
+* Fixed a PyPI glitch (happened by mistake)"
+2431,ReleaseEvent,2015-04-09 09:57:08+00:00,18271752,nitely/django-djconfig,1697267,nitely,,,published,v0.3.0,v0.3.0,
+3059,ReleaseEvent,2016-03-17 02:51:00+00:00,34763381,chiangf/Flask-Elasticsearch,1329204,chiangf,,,published,0.2.5,0.2.5,Fix for python 3
+3348,ReleaseEvent,2016-05-13 08:41:08+00:00,56550225,sashgorokhov/python-telegram-handler,6888199,sashgorokhov,,,published,v1.1.2,Fixed setup.py requires option (changed to install_requires),
+3409,ReleaseEvent,2015-04-20 17:04:43+00:00,18534090,box/flaky,3839339,Jeff-Meadows,23900,box,published,v2.0.4,Version 2.0.4,
+3874,ReleaseEvent,2018-03-13 18:20:09+00:00,5888353,spotify/luigi,158892,honnix,251374,spotify,published,2.7.3,Version 2.7.3,"#### Added
+###### luigi:
+- Added generated data files to `.gitignore` (#2367)
+###### luigi.contrib:
+- Add possibility to specify `Redshift` column compression (#2343)
+
+#### Changed
+###### luigi:
+- Show status message button in worker tab when only progress is set (#2344)
+- Verbose worker error logging (#2353)
+###### luigi.contrib:
+- Replace `oauth2client` by `google-auth` (#2361)
+
+#### Fixed
+###### luigi:
+- Fix unicode formatting (#2339)
+###### luigi.contrib:
+- Fix `contrib.docker_runner` exit code check (#2356)
+"
+4327,ReleaseEvent,2016-03-23 04:38:52+00:00,37571213,minio/minio-py,622699,harshavardhana,695951,minio,published,1.0.1,Bug fix release,"- Fixed a bug in list_objects. 
+- Fixed a bug in bucket_exists behavior. "
+4399,ReleaseEvent,2017-09-10 18:13:18+00:00,81013996,cs50/cli50,20504399,bot50,788676,cs50,published,v1.5.0,v1.5.0,
+4545,ReleaseEvent,2015-09-03 00:01:36+00:00,9252533,numenta/nupic,15566,rhyolight,1039191,numenta,published,0.2.12,0.2.12,"
+* Implemented unit tests for the new features in AnomalyLikelihood class.
+* Convert AnomalyLikelihood._historicalScores to a user-configurable sliding window, instead of accumulating all of the incoming data points. This improved performance a ton! Added AnomalyLikelihood.forceModelRefresh() method.
+* Update nupic.core to include backwards compatibility fix for RandomImpl.
+* Uninstall pycapnp to avoid running tests that utilize the functionality and currently fail with Duplicate ID error.
+* Makes pycapnp and corresponding serialization optional. If pycapnp is not installed then the corresponding serialization tests will be skipped.
+* Add Multiple Prediction Test for NegLL Metric
+* Add test for NegLL Error Metric
+* Fix Orphan Decay Bug in temporal memory test
+* Change decreasing overlaps test for coordinate encoder to not require a strict decrease (staying the same is ok).
+* Allow specifying MonitoredTemporalMemory as TM implementation through OPF
+* include bucket likelihood and classifier input in clamodel
+* update metrics managers to pass model results to metrics
+* introducting a computeFlag to prevent double-computation. * The flag is used to prevent double computation in the event that customCompute() is called at the same time as compute()
+* Added `numRecords` param for consitency with the newly added `infer` method in FastCLACLassifier
+* checking if classifier has a `maxCategoryCount` attribute. If not, set it to solve backward compatibilities issues
+* renaming numCategories to maxCategoryCount to be constistent between KNN and CLA classifier
+* made new experimentutils file containing InferenceElement, InferenceType, and ModelResult duplicates which we will want to change in the future
+
+"
+4611,ReleaseEvent,2017-11-30 10:35:55+00:00,51914365,mozilla-services/kinto-dist,229453,Natim,1066228,mozilla-services,published,5.0.0,,"## kinto
+
+**kinto 7.6.1 → 8.0.0**: https://github.com/Kinto/kinto/releases/tag/8.0.0
+
+**Operational concerns**
+
+- *The schema for the Postgres ``storage`` backend has changed.* This
+  lets us prevent a race condition where deleting and creating a thing
+  at the same time can leave it in an inconsistent state (#1386). You
+  will have to run the ``kinto migrate`` command in order to migrate
+  the schema. The safest way to do this is to disable Kinto traffic
+  (perhaps using nginx), bring down the old Kinto service, run the
+  migration, and then bring up the new Kinto service.
+
+**Breaking changes**
+
+- Storage backends no longer support the ``ignore_conflict``
+  argument (#1401). Instead of using this argument, consider catching the
+  ``UnicityError`` and handling it. ``ignore_conflict`` was only ever
+  used in one place, in the ``default_bucket`` plugin, and was
+  eventually backed out in favor of catching and handling a
+  ``UnicityError``.
+
+**Bug fixes**
+
+- Fix a TOCTOU bug in the Postgres storage backend where a transaction
+  doing a `create()` would fail because a row had been inserted after
+  the transaction had checked for it (#1376).
+- Document how to create an account using the ``POST /accounts`` endpoint (#1385).
+
+**Internal changes**
+
+- Update dependency on pytest to move to 3.3.0 (#1403).
+- Update other dependencies: setuptools to 38.2.1 (#1380, #1381,
+  #1392, #1395), jsonpatch to 1.20 (#1393), zest.releaser to 6.13.2
+  (#1397), paste-deploy to 0.4.2 (#1384), webob to 1.7.4 (#1383),
+  simplejson to 3.13.2 (#1389, #1390).
+- Undo workaround for broken kinto-http.js in the kinto-admin plugin
+  (#1382).
+"
+4615,ReleaseEvent,2018-01-26 15:51:46+00:00,51914365,mozilla-services/kinto-dist,17006,glasserc,1066228,mozilla-services,published,5.1.3,,"## kinto
+
+**kinto 8.1.2 → 8.1.3**: https://github.com/Kinto/kinto/releases/tag/8.1.3
+
+**Bug fixes**
+
+- Optimize the PostgreSQL permission backend's
+  ``delete_object_permissions`` function in the case where we are only
+  matching one object_id (or object_id prefix)."
+4918,ReleaseEvent,2017-10-29 16:35:58+00:00,2527828,getsentry/raven-python,32267829,sentry-probot[bot],1396951,getsentry,published,6.3.0,6.3.0 (2017-10-29),"* [Core] Changed default timeout on http calls to 5 seconds
+* [Core] Fixed relative paths for traces generated on Windows
+* [Django] Fixed import issues for Django projects < 1.7
+* [Django] Fixed django management command data option
+* [Django/DRF] Added `application/octet-stream` to non-cacheable types in middleware
+* [Django] Added parsing X-Forwarded-For for `user.ip_address`
+* [Flask] Added `request.remote_addr` as fallback for ip addresses
+* [Lambda] Added initial AWS Lambda support with `contrib.awslambda.LambdaClient`"
+5328,ReleaseEvent,2017-08-03 19:35:39+00:00,52364316,carbonblack/cbapi-python,3229292,jgarman,2071378,carbonblack,published,1.3.1,cbapi Python Bindings - 1.3.1,"This is a bugfix release with minor changes:
+
+* Cb Response
+  * Add ``partition_operations.py`` script to demonstrate the use of the StoragePartition model object.
+  * Fix errors when accessing the ``.start`` attribute of child processes.
+  * Fix errors generated by the ``walk_children.py`` example script. The output has been changed as well to indicate the process lifetime, console UI link, and command lines.
+  * Add an ``.end`` attribute to the Process model object. This attribute reports back either ``None`` if the    process is still executing, or the last event time associated with the process if it has exited. See the    ``walk_children.py`` script for an example of how to calculate process lifetime.
+  * Fix errors when using the ``.parents`` attribute of a Process.
+  * Add ``wait_for_completion`` flag to ``create_process`` Live Response method, and default to `True``. The   ``create_process`` method will now wait for the target process to complete before returning.
+
+* Cb Defense
+  * Add ``wait_for_completion`` flag to ``create_process`` Live Response method, and default to ``True``. The  ``create_process`` method will now wait for the target process to complete before returning.
+"
+5845,ReleaseEvent,2017-04-17 00:37:23+00:00,83606106,uw-it-aca/uw-restclients-sws,9834194,fanglinfang,3730428,uw-it-aca,published,0.5.5,off term pce section,
+5848,ReleaseEvent,2017-06-22 22:03:14+00:00,82736362,uw-it-aca/uw-restclients-core,9834194,fanglinfang,3730428,uw-it-aca,published,0.9,latest release of master,
+5910,ReleaseEvent,2018-02-12 20:20:26+00:00,68139052,learningequality/morango,6361732,ralphiee22,3926525,learningequality,published,v0.2.3,,
+6407,ReleaseEvent,2017-12-18 20:30:51+00:00,6235174,conda/conda,1418419,kalefranz,6392739,conda,published,4.3.25,4.3.25 (2017-08-16),"### Deprecations/Breaking Changes
+* resolve #5834 change default value of 'allow_softlinks' from True to False (#5839)
+
+### Improvements
+* add non-admin check to optionally disable non-privileged operation (#5724)
+* add extra warning message to always_softlink configuration option (#5826)
+
+### Bug Fixes
+* fix #5763 channel url string splitting error (#5764)
+* fix regex for repodata _mod and _etag (#5795)
+* fix uncaught OSError for missing device (#5830)"
+6555,ReleaseEvent,2017-05-30 23:19:25+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-sql-2.0.4,azure-cli-sql 2.0.4,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.python.org/pypi/azure-cli-sql/2.0.4
+"
+6608,ReleaseEvent,2015-03-13 21:06:28+00:00,4127088,Azure/azure-sdk-for-python,1696845,huguesv,6844498,Azure,published,v0.10.0,v0.10.0,"IMPORTANT CHANGE THAT AFFECTS STORAGE USERS (BLOB, QUEUE, TABLE):
+
+The library now targets x-ms-version '2014-02-14' of the storage REST API.
+Previous version of the library targeted '2012-02-12'.
+
+The upgrade to this new version causes some breaking changes for Python SDK users:
+ * Metrics for blob, queue, table service properties, which used to be accessed
+   with the 'metrics' field are now accessed via 'hour_metrics' and 'minute_metrics'.
+   Note that a backwards compatible 'metrics' property was added to redirect access 
+   to 'hour_metrics'.
+ * Url is no longer returned from list_containers, list_blobs, list_queues.
+   For blob, you can use the utility function make_blob_url as an alternate
+   way to get a URL.
+
+See MSDN documentation for details on REST API changes
+ in '2013-08-15': https://msdn.microsoft.com/en-us/library/azure/dn592124.aspx
+ in '2014-02-14': https://msdn.microsoft.com/en-us/library/azure/dd894041.aspx
+
+
+The other changes in this release are:
+
+ * Performance improvements in xml deserialization of storage and service bus
+   Table storage query_entities is ~25X faster for the maximum of 1000 entities
+ * Ability to upload and download blobs using multiple connections, along with
+   retries when a chunk upload/download failure occurs
+   Controlled via the max_connections, max_retries, retry_wait parameters
+ * Use get_certificate_from_publish_settings to get a .pem certificate from
+   your azure publish settings file
+ * Ability to adjust the global http timeout
+ * Service bus event hub support (create/update/delete hubs + send events)
+ * Documentation for API Reference is now available at 
+   http://azure-sdk-for-python.readthedocs.org/en/documentation/index.html
+
+ * Fixes for bugs:
+   #237 Ability to use multiple connections to upload blob chunks in parallel
+   #254 Improve performance of table storage (and more?)
+   #258 Support authenticating with azureProfile like in CLI tools
+   #259 Unicode error is raised instead of actual error
+   #263 Change description name
+   #268 delete_deployment does not pass comp=media to delete disks
+   #271 Update current_name so that multiple parameters with the same name...
+   #270 Documentation for capture_vm_image is incorrect
+   #273 Unicode error with utf-8 encoding value
+   #276 Service Mgmt - Reserved IP create/delete are async
+   #280 add support for setting IdleTimeoutInMinutes on load balanced endpoint
+   #288 InvalidHeaderValue on BlobService example
+   #294 Upload of large files is too slow
+   #304 Unable to upload large size files to Azure Page Blob
+
+Thank you to lmazuel, rhaps0dy, timfpark, gaellbn, moutai, edevil, rjschwei and
+okaram for their contributions.
+"
+6689,ReleaseEvent,2015-06-11 12:05:18+00:00,37076376,aio-libs/janus,356399,asvetlov,7049303,aio-libs,published,v0.1.0,jason,Initial release.
+6924,ReleaseEvent,2017-10-13 13:26:49+00:00,52009226,Duke-GCB/DukeDSClient,1024463,johnbradley,7875151,Duke-GCB,published,0.3.20,Ignore files and reliability fixes,Checks for files named `.ddsignore` inside folders being uploaded and use the contents to filter which subfolders and files are uploaded. Changes that improve reliability for large projects.
+6928,ReleaseEvent,2017-12-07 19:03:00+00:00,21042222,FutureLinkCorporation/fann2,7903375,FutureLinkOpenSource,7905596,FutureLinkCorporation,published,1.1.2,1.1.2,Close #20 for real.
+6962,ReleaseEvent,2018-07-27 03:39:05+00:00,70451850,scikit-build/scikit-ci-addons,219043,jcfr,8144855,scikit-build,published,latest,Latest (updated on 2018-07-27 03:07 UTC),
+7345,ReleaseEvent,2017-01-19 15:11:31+00:00,40975824,common-workflow-language/schema_salad,1316612,tetron,9947495,common-workflow-language,published,2.2.20170119151016,,
+7958,ReleaseEvent,2016-05-18 17:57:30+00:00,31315021,Kinto/kinto,17006,glasserc,13413813,Kinto,published,3.0.0,3.0.0,"- Major version update. Merged cliquet into kinto.core. This is
+  intended to simplify the experience of people who are new to Kinto.
+  Addresses #687.
+- Removed ``initialize_cliquet()``, which has been deprecated for a while.
+- Removed ``cliquet_protocol_version``. Kinto already defines
+  incompatible API variations as part of its URL format (e.g. ``/v0``,
+  ``/v1``). Services based on kinto.core are free to use
+  ``http_api_version`` to indicate any additional changes to their
+  APIs.
+- Simplify settings code. Previously, ``public_settings`` could be
+  prefixed with a project name, which would be reflected in the output
+  of the ``hello`` view. However, this was never part of the API
+  specification, and was meant to be solely a backwards-compatibility
+  hack for first-generation Kinto clients. Kinto public settings
+  should always be exposed unprefixed. Applications developed against
+  kinto.core can continue using these names even after they transition
+  clients to the new implementation of their service.
+
+**Bug fixes**
+
+- Add an explicit message when the server is configured as read-only and the
+  collection timestamp fails to be saved (ref Kinto/kinto#558)
+- Prevent the browser to cache server responses between two sessions. (#593)
+- Redirects version prefix to hello page when trailing_slash_redirect is enabled. (#700)
+- Fix crash when setting empty permission list with PostgreSQL permission backend (fixes Kinto/kinto#575)
+- Fix crash when type of values in querystring for exclude/include is wrong (fixes Kinto/kinto#587)
+- Fix crash when providing duplicated principals in permissions with PostgreSQL permission backend (fixes #702)
+- Add ``app.wsgi`` to the manifest file. This helps address #543.
+"
+8060,ReleaseEvent,2016-08-08 17:29:18+00:00,48733333,Neurosim-lab/netpyne,8440562,salvadord,14202113,Neurosim-lab,published,v0.5.8,v0.5.8,
+8150,ReleaseEvent,2017-10-25 18:02:45+00:00,68483365,graphql-python/graphene-django,188257,syrusakbary,15002022,graphql-python,published,v2.0.0,v2.0.0,"# Changelog
+To come soon!"
+8336,ReleaseEvent,2018-08-27 23:16:36+00:00,55101236,googleapis/artman,5422149,vchudnov-g,16785467,googleapis,published,v0.15.2,v0.15.2,"* Improvements for CircleCI and system tests, particularly in Rubu and PHP
+* Add gcpApiConfigPath to client default options
+* Infrastructure improvements for generating standalone samples in Python
+* Infrastructure improvements to allow Bazel build process
+* Ruby: Remove overview class
+* Python: utf-8 file header"

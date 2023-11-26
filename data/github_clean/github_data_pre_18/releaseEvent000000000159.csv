@@ -1,0 +1,270 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,release_action,release_tag_name,release_name,release_body
+434,ReleaseEvent,2016-11-05 18:12:39+00:00,37556070,gplepage/gvar,1808545,gplepage,,,published,v8.0,gvar version 8.0,Moves PDFIntegrator to vegas; fixes integer type problem on windows machines.
+619,ReleaseEvent,2018-01-04 16:27:52+00:00,23983011,hMatoba/Piexif,4497270,hMatoba,,,published,1.1.0b,"“load”, “insert”, and “remove” support WebP format.",
+635,ReleaseEvent,2015-09-07 23:33:42+00:00,15804783,jochym/Elastic,5993422,jochym,,,published,v4.0.14,Fix byte vs. unicode.,
+690,ReleaseEvent,2015-11-25 07:31:50+00:00,30015633,phaethon/scapy,1088890,phaethon,,,published,v0.17,Initial Windows send/receive support,
+822,ReleaseEvent,2018-08-29 21:46:47+00:00,76513276,kislyuk/domovoi,862013,kislyuk,,,published,v1.8.0,v1.8.0,"Fix essential logging, take 4"
+1647,ReleaseEvent,2016-11-24 20:11:45+00:00,5776030,bear/python-twitter,1267,bear,,,published,v3.2,,"Version 3.2
+===========
+
+Deprecations
+------------
+
+Nothing is being deprecationed this version, however here's what's being deprecated as of v. 3.3.0:
+
+* :py:func:`twitter.api.Api.UpdateBackgroundImage`. Please make sure that your code does not call this function as it will be returning a hard error. There is no replace function. This was deprecated by Twitter around July 2015.
+
+* :py:func:`twitter.api.Api.PostMedia` will be removed. Please use :py:func:`twitter.api.Api.PostUpdate` instead.
+
+* :py:func:`twitter.api.Api.PostMultipleMedia`. Please use :py:func:`twitter.api.Api.PostUpdate` instead.
+
+* :py:func:`twitter.api.GetFriends` will no longer accept a `cursor` or `count` parameter. Please use :py:func:`twitter.api.GetFriendsPaged` instead.
+
+* :py:func:`twitter.api.GetFollowers` will no longer accept a `cursor` or `count` parameter. Please use :py:func:`twitter.api.GetFollowersPaged` instead.
+
+
+What's New
+----------
+
+* We've added new deprecation warnings, so it's easier to track when things go away. All of python-twitter's deprecation warnings will be a subclass of :py:class:`twitter.error.PythonTwitterDeprecationWarning` and will have a version number associated with them such as :py:class:`twitter.error.PythonTwitterDeprecationWarning330`.
+
+
+* :py:class:`twitter.models.User` now contains a ``following`` attribute, which describes whether the authenticated user is following the User. `PR #351 <https://github.com/bear/python-twitter/pull/351>`_
+
+* :py:class:`twitter.models.DirectMessage` contains a full :py:class:`twitter.models.User` object for both the ``DirectMessage.sender`` and ``DirectMessage.recipient`` properties. `PR #384 <https://github.com/bear/python-twitter/pull/384>`_.
+
+* You can now upload Quicktime movies (``*.mov``). `PR #372 <https://github.com/bear/python-twitter/pull/372>`_.
+
+* If you have a whitelisted app, you can now get the authenticated user's email address through a call to :py:func:`twitter.api.Api.VerifyCredentials()`. If your app isn't whitelisted, no error is returned. `PR #376 <https://github.com/bear/python-twitter/pull/376>`_.
+
+* Google App Engine support has been reintegrated into the library. Check out `PR #383 <https://github.com/bear/python-twitter/pull/383>`_.
+
+* `video_info` is now available on a `twitter.models.Media` object, which allows access to video urls/bitrates/etc. in the `extended_entities` node of a tweet.
+
+What's Changed
+--------------
+
+* :py:class:`twitter.models.Trend`'s `volume` attribute has been renamed `tweet_volume` in line with Twitter's naming convention. This change should allow users to access the number of tweets being tweeted for a given Trend. `PR #375 <https://github.com/bear/python-twitter/pull/375>`_
+
+* :py:class:`twitter.ratelimit.RateLimit` should behave better now and adds a 1-second padding to requests after sleeping.
+
+* :py:class:`twitter.ratelimit.RateLimit` now keeps track of your rate limit status even if you don't have ``sleep_on_rate_limit`` set to ``True`` when instatiating the API. If you want to add different behavior on hitting a rate limit, you should be able to now by querying the rate limit object. See `PR #370 <https://github.com/bear/python-twitter/pull/370>`_ for the technical details of the change. There should be no difference in behavior for the defaults, but let us know.
+
+
+Bugfixes
+--------
+
+* :py:class:`twitter.models.Media` again contains a ``sizes`` attribute, which was missed back in the Version 3.0 release. `PR #360 <https://github.com/bear/python-twitter/pull/360>`_
+
+* The previously bloated :py:func:`twitter.api.Api.UploadMediaChunked()` function has been broken out into three related functions and fixes two an incompatibility with python 2.7. Behavior remains the same, but this should simplify matters. `PR #347 <https://github.com/bear/python-twitter/pull/347>`_
+
+* Fix for :py:func:`twitter.api.Api.PostUpdate()` where a passing an integer to the ``media`` parameter would cause an iteration error to occur. `PR #347 <https://github.com/bear/python-twitter/pull/347>`_
+
+* Fix for 401 errors that were occuring in the Streaming Endpoints. `PR #364 <https://github.com/bear/python-twitter/pull/364>`_
+"
+1716,ReleaseEvent,2017-11-16 20:46:48+00:00,6762625,kislyuk/argcomplete,862013,kislyuk,,,published,v1.9.3,v1.9.3,"- Fix handling of COMP_POINT (#236)
+    
+    - Fix crash when writing unicode to debug_stream in Python 2 (#230)"
+2015,ReleaseEvent,2015-05-08 13:22:32+00:00,21791607,maxtepkeev/architect,3032449,maxtepkeev,,,published,v0.5.0,v0.5.0,"- Added: Django: Support for multiple databases (Issue #9)
+- Added: Support for custom features, see [docs](http://architect.readthedocs.org/features/custom.html) for details
+- Changed: ``dsn`` partition option renamed to ``db`` to cover more use cases
+- Changed: ``DsnParseError`` exception renamed to ``OptionValueError`` to cover more use cases
+- Fixed: Django: Error when trying to partition a model with Django <= 1.5 in debug mode
+- Fixed: ""No module named modulename.py"" error when trying to specify model's module with .py extension at the end in partition command"
+2055,ReleaseEvent,2017-06-22 12:48:30+00:00,86715491,tgsmith61591/pyramid,6124706,tgsmith61591,,,published,v0.3,Version 0.3,Version 0.3 allows out-of-sample scoring to be used as a metric for ARIMA parameter selection in the `auto_arima` function.
+2341,ReleaseEvent,2017-09-07 19:04:57+00:00,19372146,magmax/python-inquirer,584026,magmax,,,published,2.2.0,,"New in this release:
+- Themes
+- Caroussel on lists.
+
+Thanks to:
+- Provok 
+- Matiboy 
+- Djmattyg007 
+- Sloria
+
+Who made it possible!"
+2377,ReleaseEvent,2015-06-15 17:54:56+00:00,35341934,svenkreiss/pysparkling,2775078,svenkreiss,,,published,v0.2.23,v0.2.23,"* added RDD.randomSplit()
+* saveAsTextFile() saves single file if there is only one partition (and does not break it out into partitions)
+
+See [HISTORY.rst](HISTORY.rst)."
+2383,ReleaseEvent,2016-06-19 09:05:01+00:00,54639247,thombashi/pathvalidate,15517661,thombashi,,,published,v0.4.2,,"- Make pytest-runner a conditional requirement
+"
+2725,ReleaseEvent,2016-08-09 20:21:09+00:00,50591651,danielperna84/pyhomematic,7396998,danielperna84,,,published,0.1.11,0.1.11,Added device support and basic functionality for modifying system variables.
+2845,ReleaseEvent,2015-02-21 09:41:51+00:00,21978254,Drekin/win-unicode-console,7892803,Drekin,,,published,0.3.1,win-unicode-console 0.3.1,"### Changes
+
+ - Changed loader of msvcrt library from windll to cdll. Solved #5."
+3353,ReleaseEvent,2017-12-04 00:50:19+00:00,34864402,apache/incubator-mxnet,11234557,cjolivier01,47359,apache,published,1.0.0,MXNet 1.0.0,"MXNet Change Log
+================
+## 1.0.0
+### Performance
+  - Enhanced the performance of `sparse.dot` operator.
+  - MXNet now automatically set OpenMP to use all available CPU cores to maximize CPU utilization when `NUM_OMP_THREADS` is not set.
+  - Unary and binary operators now avoid using OpenMP on small arrays if using OpenMP actually hurts performance due to multithreading overhead.
+  - Significantly improved performance of `broadcast_add`, `broadcast_mul`, etc on CPU.
+  - Added bulk execution to imperative mode. You can control segment size with `mxnet.engine.bulk`. As a result, the speed of Gluon in hybrid mode is improved, especially on small networks and multiple GPUs.
+  - Improved speed for `ctypes` invocation from Python frontend.
+### New Features - Gradient Compression [Experimental]
+  - Speed up multi-GPU and distributed training by compressing communication of gradients. This is especially effective when training networks with large fully-connected layers. In Gluon this can be activated with `compression_params` in Trainer.
+### New Features - Support of NVIDIA Collective Communication Library (NCCL) [Experimental]
+  - Use `kvstore=’nccl’` for (in some cases) faster training on multiple GPUs.
+  - Significantly faster than kvstore=’device’ when batch size is small.
+  - It is recommended to set environment variable `NCCL_LAUNCH_MODE` to `PARALLEL` when using NCCL version 2.1 or newer.
+### New Features - Advanced Indexing [General Availability]
+  - NDArray now supports advanced indexing (both slice and assign) as specified by the numpy standard: https://docs.scipy.org/doc/numpy-1.13.0/reference/arrays.indexing.html#combining-advanced-and-basic-indexing with the following restrictions:
+    - if key is a list type, only a list of integers is supported, e.g. `key=[1, 2]` is supported, while not for `key=[[1, 2]]`.
+    - Ellipsis (...) and np.newaxis are not supported.
+    - `Boolean` array indexing is not supported.
+### New Features - Gluon [General Availability]
+  - Performance optimizations discussed above.
+  - Added support for loading data in parallel with multiple processes to `gluon.data.DataLoader`. The number of workers can be set with `num_worker`. Does not support windows yet.
+  - Added Block.cast to support networks with different data types, e.g. `float16`.
+  - Added Lambda block for wrapping a user defined function as a block.
+  - Generalized `gluon.data.ArrayDataset` to support arbitrary number of arrays.
+### New Features - ARM / Raspberry Pi support [Experimental]
+  - MXNet now compiles and runs on ARMv6, ARMv7, ARMv64 including Raspberry Pi devices. See https://github.com/apache/incubator-mxnet/tree/master/docker_multiarch for more information.
+### New Features - NVIDIA Jetson support [Experimental]
+  - MXNet now compiles and runs on NVIDIA Jetson TX2 boards with GPU acceleration.
+  - You can install the python MXNet package on a Jetson board by running - `$ pip install mxnet-jetson-tx2`.
+### New Features - Sparse Tensor Support [General Availability]
+  - Added more sparse operators: `contrib.SparseEmbedding`, `sparse.sum` and `sparse.mean`. 
+  - Added `asscipy()` for easier conversion to scipy.
+  - Added `check_format()` for sparse ndarrays to check if the array format is valid.
+### Bug-fixes  
+  - Fixed a[-1] indexing doesn't work on `NDArray`.
+  - Fixed `expand_dims` if axis < 0.
+  - Fixed a bug that causes topk to produce incorrect result on large arrays.
+  - Improved numerical precision of unary and binary operators for `float64` data.
+  - Fixed derivatives of log2 and log10. They used to be the same with log.
+  - Fixed a bug that causes MXNet to hang after fork. Note that you still cannot use GPU in child processes after fork due to limitations of CUDA.
+  - Fixed a bug that causes `CustomOp` to fail when using auxiliary states.
+  - Fixed a security bug that is causing MXNet to listen on all available interfaces when running training in distributed mode.
+### Doc Updates
+  - Added a security best practices document under FAQ section.
+  - Fixed License Headers including restoring copyright attributions.
+  - Documentation updates. 
+  - Links for viewing source.
+ 
+ For more information and examples, see [full release notes](https://cwiki.apache.org/confluence/display/MXNET/Apache+MXNet+%28incubating%29+1.0+Release+Notes)
+
+"
+3725,ReleaseEvent,2018-06-29 19:42:39+00:00,120540744,adafruit/Adafruit_Blinka,52649,tannewt,181069,adafruit,published,0.1.4,Relax python requirement,Support python3.4 to match CircuitPython and MicroPython
+3837,ReleaseEvent,2018-02-21 12:00:47+00:00,78797564,palantir/python-language-server,1928052,gatesn,303157,palantir,published,0.15.1,0.15.1,"* Improved log lines
+* Fixes plugins disabling themselves by default
+* Uses string not integer for generated message IDs"
+3949,ReleaseEvent,2017-02-03 18:50:18+00:00,69284381,broadinstitute/fiss,3845738,tmdefreitas,393552,broadinstitute,published,v0.14.1,v0.14.1,"Bugfixes and validation for supervisor mode. Make flow_set_acl smarter,
+and make the snapshot_id argument be optional, defaulting to the latest."
+4038,ReleaseEvent,2018-06-05 17:48:41+00:00,6886054,duosecurity/duo_client_python,26978047,AaronAtDuo,526376,duosecurity,published,3.2.1,Duo-client 3.2.1,
+4141,ReleaseEvent,2018-08-07 16:13:42+00:00,136614979,shopkeep/pytest-black,4463898,declantraynor,632257,shopkeep,published,0.1.9,v0.1.9,Update black to 18.6b4
+4501,ReleaseEvent,2016-01-18 13:47:43+00:00,2562442,mozilla-services/cornice,229453,Natim,1066228,mozilla-services,published,1.0.0,,"Breaking changes:
+
+- ACLs are now handled per route and not per view. Thanks @circlingthesun
+  (#287)
+
+Other changes:
+
+- Display default values in the sphinx documentation extension, Thanks
+  @MikaYuoadas (#284)
+- Add an option to disable Colander schema request binding. (#288)
+"
+4821,ReleaseEvent,2018-07-31 22:30:03+00:00,137814779,getsentry/sentry-python,837573,untitaker,1396951,getsentry,published,0.1.0-preview6,0.1.0-preview6,
+5357,ReleaseEvent,2017-11-06 12:05:44+00:00,4872949,muccg/django-iprestrict,973139,sztamas,2595123,muccg,published,1.4.1,Include templates and static files,"Version 1.4.0 had the static files and templates missing from the pypi packages.
+
+This release includes the missing files.
+"
+5823,ReleaseEvent,2017-07-13 19:10:48+00:00,49976939,learningequality/kolibri,1680573,rtibbles,3926525,learningequality,published,v0.5.0-beta4,v0.5.0-beta4,"Stability fixes to barbequeue.
+Remove audio mp3 player and use video js for audio."
+5872,ReleaseEvent,2018-03-14 01:23:31+00:00,17405039,learningequality/le-utils,163966,ivanistheone,3926525,learningequality,published,v0.1.6,"More langs, RTL lookup, and ePub constants","  - Added file format constants for ePub
+  - Added RTL language lookup table in le_utils.constants.languages.RTL_LANG_CODES
+  - Added the following language codes:
+     - be-tarask = Belarusian
+     - hrx = Hunsrik
+     - lua = Luba-Kasai
+     - pms = Piedmontese
+     - sco = Scots
+     - rue = Rusyn"
+5984,ReleaseEvent,2016-02-01 22:49:39+00:00,32338806,profitbricks/profitbricks-sdk-python,7194142,edevenport,4950450,profitbricks,published,v2.3.1,Release v2.3.1,"* Increment version.
+* Added six as requirement.
+* Fix for unconnected volume creation."
+6023,ReleaseEvent,2017-07-31 17:40:01+00:00,19141770,etalab/udata-gouvfr,15725,noirbizarre,5313610,etalab,published,v1.1.1,,- Updated translations
+6163,ReleaseEvent,2016-10-30 17:24:41+00:00,13432883,pkgcore/snakeoil,69519,radhermit,5643882,pkgcore,published,v0.7.1,,
+6476,ReleaseEvent,2016-08-03 09:30:25+00:00,55883665,meta-toolkit/metapy,1378336,skystrife,6588029,meta-toolkit,published,v0.0.1.dev8,,
+6617,ReleaseEvent,2018-04-26 22:34:30+00:00,4127088,Azure/azure-sdk-for-python,1050156,lmazuel,6844498,Azure,published,azure-mgmt-eventgrid_1.0.0,azure-mgmt-eventgrid_1.0.0,
+6725,ReleaseEvent,2018-02-27 18:27:54+00:00,13258039,aio-libs/aiohttp,356399,asvetlov,7049303,aio-libs,published,v3.0.5,aiohttp 3.0.5 release,"The release is pretty important, as well as bug fixes for aiohttp 3.0.4
+
+Update to aiohttp 3.0.5 is highly recommended for aiohttp server code.
+
+Changes
+------------
+
+- Fix ``InvalidStateError`` on processing a sequence of two
+  ``RequestHandler.data_received`` calls on web server. (#2773)
+
+"
+6980,ReleaseEvent,2016-03-04 15:16:51+00:00,44397344,monkeylearn/monkeylearn-python,6942671,rsteca,8461612,monkeylearn,published,v0.2.3,v0.2.3,- Update samples upload API
+7352,ReleaseEvent,2016-12-02 20:34:39+00:00,43816051,common-workflow-language/cwltool,1316612,tetron,9947495,common-workflow-language,published,1.0.20161202203310,,
+7354,ReleaseEvent,2016-09-22 13:56:12+00:00,43816051,common-workflow-language/cwltool,1316612,tetron,9947495,common-workflow-language,published,1.0.20160922135240,,
+7734,ReleaseEvent,2018-02-21 11:04:32+00:00,65575678,postgrespro/testgres,3599598,funbringer,12005770,postgrespro,published,1.5.0,,"* Improved `pgbench` API (see `pgbench_run()` etc);
+* Set `allow_streaming=True` in `init()` and `default_conf()` by default;
+* New option `unix_sockets=True` in `init()` and `default_conf()`;
+* Fixed `base_dir` ignore if provided `base_dir` does not exist (#31);
+* `StartNodeException` now includes last N lines of `postgresql.log`;
+* Improved exception handling (using `six.raise_from`);
+* Auto name generation for `PostgresNode` (see [`generate_app_name`](https://github.com/postgrespro/testgres/blob/1.5.0/testgres/utils.py#L60));
+* Provide compatibility mode for `execute()`, `psql()`, `safe_psql()` and `poll_query_until()` methods (see [`positional_args_hack`](https://github.com/postgrespro/testgres/blob/1.5.0/testgres/utils.py#L244));
+"
+7739,ReleaseEvent,2018-04-10 15:20:19+00:00,99273369,NeurodataWithoutBorders/pynwb,32185786,nwb-bot,12140348,NeurodataWithoutBorders,published,latest,Latest (updated on 2018-04-10 15:04 UTC),
+7743,ReleaseEvent,2017-11-18 02:18:49+00:00,99273369,NeurodataWithoutBorders/pynwb,32185786,nwb-bot,12140348,NeurodataWithoutBorders,published,latest,Latest (updated on 2017-11-18 02:11 UTC),
+8038,ReleaseEvent,2016-12-27 15:30:20+00:00,34271922,fugue/credstash,13006606,alex-luminal,13857002,fugue,published,v1.13.0,"No more pycrypto, and more!","## New Stuff
+* Replaced PyCrypto with `cryptography` (https://cryptography.io/en/latest/), and a bunch of refactorings to separate KMS and crypto operations by @nathan-muir 
+* fix the to the non-default digest method and a travis fix by @toidi  
+* Added the ability to get secrets by wildcard when using credstash as a library by @rogthefrog 
+* Some exception cleanup by @zhaow-de 
+* helptext improvements by @aboyett 
+* support the dotenv output format by @amerghazal 
+* README improvements by @jsm and @jakubka 
+* Allow default secret in putSecret by @atjones0011 
+* some flake8 fixes by @jessemyers 
+
+Thanks to everyone who contributed to this release! 
+
+You can find this release on pypi by doing `pip install credstash`
+"
+8052,ReleaseEvent,2017-10-18 05:45:54+00:00,60025264,Alignak-monitoring-contrib/alignak-webui,2932687,mohierf,14056682,Alignak-monitoring-contrib,published,0.9.3,Version 0.9.3,Fix user sessions mess-up ...
+8178,ReleaseEvent,2016-10-22 21:17:47+00:00,70525386,uktrade/directory-api-client,5485798,richtier,15107524,uktrade,published,0.0.5,0.0.5,Return non-200 responses instead of raising exceptions
+8180,ReleaseEvent,2018-03-02 14:37:17+00:00,123580508,uktrade/directory-client-core,5485798,richtier,15107524,uktrade,published,v0.1.0,v0.1.0,
+8491,ReleaseEvent,2018-03-09 03:05:32+00:00,17420614,seleniumbase/SeleniumBase,6788579,mdmintz,17287301,seleniumbase,published,v1.7.3,Update setuptools version,Update setuptools version
+8499,ReleaseEvent,2016-03-14 21:08:09+00:00,53549881,anymail/django-anymail,639984,medmunds,17517617,anymail,published,v0.1,v0.1,"Although this is an early release, it provides functional Django EmailBackends
+and passes integration tests with all supported ESPs (Mailgun, Mandrill, Postmark, SendGrid).
+
+It has (obviously) not yet undergone extensive real-world testing,
+and you are encouraged to monitor it carefully if you choose to use it in production.
+Please report bugs and problems here in GitHub.
+
+Additional changes from v0.1.dev2:
+* Added Postmark backend
+* Added support for username/password auth with SendGrid
+* Simplified install: no need to name the ESP
+  (`pip install django-anymail` -- not `... django-anymail[mailgun]`)
+"
+8966,ReleaseEvent,2017-02-24 17:43:55+00:00,7308334,ParallelSSH/parallel-ssh,1391208,pkittenis,22918200,ParallelSSH,published,1.0.0,1.0.0,"1.0.0 Release
+=============
+
+## Changes from 1.0.0 RC1
+
+No changes.
+
+## Changes from `0.9x` series API
+
+- `ParallelSSHClient.join` no longer consumes output buffers
+- Command output is now a dictionary of host name -> [host output object](http://parallel-ssh.readthedocs.io/en/latest/output.html) with `stdout` and et al attributes. Host output supports dictionary-like item lookup for backwards compatibility. No code changes are needed to output use though documentation will from now on refer to the new attribute style output. Dictionary-like item access is deprecated and will be removed in future major release, like `2.x`.
+- Made output encoding configurable via keyword argument on `run_command` and `get_output`
+- `pssh.output.HostOutput` class added to hold host output
+- Added `copy_remote_file` function for copying remote files to local ones in parallel
+- Deprecated since `0.70.0` `ParallelSSHClient` API endpoints removed
+- Removed setuptools >= 28.0.0 dependency for better compatibility with existing installations. Pip version dependency remains for Py 2.6 compatibility with gevent - documented on project's readme
+- Documented `use_pty` parameter of run_command
+- `SSHClient` `read_output_buffer` is now public function and has gained callback capability
+- If using the single `SSHClient` directly, `read_output_buffer` should now be used to read output buffers - this is not needed for `ParallelSSHClient`
+- `run_command` now uses named positional and keyword arguments
+"
+9246,ReleaseEvent,2018-03-12 17:39:04+00:00,100536335,pyecharts/pyecharts-snapshot,4280312,chfw,34701774,pyecharts,published,v0.1.3,v0.1.3,Find 0.1.3 in changelog for more details

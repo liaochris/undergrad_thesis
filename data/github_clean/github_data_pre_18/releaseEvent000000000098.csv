@@ -1,0 +1,476 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,release_action,release_tag_name,release_name,release_body
+69,ReleaseEvent,2018-01-19 08:38:04+00:00,55258005,jopohl/urh,18219846,jopohl,,,published,v1.9.2,v1.9.2,This is a new URH release.
+165,ReleaseEvent,2017-08-31 06:04:14+00:00,6007295,fxsjy/jieba,167837,fxsjy,,,published,v0.39,,"1. del_word支持强行拆开词语;  by @gumblex,@fxsjy
+2. 修复百分数的切词; by @fxsjy
+3. 修复HMM=False在多进程模式下的bug; by @huntzhan
+"
+759,ReleaseEvent,2015-04-11 17:35:21+00:00,20698885,dslackw/pysed,6345517,dslackw,,,published,v0.7.0,v0.7.0,"CLI utility that parses and transforms text written in Python.
+
+Pysed is a Python stream editor, is used to perform basic text transformations from a file. It reads text, line by line, from a file and replace, insert or print all text or specific area. Actually pysed is a passage of Python module 're' in terminal."
+769,ReleaseEvent,2018-04-29 09:04:27+00:00,52479456,etingof/pysmi,17447359,etingof,,,published,v0.3.0,Release 0.3.0,"This release bring a couple of new features plus some fixes. Most importantly:
+
+* The `mibcopy` tool implemented to copy MIB modules from files with potentially messed up names into a directory under canonical MIB names picking up the latest MIB revision along the way.
+* ZIP archive reader implemented to pull ASN.1 MIB files from .zip archives pretty much in the same way as from plain directories
+* HTTP/S proxy support added (through respecting `http_proxy` environment variable) by switching from `httplib` to `urllib2` internally
+
+Full change log can be seen [here](https://github.com/etingof/pysmi/blob/master/CHANGES.rst).
+"
+1005,ReleaseEvent,2017-02-14 09:43:57+00:00,81815654,Noctem/pycrypt,1787524,Noctem,,,published,0.1,,
+1076,ReleaseEvent,2016-07-13 16:04:58+00:00,55787217,bmcfee/resampy,1190540,bmcfee,,,published,0.1.4rc3,0.1.4rc3,Final fix on cython c/pyx install.
+1098,ReleaseEvent,2017-05-05 02:11:10+00:00,84624509,cdgriffith/Box,3275435,cdgriffith,,,published,3.0.0,Version 3.0.0,"Version 3.0.0
+========
+
+* Adding default object abilities with `default_box` and `default_box_attr` kwargs
+* Adding `from_json` and `from_yaml` functions to both `Box` and `BoxList`
+* Adding `frozen_box` option
+* Adding `BoxError` exception for custom errors
+* Adding `conversion_box` to automatically try to find matching attributes
+* Adding `camel_killer_box` that converts CamelCaseKeys to camel_case_keys
+* Adding `SBox` that has `json` and `yaml` properties that map to default `to_json()` and `to_yaml()`
+* Adding `box_it_up` property that will make sure all boxes are created and populated like previous version
+* Adding `modify_tuples_box` option to recreate tuples with Boxes instead of dicts
+* Adding `to_json` and `to_yaml` for `BoxList`
+* Changing how the Box object works, to conversion on extraction
+* Removing `__call__` for compatibly with django and to make more like dict object
+* Removing support for python 2.6
+* Removing `LightBox`
+* Removing default indent for `to_json`"
+1198,ReleaseEvent,2017-02-28 21:08:11+00:00,52478762,etingof/pysnmp,17447359,etingof,,,published,v.4.3.4,,"Release highlights:
+
+* Bumped [pyasn1](https://github.com/etingof/pyasn1) dependency to version 0.2.3+.
+* Calls to pyasn1 adjusted to accommodate pyasn1 API changes.
+* Performance improved by ~30% due to faster pyasn1 0.2.x.
+"
+1704,ReleaseEvent,2018-04-06 06:59:29+00:00,83081030,mayeut/pybase64,9768336,mayeut,,,published,v0.4.0,,
+1714,ReleaseEvent,2018-06-26 03:39:18+00:00,3852351,meejah/txtorcon,145599,meejah,,,published,v18.0.0,v18.0.0,"I'm very pleased to announce txtorcon 18.0.0. This introduces a new
+Onion services API (including v3 support) and a bunch of other changes
+(including a new versioning scheme).
+
+Starting now, versioning is more Twisted-like: the first number is the
+year, the second is the ""release in that year"" and the minor number is
+for bug-fixes. No backwards-incompatible changes will occur without
+first being deprecated for at least one full release (this has been my
+practice anyway, so using ""SemVer"" no longer made sense).
+
+The documentation is updated with all the new Onion APIs, and a full
+list of changes follows:
+
+ * await_all_uploads= option when creating Onions
+ * properly re-map progress percentages (including descriptor uploads)
+ * properly wait for all event-listeners during startup
+ * re-work how TorState.event_map works, hopefully reducing
+   reproducible-builds issues
+ * TorControlProtocol.add_event_listener and
+   TorControlProtocol.remove_event_listener are now async methods
+   returning Deferred -- they always should have been; new code can
+   now be assured that the event-listener change is known to Tor by
+   awaiting this Deferred.
+ * TorControlProtocol.get_conf_single method added, which gets and returns
+   (asynchronously) a single GETCONF key (instead of a dict)
+ * also TorControlProtocol.get_info_single similar to above
+ * if Tor disconnects while a command is in-progress or pending, the
+   .errback() for the corresponding Deferred is now correctly fired
+   (with a TorDisconnectError)
+ * tired: get_global_tor() (now deprecated)
+   wired: txtorcon.get_global_tor_instance
+
+ * Adds a comprehensive set of Onion Services APIs (for all six
+   variations). For non-authenticated services, instances of
+   IOnionService represent services; for authenticated services,
+   instances of IAuthenticatedOnionClients encapsulated named lists of
+   clients (each client is an instance implementing IOnionService).
+ * Version 3 (""Proposition 279"") Onion service support (same APIs) as
+   released in latest Tor
+ * Four new methods to handle creating endpoints for Onion services
+   (either ephemeral or not and authenticated or not):
+   * Tor.create_authenticated_onion_endpoint
+   * Tor.create_authenticated_filesystem_onion_endpoint
+   * Tor.create_onion_endpoint
+   * Tor.create_filesystem_onion_endpoint
+ * see create_onion for information on how to choose an
+   appropriate type of Onion Service.
+
+ * Tor.create_onion_service to add a new ephemeral Onion service to
+   Tor. This uses the ADD_ONION command under the hood and can be
+   version 2 or version 3. Note that there is an endpoint-style API as
+   well so you don't have to worry about mapping ports yourself (see
+   below).
+ * Tor.create_filesystem_onion_service to add a new Onion service to
+   Tor with configuration (private keys) stored in a provided
+   directory. These can be version 2 or version 3 services. Note that
+   there is an endpoint-style API as well so you don't have to worry
+   about mapping ports yourself (see below).
+
+ * Additional APIs to make visiting authenticated Onion services as a
+   client easier:
+
+ * Tor.add_onion_authentication will add a client-side Onion service
+   authentication token. If you add a token for a service which
+   already has a token, it is an error if they don't match. This
+   corresponds to HidServAuth lines in torrc.
+ * Tor.remove_onion_authentication will remove a previously added
+   client-side Onion service authentication token. Fires with True if
+   such a token existed and was removed or False if no existing token
+   was found.
+ * Tor.onion_authentication (Python3 only) an async context-manager
+   that adds and removes an Onion authentication token (i.e. adds in
+   on __aenter__ and removes it on __aexit__). Allows code like:
+ * onion services support listening on Unix paths.
+ * make sure README renders on Warehouse/PyPI
+
+
+You can download the release from PyPI or GitHub (or of course ""pip
+install txtorcon""):
+
+   https://pypi.python.org/pypi/txtorcon/18.0.0
+   https://github.com/meejah/txtorcon/releases/tag/v18.0.0
+
+Releases are also available from the hidden service:
+
+   http://timaq4ygg2iegci7.onion/txtorcon-18.0.0.tar.gz
+   http://timaq4ygg2iegci7.onion/txtorcon-18.0.0.tar.gz.asc
+
+...and now also available via a ""version 3"" service:
+
+   http://fjblvrw2jrxnhtg67qpbzi45r7ofojaoo3orzykesly2j3c2m3htapid.onion/txtorcon-18.0.0.tar.gz
+   http://fjblvrw2jrxnhtg67qpbzi45r7ofojaoo3orzykesly2j3c2m3htapid.onion/txtorcon-18.0.0.tar.gz.asc
+
+You can verify the sha256sum of both by running the following 4 lines
+in a shell wherever you have the files downloaded:
+
+cat <<EOF | sha256sum --check
+818f6ec96a9d60cb4cb47d98f2c843c7a83004c25be07daafeb9eb9aaed74f7c  dist/txtorcon-18.0.0.tar.gz
+d2f91a3770d7fd8c46372e5573bb23ab65c1be33f12e9ff4ac4af24e6f5f6069  dist/txtorcon-18.0.0-py2.py3-none-any.whl
+EOF
+
+thanks,
+meejah
+
+"
+1799,ReleaseEvent,2015-02-10 03:13:16+00:00,12668735,secynic/ipwhois,5407541,secynic,,,published,v0.10.0,Version 0.10.0,
+2352,ReleaseEvent,2017-06-04 01:49:31+00:00,71604945,MisterWil/abodepy,1091741,MisterWil,,,published,v0.3.0,abodepy-0.3.0,"- More tests
+- Cleaner code (thanks pylint)
+- Likely ready to start implementing in HASS"
+2414,ReleaseEvent,2018-07-31 13:01:02+00:00,54137342,aleccrowell/LIMBR,9593828,aleccrowell,,,published,v0.2.9.8,Random seed as variable,
+2439,ReleaseEvent,2018-01-02 21:35:19+00:00,112461400,axnsan12/drf-yasg,6382979,axnsan12,,,published,1.1.3,1.1.3,"- **FIXED:** schema view cache will now always ``Vary`` on the ``Cookie`` and ``Authentication`` (the 
+  ``Vary`` header was previously only added if ``public`` was set to ``True``) - this fixes issues related to Django 
+  authentication in ``swagger-ui`` and ``CurrentUserDefault`` values in the schema "
+2701,ReleaseEvent,2017-09-06 16:26:12+00:00,23058769,nabla-c0d3/sslyze,1915165,nabla-c0d3,,,published,1.1.4,1.1.4,"* Switch pre-compiled Windows executable from 64 bits to 32 bits for better compatibility.
+* Fix dependency version in the setup.py file."
+2954,ReleaseEvent,2017-01-22 14:24:57+00:00,5775977,bear/parsedatetime,1267,bear,,,published,v2.2,v2.2,
+3162,ReleaseEvent,2018-08-07 12:34:28+00:00,5186662,renatopp/liac-arff,5320498,mfeurer,,,published,v2.3.0,Release 2.3.0,"* enh: improvements to loading runtime (issue #76)
+* fix: several bugs in decoding and encoding quoted and escaped values, particularly in loading sparse ARFF.
+* fix #52: Circumvent a known bug when loading sparse data written by WEKA"
+3374,ReleaseEvent,2016-07-22 17:10:13+00:00,33266451,JimmXinu/FanFicFare,11446969,JimmXinu,,,published,v2.3.5,FanFicFare v2.3.4,"# Installation instructions:
+
+Plugin:
+---
+
+Install zip attached file.
+
+Web service:
+---
+
+http://fanficfare.appspot.com/
+
+Command line interface:
+---
+Rather being delivered as a zip file with dependencies included, FanFicFare is delivered as a `pip` Python package.  It's been tested on Python 2.6 and 2.7, but not on Python 3.
+
+`pip install FanFicFare`
+or
+`pip install --upgrade FanFicFare`
+...to update.
+
+(pip will automatically install dependencies beautifulsoup4, html5lib, chardet and six.)
+
+Run `fanficfare -h` from command-line.
+
+## Changes:
+
+-  Change ffnet metadata colletion to allow for chars with (' - ') in them.
+- Fix for SIYE when author puts story URL in bio.
+- Allow old goto/post chapter URLs in base_xenforoforum.
+- Remove Django from app.yaml--old version going away. (Webservice only)
+- Add n_anthaver and r_anthaver modes to custom_columns_settings for averaging metadata for anthologies before setting in integer and float calibre custom columns. (Plugin only)
+- Include 'prefix' tags in forumtags in base_xenforoforum.
+- Save addheaders when setting cookiejar.  For ffn referer.
+- Update translations. (Plugin only)"
+3523,ReleaseEvent,2018-08-15 20:36:45+00:00,27930623,dgasmith/opt_einsum,1769841,dgasmith,,,published,v2.1.2,v2.1.2,Ensures `versioneer.py` is in MANIFEST.in for a clean pip install.
+3685,ReleaseEvent,2017-08-07 04:22:07+00:00,96678616,miyuchina/mistletoe,14964777,miyuchina,,,published,v0.2,Version 0.2 Reindeer,"**Features**:
+* added support for footnote-style images and links;
+* added support for LaTeX renderer;
+* renderer classes are now context managers (see README).
+
+**Development**:
+* added test suite for LaTeX renderer;
+* added benchmarking script for performance comparison;
+* added scripts to compare render output across commits;
+* added CI testing for versions up to Python 3.3.
+
+**Fixed**:
+* a bunch of regex craziness;
+* outdated documentation."
+4317,ReleaseEvent,2018-08-14 21:43:49+00:00,86715491,tgsmith61591/pyramid,6124706,tgsmith61591,,,published,v0.7.1,Version 0.7.1,"### Bug fixes:
+
+- Out-of-sample scoring/fitting is now handled appropriately (see Issue #28).
+- Fixed `TypeError` on `ARMA` predictions where `d=0` (see Issue #29).
+
+### New features: 
+
+- Created a `add_new_samples` method for `ARIMA` models so newly observed samples can be added to a model without updating its parameters. This allows future forecasts to consider the latest ground-truth samples.
+- Added confidence intervals to predictions. See Issue #20 
+
+### Documentation:
+
+- Overhauled documentation with new formatting
+- Migrated off of readthedocs and onto `gh-pages`"
+4623,ReleaseEvent,2015-06-12 07:28:14+00:00,14489530,petrjasek/eve-elastic,179249,petrjasek,,,published,v0.2.10,0.2.10,fix for upcoming eve 0.6
+4797,ReleaseEvent,2016-08-20 05:16:33+00:00,11726155,corydolphin/flask-cors,446889,corydolphin,,,published,3.0.0,Release 3.0.0,"This release is largely a number of small bug fixes and improvements, along with a default change in behavior, which is technically a breaking change.
+
+**Breaking Change**
+We added an always_send option, enabled by default, which makes Flask-CORS inject headers even if the request did not have an 'Origin' header. Because this makes debugging far easier, and has very little downside, it has also been set as the default, making it technically a breaking change. If this actually broke something for you, please let me know, and I'll help you work around it. (#156) c7a1ecdad375a796155da6aca6a1f750337175f3
+
+
+Other improvements:
+* Adds building of universal wheels (#175) 4674c3d54260f8897bd18e5502509363dcd0d0da
+* Makes Flask-CORS compatible with OAuthLib's custom header class ... (#172) aaaf904845997a3b684bc6677bdfc91656a85a04
+* Fixes incorrect substring matches when strings are used as origins or headers (#165) 9cd3f295bd6b0ba87cc5f2afaca01b91ff43e72c
+* Fixes logging when unknown options are supplied (#152) bddb13ca6636c5d559ec67a95309c9607a3fcaba"
+4916,ReleaseEvent,2017-04-30 15:07:08+00:00,80898688,reiinakano/scikit-plot,18363734,reiinakano,,,published,v0.2.5,v0.2.5,"* Fix #13 Thanks to @david1309 for pointing out the fix
+* New argument `labels` for `plot_confusion_matrix`. This also fixes #28"
+4935,ReleaseEvent,2017-10-26 20:26:11+00:00,17054231,srittau/python-asserts,52799,srittau,,,published,v0.7.1,Release 0.7.1,Distribute as wheel.
+5124,ReleaseEvent,2015-08-27 08:06:45+00:00,5962410,jim-easterbrook/Photini,1957023,jim-easterbrook,,,published,Photini-15.08.1,,
+5267,ReleaseEvent,2017-03-04 01:11:03+00:00,13540909,simonsdave/cloudfeaster,2046104,simonsdave,,,published,v0.9.3,v0.9.3,"### Added
+
+- Nothing
+
+### Changed
+
+- fix crawl response key errors - _status & _status_code in crawl
+response were missing the leading underscore for the following responses
+
+    - SC_CTR_RAISED_EXCEPTION
+    - SC_INVALID_CRAWL_RETURN_TYPE
+    - SC_CRAWL_RAISED_EXCEPTION
+    - SC_SPIDER_NOT_FOUND
+
+### Removed
+
+- Nothing"
+5494,ReleaseEvent,2015-05-02 14:45:44+00:00,21608591,markuskiller/textblob-de,5632357,markuskiller,,,published,0.4.2,0.4.2,"0.4.2 (02/05/2015)
+++++++++++++++++++
+
+* Removed dependency on [NLTK](https://github.com/nltk/nltk/) as it already is a [TextBlob](http://textblob.readthedocs.org/en/dev/) dependency
+* Temporary workaround for [NLTK Issue \#824](https://github.com/nltk/nltk/issues/824) for tox/Travis-CI
+* (update 13/01/2015) [NLTK Issue \#824](https://github.com/nltk/nltk/issues/824) fixed, workaround removed
+* Enabled ``pattern`` tagset conversion (``'penn'|'universal'|'stts'``) for ``PatternTagger``
+* Added tests for tagset conversion
+* Fixed test for Arabic translation example (Google translation has changed)
+* Added tests for lemmatizer
+* Bugfix: ``PatternAnalyzer`` no longer breaks on subsequent ocurrences of the same ``(word, tag)`` pairs on Python3 see comments to [Pull Request \#11](https://github.com/markuskiller/textblob-de/pull/11)
+* Bugfix/performance enhancement: Sentiment dictionary in ``PatternAnalyzer`` no longer reloaded for every sentence [Pull Request \#11](https://github.com/markuskiller/textblob-de/pull/11) (tanks @Arttii)
+"
+6026,ReleaseEvent,2018-01-15 03:07:46+00:00,113642904,henry0312/pytest-codestyle,433434,henry0312,,,published,v1.1.1,v1.1.1,"## Micro Enhancements
+
+- [Relax pytest version range by john-kurkowski · Pull Request #5](https://github.com/henry0312/pytest-codestyle/pull/5)"
+6263,ReleaseEvent,2018-03-04 21:17:47+00:00,108765249,cjsheets/mkdocs-rtd-dropdown,3053829,cjsheets,,,published,v0.0.9,v0.0.9,First public release. Doesn't extend well to different folder structures.
+6387,ReleaseEvent,2016-10-25 21:00:29+00:00,50593863,mark-adams/pytest-test-groups,472350,mark-adams,,,published,1.0.2,1.0.2,"- Adds support for `--test-group-random-seed`
+- Drops support for Python 2.6 & 3.2"
+7267,ReleaseEvent,2015-04-22 18:07:49+00:00,843712,ccnmtl/django-pagetree,59292,nikolas,52456,ccnmtl,published,1.1.2,1.1.2,"* Add confirmation page when deleting a pageblock.
+* Add support for Django 1.8."
+7545,ReleaseEvent,2015-05-12 14:04:24+00:00,30642061,sanger-pathogens/ariba,4937411,martinghunt,130803,sanger-pathogens,published,v0.3.2,Version 0.3.2,Bug fix: sometimes there is zero read depth ina contig at a position where a variant was called by comparing contig to reference gene. This was causing ARIBA to crash.
+7802,ReleaseEvent,2016-02-27 15:28:57+00:00,52136436,sendgrid/python-http-client,146695,thinkingserious,181234,sendgrid,published,v1.1.1,v1.1.1,Please see the [CHANGELOG](https://github.com/sendgrid/python-http-client/blob/master/CHANGELOG.md).
+7821,ReleaseEvent,2017-06-22 09:49:46+00:00,35100117,neo4j/neo4j-python-driver,4190164,zhenlineo,201120,neo4j,published,1.4.0b1,1.4.0b1,
+8097,ReleaseEvent,2017-11-23 14:07:16+00:00,71563227,miLibris/flask-rest-jsonapi,5735408,akira-dev,327479,miLibris,published,0.14.3,Version 0.14.3,"Feature:
+Configuration: you can disallow to disable pagination. You can set ALLOW_DISABLE_PAGINATION to False in your configuration file."
+8258,ReleaseEvent,2017-10-30 16:12:31+00:00,89018492,broadinstitute/keras-resnet,315821,0x00b1,393552,broadinstitute,published,v0.0.8,v0.0.8,
+8275,ReleaseEvent,2018-05-03 03:32:57+00:00,921367,cobrateam/splinter,52241,andrewsmedina,403905,cobrateam,published,0.8.0,0.8.0,"whats's new in splinter 0.8.0?
+=====================
+
+* add support for Firefox incognito mode (https://github.com/cobrateam/splinter/pull/578)
+* allow return value for `execute_script` to be returned (https://github.com/cobrateam/splinter/pull/585)
+* `chrome_options` parameter renamed to `options` (https://github.com/cobrateam/splinter/pull/590)
+* removed deprecated `mouseover` method
+* raises `NotImplementedError` on `status_code` in drivers based on webdriver
+* `phantomjs` is deprecated (this driver will be removed in 0.9.0)"
+8658,ReleaseEvent,2017-02-13 01:39:19+00:00,24757484,robotpy/robotpy-wpilib,567900,virtuald,640276,robotpy,published,2017.0.9,Minor bugfix,Fixed an issue with Conditional Commands (#260)
+8989,ReleaseEvent,2017-09-14 13:22:07+00:00,68484371,cs50/submit50,20504399,bot50,788676,cs50,published,v2.4.3,v2.4.3,
+9405,ReleaseEvent,2017-10-31 14:12:15+00:00,85976485,cfpb/wagtail-inventory,654645,chosak,1071563,cfpb,published,0.4,0.4,- Add trove classifiers for PyPI #5
+9423,ReleaseEvent,2015-11-08 12:16:10+00:00,45539241,saltstack/pytest-tempdir,300048,s0undt3ch,1147473,saltstack,published,v2015.11.8,v2015.11.8,* Fix stale tempdir cleanup logic
+10603,ReleaseEvent,2016-08-30 11:57:16+00:00,44304014,hpcugent/vsc-install,281523,JensTimmerman,1515263,hpcugent,published,v0.10.13,v0.10.13,
+10627,ReleaseEvent,2018-08-14 15:12:47+00:00,38744670,zalando/patroni,3407345,CyberDem0n,1564818,zalando,published,v1.4.6,,https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-146
+10753,ReleaseEvent,2015-04-18 14:07:21+00:00,4333252,Guake/guake,133498,Stibbons,1741188,Guake,published,0.6.0,0.6.0,"This version is poor in new features, I just don't have time to work on Guake. I got a lot of
+incompatibility reports on new systems, such as Wayland. Port to gtk3 is still a must have, but
+all features of the VTE component does not seem to have been ported.
+
+Features:
+ - Save current terminal to find
+ - Hotkeys for moving tab
+ - plenty of color palettes (thanks @varemenos !)
+ - bug fixes
+"
+11073,ReleaseEvent,2017-04-13 13:03:59+00:00,80204035,trainline/envmgr-cli,1502359,duncanhall,2421167,trainline,published,1.6.1,1.6.1, - Fix syntax error when returning set schedule result
+11162,ReleaseEvent,2016-03-24 21:31:43+00:00,28074439,autoprotocol/autoprotocol-python,6485103,polarpine,2782412,autoprotocol,published,v3.1.0,v3.1.0,"This release includes changes to the Unit class, using the package Pint as the base units library.  The <code>Unit.value</code> attribute has been removed in favor of the more robust built-in unit conversions from Pint.  Additions include <code>MagneticTransfer</code> and <code>MeasureConcentration</code> Instructions."
+11252,ReleaseEvent,2017-06-26 23:33:08+00:00,16316451,GoogleCloudPlatform/google-cloud-python,242750,tseaver,2810941,GoogleCloudPlatform,published,speech-0.26.0,google-cloud-speech-0.26.0,- Update google-cloud-core dependency to ~= 0.25.
+11266,ReleaseEvent,2018-07-16 03:57:30+00:00,16316451,GoogleCloudPlatform/google-cloud-python,638797,crwilcox,2810941,GoogleCloudPlatform,published,videointelligence-1.3.0,google-cloud-videointelligence 1.3.0,"### Implementation Changes
+- Avoid overwriting '__module__' of messages from shared modules. (#5364)
+
+### New Features
+- Regenerate Video Intelligence v1p1beta1 endpoint to add new features (#5617)
+
+### Internal / Testing Changes
+- Add Test runs for Python 3.7 and remove 3.4 (#5295)"
+11276,ReleaseEvent,2017-11-30 01:44:41+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,published,pubsub-0.29.2,google-cloud-pubsub 0.29.2,"## Notable Implementation Changes
+
+- **Bug fix** (#4463): Making a subscription consumer actually stop running after encountering an exception (#4472, #4498). This bug is the **only** reason for the `0.29.2` release.
+- Thread Changes
+  - Added names to all threads created directly by Pub / Sub (#4474, #4476, #4480). Also removing spaces and colons from thread names (#4476).
+- Logging changes
+  - Adding debug logs when lease management exits (#4484)
+  - Adding debug logs when hen `QueueCallbackThread` exits (#4494). Instances handle theprocessing of messages in a subscription (e.g. to `ack`).
+  - Using a named logger in `publisher.batch.thread` (#4473)
+  - Adding newlines before logging protobuf payloads (#4471)
+
+PyPI: https://pypi.org/project/google-cloud-pubsub/0.29.2/"
+11362,ReleaseEvent,2015-08-19 21:23:50+00:00,11852493,GoogleCloudPlatform/compute-image-packages,4119885,wrigri,2810941,GoogleCloudPlatform,published,1.2.8,1.2.8,"### Google Startup Scripts
+- Fix for metadata scripts at a redirected URL
+
+### Miscellaneous
+- Minor code clean-up to help with Python 3 compatibility"
+12321,ReleaseEvent,2018-02-13 16:48:25+00:00,11322495,solvebio/solvebio-python,1028443,jsh2134,4605768,solvebio,published,v2.4.5,v2.4.5,Fixed issue with pass-through clients in object path validation
+12504,ReleaseEvent,2018-08-07 23:36:40+00:00,100658303,dwavesystems/dimod,8395238,arcondello,5449030,dwavesystems,published,0.7.0,0.7.0,"* Change the `Response` object API
+* Update the embedding chain break methods to be faster
+* Add new serialization methods
+"
+12506,ReleaseEvent,2018-01-30 19:41:45+00:00,115147126,dwavesystems/minorminer,1570179,bellert,5449030,dwavesystems,published,0.1.3,0.1.3,
+12573,ReleaseEvent,2017-06-29 08:47:48+00:00,36014372,NordicSemiconductor/pc-nrfutil,26139379,bencefr,5527425,NordicSemiconductor,published,v3.1.0,nrfutil v3.1.0,New --sd-id parameter for SD(+BL) update and App update. #64 
+12944,ReleaseEvent,2017-08-11 23:01:25+00:00,26877260,Microsoft/ApplicationInsights-Python,11968377,AlexBulankou,6154722,Microsoft,published,v0.11.0,v0.11.0,"* Django Middleware support (thanks @jjjordanmsft !)
+* Bug fixing"
+13430,ReleaseEvent,2017-04-28 21:07:37+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-appservice-0.1.4,azure-cli-appservice 0.1.4,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.python.org/pypi/azure-cli-appservice/0.1.4
+"
+13473,ReleaseEvent,2017-05-02 23:50:35+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-component-2.0.3,azure-cli-component 2.0.3,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.python.org/pypi/azure-cli-component/2.0.3
+"
+13639,ReleaseEvent,2018-01-08 22:24:53+00:00,71186377,Azure/msrestazure-for-python,1050156,lmazuel,6844498,Azure,published,v0.4.20,v0.4.20,"# 2018-01-08 Version 0.4.20
+
+## Features
+
+- CloudError now includes the ""innererror"" attribute to match OData v4 #73
+- Introduces ARMPolling implementation of Azure Resource Management LRO. Requires msrest 0.4.25 (new dependency).
+  This is used by code generated with Autorest.Python 3.0, and is not used by code generated by previous Autorest version.
+- Change msrest dependency to "">=0.4.25,<2.0.0"" to allow (future) msrest 1.0.0 as compatible dependency.
+
+Thank you to demyanenko for his contribution."
+13767,ReleaseEvent,2016-03-01 09:11:02+00:00,18031064,hmmlearn/hmmlearn,185856,superbobry,7037444,hmmlearn,published,0.1.1,,Initial release
+13939,ReleaseEvent,2017-05-17 17:15:26+00:00,89411207,googlesamples/assistant-sdk-python,5268,proppy,7378196,googlesamples,published,0.3.0,0.3.0,"Package | Version
+------------|------------
+google-assistant-sdk | [0.3.0](https://pypi.python.org/pypi/google-assistant-sdk/0.3.0)
+google-assistant-grpc | [0.0.1](https://pypi.python.org/pypi/google-assistant-grpc/0.0.1)
+google-assistant-library | [0.0.2](https://github.com/googlesamples/assistant-sdk-python/releases/download/0.3.0/google_assistant_library-0.0.2-py2.py3-none-linux_armv7l.whl)
+
+## Changelog
+
+- Move grpc bindings to the `google-assistant-grpc` [package](https://github.com/googlesamples/assistant-sdk-python/tree/master/google-assistant-grpc).
+- Moved reference grpc sample to `googlesamples.assistant.grpc.pushtotalk` with [updated instructions](https://github.com/googlesamples/assistant-sdk-python/tree/master/google-assistant-sdk/googlesamples/assistant/grpc).
+- Replaced `auth_helpers` with `google-oauthlibtool`:
+  - Follow the [updated instructions](https://github.com/googlesamples/assistant-sdk-python/tree/master/google-assistant-grpc#authorization) to generate and use new credentials.
+- Add `--once` flag to pushtotalk grpc sample (@r-clancy).
+- Fix typo in IFTTT handling in pushtotalk grpc sample (@kadeve).
+- Add [google-assistant-library sample](https://github.com/googlesamples/assistant-sdk-python/tree/master/google-assistant-sdk/googlesamples/assistant/library>).
+"
+14311,ReleaseEvent,2017-12-01 07:22:22+00:00,70451850,scikit-build/scikit-ci-addons,219043,jcfr,8144855,scikit-build,published,latest,Latest (updated on 2017-12-01 07:12 UTC),
+14315,ReleaseEvent,2017-11-15 20:01:59+00:00,70451850,scikit-build/scikit-ci-addons,219043,jcfr,8144855,scikit-build,published,latest,Latest (updated on 2017-11-15 20:11 UTC),
+14602,ReleaseEvent,2017-11-05 07:10:15+00:00,63186293,CiscoDevNet/ciscosparkapi,16244946,cmlccie,8827988,CiscoDevNet,published,v0.8.2,Expose Spark Data Object's JSON Data & Formalize Package API,"A couple of small feature updates in this release:
+* We are now exposing the Spark data object's JSON data in three formats ( #48 ):  💯
+  * `<spark data object>.json_data` returns a copy of the object's JSON data as an `OrderedDict`.
+  * `<spark data object>.to_dict()` returns a copy of the object's JSON data as a `dict` object.
+  * `<spark data object>.to_json()` returns a copy of the object's JSON data as an JSON string.  **Note:** You can pass your favorite Python JSON encoding keyword arguments to this method (like `indent=2` and etc.).
+* We have refactored the `ciscosparkapi` main package to more clearly articulate what classes and data are being exposed to you for your use.  😎"
+15022,ReleaseEvent,2017-09-18 11:42:12+00:00,66641037,LonamiWebs/Telethon,6297805,Lonami,9887454,LonamiWebs,published,v0.13.4,More bug fixes and enhancements,"### New stuff:
+* `TelegramClient` now exposes a `.is_connected()` method.
+* Initial authorization on a new data center will retry up to 5 times by default.
+* Errors that couldn't be handled on the background thread will be raised on the next call to `.invoke()` or `updates.poll()`.
+
+### Bugs fixed:
+* Now you should be able to sign in even if you have `process_updates=True` and no previous session.
+* Some errors and methods are documented a bit clearer.
+* `.send_message()` could randomly fail, as the returned type was not expected.
+
+### Things that should reduce the amount of crashes:
+* `TimeoutError` is now ignored, since the request will be retried up to 5 times by default.
+* ""-404"" errors (`BrokenAuthKeyError`'s) are now detected when first connecting to a new data center.
+* `BufferError` is handled more gracefully, in the same way as `InvalidCheckSumError`'s.
+* Attempt at fixing some ""NoneType has no attribute…"" errors (with the `.sender`).
+
+### Other internal changes:
+* Calling `GetConfigRequest` is now made less often.
+* The `initial_query` parameter from `.connect()` is gone, as it's not needed anymore.
+* Renamed `all_tlobjects.layer` to `all_tlobjects.LAYER` (since it's a constant).
+* The message from `BufferError` is now more useful."
+15604,ReleaseEvent,2016-06-21 13:23:31+00:00,33120392,zalando-stups/senza,510328,hjacobs,11431876,zalando-stups,published,1.0.74,1.0.74,* #228: Raise and exception if a stack reference looks like an yaml file and doesn't match anything
+15741,ReleaseEvent,2016-03-22 14:34:12+00:00,36879487,level12/keg-elements,276212,nZac,11673919,level12,published,0.3.1,0.3.1,"* Allow FieldMeta to override default widget and add extra validators (GH-38)
+* Allow customization of readonly and disabled attributes on input, select, and radio fields (GH-37)
+* Improve the logic for when to default a form field to RequiredBoolRadioField (GH-36)
+* Upgrades to the CI Environment
+"
+15809,ReleaseEvent,2017-08-22 15:50:42+00:00,70920962,PyFilesystem/pyfilesystem2,554369,willmcgugan,11898830,PyFilesystem,published,v2.0.9,,
+15845,ReleaseEvent,2018-04-10 16:38:39+00:00,99273369,NeurodataWithoutBorders/pynwb,32185786,nwb-bot,12140348,NeurodataWithoutBorders,published,latest,Latest (updated on 2018-04-10 16:04 UTC),
+16370,ReleaseEvent,2018-02-09 17:17:12+00:00,31315021,Kinto/kinto,17006,glasserc,13413813,Kinto,published,8.1.5,,"**Bug fixes**
+
+- Restore ""look before you leap"" behavior in the Postgres storage
+  backend create() method to check whether a record exists before
+  running the INSERT query (#1487). This check is ""optimistic"" in the sense
+  that we can still fail to INSERT after the check succeeded, but it
+  can reduce write load in configurations where there are a lot of
+  create()s (i.e. when using the default_bucket plugin).
+"
+16649,ReleaseEvent,2017-06-28 06:05:12+00:00,56986017,openai/mujoco-py,8098,jonasschneider,14957082,openai,published,1.50.1.0,v1.50.1.0,"mujoco-py v1.50.1.0 is a full rewrite from earlier versions. Headline features include:
+
+- Efficient handling of parallel simulations
+- GPU-accelerated headless 3D rendering
+- Direct access to MuJoCo functions and data structures
+- Upgrade to [MuJoCo 1.50](http://www.mujoco.org/changelist.html), bringing features like its improved contact solver"
+16729,ReleaseEvent,2016-10-26 17:51:08+00:00,70525386,uktrade/directory-api-client,5485798,richtier,15107524,uktrade,published,0.1.0,0.1.0,"Added following backwards compatible features:
+- Client now can post to `directory-api` phone number verification endpoint"
+16733,ReleaseEvent,2018-01-19 15:26:38+00:00,118031435,uktrade/directory-components,5485798,richtier,15107524,uktrade,published,v0.1.0,v0.1.0,
+16973,ReleaseEvent,2017-10-20 06:28:22+00:00,23225199,pyexcel/pyexcel,4280312,chfw,16431467,pyexcel,published,v0.5.5,v0.5.5,Find 0.5.5 in changelog for more details
+16983,ReleaseEvent,2016-10-24 20:21:52+00:00,25095161,pyexcel/pyexcel-ods,4280312,chfw,16431467,pyexcel,published,v0.2.2,Maintenance release,fix bug #14 
+17274,ReleaseEvent,2017-09-02 21:48:35+00:00,64231604,aetros/aetros-cli,450980,marcj,17340113,aetros,published,0.10.0,0.10.0,Please see http://aetros.com/blog/Releases/2-09-2017-update-to-2017-4-version
+17517,ReleaseEvent,2018-01-19 17:09:24+00:00,116003862,deep-compute/kwikapi,28617371,RamanjaneyuluIdavalapati,18276853,deep-compute,published,0.0.1,kwikapi-0.0.1,
+18141,ReleaseEvent,2017-11-24 10:14:47+00:00,111405937,Ymagis/ClairMeta,1922806,remia,22449507,Ymagis,published,1.0.0b3,,
+18172,ReleaseEvent,2018-05-18 16:01:51+00:00,98586974,ParallelSSH/ssh2-python,1391208,pkittenis,22918200,ParallelSSH,published,0.13.0.post1,Release 0.13.0-1,"Changes
+---------
+
+* Upgrade embedded ``libssh2`` in binary wheels to latest version plus enhancements.
+* Adds support for ECDSA host keys.
+* Adds support for SHA-256 host key fingerprints.
+* Added SSH agent forwarding implementation.
+* Windows wheels switched to OpenSSL back end.
+* Windows wheels include zlib and have compression enabled.
+* Windows wheels no MAC and no encryption options enabled, same as posix wheels.
+* SCP functions now raise appropriate exception for all known libssh2 error codes.
+* ``ssh2.session.Session.disconnect`` now returns ``0`` on success and raises exceptions on errors.
+* All session ``userauth_*`` functions now raise specific exceptions.
+
+Fixes
+-------
+
+* SCP functions could not be used in non-blocking mode.
+
+Note - libssh2 changes apply to binary wheels only. For building from source [see documentation](http://ssh2-python.readthedocs.io/en/latest/installation.html#installation-from-source)"
+18191,ReleaseEvent,2018-08-20 06:02:20+00:00,74854230,CliMT/climt,7300413,JoyMonteiro,23116436,CliMT,published,v0.15.3,Zenodo DOI release,"Zenodo was down and therefore did not generate a DOI for the latest release. No code changes are present
+in this release."
+18333,ReleaseEvent,2017-08-07 09:24:34+00:00,78880128,instagrambot/instabot,12039393,sudoguy,26087671,instagrambot,published,0.3.3.20,New functions and huge amount of bug fixes,"Added downloading/uploading photo, uploading videos.
+Filtering media that you have already commented.
+Getting total user medias.
+Archiving and unarchiving your medias."

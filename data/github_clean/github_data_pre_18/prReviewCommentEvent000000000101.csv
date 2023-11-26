@@ -1,0 +1,1041 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,pr_review_comment_action,pr_review_comment_id,pr_review_comment_commit_id,pr_review_comment_site_admin,pr_review_comment_body,pr_review_comment_author_association,pr_number,pr_review_comment_reactions
+74,PullRequestReviewCommentEvent,2017-05-20 17:24:07+00:00,9896961,dbrgn/RPLCD,20880016,GoranLundberg,,,created,39339415,ce5128e530753bdd529d4b060e45a1556674a9c6,False,"hehe, yeah :)",,59,{}
+246,PullRequestReviewCommentEvent,2017-03-18 02:03:32+00:00,6662075,joke2k/faker,26068859,ppeemk,,,created,27714306,82eeb0c158e90af7032197712b3ed8c11be6512f,False,"Actually this is like the last name that has been given by the king , but nowadays people will use it as a prefix for example Jiratit Tinnakorn na Ayuddhaya ; Jiratit <- first name , Tinnakorn <- last name , na Ayuddhaya <- works like prefix",,483,{}
+394,PullRequestReviewCommentEvent,2017-08-06 19:37:52+00:00,77868600,benjaminp/six,5534705,jz1371,,,created,54542413,c6a4033a0bc87c89cf060141a6befd987e505beb,False,"sure, will update to the following if we agree to keep `raise exception` part
+```
+    if isinstance(s, binary_type):
+        return s.decode(encoding, errors)
+    elif isinstance(s, text_type):
+        return s
+    else:
+        raise TypeError(""not expecting type '%s'"" % type(s))
+```",,204,{}
+590,PullRequestReviewCommentEvent,2017-11-27 15:30:28+00:00,16331291,davisking/dlib,31665404,visionworkz,,,created,79204520,8bd7f3e57ac5adfc90762b3c5594dbf60ea81626,False,"As per your suggestion, I am now directly allocating memory via `PyArray_SimpleNew`
+
+The function is below:
+```
+boost::python::list get_jitter_images(object img, size_t num_jitters = 1, bool disturb_colors = false)
+{
+    if (!is_rgb_python_image(img))
+        throw dlib::error(""Unsupported image type, must be RGB image."");
+
+    // Convert the image to matrix<rgb_pixel> for processing
+    matrix<rgb_pixel> img_mat;
+    assign_image(img_mat, numpy_rgb_image(img));
+
+    // The top level list (containing 1 or more images) to return to python
+    boost::python::list jitter_list;
+
+    size_t rows = num_rows(img_mat);
+    size_t cols = num_columns(img_mat);
+
+    // Size of the numpy array
+    npy_intp dims[3] = { num_rows(img_mat), num_columns(img_mat), 3};
+
+    for (int i = 0; i < num_jitters; ++i) {
+        // Get a jittered crop
+        matrix<rgb_pixel> crop = dlib::jitter_image(img_mat, rnd_jitter);
+        // If required disturb colors of the image
+        if(disturb_colors)
+            dlib::disturb_colors(crop, rnd_jitter);
+        
+        PyObject *arr = PyArray_SimpleNew(3, dims, NPY_UINT8);
+        npy_uint8 *outdata = (npy_uint8 *) PyArray_DATA((PyArrayObject*) arr);
+
+        size_t index = 0;
+        for(int i=0; i<rows; i++) {
+            for(int j=0; j<cols; j++) {
+                rgb_pixel pixel = crop(i, j);
+                outdata[index++] = pixel.red;
+                outdata[index++] = pixel.green;
+                outdata[index++] = pixel.blue;
+            }
+        }
+                
+        boost::python::handle<> handle(arr);
+        // Append image to jittered image list
+        jitter_list.append(object(handle));
+    }
+           
+    return jitter_list;
+}
+```
+
+However, do you see any problem with the previous malloc approach? `memcpy` should be faster than the `for` loop here(?)",NONE,980,{}
+617,PullRequestReviewCommentEvent,2017-05-12 02:01:45+00:00,28950521,delfick/bespin,109301,delfick,,,created,37740771,455a53cf201870d72f42dc1a588942c4ccc4935d,False,"oh, I see, python changes that into a tuple for you.... I'd rather be explicit to be honest",,69,{}
+618,PullRequestReviewCommentEvent,2017-04-21 06:34:18+00:00,28950521,delfick/bespin,109301,delfick,,,created,33945557,9e261a13fabc0c057929c67a77e3f9b568747599,False,"I suggest 
+
+   with self.fuzzAssertRaisesError(BespinError, ""message you expect"", kwarg1=1, kwarg2=2):
+        credentials.verify_creds()
+
+It's defined by delfick_error (https://github.com/delfick/delfick_error/blob/master/delfick_error.py#L143)",,44,{}
+671,PullRequestReviewCommentEvent,2018-08-18 16:00:56+00:00,106903467,kiwiz/gkeepapi,3122114,kiwiz,,,created,147434267,3a2f186906ccf30957e867177263420767cbf331,False,"Could we create `set*` methods for each field (`android_id`, `email`) or move them to the constructor. Possibly a `load` method on `APIAuth` that also accepts the master token & sets up?",OWNER,40,{}
+820,PullRequestReviewCommentEvent,2015-01-19 15:25:43+00:00,10632220,harvimt/quamash,271710,horazont,,,created,,09586b3bf24dd04ceca38988c285cf1b8d023634,False,"I clearer error message would be preferable, which informs the user that this is an intended change. Also perhaps a normal exception, such as NotImplementedError (as it is was legal in previous versions) or just a ValueError.",,29,{}
+893,PullRequestReviewCommentEvent,2017-08-23 23:58:24+00:00,100508342,msoon/PyMonsoon,7840242,Mbrinker,,,created,58247581,4a47363d881ec26bd1687334b46c5543a449581d,False,"Final correct line should be:
+
+result = ((65535-0x0F00) * (value / 15.625)+0x0F00)
+
+The hardware has a small negative offset voltage in the comparator circuit, so the 0x0F00 term is to correct for that.",,2,{}
+1122,PullRequestReviewCommentEvent,2017-09-24 07:07:38+00:00,9289343,svinota/pyroute2,5659115,pierventre,,,created,64755077,60d72608cfd6cc3b47bc4265acca20987c717628,False,"I didn't get. Why 10 should be a problem ? 
+
+Btw, "";"" is not necessary",NONE,425,{}
+1250,PullRequestReviewCommentEvent,2017-07-18 03:55:15+00:00,5934517,dpkp/kafka-python,843444,dpkp,,,created,50478289,e339af4b9f09e2296557ecb0cd30ac639583051e,False,mild preference for just setting `gssapi = None` on ImportError. See kafka/codec.py,,1152,{}
+1252,PullRequestReviewCommentEvent,2017-02-03 17:58:26+00:00,5934517,dpkp/kafka-python,843444,dpkp,,,created,20066836,bb1887ef0d97375164181b39b490ca6daea795ec,False,agree -- would prefer to separate this into separate PR.,,962,{}
+1388,PullRequestReviewCommentEvent,2017-08-26 09:07:11+00:00,32283257,philpep/testinfra,387511,philpep,,,created,58797504,ede45bea463a9e9f7173528292401d3bfb69c46e,False,"What if we don't supply a port in ``hostspec`` ? It will be set to ``None`` and probably create a wrong ``endpoint`` here.
+
+I'd suggest
+
+```python
+'endpoint': '{proto}://{host}{port}/wsman'.format(
+    [...]
+    port=':{}'.format(self.port) if port else ''
+)
+```",,231,{}
+1392,PullRequestReviewCommentEvent,2017-12-05 18:53:50+00:00,25334762,pipermerriam/flex,824194,pipermerriam,,,created,81296002,75f05f645c42ab8fc949ff3e86c5d6eb11ada8b0,False,I'm having trouble following the logic behind this change which implies this section could use a comment explaining what is happening and why.  Is that something you can add?,OWNER,185,{}
+1619,PullRequestReviewCommentEvent,2017-03-13 00:34:27+00:00,8292338,ultrabug/py3status,56311,tobes,,,created,26460210,8a6b376f42ba29f7c94fa1bba00e62c2b699a4ac,False,"`500 < None` == `False` so this is no good you could use `int('inf')` (infinity),  `500 < int('inf')`  == `True`
+
+values like `(0, 50, 'good')`, might be easier to use.  But this is looking like a threshold to me so really you don't need that second number at all.  It would also simplify `_key()` slightly.",,800,{}
+1625,PullRequestReviewCommentEvent,2017-03-04 16:34:32+00:00,8292338,ultrabug/py3status,56311,tobes,,,created,25126888,55a2f428486088d00ad2f6fbc37e7d36f7f5039f,False,I think these should match the placeholders better eg `icon_scr_on` if placeholder is `{scr}`,,782,{}
+1628,PullRequestReviewCommentEvent,2017-03-31 14:43:49+00:00,8292338,ultrabug/py3status,56311,tobes,,,created,30263680,88153706d5a5c5732a33f6b798800af0283453eb,False,it'd be nice if these where like in `mpris` so `color_paused` not `color_pause` because these are more used and also to me sound better.  `color_pause` is ambiguous in it's meaning,,844,{}
+1631,PullRequestReviewCommentEvent,2018-08-23 19:51:19+00:00,8292338,ultrabug/py3status,519083,cyrinux,,,created,149070738,cf96d12835a7bd1df3c0cd661d0e07a1ad766ea2,False,ok. For extra space i have recheck for me it is good like this.,CONTRIBUTOR,1435,{}
+1645,PullRequestReviewCommentEvent,2016-03-20 11:50:37+00:00,4387128,wbolster/happybase,3633252,surfacepatterns,,,created,,b461bb1d76d53787a336e90f0d193ec261f8c60a,False,"Yes.  I thought about creating a separate utility function just for iterating over items:
+
+    if sys.version_info >= (3,):
+        def iteritems(d):
+            return d.items()
+    else:
+        def iteritems(d):
+            return d.iteritems()
+
+PEP 469 [recommends this approach](http://legacy.python.org/dev/peps/pep-0469/#migrating-to-the-common-subset-of-python-2-and-3), though also mentions that `six` and `future.utils` provide the same functionality.",,111,{}
+1723,PullRequestReviewCommentEvent,2015-09-01 19:10:35+00:00,11820959,craffel/pretty-midi,417568,craffel,,,created,,a7b05a506cff921fed20b7fb269e99a97346faa9,False,"Ah, I see, so you're using np.arange as ""accumulate until you have equalled or exceeded this point"".  What do you want it to do when `start + n*step` is epsilon-close to `nxt_tempo_change`?  I'd rather this be handled explicitly, because `np.arange` is a good way to not be explicit about it.  For example, to ensure that `nxt_tempo_change` is never included, you could do something like 
+```Python
+new_beats = [beat_start]
+while (new_beats[-1] < nxt_tempo_change and
+       not np.allclose(new_beats[-1], nxt_tempo_change)):
+    new_beats.append(new_beats[-1] + 60./bpm)
+new_beats = new_beats[-1]
+beat_times = np.append(beat_times, new_beats)
+```",,45,{}
+1741,PullRequestReviewCommentEvent,2017-10-24 02:20:21+00:00,26675802,floydwch/kaggle-cli,1651509,floydwch,,,created,71379039,23bb924f92790ce71348dce061636d1150522e05,False,I still can't understand why it has caching issues. Can you explain the scenario?,OWNER,52,{}
+1792,PullRequestReviewCommentEvent,2017-11-25 08:41:59+00:00,67834502,lk-geimfari/mimesis,10143251,jorisdevrede,,,created,78998290,2fdae8da22ea0918a3f33c8566143baf629e7fbe,False,"Yes, of course. I've added annotations.",CONTRIBUTOR,296,{}
+1910,PullRequestReviewCommentEvent,2016-12-14 16:52:35+00:00,13265524,balloob/pychromecast,1444314,balloob,,,created,12952754,909e485e622bedfd181dae618690209a273218c6,False,Did you see this comment?,,104,{}
+1948,PullRequestReviewCommentEvent,2018-06-13 21:45:15+00:00,35960513,fabianvf/python-rake,16011037,stickler-ci,,,created,128577038,e2d1d0e03a11babb2db19eefa2a5749dc2263ca0,False,"E231 missing whitespace after ','",CONTRIBUTOR,39,{}
+1968,PullRequestReviewCommentEvent,2017-12-27 16:38:26+00:00,84045805,jendrikseipp/vulture,15556382,RJ722,,,created,85696921,7aa6ec05ac0c2103089cfdf28bd7f14392175acc,False,Can we also mention how to force push after amending the commit?,CONTRIBUTOR,104,{}
+1972,PullRequestReviewCommentEvent,2017-08-02 19:06:24+00:00,84045805,jendrikseipp/vulture,15556382,RJ722,,,created,53900763,00cb5a95a821278045de801da134c3a25071e749,False,"IMHO, we'll be needing more tests for:
+* nested if/else clauses having return statements
+* nested try/except statements
+* for/else, for, while/else and while loops
+
+Did I leave something?",,83,{}
+2290,PullRequestReviewCommentEvent,2018-03-31 18:42:46+00:00,83989500,rytilahti/python-miio,6697940,houndci-bot,,,created,108499732,1b66cced35a3dd4208206c99343eb85c7c34f726,False,unexpected spaces around keyword / parameter equals,NONE,191,{}
+2292,PullRequestReviewCommentEvent,2018-03-31 20:15:33+00:00,83989500,rytilahti/python-miio,6697940,houndci-bot,,,created,108501706,7f290d43f43877bfc982e6dd7ccaa71b622fa6af,False,unexpected spaces around keyword / parameter equals,NONE,289,{}
+2355,PullRequestReviewCommentEvent,2017-04-07 20:55:38+00:00,70271916,FraBle/python-duckling,1584268,FraBle,,,created,31661818,9a715fa0eff20e47964b6aa44484aabd8d5033a8,False,"You should turn around the if-else statement:
+```python
+if languages:
+    ...
+else:
+    ...
+```",,10,{}
+2414,PullRequestReviewCommentEvent,2016-03-05 17:48:20+00:00,10102813,lepture/flask-oauthlib,2446612,madawei2699,,,created,,57aba92f174a5acf35aa6c1e0f1c9781a578ae6d,False,I just modify like you said. May be this style is more effect than before.,,258,{}
+2449,PullRequestReviewCommentEvent,2016-12-22 08:35:01+00:00,63150494,Danielhiversen/flux_led,809840,tchellomello,,,created,14112904,207ee86e332a1f887b7d1369a0a4476549679c86,False,How about to make it case insensitive or forcing the string to be in lower case to avoid user errors?,,10,{}
+2490,PullRequestReviewCommentEvent,2016-05-31 21:14:48+00:00,1405201,bigjason/django-choices,4660275,sobolevn,,,created,,c9ce101dad90e01315cdfb7527365dcef8026ac2,False,"nope, that's not working.",,37,{}
+2545,PullRequestReviewCommentEvent,2018-08-12 22:08:19+00:00,143541475,kylebarron/stata_kernel,15164633,kylebarron,,,created,145488368,4fc64abd21ddedcd0b14d876cd058130faf94fea,False,I think the tooltip is just providing a `do_inspect()` response. It should be simple to just run `man code` for whatever word the cursor is at. Though I got a bug with that when I tried yesterday.,OWNER,66,{}
+2806,PullRequestReviewCommentEvent,2017-04-10 19:28:41+00:00,1236911,charettes/django-colorful,9293,charettes,,,created,31936941,f7ea990630dcb99ebc05d82c065e5941977b45e2,False,You'll need to add py35/py36 envs in the matrix as well since TravisCI don't ship with them by default.,,42,{}
+2838,PullRequestReviewCommentEvent,2016-12-14 02:49:58+00:00,27742208,jschneier/django-storages,1136329,scjody,,,created,12826583,fb2c12afb4d0a2b827b9e6c5c5ec76889a47c267,False,"@eirsyl The existing backends all use the `@deconstructible` decorator here but I'm not sure why. Commit comments suggest it has something to do with migrations but I'm able to migrate to a `FileField` using this backend for storage with this code as is. Therefore I'm inclined to leave the decorator out and if someone needs it, they can add it. What do you think?",,236,{}
+2872,PullRequestReviewCommentEvent,2018-08-20 09:33:44+00:00,16613581,pseudonym117/Riot-Watcher,755683,duiker101,,,created,147567020,30d3a1566a7729b1ca7eead95207503d3c8bef75,False,"The reason why is because the URLs for the version and for the actual file a a bit different. The version take only the region as a path and the static has version, locale and finally the url_extension. I will have to call both request_version and request_static from DataDragonApi, but I can see that it would be maybe more confusing for the use. I'll be happy to refactor it should you wish so.",NONE,89,{}
+2947,PullRequestReviewCommentEvent,2015-12-10 22:09:18+00:00,27728976,eisensheng/pytest-catchlog,530396,abusalimov,,,created,,9adc9113053a68a3da5e7f4503f9622da54c70b1,False,Thank you!,,20,{}
+2964,PullRequestReviewCommentEvent,2017-05-29 08:24:40+00:00,30093433,holdenk/spark-testing-base,59893,holdenk,,,created,40720880,32a14e7fc3a59bf5945ba74f45a21854279c5f1f,False,"I like this, I think maybe an additional test which is perhaps structured the way we would expect users to use this (e.g. with a generator or similar) might make sense. What do y'all think?",,188,{}
+2990,PullRequestReviewCommentEvent,2017-06-29 19:35:35+00:00,3652822,mattupstate/flask-security,163961,nfvs,,,created,47229366,4bf9223f06541ee4c74496697156df8d53f280c1,False,"> `request.full_path.rstrip('?')`
+
+I'm sorry, but how is `request.full_path` without the query string different from `request.path`?
+
+http://flask-.readthedocs.io/en/latest/api/#flask.Request.path (look at the example provided)
+
+I can see a problem if referrer itself has a query string, but that code doesn't seem to solve it.",,671,{}
+3038,PullRequestReviewCommentEvent,2017-12-06 14:03:26+00:00,58892199,bittner/django-apptemplates,154364,dracos,,,created,81529837,6eafeb2d22bc5f96224639a06a87616cd1cd7303,False,Have gone for `cached_template_settings`,NONE,6,{}
+3055,PullRequestReviewCommentEvent,2018-02-19 14:21:03+00:00,24293470,kencochrane/django-defender,261601,kencochrane,,,created,97557842,db9377de55f1385584b587c1b8afc8ee23821e4f,False,"We can probably make this even more simple.
+
+```
+if config.MOCK_REDIS:
+    import mockredis
+    return mockredis.mock_strict_redis_client()
+```
+
+Then we can remove the `MOCKED_REDIS` variable all together what do you think? ",OWNER,115,{}
+3116,PullRequestReviewCommentEvent,2016-06-05 13:27:39+00:00,19168375,macropin/django-registration,1144020,joshblum,,,created,,cb695f54ca473b95b92d50e9baa93338195db219,False,does the django auth view automatically handle if this parameter is set? Or should a line setting the cookie be placed? (i.e. https://github.com/pennersr/django-allauth/blob/cf45cc605a3d2b49efb1309960df7ee6059175cd/allauth/account/forms.py#L159),,90,{}
+3207,PullRequestReviewCommentEvent,2017-02-22 22:07:27+00:00,14612476,twolfson/restructuredtext-lint,902488,twolfson,,,created,23345762,dc0fc0f1976c5e4576e8e5edbe62e67511999789,False,This comment should be updated to `error code 2`,,37,{}
+3242,PullRequestReviewCommentEvent,2017-09-28 20:27:06+00:00,86639356,xzkostyan/clickhouse-sqlalchemy,9579432,xzkostyan,,,created,65989113,8af47a5e866718f1925a9b96d74f463c45674dcb,False,В каких случаях нам надо отсекать кавычки? ,OWNER,6,{}
+3259,PullRequestReviewCommentEvent,2018-07-15 23:56:47+00:00,126935000,lmcgartland/graphene-file-upload,6155705,davidroeca,,,created,137283051,338ad0448f4a51506c405270719d050e032e947d,False,"To run the django examples, I needed to add the following line:
+```
+graphene-django==2.0.0
+```",NONE,8,{}
+3310,PullRequestReviewCommentEvent,2015-02-02 03:59:20+00:00,16006840,miki725/django-rest-framework-bulk,932940,miki725,,,created,,7ce139e025464031c598da0320352e56df5257ce,False,how so? we might have to wait a while to get to DRF 20+,,29,{}
+3413,PullRequestReviewCommentEvent,2018-07-31 23:01:55+00:00,30386388,box/box-python-sdk,11448210,anthonywee,23900,box,created,142177212,b8a0dbdaf9c75f61c558263a1753e1c94d2543fe,False,trailing comma,COLLABORATOR,317,{}
+3428,PullRequestReviewCommentEvent,2018-02-07 13:21:55+00:00,5898459,camptocamp/tilecloud-chain,353872,sbrunner,28109,camptocamp,created,94704435,ed9a95eb15c6b05f056b52bfacc00f8cd4a1ee98,False,Why not using the `_time_iteration...`?,OWNER,336,{}
+3436,PullRequestReviewCommentEvent,2016-01-08 18:09:31+00:00,41557383,cloudant/python-cloudant,8793303,alfinkel,44642,cloudant,created,,23c4769a948cfd641254001c837d52d51098e605,False,"The typical rule for indentation in Python is 4 spaces.  I suggest changing the statement to be either:
+
+```python
+result = Result(self.ddoc.get_view('view001'),
+    startkey='1', endkey='9', page_size=1000)
+```
+
+or 
+
+```python
+result = Result(
+    self.ddoc.get_view('view001'),
+    startkey='1',
+    endkey='9',
+    page_size=1000
+)
+```
+",,83,{}
+3447,PullRequestReviewCommentEvent,2018-02-14 20:08:37+00:00,34864402,apache/incubator-mxnet,568948,piiswrong,47359,apache,created,96639955,115a6352e6aa5ed68e3f5238b126b0231971e17a,False,"multiple inheritance is very rarely necessary.
+In this case I think _BinaryClassificationMixin should either inherit EvalMetric or be refactored into a few utility functions",CONTRIBUTOR,9777,{}
+3453,PullRequestReviewCommentEvent,2017-11-03 01:32:55+00:00,34864402,apache/incubator-mxnet,70481,zheng-da,47359,apache,created,73983449,b71352407769832b0d86954b041cd6b8d3c4e8e8,False,break up this pull request?,NONE,8302,{}
+3455,PullRequestReviewCommentEvent,2017-08-28 17:51:59+00:00,34864402,apache/incubator-mxnet,4978794,reminisce,47359,apache,created,59016142,42285b38c87c95ceaac8acafffc8354c61799c3c,False,I see.,,7638,{}
+3462,PullRequestReviewCommentEvent,2017-09-13 05:58:20+00:00,34864402,apache/incubator-mxnet,4978794,reminisce,47359,apache,created,62335809,7ab7d4548421be30b85026735b143bbf2dc3979c,False,"Please consider the following example. `q` is the output of the operator `quadratic` and is inferred from `data2`. Then `data1` is inferred from `q` in the backward inference pass. I will add this to the tutorial as well.
+```python
+import mxnet as mx
+
+data1 = mx.sym.var('data1')
+q = mx.sym.quadratic(data=data1)
+
+data2 = mx.sym.var('data2', shape=(2, 3))
+s = q + data2
+print s.infer_shape()
+```",CONTRIBUTOR,7828,{}
+3472,PullRequestReviewCommentEvent,2018-03-13 22:25:49+00:00,34864402,apache/incubator-mxnet,18629099,marcoabreu,47359,apache,created,103636606,0e396e1f2bb0d4874eea02265c4587aa14c8624f,False,Could you add a comment that explains that we basically just expect this to pass?,CONTRIBUTOR,10090,{}
+3474,PullRequestReviewCommentEvent,2017-09-25 23:12:52+00:00,34864402,apache/incubator-mxnet,1208642,nswamy,47359,apache,created,65063262,3f7ec5b1aa236001adcf0fde3908fc3f281d1d8c,False,please remove the else part in your next commit after you have verified that everything works. no need to print 'not running' every time.,CONTRIBUTOR,8034,{}
+3476,PullRequestReviewCommentEvent,2018-05-15 13:16:59+00:00,34864402,apache/incubator-mxnet,22461308,pengzhao-intel,47359,apache,created,120226749,89d7326fc7a8f49dc0eb1b0ffb6fcb35e84cc155,False,"Get thread number by `mxnet::engine::OpenMP::Get()->GetRecommendedOMPThreadCount()`. 
+Please change all omp by this way :)",NONE,10311,{}
+3480,PullRequestReviewCommentEvent,2018-03-21 21:54:25+00:00,34864402,apache/incubator-mxnet,3716307,ThomasDelteil,47359,apache,created,105921998,e48679c0ae1b1349b1af220e85f0550bd46f45e0,False,":+1: changed, will add tutorial once it has completed review",CONTRIBUTOR,10165,{}
+3484,PullRequestReviewCommentEvent,2018-01-01 07:10:43+00:00,34864402,apache/incubator-mxnet,24650346,ZiyueHuang,47359,apache,created,86056993,957137ad54c77100df4b6ab8a4706293593ae5e3,False,"It seems that L2 term is out of clip in other optimizers, such as sgd in https://github.com/apache/incubator-mxnet/blob/master/src/operator/optimizer_op-inl.h#L76-L78.",CONTRIBUTOR,9262,{}
+3497,PullRequestReviewCommentEvent,2018-04-19 16:36:58+00:00,34864402,apache/incubator-mxnet,5545640,eric-haibin-lin,47359,apache,created,113685300,e8032adcc57420d2d400f89d853156da0c85a2f5,False,nit: common::ContainsOnlyStorage -> ContainsOnlyStorage,CONTRIBUTOR,10550,{}
+3503,PullRequestReviewCommentEvent,2018-08-23 03:33:46+00:00,34864402,apache/incubator-mxnet,4978794,reminisce,47359,apache,created,148747166,fda99e779fe649358f20784a49858e048f25bcc3,False,This statement is not true. CPU and GPU kernels have different strategies of launching threads. Output size is not the number of threads in both cases.,CONTRIBUTOR,12230,{}
+3504,PullRequestReviewCommentEvent,2017-08-07 11:32:32+00:00,34864402,apache/incubator-mxnet,4514568,zihaolucky,47359,apache,created,54629358,63d9dffae208faf246ace0369e8be074b0317fea,False,"If some one hasn't install tensorboard yet, it might throw an exception. Consider making it an optional feature.",,7363,{}
+3508,PullRequestReviewCommentEvent,2017-10-12 15:32:39+00:00,34864402,apache/incubator-mxnet,11234557,cjolivier01,47359,apache,created,68968122,1dc1e3d36db62734b37de52f923b3ce02103f6dd,False,"You know, these all pass unit tests for every possible combination.",CONTRIBUTOR,7903,{}
+3509,PullRequestReviewCommentEvent,2018-06-11 19:45:04+00:00,34864402,apache/incubator-mxnet,11465736,haojin2,47359,apache,created,127713546,8a98878ecd814872b278c5842553290975789d00,False,why print here?,CONTRIBUTOR,11229,{}
+3522,PullRequestReviewCommentEvent,2018-01-24 06:11:27+00:00,34864402,apache/incubator-mxnet,2626883,szha,47359,apache,created,91072939,4b13d37a2735e4224dc19e423d8fad60f511a78c,False,I think this only depends on tokenization. The class of vocabulary itself doesn't need any change.,MEMBER,9534,{}
+3523,PullRequestReviewCommentEvent,2018-05-22 03:48:57+00:00,34864402,apache/incubator-mxnet,2626883,szha,47359,apache,created,122013149,97b8b3829b562c59d8d904a028bc7d75ed4762b1,False,use `_get_activation`,MEMBER,10957,{}
+3526,PullRequestReviewCommentEvent,2018-02-22 12:39:52+00:00,34864402,apache/incubator-mxnet,771744,yajiedesign,47359,apache,created,98549237,21496bb90ba626185ef73382bd845006670bd777,False,"sorry for later,if not set CUDA_TOOLSET,it will use the latest version cuda.
+If you install multiple cuda versions at the same time, you need CUDA_TOOLSET to select the version.",CONTRIBUTOR,9798,{}
+3529,PullRequestReviewCommentEvent,2017-10-17 22:08:48+00:00,33884891,apache/incubator-airflow,10408007,Acehaidrey,47359,apache,created,70046796,215ceaeebb865a3e99decf61661a52646b332791,False,could make the str cast here,CONTRIBUTOR,2177,{}
+3622,PullRequestReviewCommentEvent,2016-06-03 01:05:07+00:00,6930489,facebook/watchman,180618,sid0,69631,facebook,created,,eadabbe2aa8ab726d58ebde2b2c4005f54c92f5d,False,Does this assert work in release builds?,,258,{}
+3737,PullRequestReviewCommentEvent,2017-12-14 17:06:39+00:00,60273704,mozilla/DeepSpeech,1645737,lissyx,131524,mozilla,created,83576081,bfca43d9285737052708c55a478ee3ca6bacb37d,False,Can we ensure this is okay on all Python versions? I know some may have variances on the properties available on the exceptions.,COLLABORATOR,1102,{}
+3749,PullRequestReviewCommentEvent,2017-03-30 11:49:59+00:00,60273704,mozilla/DeepSpeech,5991088,tilmankamp,131524,mozilla,created,29969263,a83f3045fc9425902295dc9a65b2804b0400b74b,False,"Hmm yeah - this is a bit of lying, but easier to get... Done",,478,{}
+3752,PullRequestReviewCommentEvent,2017-08-30 15:42:18+00:00,60273704,mozilla/DeepSpeech,477142,reuben,131524,mozilla,created,59600875,085379bcb7c6c1e0840c56ff516df414ef330a21,False,"Oh, and make sure your LM knows about the word yéar, or disable the LM correction.",COLLABORATOR,797,{}
+3756,PullRequestReviewCommentEvent,2017-06-07 10:19:17+00:00,60273704,mozilla/DeepSpeech,5991088,tilmankamp,131524,mozilla,created,42560578,b1061c767d417466d5056e896a61089554dc0d9a,False,"Because
+- the intent is not to end it gracefully (in this case sending a normal stop token to the ps - which would work, but log strange things) and
+- hinder future blocking operations in `end()` to exit from this exception-case",,616,{}
+3780,PullRequestReviewCommentEvent,2017-04-03 12:39:24+00:00,8463294,mozilla/treeherder,501702,edmorley,131524,mozilla,created,30503493,7330a2aa3fdebf5983f257dbad639ea999e41373,False,"I'm presuming at some point these should be converted to narrower imports? If so, could you add a comment to that effect?",,2309,{}
+3785,PullRequestReviewCommentEvent,2018-02-20 16:50:43+00:00,8463294,mozilla/treeherder,501702,edmorley,131524,mozilla,created,97902984,840bffed223f5ab5d719481f4f2b3218235d2f5d,False,`main_url` isn't used at the moment - will it be soon?,MEMBER,3211,{}
+3796,PullRequestReviewCommentEvent,2015-07-08 15:18:56+00:00,8463294,mozilla/treeherder,20569,wlach,131524,mozilla,created,,5299852e7fb6e62fbe4b00de2fb473e466a33728,False,This change needs to be removed as well.,,615,{}
+3798,PullRequestReviewCommentEvent,2016-09-20 00:19:55+00:00,8463294,mozilla/treeherder,2374949,akhileshpillai,131524,mozilla,created,,ab466bcb77a1763d6cdd45c7c57b7a0b1ed18390,False,I will try this now,,1856,{}
+3808,PullRequestReviewCommentEvent,2017-02-16 20:49:13+00:00,8463294,mozilla/treeherder,20569,wlach,131524,mozilla,created,22358298,76f09b0aaf273e56b656b5566e2b511d211cf5da,False,"Just checked and we're not using a form input of type number, so this wouldn't apply in any case (though even if it did, I don't think you'd see a spinner).",,2182,{}
+3828,PullRequestReviewCommentEvent,2018-07-14 00:12:08+00:00,8463294,mozilla/treeherder,419924,camd,131524,mozilla,created,137219988,3a53cb7e7b5079a49614e1ae12fbdb87ddbb71fd,False,"It would, yeah.  But it's not looking for the return value.  This is just a ""hook"" to let us make last minute changes to it's default way to make links.  We're modifying the ``match`` object that it passed in.  And it then uses that ``match`` object to make the returned ``jsx`` element.",CONTRIBUTOR,3785,{}
+3830,PullRequestReviewCommentEvent,2015-02-11 19:10:19+00:00,4421513,mozilla/mozdownload,129603,whimboo,131524,mozilla,created,,aa02f8c9724caf08af1e04be98abe8564f13d5ce,False,"It was never used in this file, so just an orphaned include.",,251,{}
+3841,PullRequestReviewCommentEvent,2017-11-02 17:06:28+00:00,527040,recurly/recurly-client-python,185919,bhelx,144605,recurly,created,73866490,f3ae326d0dd7707257434bd93886ecf8757c6772,False,python2 and 3 arrange the keys in a different order. I'll add something to sort them first so they are consistent.,MEMBER,218,{}
+3854,PullRequestReviewCommentEvent,2016-08-05 00:22:19+00:00,41010216,atlassian/asap-authentication-python,1684354,dbaxa,168166,atlassian,created,,60ba391f708a0a2086de908298000293340903a4,False,I don't think `PUBLICKEY_REPOSITORY` should be hard-coded here.,,29,{}
+3859,PullRequestReviewCommentEvent,2017-10-30 17:15:48+00:00,52136436,sendgrid/python-http-client,24502053,delirious-lettuce,181234,sendgrid,created,72908917,d25c00a58d56bb65f535abf4d2e450b5f0bfed55,False,"Too bad a multi-line string couldn't be used quite as well here since the url makes that one line 87 chars long (but no newline characters or extra brackets):
+
+```python
+replacement = """"""\
+|SendGrid Logo|
+
+.. |SendGrid Logo| image:: https://uiux.s3.amazonaws.com/2016-logos/email-logo%402x.png
+   :target: https://www.sendgrid.com""""""
+
+```
+",NONE,65,{}
+3907,PullRequestReviewCommentEvent,2016-04-19 06:35:00+00:00,5888353,spotify/luigi,84229,ulzha,251374,spotify,created,,baaf9cde5431e6c162c18bed604f7dc028fbfa67,False,"Ah, wait, if we want backwards compatibility, then this default should be 0 like the other inconsistent ones.",,1612,{}
+3924,PullRequestReviewCommentEvent,2015-07-14 14:06:24+00:00,5888353,spotify/luigi,294349,Tarrasch,251374,spotify,created,,b766d5f54a10f37cf841d0c3d25328dac2a083d0,False,Can you rename this to `max_part_size` too? It's very confusing when grepping otherwise.,,1066,{}
+3995,PullRequestReviewCommentEvent,2017-05-19 09:20:16+00:00,744916,gem/oq-engine,350930,ptormene,316546,gem,created,39147966,1305f45d973a6dd16816feecf116b449839a9717,False,"`or` -> `for`, and it can also be used for postprocessing of risk calculations",,2808,{}
+4001,PullRequestReviewCommentEvent,2017-06-29 20:23:13+00:00,19056610,SecurityInnovation/PGPy,1296726,J08nY,320350,SecurityInnovation,created,47241063,484b58187801d33cb59c4ac5c94d4e029187bc4f,False,"Sure I can use that, although it's a bit more complex. The armor regex shouldn't change once it's ""right"" so that should not be a problem. Just pushed with this regex and a one additional cleartext test.",,193,{}
+4036,PullRequestReviewCommentEvent,2018-02-19 21:31:19+00:00,6670942,boto/botocore,4605355,kyleknap,327752,boto,created,97658604,eb582f6ddeb20030f7a69407fe19e6f2537a11e1,False,Do you think we need to sleep 10 seconds now before going into the wait loop? Or do you think we can just go straight into the waiter logic? Not really a big deal. Just read a little weird when I saw a `sleep()` followed by a `wait_for_stream_data()` as I would have assumed the `sleep()` would not be needed if there was already a wait logic.,OWNER,1389,{}
+4040,PullRequestReviewCommentEvent,2015-04-02 20:58:15+00:00,6670942,boto/botocore,4605355,kyleknap,327752,boto,created,,77cc71d50b184c4539b9e4aaface88ea359dfaf9,False,"I considered creating my own model for this. However, I felt ``CreateBucket`` is suitable. All I really need is the url when I serialize the request and the ``CreateBucket`` serialization is exactly how I need the url serialized. Let me know if you want me to change this.",,504,{}
+4042,PullRequestReviewCommentEvent,2017-01-30 22:51:00+00:00,6670942,boto/botocore,368057,jamesls,327752,boto,created,19207226,2fcfe6e3ac0fba0e597742627845039e9fbea1fe,False,"Yeah, I think we should hold off on this for now until we can look into this waiter more in depth.",,1134,{}
+4058,PullRequestReviewCommentEvent,2017-02-16 16:26:12+00:00,68928471,inspirehep/inspire-schemas,119349,kaplun,356664,inspirehep,created,22293049,f981371cdf30b9ff6f74b1316b3acbc355a8d80c,False,"I am not sure: is `yyyy-mm-dd` a valid jsonschema date?
+https://tools.ietf.org/html/rfc3339#section-5.6
+I fear we need to amend here and complete with `T00:00:00`",,81,{}
+4062,PullRequestReviewCommentEvent,2016-09-27 12:01:19+00:00,68928471,inspirehep/inspire-schemas,119349,kaplun,356664,inspirehep,created,1716348,e1febc96cf2fff8b154035fe6836b3087961af5a,False,"BTW, what is the copyright of this code? Is it yours? Could you add the usual license?",,1,{}
+4081,PullRequestReviewCommentEvent,2017-07-23 11:57:26+00:00,61572326,DataDog/dd-trace-py,1560405,palazzem,365230,DataDog,created,51641861,dd8a4e2cd03dd72eed713608a8ea8a7eac3849b8,False,"if we're moving to a flexible instrumentation config, I'd say to add `AUTO_INSTRUMENT_TEMPLATE`, so that every single instrumented part of Django can be disabled. What do you think?",,314,{}
+4086,PullRequestReviewCommentEvent,2018-06-28 15:54:42+00:00,61572326,DataDog/dd-trace-py,1560405,palazzem,365230,DataDog,created,132908101,779c31a5deb5bad5b7874f039a307cf9d6b3c824,False,we should not set this as tags because `baggage` != `tag`. Our platform should not receive baggage values right now.,MEMBER,497,{}
+4131,PullRequestReviewCommentEvent,2017-05-31 18:46:55+00:00,8649830,paypal/PayPal-Python-SDK,1309895,jaypatel512,476675,paypal,created,41321567,033a8836a6ccc9495f09d08bb2586c4012deffbb,False,Unused import,,201,{}
+4148,PullRequestReviewCommentEvent,2017-01-26 23:34:42+00:00,1126087,gitpython-developers/GitPython,2404909,expobrain,503709,gitpython-developers,created,18750932,478334edb6e2f0170d7653a337c80172cc5bb8ae,False,I juts following the same pattern of enable logging like it is done in other part of `GitPython` as well (see `git/cmd.py` for example). The only difference is that unit tests under Python 2.6+ are failing because the `logging` package in 2.6 doesn't have the `NullHandler` thus this little piece of code.,,572,{}
+4167,PullRequestReviewCommentEvent,2015-09-15 13:25:34+00:00,41535912,RedHatQE/wait_for,1179636,richardfontana,534870,RedHatQE,created,,69129191aa8e5564f9bc06c6f24fc9a8ba30e3ff,False,"Some people edit that line in the appendix but strictly speaking that's incorrect. As for adding a copyright and license notice (or more than one) external to this file, you can do that if you want but I consider it good enough to just have this license file in the root of the repository.",,1,{}
+4183,PullRequestReviewCommentEvent,2015-07-31 07:59:37+00:00,38906603,uber/tchannel-python,263587,breerly,538264,uber,created,,5356da16d8b2577ca2f9313ecb99b98b3e235043,False,"this might be better if api was like:
+
+```
+from tchannel import thrift
+
+service = thrift.from_module(thrift_module)
+service = thrift.from_idl('some_idl.thrift')
+```",,64,{}
+4194,PullRequestReviewCommentEvent,2017-05-07 14:50:46+00:00,10792977,makinacorpus/django-safedelete,1593486,AndreasBackx,546696,makinacorpus,created,36666278,e1271e2e02caebf8ec8addb0416ff8e337a46f29,False,"Can we check for `not filter_applied` first to avoid a checking a tuple? Now that I think of it as well, can we make that tuple a set to slightly improve performance?
+```python
+{DELETED_INVISIBLE, DELETED_VISIBLE_BY_FIELD, DELETED_ONLY_VISIBLE}
+```",,77,{}
+4200,PullRequestReviewCommentEvent,2018-01-16 23:54:32+00:00,96832580,Instagram/MonkeyType,61586,carljm,549085,Instagram,created,89284955,0b8a6e245b8b2980b6fc6ac4a660b23a248a2956,False,keyword args for the two boolean arguments,CONTRIBUTOR,55,{}
+4206,PullRequestReviewCommentEvent,2017-02-09 18:23:25+00:00,38108816,biolab/orange3-text,12524972,ajdapretnar,555189,biolab,created,21081406,5bb5024714376f8752f619f4260a710e14c9daea,False,"Yes, but it doesn't do what I want it to do. :smile: I wanted to display all concordances per doc on one row. I'm not sure this makes more sense than before, but this is how Niko and I imagined the widget.",,191,{}
+4208,PullRequestReviewCommentEvent,2016-08-02 15:30:01+00:00,38108816,biolab/orange3-text,9372243,s-alexey,555189,biolab,created,,5aaad88ccaaa4ee827e8445da1b981b30195a231,False,"I like the idea, but I prefer to place it in TreeViewer.show_model. ",,86,{}
+4212,PullRequestReviewCommentEvent,2016-12-16 09:22:48+00:00,40713934,biolab/orange3-network,684364,kernc,555189,biolab,created,13291962,de99203a6de43fdaf82c063f03ce2908f49e868e,False,Perhaps make the twitties a bit more valigned.,,22,{}
+4226,PullRequestReviewCommentEvent,2017-03-31 02:12:50+00:00,16431132,dropbox/PyHive,2019426,jingw,559357,dropbox,created,30154352,7a9e128d3ad93f654eaa8442ec87dbf6c340eb21,False,"why is this removable? In python2 at least, the data comes back as `str` (byte array)",,101,{}
+4237,PullRequestReviewCommentEvent,2017-01-03 22:20:18+00:00,2625205,robotframework/Selenium2Library,2665023,aaltat,574284,robotframework,created,15022072,2d35cd23ef7690798767fd4c1f88b4da7a0724e3,False,"Write: 
+`except AssertionError as err:`
+that is supported by Python 2 and Python 3",,724,{}
+4240,PullRequestReviewCommentEvent,2015-09-07 07:32:12+00:00,2625205,robotframework/Selenium2Library,114985,pekkaklarck,574284,robotframework,created,,08669e9d7ad0aec163f07b48dd0bb07b32914548,False,"Hmm, I don't see any reason why this couldn't and shouldn't be `filename=selenium-screenshot-{index}.png`. It would make the default more explicit, simplify documentation, and avoid on `if` in the code.",,504,{}
+4242,PullRequestReviewCommentEvent,2017-06-22 21:23:18+00:00,2625205,robotframework/Selenium2Library,2665023,aaltat,574284,robotframework,created,45849761,ab2ec4f0c2419645dae9f1ecce1751ffab67e180,False,"Robot logger is not used anymore directly, if you need logging they are found from self.",,823,{}
+4243,PullRequestReviewCommentEvent,2017-01-03 22:21:59+00:00,2625205,robotframework/Selenium2Library,2665023,aaltat,574284,robotframework,created,15022072,2d35cd23ef7690798767fd4c1f88b4da7a0724e3,False,The indentation is not following pep8. ,,724,{}
+4248,PullRequestReviewCommentEvent,2017-06-19 17:03:22+00:00,2625205,robotframework/Selenium2Library,114985,pekkaklarck,574284,robotframework,created,44909274,b59c63ce0abd1e45b8d148261ffea30626644a6c,False,It certainly looks Ryan to me. =),,828,{}
+4265,PullRequestReviewCommentEvent,2018-03-08 18:13:21+00:00,99706219,mapbox/mapboxgl-jupyter,10407788,vincentsarago,600935,mapbox,created,102401517,6b0ba51f95b4e02a8fd418efff447cb5a73547a1,False,"Right now it's a proper MapViz, but I think at the end we could make it a layer meaning that instead of having a ImageViz, we could add a `addImage` function to the `MapViz` class. ",MEMBER,61,{}
+4316,PullRequestReviewCommentEvent,2018-02-11 00:51:10+00:00,79510167,pypa/pipenv,5271761,nateprewitt,647025,pypa,created,95637229,92e58fe97e1dc2762a1717589948498827b740f8,False,Why are we changing this? If the user types `git+git://` we should still be handling it the same.,MEMBER,1372,{}
+4325,PullRequestReviewCommentEvent,2018-08-01 08:56:03+00:00,79510167,pypa/pipenv,10492681,Enzime,647025,pypa,created,142283558,8cb2d998740bab3e9d8cd4c13c6bffce85c742bd,False,"Sorry, I got totally confused about the nature of the bug, after taking a look at the code again and remembering what the bug is. I totally agree with what you wrote.",NONE,2656,{}
+4361,PullRequestReviewCommentEvent,2017-09-04 03:27:46+00:00,54980593,pypa/setuptools,15351036,xoviat,647025,pypa,created,60318433,93f5fe24e20a51ccaa033a4a4674512bc885b66f,False,So again I want to emphasize that this is an internal setuptools implementation detail that should not be used outside of setuptools.,NONE,1039,{}
+4392,PullRequestReviewCommentEvent,2016-07-08 06:14:21+00:00,37571213,minio/minio-py,11859916,GarimaKapoor,695951,minio,created,,0d11e763ec7ba97283b484393a62d14c88e695c0,False,The second line in the parameters table should not be highlighted.,,382,{}
+4393,PullRequestReviewCommentEvent,2017-04-23 17:09:05+00:00,37571213,minio/minio-py,5626458,MrRedAmber,695951,minio,created,34184505,5856921c64439c398cf3ffb2c72c1cc76591aa15,False,80 character limit,,507,{}
+4403,PullRequestReviewCommentEvent,2015-02-03 17:23:07+00:00,27086567,scrapinghub/dateparser,1153495,markbaas,699596,scrapinghub,created,,0bf6e152ed7383548c0f7c520ee5d5c6ad2699c2,False,OK,,50,{}
+4406,PullRequestReviewCommentEvent,2016-01-08 17:03:11+00:00,33108638,indico/flask-multipass,179599,ThiefMaster,715236,indico,created,,17b7faeec8d6abe436ad4215e718f776704d79bd,False,https://github.com/indico/flask-multipass/blob/master/flask_multipass/providers/ldap/util.py#L141,,18,{}
+4412,PullRequestReviewCommentEvent,2017-12-14 01:22:00+00:00,3409513,twisted/klein,704247,markrwilliams,716546,twisted,created,83373879,598e660cae237a042e3a81e8d78bfd43241cd9fe,False,Same issue with commented out code.  Let's use GitHub's inter-PR/issue linking to record this metadata.,OWNER,223,{}
+4416,PullRequestReviewCommentEvent,2015-09-22 19:30:43+00:00,318058,twisted/txmongo,909638,IlyaSkriblovsky,716546,twisted,created,,471efd76258a0f84a464e13658e1c4caf4aef254,False,What is the reason for `**kwargs` here?,,131,{}
+4418,PullRequestReviewCommentEvent,2016-10-04 10:26:50+00:00,318058,twisted/txmongo,909638,IlyaSkriblovsky,716546,twisted,created,2685113,a48ab12350d8968038c45e560f239c75a4a208c4,False,We are changed NEWS.rst today by adding unreleased 16.3.0 version. Could you please merge current `master` branch of txmongo into your branch and resolve the merge conflict?,,189,{}
+4442,PullRequestReviewCommentEvent,2018-01-12 15:28:18+00:00,1855847,sdelements/django-security,2858270,RouganStriker,739346,sdelements,created,88511831,27ca411e3ffbe2df92b8f8c27868b47c8c386834,False,The project supports Python 2.7+ so sadly no enums,NONE,64,{}
+4444,PullRequestReviewCommentEvent,2015-07-23 15:42:05+00:00,4978045,Parsely/pykafka,780001,yungchin,779641,Parsely,created,,fd03998c6d0bff258ea0758750b83225fc6157be,False,"I think this `commit_offsets` should go in `SimpleConsumer.stop()` instead, because it's basically compensating for the fact that with this pullreq, `stop` may be called unexpectedly from any worker thread. If we only do it here in `BalancedConsumer`, then running a bare instance of `SimpleConsumer` might lead to using stale offsets when an exception occurs.",,206,{}
+4459,PullRequestReviewCommentEvent,2015-04-10 14:35:47+00:00,4978045,Parsely/pykafka,136574,kbourgoin,779641,Parsely,created,,5a516c352172914d25786b594af7929af087ca8c,False,"This is a total formatting thing, so feel free to ignore, but when a parameter list has to go on two lines, I've found this style to be cleaner:
+
+```python
+def __init__(self,
+             id_,
+             host,
+             port,
+             handler,
+             timeout,
+             buffer_size=64 * 1024):
+    """"""docstring blah blah blah""""""
+````
+
+The logic in my head, which again ignore if you disagree since this is highly subjective, is that if it's one line you can scan it quickly. You can't really scan two lines as easily when reading. By having one on each line, you lose the ability to scan, which was lost already, but gain the ability to read because it's not a huge blob of text.  It also makes adding/removing parameters easier, especially if they're in the middle of the argument list.
+
+I've seen this done both ways, but adding a couple more params to this feels very unwieldy to me:
+```
+def __init__(self, id_, host, port, handler, timeout,
+             buffer_size=64 * 1024, socket_timeout_ms=1000 * 30,
+             required_acks=4):",,138,{}
+4467,PullRequestReviewCommentEvent,2016-04-14 20:01:30+00:00,1789466,emory-libraries/eulxml,691231,rlskoeser,786460,emory-libraries,created,,08e07c4bd2df0eacd78a30f174939af64b8e0c31,False,We should document parameters and return type here (mea culpa),,21,{}
+4470,PullRequestReviewCommentEvent,2017-07-22 00:18:38+00:00,83166812,cs50/check50,788678,dmalan,788676,cs50,created,51609030,e7292ae47adf45fad550480e5ee89cb14677e565,False,Var unneeded.,,22,{}
+4478,PullRequestReviewCommentEvent,2017-01-02 08:09:15+00:00,58406499,tableau/document-api-python,4370533,t8y8,828667,tableau,created,14825747,b26efa7877655783d8d9568cd4a9b678044eedc2,False,"Separate lines for each item (easier to scan) please.
+
+And I believe `.get` returns `None` if there's no match already, but we try to remember to have it explicitly as `.get('thing', None)` for readability",,122,{}
+4479,PullRequestReviewCommentEvent,2018-07-05 08:18:45+00:00,101282151,bbc/nmos-common,715421,andrewbonney,828722,bbc,created,134547490,e64c3cf21304b2554938a5e3a3f96490afac2c8f,False,"Agreed. Whilst people may run multiple out of curiosity, it probably just complicates things in the general case, giving us more scaffolding to keep up to date.",CONTRIBUTOR,42,{}
+4483,PullRequestReviewCommentEvent,2016-06-02 15:55:07+00:00,35690635,astropy/regions,11678435,joleroi,847984,astropy,created,,7698b741788732d9e92feef9c6a482c6afd4b771,False,"There is clearly a typo here, but I can't figure out what the author wanted to do with this line",,29,{}
+4485,PullRequestReviewCommentEvent,2018-04-16 18:46:27+00:00,35690635,astropy/regions,852409,cdeil,847984,astropy,created,112541901,6f97db2139bf4f23fe20eac6d1f204966909fcb8,False,"@sushobhana - Can we avoid these ~ 10 complex lines by re-using some utility function from Astropy or Numpy?
+E.g. would this help? https://docs.scipy.org/doc/numpy/reference/generated/numpy.broadcast_arrays.html
+I had a quick look at SkyCoord but couldn't find the code where this input array broadcasting is done there.
+",MEMBER,172,{}
+4487,PullRequestReviewCommentEvent,2016-08-02 08:03:42+00:00,239260,astropy/pyregion,852409,cdeil,847984,astropy,created,,2629ac504e406b97593df2541d47278542893212,False,"@leejjoon - The `Shape` class should be part of the HTML API docs, right?",,83,{}
+4495,PullRequestReviewCommentEvent,2018-01-07 14:51:26+00:00,1953389,stripe/stripe-python,9683352,remi-stripe,856813,stripe,created,87101303,401230da45d89fb535de1d6ae6a20cbe6edf71e9,False,I know they were added but I do wonder if there should be a different way to handle them. Deferring to you here obviously as I know you added them and know the library better than I do.,CONTRIBUTOR,387,{}
+4512,PullRequestReviewCommentEvent,2016-07-16 16:51:30+00:00,2014929,scikit-image/scikit-image,335370,sciunto,897180,scikit-image,created,,1c38da0fca2c8b7a461f6f139286996d9484dd4b,False,"I think we need at least two tests. One for 2d, one for 3d.",,2190,{}
+4515,PullRequestReviewCommentEvent,2016-12-29 23:13:53+00:00,2014929,scikit-image/scikit-image,492549,jni,897180,scikit-image,created,14721653,3d46a64a31c79f6b92052cb534e83c6a018c6812,False,"It looks like the `params` attribute will be the output of `nan_to_num`, which is a NumPy array, not a tuple?",,2394,{}
+4517,PullRequestReviewCommentEvent,2017-10-26 04:32:23+00:00,2014929,scikit-image/scikit-image,45071,stefanv,897180,scikit-image,created,72076502,b0deb6bf562632b5ca9c81964c6a6f8032343295,False,2 -> two,OWNER,2856,{}
+4522,PullRequestReviewCommentEvent,2015-06-02 08:10:51+00:00,2014929,scikit-image/scikit-image,2501383,warmspringwinds,897180,scikit-image,created,,086d8c667b02dea8c1238053d3b8d857c2123706,False,"@vighneshbirodkar 
+Yes, you are right.
+MBLBP is straightforward, but reading OpenCV trained file and check
+if it works is not. This is what I want to test.
+After this I will be dead-sure about everything and will optimize everything.
+Is it okay ?",,1536,{}
+4523,PullRequestReviewCommentEvent,2016-05-22 09:23:36+00:00,2014929,scikit-image/scikit-image,1315589,soupault,897180,scikit-image,created,,6378bc1c39228848a9114bcaac3fea25228d623d,False,"From my point of view, the output has to be either full 2**{8/16} x 2**{8/16} matrix of coefficients, or sparse matrix/dictionary with non-zero coefficients only.
+We can implement both alternatives and add a parameter for user to choose between them. The default alternative has to be the same as the current one. Otherwise, it will be an API change and we have to follow deprecation path.
+
+> If the maximum value << levels, there will many zeros.
+Also, the might be many zeros within the [0:levels] range. As for me, clipping from the upper bound of a range doesn't seem to be the _right_ simplification.
+
+By the way, for uint16, if have set all things correctly, there will be `65536**2 * 2 bytes` matrix, what equals to ~8GB. Not suitable.",,2095,{}
+4530,PullRequestReviewCommentEvent,2017-04-12 18:25:47+00:00,2014929,scikit-image/scikit-image,45071,stefanv,897180,scikit-image,created,32456357,ac55d151cbc73548cc75650d397c2fa8c3f793f6,False,"That's a bit counter-intuitive to me, and relies on some pip magic.  The way I think of it is: ""add package to system path, then recompile extensions as you work"".  But, I won't push back if you feel strongly.",,2567,{}
+4540,PullRequestReviewCommentEvent,2016-05-23 15:27:31+00:00,2014929,scikit-image/scikit-image,1315589,soupault,897180,scikit-image,created,,bc11ca8a246bed2bd7c2c4247f9019756edcc68d,False,Add `.`.,,2106,{}
+4545,PullRequestReviewCommentEvent,2015-09-05 16:57:40+00:00,2014929,scikit-image/scikit-image,263366,emmanuelle,897180,scikit-image,created,,8d344d090f2bc4c0a9643b435767c4b3b9a3d793,False,"Please change to 
+```
+scipy_version = list(map(int, scipy.__version__.split('.')))
+```
+so that Python 3 is happy as well (Travis failing here now).",,1691,{}
+4552,PullRequestReviewCommentEvent,2017-09-14 09:05:08+00:00,2014929,scikit-image/scikit-image,492549,jni,897180,scikit-image,created,62672590,c5dbdeb84f3e7267c1da553d068994febab7cef5,False,What does `& 1` do here?,CONTRIBUTOR,2791,{}
+4556,PullRequestReviewCommentEvent,2015-11-01 21:52:14+00:00,2014929,scikit-image/scikit-image,263366,emmanuelle,897180,scikit-image,created,,6f1ec347f4f3b7262adea6bc9b84c4dd20ea40c4,False,"@JDWarner thanks. How to know which version of scipy or numpy is used by Travis, for example for the 3.4 build?",,1691,{}
+4557,PullRequestReviewCommentEvent,2017-08-20 16:13:52+00:00,2014929,scikit-image/scikit-image,29574653,DavidBreuer,897180,scikit-image,created,57376197,b61643155cb215456204e425f8195ba24fb32516,False,"OK, I'm not yet familiar with the conventions which additions/functions are justified. Since I find the identity function (ignoring keyword arguments) really helpful for automated plotting of gallery examples I'll wait a few days to see if there are any supporters for this. Otherwise I'll remove it, alright?",,2762,{}
+4561,PullRequestReviewCommentEvent,2016-08-17 09:04:39+00:00,2014929,scikit-image/scikit-image,1315589,soupault,897180,scikit-image,created,,c32ef8729e79a71efa3c6cae702d79fad7dce9d3,False,Shouldn't we expose this parameter in the outmost function?,,2241,{}
+4562,PullRequestReviewCommentEvent,2016-08-27 21:06:59+00:00,2014929,scikit-image/scikit-image,263366,emmanuelle,897180,scikit-image,created,,f342e237a1210b2b0f1dd1e40fdfd2c9d2af1f41,False,This will not do for 3D images.,,2264,{}
+4565,PullRequestReviewCommentEvent,2018-05-21 13:29:05+00:00,2014929,scikit-image/scikit-image,29165011,kne42,897180,scikit-image,created,121796121,4d09d5b77060dbf45e81af35c5698ad5e177b7a1,False,"@hmaarrfk Disregard what I said about removing this case; I forgot that `inverse_map` is actually a function so this still applies.
+
+However, to answer your question, you shouldn't need this introspection hack any more. I'll explain in additional comments.",CONTRIBUTOR,3077,{}
+4576,PullRequestReviewCommentEvent,2016-10-07 13:18:16+00:00,26542499,uploadcare/pillow-simd,128982,homm,978311,uploadcare,created,3297679,0c141b06619aa97191db42f8f5375f8885709e26,False,–  for you to start building SIMD-enabled image processing systems,,12,{}
+4578,PullRequestReviewCommentEvent,2018-03-27 15:43:17+00:00,51204639,sagemath/cysignals,676149,embray,982721,sagemath,created,107350216,8325d48ac857a77e84a3fc169d133d708f3cb1da,False,"That was my original call as well--it was a "".c"" file to start with and I had `#include ""implementation_cygwin.c""`.  However, I found out the hard way that in this case re-running `setup.py` didn't rebuild `implementation.o`, which is annoying.  Open to ideas.",COLLABORATOR,83,{}
+4587,PullRequestReviewCommentEvent,2016-07-09 04:28:19+00:00,9252533,numenta/nupic,239726,scottpurdy,1039191,numenta,created,,7a443a651f934665bc204b9f3670ff2f156611b5,False,Put a blank line before listing params,,3197,{}
+4597,PullRequestReviewCommentEvent,2015-05-05 21:33:46+00:00,9252533,numenta/nupic,3386273,david-ragazzi,1039191,numenta,created,,026384d948d715162aaad061e277be8a6315aa10,False,"> No I don't quite follow
+
+No problem.. I solved it. I had to call `classifier = cls()` instead of `classifier = object.__new__(cls)`. It seems that `__new__` doesn't call `__init__` and so many fields are not created.",,2099,{}
+4613,PullRequestReviewCommentEvent,2015-05-05 16:33:11+00:00,9252533,numenta/nupic,3386273,david-ragazzi,1039191,numenta,created,,8a8e749c5a4f65de493887e2446e70d0f072a1e0,False,"Do you mean that I can simply use this:
+
+`proto.stats = self._stats`",,2099,{}
+4617,PullRequestReviewCommentEvent,2017-05-20 01:01:46+00:00,16366081,numenta/nupic.core,364113,mrcslws,1039191,numenta,created,39323763,fdb38b99ace5f4a9705707db3c691a6001ece7d0,False,"As mentioned before, this should be a public static method.",,1268,{}
+4618,PullRequestReviewCommentEvent,2016-02-23 19:16:38+00:00,16366081,numenta/nupic.core,239726,scottpurdy,1039191,numenta,created,,984dd0727d67de4dfa44f0ce47b8ebeb933b01eb,False,"This will crash if `nBuckets` is `1`.  Not sure if we want nBuckets to be at least 1 or at least 2. Either way, put validation in for the acceptable range and document it.",,864,{}
+4637,PullRequestReviewCommentEvent,2015-09-10 13:59:53+00:00,30921526,mozilla-services/cliquet,546692,leplatrem,1066228,mozilla-services,created,,eaa14fee6f87dd95d1c2d4b9eefc2b60deed60af,False,I thought of this but gave up with the idea. Do you have a strong argument in favor of distinguishing collection and records ?,,446,{}
+4639,PullRequestReviewCommentEvent,2015-12-15 15:38:30+00:00,30921526,mozilla-services/cliquet,229453,Natim,1066228,mozilla-services,created,,652197cbdb0083e10b69647f87e1520dc1f4bae0,False,"``if not isinstance(secret, six.binary_type)``",,611,{}
+4642,PullRequestReviewCommentEvent,2015-11-30 11:25:14+00:00,30921526,mozilla-services/cliquet,546692,leplatrem,1066228,mozilla-services,created,,4020444f259019badf7ab0dcde713bac1209038c,False,"This reminds me that @Natim suggested a while ago to hide the permissions when the user has not the permission to write the record.
+
+I suggest that we handle this part in another pull-request if you don't mind :)",,601,{}
+4652,PullRequestReviewCommentEvent,2017-09-18 08:58:52+00:00,51914365,mozilla-services/kinto-dist,546692,leplatrem,1066228,mozilla-services,created,63287816,77a5cf712ae9ce9e8995b509d5a734148355f0df,False,This will lead to 5.0 right? ,CONTRIBUTOR,153,{}
+4686,PullRequestReviewCommentEvent,2016-08-29 13:15:50+00:00,2665618,inveniosoftware/invenio,21033428,alizeepace,1157480,inveniosoftware,created,,4b29dd9ef19afa1a60bdc7945f1028b0b685b189,False,Ok. Should I still remove version 3.3 and 3.4?,,3689,{}
+4689,PullRequestReviewCommentEvent,2015-04-10 14:29:59+00:00,2665618,inveniosoftware/invenio,189798,jirikuncar,1157480,inveniosoftware,created,,be1ff1eafed0093ee1165990d3c93e1bb71b8c1e,False,missing license ,,2873,{}
+4692,PullRequestReviewCommentEvent,2015-06-30 15:00:52+00:00,2665618,inveniosoftware/invenio,189798,jirikuncar,1157480,inveniosoftware,created,,236a284b82d41dbe9d32c78a627deca4d710d2f8,False,do you get conflict if you call it `admin.css`?,,3263,{}
+4693,PullRequestReviewCommentEvent,2015-05-08 12:42:12+00:00,2665618,inveniosoftware/invenio,189798,jirikuncar,1157480,inveniosoftware,created,,8bb039a5ab49ccbc202dd7b6605ebcba7b8e036b,False,"- [ ] all files should be lowercased
+- [ ] rename to `invenio/modules/news/templates/news/edit.html`",,3114,{}
+4706,PullRequestReviewCommentEvent,2018-03-13 15:42:01+00:00,41039850,inveniosoftware/invenio-base,1566093,dinosk,1157480,inveniosoftware,created,103488626,3a6f9d38fd8f36e725e676634f99828b7a943fcf,False,I would write the administrator instead of user.,MEMBER,129,{}
+4711,PullRequestReviewCommentEvent,2017-02-06 13:11:45+00:00,43695459,inveniosoftware/invenio-theme,4287772,drjova,1157480,inveniosoftware,created,20260909,929fe01a10a65e840c817d11239ff591a053b750,False,Shall we update the copyright here as well? ,,84,{}
+4717,PullRequestReviewCommentEvent,2017-10-20 16:48:03+00:00,40909583,inveniosoftware/invenio-search,32420414,akuzucan,1157480,inveniosoftware,created,70902045,3a5c5c586fb9b50edb9105ace0135d1c29c184ac,False,I don't have much trouble to understand `open`. Besides it's pro-macos :),NONE,111,{}
+4720,PullRequestReviewCommentEvent,2016-09-19 07:48:58+00:00,40704717,inveniosoftware/invenio-deposit,189798,jirikuncar,1157480,inveniosoftware,created,,09bcc80bf720143d4f0b76b885c8aadc098da385,False,static/node_modules and package.json ?,,122,{}
+4727,PullRequestReviewCommentEvent,2018-04-26 12:56:47+00:00,47609714,inveniosoftware/invenio-files-rest,582735,egabancho,1157480,inveniosoftware,created,115561345,ca819c05709e9183ae34cbd8553e28717ee5754f,False,"You are right, probably a `with db.session.begin_nested():` wouldn't hurt that much.",MEMBER,167,{}
+4735,PullRequestReviewCommentEvent,2016-08-30 09:23:43+00:00,40135191,inveniosoftware/invenio-oauth2server,517546,tiborsimko,1157480,inveniosoftware,created,,ca4a894bc21607732af60c50b17886c45c92550d,False,The canonical package name is `Invenio-OAuth2Server`.,,75,{}
+4740,PullRequestReviewCommentEvent,2017-12-01 17:12:37+00:00,44370739,inveniosoftware/invenio-records-rest,656365,krzysztof,1157480,inveniosoftware,created,80560106,934a4014d91c8ba1d6683f325d51895139cf5e26,False,"``e.g.authors`` -> ``e.g., authors``",MEMBER,170,{}
+4742,PullRequestReviewCommentEvent,2016-05-13 07:34:13+00:00,44370739,inveniosoftware/invenio-records-rest,377047,hachreak,1157480,inveniosoftware,created,,8412201c25e9e4653ee0fef2784594a781c68ca5,False,"do you mean like this?
+```python
+return RESTException(description=""Validation error"").get_body(), 400
+```",,82,{}
+4752,PullRequestReviewCommentEvent,2018-07-09 18:37:54+00:00,4802269,dnanexus/dx-toolkit,2283292,commandlinegirl,1161297,dnanexus,created,135542601,c155449d54dd7aa1e29edcaf998fa8a05cb30ab2,False,"Oh, I see, let's leave message print then.",MEMBER,371,{}
+4770,PullRequestReviewCommentEvent,2017-09-14 15:16:20+00:00,8480726,zopefoundation/RestrictedPython,386619,icemac,1163184,zopefoundation,created,62781470,e31b7cbaabd548e8a5899ff7fdf4e866f5f358bd,False,Ditto.,COLLABORATOR,79,{}
+4772,PullRequestReviewCommentEvent,2017-05-24 14:51:34+00:00,8480726,zopefoundation/RestrictedPython,1766708,loechel,1163184,zopefoundation,created,40050274,d3b1d3a46aba1f47cc1d013ed329ff4f66e1ef8b,False,"yes in RestrictedPython those params are optional, but in the transfer to the builtin compile, there those are required params, so for the base example I would like to pass them in.",,67,{}
+4780,PullRequestReviewCommentEvent,2018-01-24 19:14:44+00:00,36092181,zopefoundation/Products.GenericSetup,242750,tseaver,1163184,zopefoundation,created,91292099,329353092970477c57a07acb928983824b8261d2,False,Ditto.,OWNER,51,{}
+4787,PullRequestReviewCommentEvent,2018-08-17 16:37:46+00:00,62325478,Linaro/squad,409011,danrue,1180626,Linaro,created,147298342,fc39f8450b83649c7d96f2f9d3b4ff69d996feaa,False,It would be nice to see % completed or number of jobs completed vs outstanding (if either are easy/possible). Maybe in the alt/title if there's no room for it on the page itself.,MEMBER,318,{}
+4802,PullRequestReviewCommentEvent,2017-06-27 11:35:33+00:00,24642075,sunscrapers/djoser,968786,haxoza,1218240,sunscrapers,created,46519567,78f1a87911720676163d093ea97ea77c1dd35dbe,False,What will happen if `User` model does not have `email` attribute at all?,,157,{}
+4817,PullRequestReviewCommentEvent,2017-02-15 17:44:28+00:00,10472606,qubole/qds-sdk-py,5426024,sourabh912,1259448,qubole,created,22063231,c2ab4efde6845d45af1d903ea9d8078e58b5e282,False,"Please add test cases for other cluster actions like `list`, `terminate`, `add_node` etc",,185,{}
+4818,PullRequestReviewCommentEvent,2016-06-01 09:12:15+00:00,10472606,qubole/qds-sdk-py,5220941,itsvikramagr,1259448,qubole,created,,8a4083520a3b238c5573c3407c4d0534e34c33e1,False,add support for clone,,150,{}
+4951,PullRequestReviewCommentEvent,2015-07-27 19:23:12+00:00,36670205,quantopian/pyfolio,1934957,gusgordon,1393215,quantopian,created,,952b62358fac7aad021171060c4a65625994b6c3,False,"OK. Actually, why is it of concern for us to automatically download from Yahoo if we already do that sometimes anyway? Can we not just throw the (correct) exception, and download the data? I don't think there is a reason to be concerned as long as we aren't doing this behind users' backs. Maybe we can have some message notifying users when downloads occur. Then, if they are concerned with using outside data, they can pipe in their own benchmark or F-F factors. I imagine any firm/party wanting to use pyfolio, and concerned about using external data, would first familiarize themselves with it to the extent to where they would see messages about the downloads if we show them. Thoughts?",,91,{}
+4955,PullRequestReviewCommentEvent,2017-07-07 19:47:19+00:00,36670205,quantopian/pyfolio,19851673,georgh0021,1393215,quantopian,created,48701424,153d719a75cdbb597285e65420f95842654a9cd5,False,"Did not know that `ax` had that function! Replaced all instances of `ax.set_foo(...); ax.set_bar(...)` with `ax.set(foo=..., bar=...)",,391,{}
+4965,PullRequestReviewCommentEvent,2016-08-31 10:28:20+00:00,60379729,quantopian/alphalens,674200,twiecki,1393215,quantopian,created,,e5ad0f7a439bc2252a03f4d4085aad1ab6cdc388,False,Best to specify which exception(s) you are expecting here.,,79,{}
+5003,PullRequestReviewCommentEvent,2016-09-02 20:51:13+00:00,25181584,h2oai/sparkling-water,597582,mmalohlava,1402695,h2oai,created,,004d69924844f7f445b114e3d7ddf4242fb111c7,False,"Yup, updating progress bar is good, but we can also expose some insight what we are doing inside: ""Spark is doing XYZ"".",,74,{}
+5008,PullRequestReviewCommentEvent,2016-12-08 09:49:39+00:00,25181584,h2oai/sparkling-water,4374603,jakubhava,1402695,h2oai,created,11980241,4a62256f68ec598e82f2f61e2b5be4d05aabaf07,False,tiny thing - location **of** the jar,,148,{}
+5025,PullRequestReviewCommentEvent,2015-02-28 02:42:34+00:00,3510804,GalSim-developers/GalSim,623887,rmjarvis,1462196,GalSim-developers,created,,83df8e260f9ba1873bdbfea5d8d77131f66c032c,False,"I don't think this new functionality belongs in the catalog module.  It's not really at all connected with the Catalog or Dict classes.  It could go into real.py, since it's much more connected to that, but I think it actually deserves its own new module.  Perhaps scene.py to use the word you original used for this concept in #635.  Or cosmos.py would also be a good name for it.",,651,{}
+5039,PullRequestReviewCommentEvent,2016-12-16 16:59:20+00:00,3510804,GalSim-developers/GalSim,7204836,brgillis,1462196,GalSim-developers,created,13370938,59afd9562d327d40a05a74ede01302af109d2626,False,"Yes, it is. I've put in an adjustment for this now, though it comes with the caveat that it doesn't affect the ksq_min used internally by the SersicInfo class. This isn't much of an issue, as the adjustment needed to it would be quite small (about 1 part in 1000, I believe). It could be fixed, but that would require changes to the SersicInfo class which would mean we'd need to cache it for different half_pi_h_sini_over_r values as well, which is hardly ideal.
+
+One possibility is to just be a little more conservative inside the SersicInfo class and increase its ksq_min slightly to account for this, if it's worth bothering with at all.",,843,{}
+5042,PullRequestReviewCommentEvent,2017-03-31 08:37:47+00:00,35145177,BlueBrain/eFEL,13150119,mgeplf,1479142,BlueBrain,created,30193112,a7f469689cd53371c62256088269c06643b0ff6e,False,"would it be possible to not use pickles for the test? As you have seen, they are sensitive to class members, and are a leaky abstraction, which increases the cost of maintenance.",,100,{}
+5048,PullRequestReviewCommentEvent,2016-11-16 09:10:01+00:00,34906350,BlueBrain/NeuroM,675013,juanchopanza,1479142,BlueBrain,created,8774003,74136954e33bad562f8f319c29f4f7872443f901,False,python2 behaviour?,,549,{}
+5269,PullRequestReviewCommentEvent,2017-03-24 14:12:37+00:00,12345160,ansible/tower-cli,1385596,AlanCoding,1507452,ansible,created,28912502,4806716595f047809aa8e01996c9e470fe6981f6,False,"This over-ride functionality is meaningful for properties not in the identity tuple, I think that's fine but not sure how to document. I'd mention in the command's help text that it applies user-provided params to the _new_ object.",,280,{}
+5273,PullRequestReviewCommentEvent,2015-10-20 07:16:39+00:00,7765704,hpcugent/vsc-base,1517606,stdweird,1515263,hpcugent,created,,25bd80d7e833ab0b56c388e2d737e0e0e655d7fb,False,"it's the next version, if you care about mudles, we'll go 2.5.0",,206,{}
+5277,PullRequestReviewCommentEvent,2015-04-02 10:02:28+00:00,7765704,hpcugent/vsc-base,620876,boegel,1515263,hpcugent,created,,28d9601fce7bc61bc2014d447956bcdb73bc2c8b,False,"use `assertEqual` when comparing values, which will lead to clear test failure messages",,164,{}
+5289,PullRequestReviewCommentEvent,2018-07-04 12:47:10+00:00,58059785,zalando/expan,7670945,daryadedik,1564818,zalando,created,134366594,6bd6830726a0178f06b8b1cf79e5bc799ca212ef,False,"""This test is invalid when the observed or expected frequencies in each category are too small. A typical rule is that all of the observed and expected frequencies should be at least 5."" - https://docs.scipy.org/doc/scipy-0.16.1/reference/generated/scipy.stats.chisquare.html",COLLABORATOR,227,{}
+5299,PullRequestReviewCommentEvent,2018-05-17 09:59:38+00:00,38744670,zalando/patroni,634032,erthalion,1564818,zalando,created,120972661,ef2e4e89d0861caff5a3a98db74649a01447114e,False,"Hm...looks like it means that this function should know whether this particular member is a part of standby cluster or not, am I right?",MEMBER,679,{}
+5300,PullRequestReviewCommentEvent,2018-01-28 12:41:11+00:00,38744670,zalando/patroni,115146,jberkus,1564818,zalando,created,92051942,b16bb4cdd8900cac221a3f7bbf4956a29a7779bb,False,"why not do the grants for both things in the default roles/template, and document how to restrict them based on which mode you're running in?",CONTRIBUTOR,616,{}
+5301,PullRequestReviewCommentEvent,2015-09-04 12:54:34+00:00,38744670,zalando/patroni,8860819,feikesteenbergen,1564818,zalando,created,,d4ffa54f1be61c0f99ab4d84605caa0467fefb95,False,We'd like to keep the code as generic as possible. This could be implemented by the ACTION_ON_ROLE_CHANGE callback (to call a script for example). This does however require some more documentation,,24,{}
+5303,PullRequestReviewCommentEvent,2016-02-25 11:57:16+00:00,38744670,zalando/patroni,3407345,CyberDem0n,1564818,zalando,created,,4986db5c6a1f7c28771152018351269c39bff2fc,False,"![Codacy](https://www.codacy.com/versioned/images/favicon.png) Issue found: [Expression ""(self._log.get('pg_name')) and (self._log[pg_name].close())"" is assigned to nothing](https://www.codacy.com/app/cyberdemn/patroni/file/2114827817/issues/source?bid=3127594&fileBranchId=3144623#l68)",,144,{}
+5325,PullRequestReviewCommentEvent,2016-03-29 19:58:20+00:00,8986011,quandl/quandl-python,4606790,ccleung,1659378,quandl,created,,38c75a73ba85c3cf9b9aacc8d5dd8c0a8a283cae,False,maybe add a comment here to point out that this is needed to only compute once,,52,{}
+5327,PullRequestReviewCommentEvent,2016-03-28 20:10:07+00:00,8986011,quandl/quandl-python,4606790,ccleung,1659378,quandl,created,,65b0c76cd7c0399a78091e1a56bbccc0dd3f05fd,False,"it was only trigger once, but does not know if the ApiConfig.api_key was set/unset either through the `Quandl.get` method or through another means",,42,{}
+5333,PullRequestReviewCommentEvent,2016-11-16 16:46:45+00:00,62028497,springload/draftjs_exporter,877585,thibaudcolas,1691454,springload,created,8855407,0fa9e0cb39e2a46b1ae96a47a3f661d2f14b6007,False,Unrelated change.,,22,{}
+5359,PullRequestReviewCommentEvent,2018-08-03 17:11:03+00:00,15510254,openfisca/openfisca-core,11834997,fpagnoux,1794404,openfisca,created,143262884,d29609f3e795393d96434980e9d951ae5c436b64,False,"This part comes from #702, which this PR depends on.
+
+For consistency, we chose to import all `__future__` backports in all files.",MEMBER,703,{}
+5360,PullRequestReviewCommentEvent,2018-07-11 04:51:06+00:00,15510254,openfisca/openfisca-core,11834997,fpagnoux,1794404,openfisca,created,136089613,d4f938fba3ab15af37053c31808b55acb442153d,False,Are we sure that `psutil` applies semantic versioning? ,MEMBER,686,{}
+5370,PullRequestReviewCommentEvent,2018-06-07 09:36:39+00:00,15510233,openfisca/openfisca-france,13916213,Anna-Livia,1794404,openfisca,created,126702237,578c0f7712299e724aea26dd48d1eff527b856d4,False,A-t'on une référence legislative disponible ?,CONTRIBUTOR,998,{}
+5373,PullRequestReviewCommentEvent,2018-04-06 10:25:53+00:00,15510233,openfisca/openfisca-france,13916213,Anna-Livia,1794404,openfisca,created,101575450,4cf9e75f113bfb766429afd5da2d8fb3b3b964ac,False,`Sommes versées pour l'emploi d'un salariés à domicile`,CONTRIBUTOR,917,{}
+5376,PullRequestReviewCommentEvent,2016-08-18 15:36:23+00:00,15510233,openfisca/openfisca-france,20658648,edarin,1794404,openfisca,created,,64fb0b93fde379b65246e5af9cb937a2973d6e61,False,Let me know if the change seems to you convenient,,541,{}
+5378,PullRequestReviewCommentEvent,2016-05-13 17:05:44+00:00,15510233,openfisca/openfisca-france,11834997,fpagnoux,1794404,openfisca,created,,f8bcfe32429cbf2b11155cc13be6428208b4ac66,False,"It's not a bug fix, but it's not  new functionality either, so I don't know.",,474,{}
+5382,PullRequestReviewCommentEvent,2017-06-21 17:29:43+00:00,15510233,openfisca/openfisca-france,11834997,fpagnoux,1794404,openfisca,created,45505500,8cbeb19dcad7136d3f6cd5802a2bce00bce17a64,False,👍 ,,778,{}
+5389,PullRequestReviewCommentEvent,2017-03-02 18:11:29+00:00,15510373,openfisca/openfisca-web-api,222463,MattiSG,1794404,openfisca,created,24801479,7dc82e234347cab77f773bad5198a8dec7dca295,False,"> What about adding some newlines throughout this big paragraph? This would increase readability, and I'm not even sure Markdown parsers will support this markup with no newlines in between.",,85,{}
+5393,PullRequestReviewCommentEvent,2018-03-05 17:49:38+00:00,83072729,CartoDB/cartoframes,932968,juanignaciosl,1799254,CartoDB,created,101260637,33360c5bf0dd81a929f404342ef7c628f2039146,False,"Oh, I tend to pass as parameters whatever is needed, but this is certainly an abuse of that style. I'll change it.",COLLABORATOR,382,{}
+5409,PullRequestReviewCommentEvent,2015-02-18 03:19:37+00:00,21303988,pycontribs/jira,4648874,sargentstudley,1846087,pycontribs,created,,cee6276c32c9813b2bfa6dcd78f282dbae8a60b0,False,"@fabio-silva-movile - FYI: you have a few syntax errors / mispellings of variable names in your request, such as here on this line. ",,40,{}
+5434,PullRequestReviewCommentEvent,2016-05-10 08:36:43+00:00,46388888,genialis/resolwe-bio,2518544,tjanez,2120224,genialis,created,,9437cb471ce10785727565cdeafe306c8f19993b,False,Also mention that you changed PostgreSQL port in the test project,,55,{}
+5437,PullRequestReviewCommentEvent,2017-05-19 09:29:47+00:00,46388888,genialis/resolwe-bio,5970282,dblenkus,2120224,genialis,created,39149786,5cc0f28c8bf63349a9326e84710d985ed7e27581,False,Fix docstring.,,271,{}
+5439,PullRequestReviewCommentEvent,2016-09-28 01:39:21+00:00,46388888,genialis/resolwe-bio,1026716,mstajdohar,2120224,genialis,created,1856592,5bd9137ea4edfeefde51d1cb00883ac9c89d620e,False,Change genesets to gene sets,,111,{}
+5440,PullRequestReviewCommentEvent,2018-03-22 10:46:44+00:00,46388888,genialis/resolwe-bio,1746370,hadalin,2120224,genialis,created,106064684,a3b5eae53587cbe89a87e899f1a99c7d9155c376,False,This wouldn't be a problem if processes were written in Python.,CONTRIBUTOR,479,{}
+5451,PullRequestReviewCommentEvent,2018-07-06 22:39:38+00:00,59868262,aws/chalice,368057,jamesls,2232217,aws,created,135175269,d79d225b1cb0657981641b92b8884ac851a2d8ce,False,Yeah I pushed a change with doc updates.,MEMBER,886,{}
+5461,PullRequestReviewCommentEvent,2017-07-12 21:19:40+00:00,81612762,trailofbits/manticore,1017522,feliam,2314423,trailofbits,created,49623256,9067c6d9a6affd62569139df352c1016de6a9fca,False,"Shouldn't we check end and perms and name. 
+m1 == m2 ?",,376,{}
+5465,PullRequestReviewCommentEvent,2017-08-10 17:06:16+00:00,81612762,trailofbits/manticore,2467355,mossberg,2314423,trailofbits,created,55601359,f20d84ffa75ffacee6588a603c7046d46e454b6c,False,"this probably shouldn't change, we decided that the cli default should be verbosity level 1 (https://github.com/trailofbits/manticore/issues/431#issuecomment-320022337)",,445,{}
+5467,PullRequestReviewCommentEvent,2017-08-31 20:49:10+00:00,81612762,trailofbits/manticore,1017522,feliam,2314423,trailofbits,created,59986484,a0d33e5431c3bdc177a4d358ff4e31b28d322864,False,Do we need this ? Is'nt this in the State too ?,CONTRIBUTOR,475,{}
+5550,PullRequestReviewCommentEvent,2015-12-01 15:49:13+00:00,16316451,GoogleCloudPlatform/gcloud-python,242750,tseaver,2810941,GoogleCloudPlatform,created,,ef282ade2c0f8bd34ce7db27bbc4d7ccfa6384d6,False,"Needs assertion(s) for updated metdata, e.g., `serve_nodes`?",,1253,{}
+5556,PullRequestReviewCommentEvent,2016-05-09 17:59:26+00:00,16316451,GoogleCloudPlatform/gcloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,8893362b9dcf8256b22b0614d55caaf6d167c767,False,@tbetbetbe We need to resolve this to be able to use `gax` here. Can you weigh in?,,1764,{}
+5560,PullRequestReviewCommentEvent,2015-08-06 03:25:20+00:00,16316451,GoogleCloudPlatform/gcloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,,875b29b6464e48e6ba1ffafd58bf9b0193881520,False,Seems pretty over-eager / YAGNI. Right now `_JSON_FROM_CELLDATA` only has one value.,,1038,{}
+5566,PullRequestReviewCommentEvent,2016-08-02 16:52:46+00:00,16316451,GoogleCloudPlatform/gcloud-python,192456,daspecster,2810941,GoogleCloudPlatform,created,,1de7a5ce997f173f2455b4fd67d1e0ff813aa4cf,False,"Ah, so all this is doing is updating the permissions on the dataset AFAICT. Which I would think shouldn't be causing this rate limit error to pop up. It really doesn't make sense to me that it's an issue here.
+
+Do you have any ideas?",,2040,{}
+5575,PullRequestReviewCommentEvent,2016-08-01 21:27:59+00:00,16316451,GoogleCloudPlatform/gcloud-python,192456,daspecster,2810941,GoogleCloudPlatform,created,,2dc08cfdc975a2b83a8647a6120c6354685b9939,False,Just manual trial and error and trying to keep them as low as I could. I'll add the comment!,,2040,{}
+5589,PullRequestReviewCommentEvent,2017-01-25 20:02:58+00:00,16316451,GoogleCloudPlatform/google-cloud-python,192456,daspecster,2810941,GoogleCloudPlatform,created,18488022,8b1881cc8e285dac07969c90ec93cc4fd8a69d2e,False,"Ditto on list comprehension.
+
+Also could you change `alt` to `alternative`.",,2962,{}
+5591,PullRequestReviewCommentEvent,2018-06-29 17:09:34+00:00,16316451,GoogleCloudPlatform/google-cloud-python,8175562,WeiranFang,2810941,GoogleCloudPlatform,created,133306648,82c05feb4080d0191985bafbaeb6d2975ca2e384,False,Ack.,MEMBER,5553,{}
+5598,PullRequestReviewCommentEvent,2017-09-25 20:09:55+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,65018407,a825cdc2392f27c63934bbf05b43ff6ab56453b6,False,Why are we identity-checking for `False`?,MEMBER,4057,{}
+5602,PullRequestReviewCommentEvent,2017-03-08 04:32:10+00:00,16316451,GoogleCloudPlatform/google-cloud-python,242750,tseaver,2810941,GoogleCloudPlatform,created,25695235,8a4a12a3807f266ead714b8cdb5ab726bcd39fb1,False,"
+
+> 1.  Not a constant
+
+Huh?  It is as constant as any other name bound to an immutable value.
+
+> 2.    Worth making more unique via unique_resource_id?
+
+The dataset which will contain (only) this table already gets a per-run ID.
+",,3118,{}
+5604,PullRequestReviewCommentEvent,2018-01-05 20:14:30+00:00,16316451,GoogleCloudPlatform/google-cloud-python,250995,jonparrott,2810941,GoogleCloudPlatform,created,87011032,29c8c43fd328074b14958c3e46811a1d948d45bb,False,Done the Luke way.,MEMBER,4705,{}
+5607,PullRequestReviewCommentEvent,2017-09-13 19:16:22+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,created,62546964,c60f9260d6a883cd0187c936983d019c23c4398f,False,Please add a LICENSE header,MEMBER,3951,{}
+5609,PullRequestReviewCommentEvent,2017-05-30 16:42:44+00:00,16316451,GoogleCloudPlatform/google-cloud-python,4346,lukesneeringer,2810941,GoogleCloudPlatform,created,41006715,e763b61cc14beb836a3db7dc390eb2ab16d33f7c,False,I manually added a `nox.py`; autogen still uses `tox`. Need to fix this.,,3453,{}
+5622,PullRequestReviewCommentEvent,2017-01-27 17:31:01+00:00,16316451,GoogleCloudPlatform/google-cloud-python,4346,lukesneeringer,2810941,GoogleCloudPlatform,created,18889156,7a6afaa3ac02527bea3e17d4847d639b8b8c805f,False,"I am not tracking you here. The `return_value` is being set on line 826; this first becomes relevant on line 827. So, I cannot move it lower or into the same scope as line 840. I can move it _higher_, but I do not think that is what you are asking for?",,2966,{}
+5627,PullRequestReviewCommentEvent,2018-01-16 21:20:25+00:00,16316451,GoogleCloudPlatform/google-cloud-python,250995,jonparrott,2810941,GoogleCloudPlatform,created,89252312,2521c58c769783a953ab5888b1da9fae3eb1fa7d,False,hrm,MEMBER,4756,{}
+5628,PullRequestReviewCommentEvent,2017-02-22 19:24:06+00:00,16316451,GoogleCloudPlatform/google-cloud-python,192456,daspecster,2810941,GoogleCloudPlatform,created,23308923,410887e90cfc3b4e7936c7453b10e704d790fd7d,False,Sorry I thought were doing a blanket find/replace. There are a bunch of these.,,3050,{}
+5629,PullRequestReviewCommentEvent,2018-04-26 17:03:25+00:00,16316451,GoogleCloudPlatform/google-cloud-python,242750,tseaver,2810941,GoogleCloudPlatform,created,115666001,4464474e386e958ea4301e84e11ef419548b6e1a,False,I agree.  3d728ad,MEMBER,5221,{}
+5765,PullRequestReviewCommentEvent,2016-11-11 16:17:15+00:00,7137821,cloudtools/troposphere,638982,markpeek,3028687,cloudtools,created,8222232,ee0b60b47aad5fa57d724e8b0132dff3b7b5e2fc,False,Probably want 'a'*33 instead of 63. Add 'a-' as well.,,615,{}
+5775,PullRequestReviewCommentEvent,2017-08-08 18:06:01+00:00,7209075,pantsbuild/pants,46740,stuhood,3065172,pantsbuild,created,55022115,2c9550afb96c8ebce48f7e7aac7b1474e9907507,False,"Hm... ""True if no extension"" is an odd case. AFAICT, this method is only used in Target... would probably be good to inline the logic there so that it is more obvious that it is completely overridden by `Resources`. Would that also make this check unnecessary?",,4792,{}
+5779,PullRequestReviewCommentEvent,2017-01-11 07:43:54+00:00,7209075,pantsbuild/pants,399602,cheister,3065172,pantsbuild,created,16081316,830cac2ec6978dd166fd29df7ead5782ce73325b,False,I don't think the assertions are so misleading that they should be removed.  I partly want the caching assertions there to indicating that caching is happening and it is setup correctly in the test even if it may not only relate to errorprone caching.  That way if some caching config option gets updated later the test would catch it.,,4163,{}
+5782,PullRequestReviewCommentEvent,2018-05-31 15:07:54+00:00,7209075,pantsbuild/pants,1131704,illicitonion,3065172,pantsbuild,created,124832956,93ee21e977c7bb6d406ee434eebd62b4e19de272,False,Drop this comment?,CONTRIBUTOR,5769,{}
+5783,PullRequestReviewCommentEvent,2017-02-22 22:20:43+00:00,7209075,pantsbuild/pants,46740,stuhood,3065172,pantsbuild,created,23350286,34c760cbb86f6c7dc5d7a8a8e0122ba7a9a96cc1,False,...are you sure this parameter isn't public? The comment you edited appears verbatim in the BUILD dictionary.,,4279,{}
+5784,PullRequestReviewCommentEvent,2017-12-11 20:40:50+00:00,7209075,pantsbuild/pants,7378,baroquebobcat,3065172,pantsbuild,created,82630792,8080cc34e59db0e164a72e39145fd5c9fa5b8e53,False,"This feels like it should be broken up into separate test case methods, roughly one per comment.
+
+I think doing that would make the differences between the cases clearer by giving them a consistent repeated structure.",CONTRIBUTOR,5170,{}
+5794,PullRequestReviewCommentEvent,2017-10-13 13:54:30+00:00,7209075,pantsbuild/pants,1131704,illicitonion,3065172,pantsbuild,created,69234849,6cc39efbee40dd8cb772a903f0951b6c1cde675f,False,Done. Also filed a PR upstream to make this less expensive.,CONTRIBUTOR,4937,{}
+5798,PullRequestReviewCommentEvent,2017-12-14 23:46:22+00:00,7209075,pantsbuild/pants,46740,stuhood,3065172,pantsbuild,created,83679672,a015d45e497549fe82dba358ab8bcf27aee1ed45,False,"As discussed in #engine, I think your idea to block if the graph is non-empty (ie, `length > 0`) would be a good middle ground.",OWNER,5201,{}
+5805,PullRequestReviewCommentEvent,2018-06-11 16:49:54+00:00,7209075,pantsbuild/pants,46740,stuhood,3065172,pantsbuild,created,127651273,1a8275ee8c1163cdfa39fb3986c86173c2ca3691,False,The nesting has gotten pretty deep here... would suggest breaking the body of this `and_then` into a new function/method.,MEMBER,5944,{}
+5807,PullRequestReviewCommentEvent,2017-03-22 22:26:39+00:00,7209075,pantsbuild/pants,512764,benjyw,3065172,pantsbuild,created,28525393,80a5bf0a36e40ecc9609815d01c2b13f1de4ca08,False,"Yes, good idea. Done.",,4362,{}
+5808,PullRequestReviewCommentEvent,2018-01-22 20:23:44+00:00,7209075,pantsbuild/pants,157586,jsirois,3065172,pantsbuild,created,90613529,21f08b1d6933dbe9dd7f3329ee9c0be38043f2a3,False,This subverts the product requirements. It seems like things should go one step further for `--skip` and the engine itself should be registering the option only for tasks that have no products or else no product consumers for the given run.,OWNER,5325,{}
+5810,PullRequestReviewCommentEvent,2018-04-27 10:04:53+00:00,7209075,pantsbuild/pants,1305167,cosmicexplorer,3065172,pantsbuild,created,115884436,aa87bf29eab8c727f29cb73772b7e26f48a7be5b,False,"Arguments should probably be separated by a space, as above.",CONTRIBUTOR,5750,{}
+5812,PullRequestReviewCommentEvent,2018-06-28 01:49:48+00:00,7209075,pantsbuild/pants,1305167,cosmicexplorer,3065172,pantsbuild,created,132664569,ea6cfd08a51640fc21a19af7dbb162c5b970944d,False,...and immediately afterward I find that zsh does that by default so I wouldn't be surprised if some others did too (although bash doesn't on this arch linux machine).,CONTRIBUTOR,6017,{}
+5816,PullRequestReviewCommentEvent,2018-02-21 19:30:27+00:00,7209075,pantsbuild/pants,1305167,cosmicexplorer,3065172,pantsbuild,created,98329751,41a1a9a281f50ca30c0f6230d8e9dca3a3dbad9d,False,"Agreed, especially given the discussion over whether this is the right way to do this.",CONTRIBUTOR,5490,{}
+5822,PullRequestReviewCommentEvent,2016-11-09 11:58:00+00:00,15381974,groveco/django-sql-explorer,3911074,spapas,3093407,groveco,created,7800338,04e674a7caad1f6faff8db21b0cf1993df52b860,False,I don't really like adding a utility function (in utils.py) because that would introduce a circular import. For the testing if pdf exporting we can just check if python version < 2 (the optional requirements should be installed anyway for testing). So I propose leaving it like this (I've just improved the message a bit).,,249,{}
+5842,PullRequestReviewCommentEvent,2017-07-14 07:35:36+00:00,93721432,awslabs/sockeye,683589,davvil,3299148,awslabs,created,49981973,d53cea6aa8c284679d0a85569ab9886d1682c5e1,False,"I cannot find any clear documentation on this. What does SoftmaxOutput return exactly? If it's a tuple, then here we are creating a list with a single (tuple) element.",,70,{}
+5846,PullRequestReviewCommentEvent,2018-05-23 09:34:23+00:00,93721432,awslabs/sockeye,2027990,fhieber,3299148,awslabs,created,122503805,4b28ad2745fe58789d7edfce730196890aa34914,False,capitalize first word in docstring,CONTRIBUTOR,390,{}
+5866,PullRequestReviewCommentEvent,2018-07-10 23:11:19+00:00,109059493,awslabs/keras-apache-mxnet,8603626,kalyc,3299148,awslabs,created,136043066,e628d2611c017da2d51c57ed682313d478dcbf3e,False,please add an example of a quantity to monitor for readability,NONE,132,{}
+5868,PullRequestReviewCommentEvent,2018-07-24 23:47:50+00:00,105830539,awslabs/mxnet-model-server,7931019,piyushghai,3299148,awslabs,created,140119840,88b1bcee6e0b817f7124807ce8dab6fca02741c5,False,"This is used everywhere. So I'm leaving it there for now. 
+Changing the unicode extension can be a part of a separate refactoring of this file. ",COLLABORATOR,463,{}
+5956,PullRequestReviewCommentEvent,2015-02-04 15:17:26+00:00,8763405,SoCo/SoCo,674963,poirier,3826649,SoCo,created,,0eaee6600eca60dd63110257be99ad1f9fee8df9,False,Would it work to make this an optional parameter on `EventServerThread.start()` instead of a module global?,,288,{}
+5960,PullRequestReviewCommentEvent,2018-07-05 23:51:52+00:00,49976939,learningequality/kolibri,2367265,indirectlylit,3926525,learningequality,created,134852338,a97ca6460eec83efacea6fcdf360ff4a9c35c815,False,"yup, that ain't right",MEMBER,3978,{}
+5962,PullRequestReviewCommentEvent,2016-08-12 19:13:16+00:00,49976939,learningequality/kolibri,1680573,rtibbles,3926525,learningequality,created,,cf82491171d901df60a29d08b857f7614862991b,False,Error.,,385,{}
+5965,PullRequestReviewCommentEvent,2018-06-29 21:34:43+00:00,49976939,learningequality/kolibri,191955,aronasorman,3926525,learningequality,created,133384494,7c2516a4051bacb2b0c0faf0103de0d4db58b36a,False,"Shouldn't this be `this is NOT recommended`, based on the tone of the rest of the sentence?",MEMBER,3934,{}
+5967,PullRequestReviewCommentEvent,2016-02-17 17:38:33+00:00,49976939,learningequality/kolibri,191955,aronasorman,3926525,learningequality,created,,9737c39b26c4b95bf458f82e5ed38e420bbda311,False,docstring,,16,{}
+5968,PullRequestReviewCommentEvent,2016-02-11 17:41:11+00:00,49976939,learningequality/kolibri,374612,benjaoming,3926525,learningequality,created,,55aeec5a6df671816f8c1d37395a1c44b9226e78,False,"Wonderful! This one solves it, disregard the __all__ thing, I thought that
+would solve something but I was utterly and dreadfully wrong...
+http://stackoverflow.com/a/21563930/405682
+
+On 11 February 2016 at 17:40, Richard Tibbles <notifications@github.com>
+wrote:
+
+> In kolibri/plugins/registry.py
+> <https://github.com/learningequality/kolibri/pull/16#discussion_r52628166>
+> :
+>
+> > @@ -49,8 +49,8 @@ def initialize():
+> >                  plugin_module = importlib.import_module(app + "".kolibri_plugin"")
+> >                  logger.debug(""Loaded kolibri plugin: {}"".format(app))
+> >                  plugin_classes = []
+> > -                for obj in plugin_module.__dict__.values():
+> > -                    if type(obj) == type and obj is not KolibriPluginBase and issubclass(obj, KolibriPluginBase):
+> > +                for obj in plugin_module.PLUGINS:
+>
+> With __all__ could we then just iterate over the module itself?
+> … <#-1274806653_>
+> On Thu, 11 Feb 2016, 02:28 Benjamin Bach <notifications@github.com>
+> wrote: In kolibri/plugins/registry.py <#16 (comment)
+> <https://github.com/learningequality/kolibri/pull/16#discussion_r52583577>>
+> : > @@ -49,8 +49,8 @@ def initialize(): > plugin_module =
+> importlib.import_module(app + "".kolibri_plugin"") > logger.debug(""Loaded
+> kolibri plugin: {}"".format(app)) > plugin_classes = [] > - for obj in
+> plugin_module.__dict__.values(): > - if type(obj) == type and obj is not
+> KolibriPluginBase and issubclass(obj, KolibriPluginBase): > + for obj in
+> plugin_module.PLUGINS: Aaaaah, that was the thing: Could you add an __all__
+> instead to the module? — Reply to this email directly or view it on GitHub <
+> https://github.com/learningequality/kolibri/pull/16/files#r52583577>.
+>
+> —
+> Reply to this email directly or view it on GitHub
+> <https://github.com/learningequality/kolibri/pull/16/files#r52628166>.
+>
+",,16,{}
+5971,PullRequestReviewCommentEvent,2016-06-20 23:41:18+00:00,49976939,learningequality/kolibri,2367265,indirectlylit,3926525,learningequality,created,,0913e34a4009d7390460e886e8d9ee6bc34d70e7,False,"I believe a more vuey way would be to define a core helper method which returns an appropriate renderer vue component based on the content type. Then `content-renderer` would be responsible for attaching it to the right element on its own, preventing internal DOM info from ""leaking"".
+
+E.g.:
+
+```html
+<template>
+
+  <div>
+    <h3>
+      {{ title }}
+    </h3>
+    <div v-el:container></div>
+  </div>
+
+</template>
+
+
+<script>
+
+  const Kolibri = require('kolibri');
+
+  module.exports = {
+    props: [
+      'channelId',
+      'contentId',
+      'kind',
+      'extension',
+      'title',
+      'contentData',
+    ],
+    ready() {
+      Kolibri.getRendererComponentAsync(this.kind, this.extension, (Renderer) => {
+        if (Renderer) {
+          new Renderer({
+            el: this.$els.container,
+            propsData: {
+              contentData: this.contentData,
+            },
+          });
+        } else {
+          // no renderer available
+        }
+      });
+    },
+  };
+
+</script>
+
+
+<style lang=""stylus"" scoped></style>
+```
+",,156,{}
+5979,PullRequestReviewCommentEvent,2016-11-14 22:34:07+00:00,49976939,learningequality/kolibri,2367265,indirectlylit,3926525,learningequality,created,8501008,a25d7cee7627422a22326fa3a7d151b1c9efa48d,False,"This one is already a string - the other one is an integer.
+
+Filing a related issue here: #657 - if we can standardize on strings, we can take out the `toString` logic.",,653,{}
+5981,PullRequestReviewCommentEvent,2016-04-11 21:23:38+00:00,49976939,learningequality/kolibri,2367265,indirectlylit,3926525,learningequality,created,,c8af8592103dd3e86f93084e024d6e012a5a1650,False,"Ah, I see that subclasses can define a `hooks` method which returns a dict of functions. However these functions (e.g. `_register_front_end_plugins`, `main_navigation`) don't seem to have a consistent return value, but `get_webpack_bundle(bundle_path, extension)` seems to be called with the return value of the callbacks...",,49,{}
+5990,PullRequestReviewCommentEvent,2017-06-13 18:35:06+00:00,49976939,learningequality/kolibri,10248067,jonboiser,3926525,learningequality,created,43815706,e2428aea7123fcd3b9bad79954ad422e5e29789d,False,"This isn't a critical issue, but my intuition after working on the manage-content-page for awhile is that the polling process could use a little optimization to not do unnecessary work, and clean up the vuex devtools.",,1637,{}
+5997,PullRequestReviewCommentEvent,2017-06-05 16:57:00+00:00,49976939,learningequality/kolibri,1680573,rtibbles,3926525,learningequality,created,42095489,dcd672f646321801544e0b49743a539e7ae4095c,False,"Easiest way is probably to add a permissions class to the ViewSet definition.
+
+http://www.django-rest-framework.org/api-guide/permissions/#setting-the-permission-policy",,1585,{}
+6001,PullRequestReviewCommentEvent,2017-08-24 17:15:23+00:00,49976939,learningequality/kolibri,1680573,rtibbles,3926525,learningequality,created,58447182,d74b9187bd96be3ad45ba8450aa5865b29c4a4ae,False,"Whoops, yeah.",,2003,{}
+6007,PullRequestReviewCommentEvent,2018-01-19 19:18:36+00:00,49976939,learningequality/kolibri,374612,benjaoming,3926525,learningequality,created,90216668,899b9739075cf238dbb246faa7de973ded4c78bd,False,Inconsistent terminology detected! @radinamatic could you make a note or issue that we should decide whether to call it external or local drive? It's kind of mixed up :),OWNER,3087,{}
+6009,PullRequestReviewCommentEvent,2017-04-10 23:05:57+00:00,49976939,learningequality/kolibri,10248067,jonboiser,3926525,learningequality,created,31980560,feba21da6123a700d4254db38fc32da1607c63ed,False,"In the increment example, though, it does mutate the state in place `state.count++`.
+
+Would it be more proper to move the updates (delete, rename, etc.) to the `state` down to the mutation level instead of doing it here in the action?",,1208,{}
+6010,PullRequestReviewCommentEvent,2018-02-22 19:52:10+00:00,49976939,learningequality/kolibri,1457929,radinamatic,3926525,learningequality,created,98705017,3ee8558404ab775c0197667a822bcc42747eb40b,False,"This would be an instance where the user-generated text (class name) should be [inside single quotes](https://github.com/learningequality/kolibri/issues/3021#issuecomment-367513435).
+
+Does not fall strictly into the scope of this PR, but could be fixed easily. :slightly_smiling_face: ",CONTRIBUTOR,3227,{}
+6017,PullRequestReviewCommentEvent,2017-11-07 17:57:56+00:00,66887069,learningequality/ricecooker,163966,ivanistheone,3926525,learningequality,created,74848124,eacad189b033ac462d190c1dabd7db56b08bca3a,False,"Haven't tried localhost no... I will keep an eye out for this before release to PyPI.
+
+Maybe it's trying to log to the socket, and then remote-web-socket is failing which generates a new log message etc. I can see how this could be bad...",COLLABORATOR,129,{}
+6020,PullRequestReviewCommentEvent,2016-07-15 06:08:50+00:00,17720373,crate/crash,281260,chaudum,4048232,crate,created,,0e77fe36e59ac61e18e66db98794d7a7685c4ef7,False,please also implement the complete() method,,142,{}
+6053,PullRequestReviewCommentEvent,2016-05-02 13:09:50+00:00,27823188,aldryn/aldryn-newsblog,615759,mkoistinen,4201738,aldryn,created,,a03d84b9c9cf28ec780ad01e0f8a018584a8e145,False,'Weblog' is archaic.,,389,{}
+6109,PullRequestReviewCommentEvent,2018-06-29 10:38:57+00:00,11003251,acorg/dark-matter,38853984,TaliVeith,4853692,acorg,created,133178422,857b9e0ff4ba1a1d627ea7bd0363bbeed61fcb1b,False,done,COLLABORATOR,611,{}
+6136,PullRequestReviewCommentEvent,2017-06-07 15:10:10+00:00,50359589,girder/girder_worker,608229,danlamanna,5150517,girder,created,42634096,b29d754f64db879a233deddca516603b84886f58,False,Look into pytest-dependency for something like this.,,148,{}
+6158,PullRequestReviewCommentEvent,2015-06-01 20:20:02+00:00,10247874,docker/docker-py,584352,glogiotatidis,5429470,docker,created,,739d8758540c19c4d05c9378aed33244a6b9dac6,False,Updated,,624,{}
+6188,PullRequestReviewCommentEvent,2016-06-10 02:54:58+00:00,12968651,pgmpy/pgmpy,1461453,ankurankan,5500131,pgmpy,created,,0530d2826c1105778454637f7a7c4ee8198b03de,False,@khalibartan What is the point of showing this in the doctests?,,691,{}
+6193,PullRequestReviewCommentEvent,2016-01-31 09:45:50+00:00,12968651,pgmpy/pgmpy,788742,liquidmetal,5500131,pgmpy,created,,47585feca22a8076fc83a562780783e822a3e5de,False,Done!,,614,{}
+6198,PullRequestReviewCommentEvent,2016-08-02 11:05:14+00:00,12968651,pgmpy/pgmpy,8940456,khalibartan,5500131,pgmpy,created,,dc91624a0c54ffbb2591b36ab6d441dbb631c10b,False,@finnhacks42 This needs a explanation. What was the issue with previous behaviour ? Also why we are always returning XML file with UTF-8 encoding if we have encoding parameter.,,713,{}
+6202,PullRequestReviewCommentEvent,2017-03-03 18:59:17+00:00,47576910,googlei18n/fontmake,4302319,zjusbo,5503833,googlei18n,created,25045323,1d37441c46182205059ea5b734ec7a34dc252a3a,False,I created a test-requriements.txt file and probably I'm changing our test engine config.,,266,{}
+6215,PullRequestReviewCommentEvent,2016-02-04 00:51:25+00:00,41092776,superdesk/superdesk-core,8639069,marwoodandrew,5527298,superdesk,created,,acac048f4b03e9078fa861e24822189a399f307d,False,"Probably should but can't see a nice way, since we are only needing to add a flag to the schema within a already defined field. I'd have to pass the definition of all flags in extra_fields.
+
+Can you see a better way? ",,146,{}
+6216,PullRequestReviewCommentEvent,2017-06-12 12:32:21+00:00,41092776,superdesk/superdesk-core,4447632,ioanpocol,5527298,superdesk,created,43421496,e0fb567c84b4a375c1556c422dadc76e2a6a075b,False,"I think no, this is just for validation and to keep the validation simple. There is a well defined logic around associations so I don't know if we have to change it.",,956,{}
+6241,PullRequestReviewCommentEvent,2017-07-30 03:04:37+00:00,91020334,ni/nimi-python,8085768,marcoskirsch,5598284,ni,created,53087568,2a88df3ff38d1ec8880c831334d3a3b6a976e6a9,False,"We have classes for each one of these clases. Why don't we store the ""python"" type as a class member of those? We should info about types centralized in one place.",,109,{}
+6249,PullRequestReviewCommentEvent,2018-01-10 04:39:44+00:00,91020334,ni/nimi-python,8085768,marcoskirsch,5598284,ni,created,87729342,546055cb09aa665cb9539a262426106f97f44438,False,"This initializes the array as [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0,... which surely isn't what you intended and may explain the crappy performance.
+
+So... one way to initialize to zeroes that may be marginally faster than actually using the iterator returned by range which returns an int that also needs to be cast is to write our own (untested):
+
+'''
+class Zeroes:
+    def __init__(self):
+        pass
+    	
+    def __iter__(self):
+        return self
+
+    def next(self): # Python 3: def __next__(self)
+        return 0.0
+ '''
+
+I'm looking for a cheaper way, but I'm guessing you looked as well?",MEMBER,720,{}
+6276,PullRequestReviewCommentEvent,2017-09-04 14:29:44+00:00,91356408,allenai/allennlp,3291951,matt-gardner,5667695,allenai,created,60424528,f4f95c2e580618a6fdd83c925fe29f92b631214a,False,"The reason was for inference that needs to happen after `model.forward`.  Seems like there are a few options here:
+
+1. We do what I did here, which is to put the call to inference / decoding logic in the `Predictor`, in a method that happens after the call to `model.forward_on_instance`.  It really should be an overridable method, because not every model needs to do this inference / decoding, and how that logic works depends on the model and the predictor.
+2. We put the inference / decoding logic into `model.forward_on_instance`.  Either this means that models that do some kind of decoding need to put that decoding into `model.forward()` itself, or they need to override `model.forward_on_instance` to do the decoding there.  Because this probably means we're adding it to `model.forward()`, you probably want some kind of flag that says whether to do inference, because you probably don't want to bother at training time, but you might for the validation set.
+3. We add another method on `Model` called `decode`, or something, that takes the output of `model.forward_on_instance` (or `model.forward`, but one of these has pytorch variables and the other has numpy - doing the conversion inside of `decode` wouldn't be hard...), and adds a decoded field to the dictionary.  The default implementation in the base class would just return an un-modified dictionary.  Then we can just add a call to `model.decode()` in `Predictor.predict_json()`, and remove the `_predictions_to_json` stuff.
+
+I like option 3, I think.  It gives a cleaner separation between the jobs of `model.forward()` (which computes potentials / probabilities and a loss) and a decoding step (which does some kind of max inference / marginalization / beam search / whatever, given the potentials), and it makes it easy to have the logic all live inside of `Model`, where it belongs, without making training slow by putting unnecessary decoding into `forward`.
+
+What do you think?",MEMBER,256,{}
+6277,PullRequestReviewCommentEvent,2017-12-06 01:08:38+00:00,91356408,allenai/allennlp,619844,matt-peters,5667695,allenai,created,81389870,690863f6d0b80e00897cb5b0acdc92ecf3e63a09,False,It'd be nice to reuse in a test case for another PR I'm working on.  But if it's a hassle then I can work around.,CONTRIBUTOR,579,{}
+6286,PullRequestReviewCommentEvent,2017-12-06 00:43:38+00:00,91356408,allenai/allennlp,3291951,matt-gardner,5667695,allenai,created,81385185,6f7c728e3fe620ac3a9c90aa9bc67e180c05907a,False,And this is a tuple because it's the hidden state and the memory cell for the LSTM?,MEMBER,576,{}
+6287,PullRequestReviewCommentEvent,2018-01-31 18:23:54+00:00,91356408,allenai/allennlp,3291951,matt-gardner,5667695,allenai,created,93029704,eb3e446493b6276b07a4f93b4a4895d0e6312161,False,`left_side` and `right_side` instead of `lhs` and `rhs`.,MEMBER,735,{}
+6291,PullRequestReviewCommentEvent,2017-08-10 22:30:45+00:00,91356408,allenai/allennlp,3291951,matt-gardner,5667695,allenai,created,55682787,dec2dadc1a83236b8b0a33274483fb9e7c62fd3d,False,"They'd be on the page where you enabled codecov integration (the one that I can't access), I think.  Neither coverage check is required, however.
+
+I'd probably just say something about how we strive for >90% code coverage, and your PR is a whole lot more likely to get accepted if it has proper tests.",,117,{}
+6292,PullRequestReviewCommentEvent,2017-11-09 19:28:25+00:00,91356408,allenai/allennlp,619844,matt-peters,5667695,allenai,created,75558146,cffc75c491a1554bf16e706d8a64bcbd5df7b435,False,I disagree that it improves readability and will make it harder to refactor later.  I was planning on adopting the same `_load_weights` function in the other ELMo components that use the same options/weights so if we wanted to e.g. add a hook that pre-processed the weights or something it would be easy to do.,NONE,471,{}
+6296,PullRequestReviewCommentEvent,2018-01-31 18:14:57+00:00,91356408,allenai/allennlp,16001974,DeNeutoy,5667695,allenai,created,93027068,b005a0a7782f98698d9ab750f8dd58509e34904a,False,"The `raw_span_indices` are actually permutation invariant, because we use the indices generated to select both the embeddings _and_ the attention logits, so because they are the same for both, the order doesn't matter for any given span.
+
+I agree that it's not ideal that this depends on having end-inclusive indices. I'm going to leave a TODO to add a flag to support both I think.",CONTRIBUTOR,730,{}
+6298,PullRequestReviewCommentEvent,2018-01-31 17:17:45+00:00,91356408,allenai/allennlp,3508113,pdasigi,5667695,allenai,created,93007829,1b76d5b2f6b48a257866056ca982068942c5c1bd,False,Done.,CONTRIBUTOR,713,{}
+6301,PullRequestReviewCommentEvent,2018-03-26 18:30:20+00:00,91356408,allenai/allennlp,3291951,matt-gardner,5667695,allenai,created,107018616,e81490c8d7bb719c93401a760b7ceef93c94242b,False,You already said this up above.,MEMBER,1034,{}
+6304,PullRequestReviewCommentEvent,2018-03-20 16:18:41+00:00,91356408,allenai/allennlp,3291951,matt-gardner,5667695,allenai,created,105416973,f5467d8d27794ce47c2b084288920f7dff430105,False,Inherit from our test case class?  I guess it doesn't matter here...,MEMBER,968,{}
+6311,PullRequestReviewCommentEvent,2015-09-28 16:44:36+00:00,13512018,python-diamond/Diamond,84372,jaingaurav,5668086,python-diamond,created,,6a3fdba9d5e65f9b30433fff4474417336cb2bac,False,"So I'd prefer not using the bunch package to parse configs. None of the other collectors use it, thus leading to an inconsistency.",,287,{}
+6339,PullRequestReviewCommentEvent,2017-10-22 18:41:37+00:00,66922106,frictionlessdata/datapackage-pipelines,265333,akariv,5912125,frictionlessdata,created,71041141,c471684830dd41249e8b1a5bf80304c40408beca,False,"There's some unnecessary code duplication here.
+We can have path to be a string always (regardless of its initial form)",COLLABORATOR,92,{}
+6343,PullRequestReviewCommentEvent,2015-06-09 19:31:06+00:00,21127286,a10networks/acos-client,603553,dougwig,5942705,a10networks,created,,e22586acf51cf83274edbaac3b20ad30ae22c97e,False,"Don't propagate the sins of the api.  Use the language boolean, and agree on switching to kwargs for consistency.",,68,{}
+6350,PullRequestReviewCommentEvent,2017-12-30 05:42:23+00:00,22757589,freelawproject/juriscraper,1270718,johnhawkinson,6012898,freelawproject,created,86025271,7c67fdbc7329cf74b25e25958dcb692f9ff5d275,False,"Well, are we testing what juriscraper receives, or are we testing what we would like it to receive? Because that's what it sends.
+
+Do we change the comments in PACER HTML to remove references to random PACER `.js` and `.pl` files?",CONTRIBUTOR,203,{}
+6367,PullRequestReviewCommentEvent,2015-05-02 17:19:12+00:00,11589713,deis/deis,7416231,smothiki,6117407,deis,created,,fe942ee301a4745a2855d6825ff7640459fe2c03,False,etcd leader Host is used by swarm nodes and helps manager for discovery. I haven't hit the use case of leader host going down yet. I have to check and see if some thing abnormal is happening ,,3612,{}
+6380,PullRequestReviewCommentEvent,2015-10-01 15:45:00+00:00,11589713,deis/deis,1821014,krancour,6117407,deis,created,,562401f67c1a806fa4db395a775ac8381fe0039f,False,Possible s/different/two different/.  Otherwise :+1: ,,4543,{}
+6383,PullRequestReviewCommentEvent,2015-01-09 22:00:09+00:00,11589713,deis/deis,1360539,bacongobbler,6117407,deis,created,,a6b7d86903f3ed0f207d6d600dfdfe4ccfdc80df,False,"A neat trick here, for future reference:
+
+```
+data['coreos']['units'][:0] = new_units
+```
+
+Both work the same here so I won't ask you to fix this up, but it helps with code duplication at the microscopic level :)
+",,2872,{}
+6387,PullRequestReviewCommentEvent,2015-09-17 17:26:59+00:00,11589713,deis/deis,2347529,adamreese,6117407,deis,created,,112da78aa7cd277870955f2adbdd873317291864,False,It would be nice to have the ability to specify version upgrading to and validate unit files are desired version.,,4506,{}
+6389,PullRequestReviewCommentEvent,2015-04-30 15:09:05+00:00,11589713,deis/deis,864578,johanneswuerbach,6117407,deis,created,,9ba8eba1d35789f6bd264e1b0746ecc499365cd0,False,We still need this. So only the `return 404` in line 290 should be enough.,,3598,{}
+6407,PullRequestReviewCommentEvent,2016-11-01 17:36:04+00:00,53438969,globus/globus-cli,214142,jaswilli,6120321,globus,created,6663307,cb1357b4f2b5d931153450e199e47309706c70b6,False,Do we need to tell people where the tokens have been saved? It seems like we're just making it easy for someone to mess around with their config file directly. Not mentioning this also means we don't have to account for Windows not knowing what `~` means.,,122,{}
+6444,PullRequestReviewCommentEvent,2017-01-13 08:48:40+00:00,71996613,blue-yonder/tsfresh,13162426,MaxBenChrist,6234170,blue-yonder,created,16527689,af74fa848d2c0de38bee3acf7151f9c183d9b249,False,Also `relevant_features` sound like a name of a feature and not a numerical measurement of their importance,,87,{}
+6448,PullRequestReviewCommentEvent,2016-12-09 18:33:06+00:00,71996613,blue-yonder/tsfresh,6116188,nils-braun,6234170,blue-yonder,created,12278960,f079e31de69c64c3562b6e50a0750a5daebcd17e,False,kind_to_df_map or timeseries container?,,98,{}
+6461,PullRequestReviewCommentEvent,2015-03-30 09:05:55+00:00,30313032,ethereum/ethash,1658405,LefterisJP,6250754,ethereum,created,,368a397eddba6f0e1494caf8c319b13a61e3176f,False,this should be BOOST 1.48.0 since this is only for testing and C++11 and is not the same as the rest of the codebase. Basically boost 1.48.0 is the max we can get in travis-CI so this is kind of a limitation :(,,11,{}
+6466,PullRequestReviewCommentEvent,2018-06-13 15:37:53+00:00,77478378,ethereum/py-evm,205327,carver,6250754,ethereum,created,128438932,07a40adf725f154a9a3e60771a3f21bafd4f6928,False,"I'm not a fan of linking out to github from a comment usually, but I may be alone on that. My logic is that putting the link can be used as a crutch to avoid fully describing what's going on. But most people won't follow the link, so they end up without as clear a picture of the situation.",CONTRIBUTOR,907,{}
+6471,PullRequestReviewCommentEvent,2018-07-13 17:32:53+00:00,77478378,ethereum/py-evm,824194,pipermerriam,6250754,ethereum,created,137125450,499c6f4d8b674b92aa711f5e92b4b6475784aee3,False,"How about just:
+
+```
+for k, v in tuple(self.parity_pong_tokens.items()):
+    if v == token:
+        del self.parity_pong_tokens[parity_token]
+        break
+```",MEMBER,1011,{}
+6475,PullRequestReviewCommentEvent,2018-01-16 03:54:05+00:00,77478378,ethereum/py-evm,9263930,hwwhww,6250754,ethereum,created,88980322,8944d20d9cb83b4096c232b2b0eeff1ff66dd8e5,False,"My carelessness, thank you.",CONTRIBUTOR,273,{}
+6476,PullRequestReviewCommentEvent,2018-04-13 19:26:18+00:00,52113942,ethereum/eth-abi,791437,davesque,6250754,ethereum,created,112132357,6a7f55958318034e8b17b4f7cfe7ce33777ab673,False,"This code would throw an error: https://github.com/ethereum/eth-abi/blob/master/eth_abi/utils/grammar.py#L286-L289
+
+The `parse_type_str` decorator parses the type and calls `ABIType.validate()`.",CONTRIBUTOR,49,{}
+6481,PullRequestReviewCommentEvent,2018-04-09 23:02:29+00:00,56251096,ethereum/web3.py,205327,carver,6250754,ethereum,created,110645895,07c446e4df6f5dd7ece43c922fb8aaeec936265c,False,Another transaction is being sent in 187-188. Probably the most natural way to write this is to remove the `+ 1` and move this line down to just before 190.,COLLABORATOR,743,{}
+6485,PullRequestReviewCommentEvent,2018-05-10 15:38:15+00:00,56251096,ethereum/web3.py,824194,pipermerriam,6250754,ethereum,created,119135182,006839705f134b65c2261048b52773c3dd05b595,False,We've been using the convention of `w3` as the instance name for web3 instances.,MEMBER,649,{}
+6493,PullRequestReviewCommentEvent,2017-11-28 09:07:57+00:00,33202327,cloudify-cosmo/wagon,1324225,hugovk,6260555,cloudify-cosmo,created,79431443,c80023ca520065a621bc939d5ffaef6b5f07e548,False,"Here we go:
+`python_requires='>=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*',`",NONE,111,{}
+6497,PullRequestReviewCommentEvent,2015-07-02 07:42:00+00:00,1253290,djangonauts/django-hstore,841044,nemesisdesign,6310186,djangonauts,created,,edfdf060db2d423fadb2e0b07c6fd451f153157a,False,Ok.,,124,{}
+6520,PullRequestReviewCommentEvent,2017-01-05 19:29:41+00:00,6235174,conda/conda,1418419,kalefranz,6392739,conda,created,15374286,88da3d9802d2e88395618e1f1fd233483348db3c,False,Oh definitely get rid of it.  The oops was that it snuck in to begin with.,,4193,{}
+6665,PullRequestReviewCommentEvent,2017-06-28 19:12:45+00:00,51040886,Azure/azure-cli,16448634,derekbekoe,6844498,Azure,created,46938841,2bfc9274702aa364ac88cb656ac1b24ca9de2d8b,False,"This change of API version is already in master.
+Please sync with master.",,3907,{}
+6666,PullRequestReviewCommentEvent,2018-05-11 16:06:50+00:00,51040886,Azure/azure-cli,1329240,troydai,6844498,Azure,created,119490940,fdea2d16a14883632ab56a0c62d9cfad93266f0c,False,This will skip the entire test class in both Travis run and live run. Is this what you want?,CONTRIBUTOR,6327,{}
+6684,PullRequestReviewCommentEvent,2016-10-19 20:24:49+00:00,51040886,Azure/azure-cli,5723682,tjprescott,6844498,Azure,created,4954160,110c2d17c5fd49c201a5e586b1ed98d8a0159518,False,Does this intentionally do nothing? I would recommend a comment either stating why or a TODO to indicate that future work will be expected here.,,1098,{}
+6690,PullRequestReviewCommentEvent,2018-07-17 21:08:56+00:00,51040886,Azure/azure-cli,1329240,troydai,6844498,Azure,created,138019651,eac5cc90a680237893363a044fe1ad508f9ff0e4,False,"It addresses a customer issue, right? Worth to point out in the history?",CONTRIBUTOR,6822,{}
+6691,PullRequestReviewCommentEvent,2017-01-23 18:48:21+00:00,51040886,Azure/azure-cli,1329240,troydai,6844498,Azure,created,17995236,be912dd33069fee1d9507e7eee6cd310451e265f,False,I guess it is because it's not used. And the pycharm fixed it for me.,,1807,{}
+6698,PullRequestReviewCommentEvent,2018-03-07 22:40:48+00:00,51040886,Azure/azure-cli,12025904,bgsky,6844498,Azure,created,102126321,d98b24450556a97d4667f57d46e7b31bcdb1087f,False,Fixed typo by removing time_period,NONE,5642,{}
+6699,PullRequestReviewCommentEvent,2017-06-19 18:26:47+00:00,51040886,Azure/azure-cli,5723682,tjprescott,6844498,Azure,created,44932022,d64697793585dd1b0d1be337b9977114a53dee01,False,"Typically the more pythonic way to write this is 
+
+```Python
+if indexing_policy is not None:
+```
+
+Unless falsy values like empty string are allowed, you could also just simplify to:
+
+```Python
+if indexing_policy:
+```",,3761,{}
+6703,PullRequestReviewCommentEvent,2018-02-22 17:09:30+00:00,51040886,Azure/azure-cli,5723682,tjprescott,6844498,Azure,created,98651017,5946f947f4a0b83ed8fa8dc6effb8850d44c1e06,False,Option string with units.,MEMBER,5522,{}
+6705,PullRequestReviewCommentEvent,2017-10-06 18:05:42+00:00,51040886,Azure/azure-cli,1329240,troydai,6844498,Azure,created,67750351,4be6d0054f2545e04d977246cf7bf7a1c88fdea1,False,ok.,CONTRIBUTOR,4610,{}
+6706,PullRequestReviewCommentEvent,2017-02-14 23:22:38+00:00,51040886,Azure/azure-cli,16448634,derekbekoe,6844498,Azure,created,21890884,9b969ad6be8d5ed26495b7acda871b45d8ee663e,False,`authenticate` -> `authentication`?,,2071,{}
+6711,PullRequestReviewCommentEvent,2018-05-31 00:40:03+00:00,51040886,Azure/azure-cli,7592862,NatalieGong,6844498,Azure,created,124639828,ecf271b5eda2bac68ae71c3d53816faa04e15a3f,False,Added,NONE,6375,{}
+6716,PullRequestReviewCommentEvent,2017-11-29 18:24:53+00:00,51040886,Azure/azure-cli,169061,sptramer,6844498,Azure,created,79940979,a7ee3665e6f11b7e5c6949bf1cd8d9c5beac0509,False,Remove or improve example.,CONTRIBUTOR,4958,{}
+6718,PullRequestReviewCommentEvent,2017-04-13 17:32:00+00:00,51040886,Azure/azure-cli,5723682,tjprescott,6844498,Azure,created,32692062,45a688a7c76b2d31d58a57ec16ec24d5ca002a55,False,API versions are all dates... ?,,2834,{}
+6723,PullRequestReviewCommentEvent,2017-05-18 17:52:37+00:00,51040886,Azure/azure-cli,16140724,oakeyc,6844498,Azure,created,39010125,347518e8ee5603dce44282982d98edd3ead70023,False,You're right; I just removed it,,3243,{}
+6733,PullRequestReviewCommentEvent,2016-09-02 19:19:04+00:00,51040886,Azure/azure-cli,5723682,tjprescott,6844498,Azure,created,,7613387add9b08a222a30eb71504992a50c806a5,False,"No. 'get_file_path_validator' returns a validator and then (namespace) runs it on the namespace.
+
+---
+In reply to: [77395762](https://github.com/Azure/azure-cli/pull/804#discussion_r77395762) [](ancestors = 77395762)",,804,{}
+6739,PullRequestReviewCommentEvent,2018-08-09 20:35:47+00:00,108257720,Azure/azure-kusto-python,1693688,zooba,6844498,Azure,created,145000633,3391f399278b9e28ccdb567f8dd8963989fa98c8,False,Intentionally modifying the contents of an argument?,MEMBER,48,{}
+6845,PullRequestReviewCommentEvent,2017-06-24 19:48:29+00:00,13258039,aio-libs/aiohttp,223335,jettify,7049303,aio-libs,created,46132585,f3f1278494f4fb60d916e14bca06152b7ab404b9,False,"May be stupid idea, but I think we may want to pass JobRunner as parameter. I suspect with time, we will see interesting custom implementation of runner, for instance `ExecutorJobRunner`, that uses `Executor`",,2008,{}
+6853,PullRequestReviewCommentEvent,2018-03-17 14:14:42+00:00,13258039,aio-libs/aiohttp,1306276,N-Coder,7049303,aio-libs,created,104767540,fb6089dc2b4616f2e78e1f7d12bf49a23be8d7aa,False,"I thought the old timeout worked like the uber_timeout is working now, so I though this would be suited best for keeping backwards compatibility. If changing the way things work is okay, I'd be happy to use a more sensible timeout for the default. ;)",NONE,2842,{}
+6900,PullRequestReviewCommentEvent,2017-02-05 00:34:58+00:00,23984796,jupyter/nbgrader,83444,jhamrick,7388996,jupyter,created,20158762,31365daa5f6c9c059253928dba69aaef271852a8,False,"Or alternately you can just call `parse_utc` here as well, e.g.:
+
+```
+    def get_timestamp(self):
+        """"""Return the timestamp using the configured timezone.""""""
+        tz = gettz(self.timezone)
+        if tz is None:
+            self.fail(""Invalid timezone: {}"".format(self.timezone))
+        return parse_utc(datetime.datetime.now(tz).isoformat(' '))
+```",,526,{}
+6909,PullRequestReviewCommentEvent,2015-04-01 21:12:15+00:00,23984796,jupyter/nbgrader,335567,Carreau,7388996,jupyter,created,,bd21eecd41d1681853e0516c83f71de08573c166,False,Done,,188,{}
+6919,PullRequestReviewCommentEvent,2016-01-14 16:04:11+00:00,33653601,jupyter/notebook,327925,takluyver,7388996,jupyter,created,,9721ff2aef96c9fcf05aa015c19879d9269c654a,False,"Can you in fact now upload arbitrary files like this? If we're still restricting it to .ipynb and .py, we probably shouldn't be.",,955,{}
+6932,PullRequestReviewCommentEvent,2016-02-20 21:30:11+00:00,33653601,jupyter/notebook,5145763,secant,7388996,jupyter,created,,43ff9535028fd224b79dec5d2859eb4a82d8a4af,False,"Gotcha, will make the changes.",,1115,{}
+6939,PullRequestReviewCommentEvent,2015-12-17 08:47:42+00:00,33653601,jupyter/notebook,335567,Carreau,7388996,jupyter,created,,0a2f2429ed33a4b25f61f1d5a42902fea55b7408,False,Want to expose this one through an authenticated REST web handler ?,,879,{}
+6950,PullRequestReviewCommentEvent,2015-10-26 17:15:52+00:00,33653601,jupyter/notebook,3292874,jdfreder,7388996,jupyter,created,,80cb9199985b29867631fd3a4530b0c66f702da4,False,I too prefer the padding fix you posted,,661,{}
+6962,PullRequestReviewCommentEvent,2018-05-27 07:45:57+00:00,33653601,jupyter/notebook,327925,takluyver,7388996,jupyter,created,123575132,6fc09088ed268af7335efcdb48f8afd526ac3fbb,False,"We shouldn't need to construct JS just to set the value of a form field like this, I think.",MEMBER,3630,{}
+6980,PullRequestReviewCommentEvent,2015-12-04 17:15:03+00:00,33653601,jupyter/notebook,327925,takluyver,7388996,jupyter,created,,8024000a0e175f6fce3a6fe14cbe171686ade400,False,"Yeah, I think that will probably work.",,786,{}
+7003,PullRequestReviewCommentEvent,2017-02-07 18:34:52+00:00,43686408,OCA/pylint-odoo,1387970,JesusZapata,7600578,OCA,created,20583762,8f63e0951b91dff852193ff2ccd6fc15f848db8d,False,"@moylop260 
+Thanks! ",,116,{}
+7026,PullRequestReviewCommentEvent,2018-07-13 16:20:40+00:00,51585028,hyperledger/indy-plenum,5670522,skhoroshavin,7657900,hyperledger,created,137078215,987ed4db37becc361c6782c66534936dfef5560e,False,"Can it happen so that key is NOT in requests? If it can, but is not expected a lot - we can really add request here as well and merge `add_request` and `add_duration` as I already mentioned.",CONTRIBUTOR,812,{}
+7099,PullRequestReviewCommentEvent,2017-05-27 21:04:16+00:00,24375248,blockstack/blockstack-core,1243164,whyrusleeping,8165984,blockstack,created,40660584,8155abfd0704936030f1e4c7e79443f41a5d0dca,False,"Every user will have a different public key, which means the 'name' being published is different, i think this code is just setting the 'default' value when starting up",,435,{}
+7109,PullRequestReviewCommentEvent,2015-01-08 13:06:14+00:00,7803088,pylast/pylast,1324225,hugovk,8259519,pylast,created,,7857afa7940ac8386670fcf42d4a0d5578500c57,False,What's this .dir-locals.el file for?,,117,{}
+7162,PullRequestReviewCommentEvent,2017-06-19 16:59:12+00:00,39858489,juju-solutions/charms.reactive,634190,simonklb,8684561,juju-solutions,created,44908201,a90015f947829b7d84c6e1e859cd30e62bf3bf9f,False,`send_data` might give the false expression that some remote side need to ack. `expose_data` or `provide_data` perhaps?,,101,{}
+7164,PullRequestReviewCommentEvent,2015-01-13 16:53:45+00:00,24718080,NSLS-II/databroker,199813,tacaswell,8700262,NSLS-II,created,,43681d923afae498cfff8452dc33b0483b4abcf2,False,Don't include a copy of numpydoc.,,4,{}
+7168,PullRequestReviewCommentEvent,2016-03-29 21:07:55+00:00,43328009,NSLS-II/databroker,199813,tacaswell,8700262,NSLS-II,created,,b5efa9eadec2ba7b2a3fb999bd88083b78bb6fb3,False,This result might get over-written in the next block?,,41,{}
+7170,PullRequestReviewCommentEvent,2018-05-03 02:26:05+00:00,43328009,NSLS-II/databroker,199813,tacaswell,8700262,NSLS-II,created,117124497,68ac2c36ea130062e15e13cceeef71d7cf99b5fd,False,"We are going to want to get the corrected version far more often than we are going to want the original so it makes more sense to store the store the final state and compute the diff when we want it than to store the original + diffs and compute the current everytime we access it.
+
+Interestingly, this is the ways that git (store full version, compute diffs) and svn (store diffs, compute full version) work.",OWNER,360,{}
+7180,PullRequestReviewCommentEvent,2016-09-17 05:09:43+00:00,66871728,BD2KGenomics/toil-lib,11653944,arkal,8701293,BD2KGenomics,created,,c55bee76407996f73887eb28e6a9ed02a1ac826e,False,Good point,,31,{}
+7181,PullRequestReviewCommentEvent,2016-09-26 22:39:57+00:00,66871728,BD2KGenomics/toil-lib,5143256,hannes-ucsc,8701293,BD2KGenomics,created,,b9d14c87a4c0325225201eb28a1718f54d73d60e,False,"Above you log `Nothing to do` if the container is already gone. To be consistent, you should you log if the  container is already stopped.",,31,{}
+7200,PullRequestReviewCommentEvent,2016-09-08 09:56:21+00:00,27888295,SatelliteQE/nailgun,11719030,abalakh,8754276,SatelliteQE,created,,81a499f3962451822aaefb133a9870f850539ffb,False,I see what you did here 😄  Please update this docstring,,313,{}
+7206,PullRequestReviewCommentEvent,2017-11-23 12:14:24+00:00,24245737,projectmesa/mesa,10285723,dkrichards86,8754505,projectmesa,created,78699978,da194e3556e7a8e61af05da3f726ef42ec7c7c0c,False,Sure thing. Sorry about that- I should have caught it.,NONE,433,{}
+7268,PullRequestReviewCommentEvent,2017-09-05 18:07:30+00:00,24689871,pythongssapi/python-gssapi,119737,DirectXMan12,8986660,pythongssapi,created,60691700,9566a39a87f7f82f3c59f9f3b4b115e61a93797d,False,"while you're doing updates, remove the ""; depends on RFC 5801"" -- just the `requires-ext` tag below is fine.",OWNER,126,{}
+7276,PullRequestReviewCommentEvent,2015-12-12 11:35:55+00:00,1151051,django-oscar/django-oscar,245297,mvantellingen,9057806,django-oscar,created,,581227b3d644ef965b0372f969eff415f9374cf3,False,"This seems to make products which are free (price is 0) unavailable. Not sure we want, perhaps:
+
+    if not stockrecord or stockrecord.price_excl_tax is None:
+        return availability.Unavailable()
+",,1913,{}
+7288,PullRequestReviewCommentEvent,2015-11-22 18:39:25+00:00,1151051,django-oscar/django-oscar,245297,mvantellingen,9057806,django-oscar,created,,40265cceb8e63c20a1ce9c37a956dd0a65f9dec3,False,Small typo :-),,1767,{}
+7300,PullRequestReviewCommentEvent,2017-07-17 22:42:42+00:00,26784827,dotnet/core,1376924,akoeplinger,9141961,dotnet,created,50468623,67e0be67a8a560b380e55cd78d8e1d1ecc992cd8,False,missing comma in `respect your contributions make engagement efficient`,,753,{}
+7320,PullRequestReviewCommentEvent,2018-05-23 18:21:31+00:00,26784827,dotnet/core,1438378,huanwu,9141961,dotnet,created,122709195,9f68c59a7b29bc1e6d31724a3f1d93bc76df6f3c,False,ok,CONTRIBUTOR,1580,{}
+7370,PullRequestReviewCommentEvent,2016-03-24 23:36:57+00:00,26516210,letsencrypt/letsencrypt,649860,SwartzCr,9289019,letsencrypt,created,,26919002455e454e9f70c16e6510be45c07bc3d6,False,"nit: personally I'd write this as cls((host, port), ipv6=True)",,2690,{}
+7385,PullRequestReviewCommentEvent,2016-02-04 05:01:14+00:00,26516210,letsencrypt/letsencrypt,6504915,bmw,9289019,letsencrypt,created,,139326db7a4e401c2e91342f04dc9d837dca5115,False,Unnecessary return.,,2338,{}
+7393,PullRequestReviewCommentEvent,2018-07-18 04:10:17+00:00,64330225,trustar/trustar-python,16249781,michaelknopf,9372891,trustar,created,138096835,bc4f9425e3393799c72211a8fb8f06bb8d8091d8,False,"Same here, you have to do a bit more:
+
+```
+tags = None
+if self.tags is not None:
+    tags = [tag.to_dict(remove_nones=remove_nones) for tag in self.tags]
+
+return { ... 'tags': tags }
+```",CONTRIBUTOR,30,{}
+7402,PullRequestReviewCommentEvent,2018-05-21 10:58:17+00:00,56217288,confluentinc/confluent-kafka-python,524990,edenhill,9439498,confluentinc,created,121756309,c5e671e21cb95e06cb0414af9c61691b60beedd0,False,""" and flush().""",MEMBER,377,{}
+7415,PullRequestReviewCommentEvent,2017-11-09 16:18:05+00:00,63251150,go-macaroon-bakery/py-macaroon-bakery,66491,rogpeppe,9721471,go-macaroon-bakery,created,75495323,b2304cd685dbf06abbf6b43692425434aaaedade,False,FWIW we're not enforcing a line-length limit any more. Personally I think that not splitting the line here is a bit easier to read (ditto below). I'd suggest using `tox -e lint` rather than running the linter directly.,OWNER,30,{}
+7416,PullRequestReviewCommentEvent,2017-06-16 09:02:24+00:00,63251150,go-macaroon-bakery/py-macaroon-bakery,66491,rogpeppe,9721471,go-macaroon-bakery,created,44507478,c1c53372b050167a0f86c3cd0a7c104b974ffe17,False,"This all seems a bit more complex than it needs to be.
+How about something like:
+
+    def _decode_varint(data):
+        n = 0
+        shift = 0
+        for b in data:
+            n |= (b & 0x7f) << shift
+            if (b & 0x80) == 0:
+                break
+            shift += 7
+        return n
+
+?",,5,{}
+7460,PullRequestReviewCommentEvent,2017-01-23 14:08:23+00:00,51643776,python-visualization/branca,950575,ocefpaf,9969242,python-visualization,created,17928989,b0459fb0f84c2d6474d71e2777988d44d54328d0,False,"@knil-sama here is where we define the channels we will use, but instead of the old ""in-house"" `ioos` solution I had, or the third party `bokeh`, we will use the community channel `conda-forge`.",,20,{}
+7461,PullRequestReviewCommentEvent,2017-10-25 16:20:10+00:00,51643776,python-visualization/branca,5264336,nanodan,9969242,python-visualization,created,71924725,38263039c300f272ad8df77588fe5e524fcf0668,False,"I'll leave it up to you, just let me know. I can re-write for os.path; I just thought pkg_resources was cleaner. I'm not sure either way though if one approach or the other is best practice.",NONE,29,{}
+7465,PullRequestReviewCommentEvent,2018-06-16 03:29:27+00:00,9952134,python-visualization/folium,16011037,stickler-ci,9969242,python-visualization,created,129352672,8ce80a6f36af941169344ca8113a8efb59abece2,False,E999 SyntaxError: invalid syntax,NONE,883,{}
+7466,PullRequestReviewCommentEvent,2015-12-05 18:35:15+00:00,9952134,python-visualization/folium,4586863,BibMartin,9969242,python-visualization,created,,fed24a4f49368b4ac1d938d777c42bba7d5c56db,False,"Done, and changed `map.simple_marker` by `Marker`.",,283,{}
+7480,PullRequestReviewCommentEvent,2018-06-14 19:30:20+00:00,42750248,watson-developer-cloud/python-sdk,13935994,ehdsouza,10017763,watson-developer-cloud,created,128936542,47f38dd832e42e088c5851b7df8a44835b8dba20,False,https://console.bluemix.net/dashboard/apps?category=watson,COLLABORATOR,494,{}
+7484,PullRequestReviewCommentEvent,2017-11-05 13:32:26+00:00,42750248,watson-developer-cloud/python-sdk,313157,germanattanasio,10017763,watson-developer-cloud,created,74281393,f70ec85de25a780ef42a03af4837f5c643e45cc5,False,"Should `_cleanup_param_value`, `_cleanup_param_values` and all the other clean methods be `@ staticmethod`?",OWNER,297,{}
+7507,PullRequestReviewCommentEvent,2017-02-24 22:55:17+00:00,27610253,ubyssey/dispatch,2354516,JimFung,10091792,ubyssey,created,23830772,0ea825f17c5db51d1bfdfc49f943f0834a4014d4,False,"right but if the returned an action with the action type 'FETCH_ARTICLE_REJECTED' for example, we don't have a specific case set up to handle it in the articles reducer. My question is whether or not we want a specific case to handle this action.",,476,{}
+7522,PullRequestReviewCommentEvent,2016-01-27 20:53:50+00:00,4637221,powerline/powerline,322097,ZyX-I,10100576,powerline,created,,b13a035b1d21bb9c637eaf2b1d79a814fac610ea,False,"By the way, what was this `min()` call for originally? `''[10:] == ''`, even though `len('') == 0`.",,1517,{}
+7538,PullRequestReviewCommentEvent,2016-03-18 16:42:05+00:00,28005964,vmprof/vmprof-python,85944,fijal,10184195,vmprof,created,,1aed88b5de0d5667dd27b76b148fbb47ad132dc1,False,"This change is massive, unrelated to the pull request and potentially problematic. The problem here is that we don't hold any lock while walking the interpreter state - that means that if we have more than one thread, it will likely explode. Note that cpython has a lock to do such manipulations, but it's simply not exposed.",,63,{}
+7546,PullRequestReviewCommentEvent,2018-08-24 12:52:37+00:00,46293472,Backblaze/B2_Command_Line_Tool,603739,bwbeach,10283486,Backblaze,created,149289600,61c68fd166174dd2cf2be73799ef40c887afdaa3,False,Maybe check that the message is correct?,CONTRIBUTOR,501,{}
+7549,PullRequestReviewCommentEvent,2018-03-16 22:41:09+00:00,46293472,Backblaze/B2_Command_Line_Tool,875294,dgentry,10283486,Backblaze,created,104736809,884f9d9309f188448388046f36e0f3e6a5bec167,False,"That was kind of what I was leaning towards, but wasn't sure if that was too fussy.  `ls` on my Mac just prints a `?` which isn't as helpful.  Anyway, I'll go ahead with the hex.",NONE,424,{}
+7561,PullRequestReviewCommentEvent,2018-04-27 00:11:09+00:00,14284859,marshmallow-code/marshmallow,3108007,deckar01,10334301,marshmallow-code,created,115786853,90ff67a4a09650e597518fcd95bb9be5cc6ed718,False,"The marshaller passes its errors to the `messages` argument of `ValidationError()`, so we should be able to access it via `error.messages` instead of reaching back through the marshaller.",COLLABORATOR,785,{}
+7569,PullRequestReviewCommentEvent,2015-06-30 01:45:48+00:00,19163893,marshmallow-code/flask-marshmallow,2379650,sloria,10334301,marshmallow-code,created,,c80a54c202d9762acad2d1aaf2e9781bafa14f10,False,What is raised here?,,23,{}
+7588,PullRequestReviewCommentEvent,2018-02-21 23:54:18+00:00,112676803,apple/turicreate,56061,hoytak,10639145,apple,created,98405873,b7b06e15ed045289206ac1eab9a63eb7ade3a904,False,One more to change to Column index.,COLLABORATOR,298,{}
+7595,PullRequestReviewCommentEvent,2018-06-29 14:46:23+00:00,112676803,apple/turicreate,902935,gustavla,10639145,apple,created,133255467,8bf9aef344825fecd1b6dbe33e98c9a85347b7cf,False,"Also ""... that exists"" is technically not true, since we attempt to create all the paths. As long we have permission to do so. It's a subtle distinction that is not that important though, and I agree that it's better for users that hit this issue to manually confirm that there is a directory there.",COLLABORATOR,790,{}
+7604,PullRequestReviewCommentEvent,2017-11-09 02:15:32+00:00,95862535,apple/coremltools,30738020,slin07,10639145,apple,created,75313289,3e3fec5c6b853568206f309c35e73704cfbbb04a,False,Fixed,COLLABORATOR,62,{}
+7624,PullRequestReviewCommentEvent,2017-09-04 05:52:02+00:00,66823715,intel-analytics/BigDL,1297418,yiheng,10941215,intel-analytics,created,60328239,028a8751659eff64b55be7caa3bab408dba555fd,False,can nElement == 0 check if a tensor is empty,CONTRIBUTOR,1517,{}
+7633,PullRequestReviewCommentEvent,2017-12-13 01:57:03+00:00,66823715,intel-analytics/BigDL,21994046,hkvision,10941215,intel-analytics,created,83042318,0bf9635b281f60356008bce65952363a1aeba886,False,detail -> detailed,CONTRIBUTOR,2013,{}
+7634,PullRequestReviewCommentEvent,2018-02-02 01:19:30+00:00,66823715,intel-analytics/BigDL,21994046,hkvision,10941215,intel-analytics,created,93494639,a49a5f5ad66da398f5db63e7a3269d08c067759f,False,"Inherits the `Recurrent` base class. In the base class, there is val",CONTRIBUTOR,2235,{}
+7636,PullRequestReviewCommentEvent,2017-06-30 02:47:16+00:00,66823715,intel-analytics/BigDL,1837261,wzhongyuan,10941215,intel-analytics,created,47297074,b8f8f57086b5762b6460155273490c136005ccee,False,remove type from argument list,,1060,{}
+7637,PullRequestReviewCommentEvent,2017-03-02 06:48:56+00:00,66823715,intel-analytics/BigDL,3897541,shenyurun,10941215,intel-analytics,created,24663068,531c09e2ce659cd20cd83856a477167936b0b2d9,False,"Same parameters in SpatialConvolution are defined as public, so I just maintained them and remove some unnecessary parameters.",,532,{}
+7644,PullRequestReviewCommentEvent,2018-01-24 05:41:11+00:00,66823715,intel-analytics/BigDL,2662017,zhichao-li,10941215,intel-analytics,created,91069507,c19ae770bca6a20cddcfb689f741c4d1678bd824,False,add invalid index and value to the error message,CONTRIBUTOR,2214,{}
+7646,PullRequestReviewCommentEvent,2017-04-18 01:19:43+00:00,66823715,intel-analytics/BigDL,10606312,SeaOfOcean,10941215,intel-analytics,created,33125370,18e89b022bdaadb17909cae87def81e8d037bae6,False,done,,787,{}
+7652,PullRequestReviewCommentEvent,2018-01-23 05:13:28+00:00,66823715,intel-analytics/BigDL,10561966,yangw1234,10941215,intel-analytics,created,90710788,eb014b93dfe916a17be69fe6b421b52769f2c2b5,False,"Maybe we do not need to reverse, if we do not care about the order.",CONTRIBUTOR,2170,{}
+7656,PullRequestReviewCommentEvent,2017-03-24 06:30:23+00:00,66823715,intel-analytics/BigDL,7493169,psyyz10,10941215,intel-analytics,created,28837064,d01777dc18dadcdf8f52c0215b77efaef19677f6,False,Done,,647,{}
+7659,PullRequestReviewCommentEvent,2018-04-24 08:51:48+00:00,66823715,intel-analytics/BigDL,4495653,qiuxin2012,10941215,intel-analytics,created,114688228,46f079dedf37a006999e5bae9061ce37d5ce9840,False,Breaking down the performance in a model.,CONTRIBUTOR,2506,{}
+7660,PullRequestReviewCommentEvent,2018-07-16 05:13:43+00:00,90328920,intel-analytics/analytics-zoo,1931082,jason-dai,10941215,intel-analytics,created,137301445,0708d8e0412032a6dcd79b3fc527f1921c69a13c,False,We can simply set `topology.preTopology` to null here? @dding3 ,CONTRIBUTOR,518,{}
+7696,PullRequestReviewCommentEvent,2017-02-09 16:12:00+00:00,21987374,django-json-api/django-rest-framework-json-api,230757,erichonkanen,11215076,django-json-api,created,21047748,d4a811425f987517e7eb6016e9bedc0d0296d856,False,"@santiavenda2 fair point, I guess this package needs to add better exception handling then since right off the bat if `renderer_context` is the default of `None`, the first line of code will fail. We're looking at other options though as this package lacks documentation and doesn't appear to be active anymore. The added complexity layer on top of DRF which is on top of Django just makes it very hard to deal with.",,322,{}
+7745,PullRequestReviewCommentEvent,2018-07-05 17:32:57+00:00,128121076,dmlc/gluon-nlp,2626883,szha,11508361,dmlc,created,134740248,0cd8c87dcbad786798c73c5f218ac6d01533fbc1,False,nit: use nd to reduce verbosity,MEMBER,179,{}
+7791,PullRequestReviewCommentEvent,2017-09-13 12:21:41+00:00,68161929,oasis-open/cti-stix-validator,1045796,gtback,11744379,oasis-open,created,62414128,acb5e8f20677c2b1383abbdccbe7f3a0391f05db,False,"At some point I'd rather switch to using [Google-style docstrings](http://www.sphinx-doc.org/en/stable/ext/napoleon.html#google-vs-numpy) (across everything). It doesn't need to be now, but I'd rather new docstrings use this format.",CONTRIBUTOR,36,{}
+7803,PullRequestReviewCommentEvent,2015-09-28 12:18:51+00:00,23924195,Lasagne/Lasagne,544718,ebenolson,11752110,Lasagne,created,,f889da1debe8a925e70d2383d21aab3ff78ff0e9,False,why `float32` instead of `float`?,,430,{}
+7811,PullRequestReviewCommentEvent,2015-08-11 09:39:55+00:00,23924195,Lasagne/Lasagne,629706,f0k,11752110,Lasagne,created,,af0e53fd01f14c5d84d009ceffcf544a015b65a3,False,"""of it's"" -> ""if it's""",,360,{}
+7818,PullRequestReviewCommentEvent,2017-07-18 19:16:29+00:00,88571641,dbcli/cli_helpers,773800,meeuw,11810727,dbcli,created,50714973,e5ef5a3bffa3edaa6ffa011d8ddfc9976f5d4bf0,False,"sadly no, the whole data iterator needs to be iterated to check the alignment before the first row can be outputted.",,20,{}
+7819,PullRequestReviewCommentEvent,2017-07-18 19:23:37+00:00,88571641,dbcli/cli_helpers,3047055,tsroten,11810727,dbcli,created,50716777,e5ef5a3bffa3edaa6ffa011d8ddfc9976f5d4bf0,False,"So, right below this we do `for row in data:`, which should work on an iterator, right? If not, we'll need to update the other preprocessors as well, too.",,20,{}
+7834,PullRequestReviewCommentEvent,2017-11-09 22:30:55+00:00,99273369,NeurodataWithoutBorders/pynwb,11761461,dorukozturk,12140348,NeurodataWithoutBorders,created,75609898,f3ff424742660150ebc297b2d5c022414c7a7b9b,False,I take it back. It is autogenerated and expected.,COLLABORATOR,226,{}
+7851,PullRequestReviewCommentEvent,2017-02-05 20:37:39+00:00,37496521,nteract/nteract,13285808,lgeiger,12401040,nteract,created,20177988,f85be73c006286813964271705dd34079aa47c78,False,"I agree with @rgbkrk.
+
+I tried, but can't reproduce the problem on macOS. Could this be a Chrome related bug only happening on linux?
+
+If so we could try out [Electron 1.5.0 beta](https://github.com/electron/electron/releases/tag/v1.5.0)  which is based on a newer version of Chrome.",,1407,{}
+7855,PullRequestReviewCommentEvent,2018-02-21 20:17:30+00:00,37496521,nteract/nteract,836375,rgbkrk,12401040,nteract,created,98345285,e017d116142857c19ab6b764d3e3bfe4f21c716c,False,Note: This type isn't used at all here.,OWNER,2563,{}
+7892,PullRequestReviewCommentEvent,2017-11-03 02:16:34+00:00,37496521,nteract/nteract,836375,rgbkrk,12401040,nteract,created,73986492,431efc9fac57033c367bd13c8d7afd23ea159df1,False,Ooh that’s a great idea. I can do a follow on PR later for this.,OWNER,2033,{}
+7897,PullRequestReviewCommentEvent,2016-11-01 14:05:37+00:00,37496521,nteract/nteract,836375,rgbkrk,12401040,nteract,created,6618454,19e6ff149d4a74d786bf8bd52f0fc9259df04036,False,"Did you move the catch up for easier testing?
+
+Theres a semantic reason to catch on the inside, which is specificity. It doesn't look like it matters here though. You could also test this simple observable error action creator",,1121,{}
+7898,PullRequestReviewCommentEvent,2017-10-08 17:48:14+00:00,96454557,nteract/papermill,836375,rgbkrk,12401040,nteract,created,67864087,551112ac1d7c5a6be425898dcc8a05b943e8c966,False,"Instead of doing this here, I'd keep the ordering of where `_is_float` is in the `_resolve_type` check.",OWNER,50,{}
+7983,PullRequestReviewCommentEvent,2018-08-13 18:06:03+00:00,24117057,pytroll/pyresample,16011037,stickler-ci,13004956,pytroll,created,145770325,9caa9296c2ea526c274d6faf096a86f6d64fe76b,False,E501 line too long (121 > 120 characters),CONTRIBUTOR,138,{}
+7985,PullRequestReviewCommentEvent,2018-05-04 12:03:29+00:00,24117057,pytroll/pyresample,1828519,djhoese,13004956,pytroll,created,117578913,93a069b35a750ff2b3965807ae0ea1e82583e238,False,`coords[dim] = coord_x if dim == 'x' else coord_y` but not necessary.,CONTRIBUTOR,116,{}
+8017,PullRequestReviewCommentEvent,2016-07-27 09:40:56+00:00,43645564,ganga-devs/ganga,1102021,rob-c,13271048,ganga-devs,created,,06e98b63e77c9426128a986ae71d522b5d80514e,False,"I was wanting to be certain these were escaped, also I was originally wrapping the whole string in `""` rather than `'`.",,695,{}
+8023,PullRequestReviewCommentEvent,2016-08-23 14:51:41+00:00,43645564,ganga-devs/ganga,61316,milliams,13271048,ganga-devs,created,,02214fc3b031d0ead2adae49457b17aea89dc41a,False,I'm not sure that we need to tell the user about testing changes. We should try to keep these as useful information for user as to how things have changed or important bugs that have been fixed.,,748,{}
+8027,PullRequestReviewCommentEvent,2016-05-23 10:53:46+00:00,43645564,ganga-devs/ganga,61316,milliams,13271048,ganga-devs,created,,2812a826449d8e45a1a5a5be56d2027082ac83b3,False,"That's not how function naming works. The name should reflect the API, not the implementation. If the purpose of this function is to answer the question ""does this job have children"" then the function should be named `jobHasChildren`. But even then, this seems like a strange place to ask this question; this class is always attached to a job object so the user should ask *that* object if it has children.
+
+This function seems to answering the question above while also checking for the presence of the relevant directories (not raising an error if they're not found, simply printing a warning) but if there's no job directory then saying that the job has no children. That's a very confusing function to know how to use correctly.
+
+If the API user wants to know of the job has children then they should ask *that*. if they want to know if there are any missing subjob directories then they should ask *that*. If they want to check for the presence of the job directory then they should check *that*. Combining all three into one function named `jobHasChildrenTest()` does not help with the complexity of the code.",,497,{}
+8028,PullRequestReviewCommentEvent,2016-04-20 12:11:16+00:00,43645564,ganga-devs/ganga,1102021,rob-c,13271048,ganga-devs,created,,66d0eddf53b6989839457b6e3ceb75578222eb0f,False,Given nothing changes by having this as ```str()``` over changing pace I'm leaving it as it is so the test passes,,325,{}
+8045,PullRequestReviewCommentEvent,2016-05-12 10:34:28+00:00,43645564,ganga-devs/ganga,61316,milliams,13271048,ganga-devs,created,,922bc8e276617de755b04df5ff73b8793edf4a4e,False,"Should be:
+```python
+self.is_prepared = ShareDir()
+```",,471,{}
+8060,PullRequestReviewCommentEvent,2018-04-16 13:09:18+00:00,31315021,Kinto/kinto,229453,Natim,13413813,Kinto,created,112405436,354a94daf523c5e9bd20007a47f1e1001a19650a,False,I'd like to understand where this [1] comes from it is a bit unclear to me right now.,OWNER,1592,{}
+8061,PullRequestReviewCommentEvent,2016-06-16 13:15:47+00:00,31315021,Kinto/kinto,546692,leplatrem,13413813,Kinto,created,,d7b5e3a3ed3825c5a79c0ee1ad514c75eb10baca,False,I like the fact that it warns the user that its enabling an experimental feature. Let's remove that when kinto-admin pull-request is ready,,653,{}
+8063,PullRequestReviewCommentEvent,2016-07-08 08:02:48+00:00,31315021,Kinto/kinto,546692,leplatrem,13413813,Kinto,created,,306783602e9cfe6d203f8097acde77f3cc8692f3,False,"I don't think you can do it via `get_all()`, since for each deleted record you'll need to figure out which parent_id and collection_id it was stored into. We might have to rewrite `delete_all()` :/",,711,{}
+8071,PullRequestReviewCommentEvent,2015-08-26 10:39:07+00:00,31315021,Kinto/kinto,625232,phrawzty,13413813,Kinto,created,,e22ef85414dc299a59c3058ac00ece893259b546,False,Oxford comma,,156,{}
+8079,PullRequestReviewCommentEvent,2015-12-01 09:18:23+00:00,31315021,Kinto/kinto,546692,leplatrem,13413813,Kinto,created,,8b5367aa3bc5a2bdf073ff292062939a50e8ffb9,False,We can add a link to https://github.com/Kinto/kinto-attachment/ and mention that is already usable but not stabilized ? What do you think ?,,308,{}
+8082,PullRequestReviewCommentEvent,2016-10-20 17:52:00+00:00,31315021,Kinto/kinto,17006,glasserc,13413813,Kinto,created,5123735,fa35ac74bed33e875be735fa144cfd9f5aeff419,False,"Right, when he said ""a link"" I think he meant a link that points to the API docs, not a ""live"" URL or command to demonstrate the PATCH functionality. So pointing to the API docs sounds fine to me, since this is just an index.",,866,{}
+8130,PullRequestReviewCommentEvent,2016-01-02 17:50:25+00:00,39663289,4Catalyzer/flask-resty,3112159,taion,13967986,4Catalyzer,created,,0cfb3ee3cff53c49c3a53c407551f1492d090d90,False,Can this be a class method?,,75,{}
+8150,PullRequestReviewCommentEvent,2017-12-27 16:29:15+00:00,46374199,IntelRealSense/librealsense,6958867,dorodnic,14095512,IntelRealSense,created,85698755,94e9925b52830d89438f93f1c30b5a1fec4b5366,False,"I'm not sure this is necessary
+(why not just keep the function in place? ) ",CONTRIBUTOR,943,{}
+8189,PullRequestReviewCommentEvent,2016-06-09 14:38:30+00:00,43852872,PulpQE/pulp-smash,1012989,Ichimonji10,14839747,PulpQE,created,,a1a4d11b82d2d6b50611eefffa30475ce7bf9ee1,False,"Unfortunately, there is no common tear down machinery for the CLI. Thus far, I've been handling this by using base classes to minimize the amount of pain. :/",,298,{}
+8285,PullRequestReviewCommentEvent,2017-06-28 10:36:11+00:00,367233,jazzband/django-model-utils,1593392,csimple,15129049,jazzband,created,46800503,fb67a52d0ae2d0ea45e73db971b97948860eda07,False,https://github.com/jazzband/django-model-utils/issues/275  -- Seems there are still some issues pending for 1.11,,280,{}
+8304,PullRequestReviewCommentEvent,2017-07-31 21:50:17+00:00,91379993,tensorflow/tensorboard,4317806,wchargin,15658638,tensorflow,created,53350907,bd066a216a354c99ae7df42e5206ff358b8b41f4,False,Better. Thanks.,,290,{}
+8307,PullRequestReviewCommentEvent,2017-06-26 21:50:44+00:00,91379993,tensorflow/tensorboard,4317806,wchargin,15658638,tensorflow,created,46394032,ec9aeba93e7382bdba1b5f8374e70f53e919dcc6,False,"Yep: `this.$$ ≅ function(selector) { return Polymer.dom(this).querySelector(selector); }`, I believe.
+
+(And `[k=v]` is the [CSS attribute selector][1], if that's what you meant.)
+
+[1]: https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors",,153,{}
+8309,PullRequestReviewCommentEvent,2017-07-24 20:06:40+00:00,91379993,tensorflow/tensorboard,49262,jart,15658638,tensorflow,created,51877823,34e2c963f83347d7b209891996e97954634ed918,False,We can't have too many instances of passion in one doc.,,250,{}
+8315,PullRequestReviewCommentEvent,2017-08-18 03:04:33+00:00,91379993,tensorflow/tensorboard,4317806,wchargin,15658638,tensorflow,created,57103039,75c32ef44d719d15691fd3da7a7efcfcae41e9af,False,"If you use the raw array, then the array will be shared across all instances of the chart. Any accidental mutations will be propagated, so you can have state changes coming when you don't expect them. If your code isn't buggy, there's no problem, but if it is buggy then it can be much harder to debug.
+
+With the function initializer, a new array is created for each instance.",,334,{}
+8317,PullRequestReviewCommentEvent,2017-08-14 21:18:56+00:00,91379993,tensorflow/tensorboard,16824702,caisq,15658638,tensorflow,created,56206739,bfcf93e4974fea3581d905df96bbfedd676fb500,False,"cc @chihuahua
+
+I share your concern about starting some potentially heavy-weight thing in the constructor. However, I need some help understanding how what you said can be done. In main.py, `create_tb_app` takes a list of plugin constructors, instead of a list of actual plugin objects. So there is no way to call the proposed `listen` method in main.py. Maybe modify ``standard_tensorboard_wsgi` in `application.py` so it can call the `listen` method? But then there is the problem of how to pass the port argument in. Maybe through a flag? That feels a little messy. Let me know if there is a cleaner way to do it.",,310,{}
+8337,PullRequestReviewCommentEvent,2017-04-12 06:48:44+00:00,55808787,openthread/openthread,23621808,LeZhang2016,16142269,openthread,created,32292525,e9479eb1f929d163d657c222a8c87949032e3457,False,"@aeliot, Thanks a lot, i have changed it according to your comments!",,1553,{}
+8353,PullRequestReviewCommentEvent,2016-06-20 15:40:47+00:00,55808787,openthread/openthread,16142208,jwhui,16142269,openthread,created,,3aa5e183f968cba53dad90a4f6b38a2f55243367,False,"@librasungirl, an optimized configuration for a non-router-capable Thread device would stub out the `MleRouter` implementation.  Having the split between `Mle` and `MleRouter` makes it easy to eliminate resources that are only needed for router-capable devices.",,161,{}
+8360,PullRequestReviewCommentEvent,2016-10-11 02:05:01+00:00,55808787,openthread/openthread,2240212,bukepo,16142269,openthread,created,3602077,9fbfde322f2d2134c7b6d0f9c3e846965132951f,False,"why not just change
+`VerifyOrExit(!mIsUp, error = kThreadError_Already);`
+to
+`VerifyOrExit(!mIsUp, error = kThreadError_None);`",,787,{}
+8363,PullRequestReviewCommentEvent,2017-04-25 07:55:43+00:00,55808787,openthread/openthread,20312411,chshu,16142269,openthread,created,34490671,0d62fee204b1e24553bf53f7d113ab7b9ef00f53,False,"This method is used only once: [here](https://github.com/openthread/openthread/blob/master/src/core/meshcop/leader.cpp#L109), FTD build size will **increase** 32 bytes after moving it from head file to CPP file:
+
+- keep it in head file as is:
+```
+$ arm-none-eabi-size output/cc2538/bin/ot-cli-ftd 
+   text	   data	    bss	    dec	    hex	filename
+ 143668	   4208	  17404	 165280	  285a0	output/cc2538/bin/ot-cli-ftd
+```
+- move it to CPP file: 
+```
+$ arm-none-eabi-size output/cc2538/bin/ot-cli-ftd 
+   text	   data	    bss	    dec	    hex	filename
+ 143700	   4208	  17404	 165312	  285c0	output/cc2538/bin/ot-cli-ftd
+```
+So I think we should keep it as is, please let me know if you have any other concerns.",,1361,{}
+8364,PullRequestReviewCommentEvent,2017-03-06 23:07:06+00:00,55808787,openthread/openthread,686678,darconeous,16142269,openthread,created,25390794,7c777392a16beca5378a15be5e67f96b95c7ca8f,False,"`c` is unnecessary. `D` includes a length.
+
+But your confusion on this is entirely understandable. I'll be changing this around soon to simplify the behavior of `D`. Will elaborate more in another comment.",,1393,{}
+8366,PullRequestReviewCommentEvent,2018-06-08 11:17:17+00:00,55808787,openthread/openthread,37304790,ChrIgiSta,16142269,openthread,created,127122467,d411e6e2f2bfe2df9c840f10356d079e0fa5f292,False,Yes. Done,NONE,2716,{}
+8372,PullRequestReviewCommentEvent,2018-03-01 13:20:50+00:00,55808787,openthread/openthread,19217991,librasungirl,16142269,openthread,created,100426663,692c4091fff20ce99f49d7d917dfef24b1c18fd2,False,"I think it would be more helpful for our automation tool to prompt how many and which kind of devices are in absence, relieving the user from checking the topology configuration file himself, specially for some large scale cases.",CONTRIBUTOR,2586,{}
+8373,PullRequestReviewCommentEvent,2018-07-09 16:07:08+00:00,55808787,openthread/openthread,16142208,jwhui,16142269,openthread,created,135486716,0cffd2b3071a36cb5b37667a4427cf299b08d5fb,False,nit: align backslash,MEMBER,2863,{}
+8374,PullRequestReviewCommentEvent,2017-08-22 01:24:57+00:00,55808787,openthread/openthread,19217991,librasungirl,16142269,openthread,created,57648677,2d0db70e7ae3422230c855138a27ff609180925a,False,"The return pointer of `Mle::GetParent() `would point to either `mParent` or `mParentCandidate`, no `NULL`.",,2109,{}
+8382,PullRequestReviewCommentEvent,2017-11-19 08:32:58+00:00,32737992,napalm-automation/napalm,6246622,dbarrosop,16415577,napalm-automation,created,77636814,f26183a00894c1078d5af6d81739b223ca6e8ef1,False,"Ok, I added a comment on the other method but it'd be great to format the docstring properly explaining the arguments and adding it to the documentation with autodoc.",OWNER,541,{}
+8389,PullRequestReviewCommentEvent,2017-11-19 08:34:52+00:00,32737992,napalm-automation/napalm,9260483,itdependsnetworks,16415577,napalm-automation,created,77636855,f26183a00894c1078d5af6d81739b223ca6e8ef1,False,Will do,CONTRIBUTOR,541,{}
+8410,PullRequestReviewCommentEvent,2017-09-07 17:03:19+00:00,55101236,googleapis/artman,11670828,ethanbao,16785467,googleapis,created,61287022,0fc13a192b28d09f6fdc8b0017ec720fcc58963c,False,"The src_dir contains ""gapic"" in the path (see DIRS variable). Technically, I only need three subdirectories under gapic (i.e. core, lang and packaging).",COLLABORATOR,263,{}
+8415,PullRequestReviewCommentEvent,2017-05-03 16:44:58+00:00,50878409,googleapis/gax-python,14222439,geigerj,16785467,googleapis,created,36074761,e691ad99a0d018bb35d3377d15d979b3a45da918,False,"Sorry, message-type fields are not the same as repeated message-type fields. The latter defaults to an empty list.
+
+I just meant to point out that proto3 has a distinction between default and unset values, and the semantics are predictable based on field type (https://developers.google.com/protocol-buffers/docs/proto3#default), whereas this comment was more hazy.",,183,{}
+8536,PullRequestReviewCommentEvent,2018-04-19 08:27:31+00:00,65545148,bigchaindb/bigchaindb-driver,4203558,codegeschrei,17097586,bigchaindb,created,113509607,12fa74fc0a3e6fff5d6e797a946948bb472135a7,False,In general I would prefer to have just two links. One for dev/test node and one that points to different ways to run bdb. I checked and we don't really have it. Do you know when you will revisit them? Maybe I can wait.,CONTRIBUTOR,400,{}
+8539,PullRequestReviewCommentEvent,2016-07-14 01:18:25+00:00,1553944,wireservice/csvkit,26463,jpmckinney,17111824,wireservice,created,,a1dcfcb4f80be263ee47e4b27c2842f1d469a14f,False,"Hmm, I think the merge wasn't done properly as this entire if-block shouldn't be here.",,638,{}
+8556,PullRequestReviewCommentEvent,2018-08-24 02:26:12+00:00,51442999,python-cmd2/cmd2,218536,kotfu,17161025,python-cmd2,created,149157286,11e3eabbff8f80c9c85c04b7e9d6071246856bcf,False,"This is an interesting question to consider. **parseline** is an override of a standard library `cmd` method. The original method returns a **str**. **Statement** is a subclass of **str**. Should:
+
+- we return a **Statement** object or a **str**?
+- If we decide to return a **Statement**, should the type hint match the method we are overriding, or the object we are returning?
+",MEMBER,505,{}
+8560,PullRequestReviewCommentEvent,2018-01-15 16:39:04+00:00,51442999,python-cmd2/cmd2,218536,kotfu,17161025,python-cmd2,created,88878153,aec6704db9542e35e4cdc6073210bc0d6c507335,False,Thanks for fixing the unit tests that I broke 😳 ,MEMBER,249,{}
+8600,PullRequestReviewCommentEvent,2016-11-22 12:36:14+00:00,38581626,pybind/pybind11,4478567,patstew,17565521,pybind,created,9654824,b4f065becc105f690eb337b5d98c6ebb45807ad7,False,"It works for the ordinary arithmetic types declared in `common.h`, or fails to compile because the default implementation of `py::format_descriptor` is empty. `numpy.h` provides a specialisation for all POD types, which may throw if the type isn't declared properly.",,488,{}
+8602,PullRequestReviewCommentEvent,2017-07-05 12:44:41+00:00,38581626,pybind/pybind11,4831417,dean0x7d,17565521,pybind,created,48005338,28c7e5319af8147186365511df53d4283a9e7a53,False,I'd suggest adding this globally to `pybind11_tests.h` since it's already required in two files and likely more in the future. ,,936,{}
+8615,PullRequestReviewCommentEvent,2016-09-14 18:13:47+00:00,38581626,pybind/pybind11,4459524,jagerman,17565521,pybind,created,,168b8f011f147ee092baa23ea2ffa72b4b6b7971,False,"It's a bit more limited than that: you can't have two different C++ classes anywhere in your inheritance tree; e.g. having a C++ and Python classes as bases won't work if the Python class itself depends on a C++ class (or another Python class that depends on a C++ class, ad infinitum).",,410,{}
+8620,PullRequestReviewCommentEvent,2016-12-12 04:05:14+00:00,38581626,pybind/pybind11,2314730,loriab,17565521,pybind,created,12389127,c7dd9e7f3acb91bc5997be62e4dc949190dde0fd,False,"Added `share/cmake/pybind11/pybind11*cmake`, though that'll only catch the default install case. Hope that's right for you purposes.",,506,{}
+8650,PullRequestReviewCommentEvent,2017-08-21 20:44:13+00:00,26516210,certbot/certbot,6504915,bmw,17889013,certbot,created,57586371,ae08334d0f3bb90de89a6908064246b6a323c43f,False,"Similarly, it'd be nice if we didn't have to decorate every method and add an unused parameter. I'd probably fix this by modifying `_call_set_by_cli`.",,5028,{}
+8667,PullRequestReviewCommentEvent,2016-05-17 19:52:59+00:00,26516210,certbot/certbot,479213,pde,17889013,certbot,created,,d39dee20ad9c0c4ddde31bdaeeb35b49135e902d,False,do we want to add a `-- break` case?,,3010,{}
+8694,PullRequestReviewCommentEvent,2017-05-19 19:53:22+00:00,26516210,certbot/certbot,1227205,ohemorange,17889013,certbot,created,39285821,f859e10ef7af0a6324184c0bb6efad4e42bf5a5e,False,"This one we can fix by also checking the contents of the `.new` file, and do nothing if it matches `CURRENT_SSL_OPTIONS_HASH`. Then this only happens once per time we update the file.",,4689,{}
+8710,PullRequestReviewCommentEvent,2016-05-11 18:58:54+00:00,52238733,pyta-uoft/pyta,3333115,david-yz-liu,18420574,pyta-uoft,created,,e5434a2e463b43ee299bfd247cee33749de945b1,False,`# error on this line`,,12,{}
+8721,PullRequestReviewCommentEvent,2017-10-23 06:37:20+00:00,58776721,googledatalab/pydatalab,14608,nikhilk,18582876,googledatalab,created,71078780,e000c4b789857a2abc2a0d6c8b2613a33492edb9,False,"Maybe the job itself.
+And the resulting table in addition.",OWNER,566,{}
+8746,PullRequestReviewCommentEvent,2016-11-28 09:37:29+00:00,19141754,opendatateam/udata,15725,noirbizarre,19330690,opendatateam,created,10278807,fbf69c27c9b637a86eae9127cf3ca5ba60927fd2,False,"Given the fact that it needs real objects that you give as parameters and that the factory does not provide any attribute, it might be better to not use a factory.",,610,{}
+8757,PullRequestReviewCommentEvent,2018-08-27 16:29:49+00:00,134577458,zephyrproject-rtos/west,154768,ulfalizer,19595895,zephyrproject-rtos,created,149785078,a51377008f268dd5b1f5a5a42b58fb2afca962fe,False,"Never mind, it's not in yet. I added it in the `west forall` PR.",COLLABORATOR,16,{}
+8758,PullRequestReviewCommentEvent,2017-01-24 09:25:20+00:00,56792799,mozilla-releng/scriptworker,5907366,JohanLorenzo,19614164,mozilla-releng,created,18112715,47e10f7d8588518ed4d9498982cd82152e655c00,False,It's nice to see immutable structures everywhere 😃 ,,64,{}
+8773,PullRequestReviewCommentEvent,2017-04-08 13:07:15+00:00,50646767,raiden-network/raiden,310139,hackaugusto,19666847,raiden-network,created,31700377,80bf19a4cbb56cbaedb49916dc8ac52736022f9c,False,"We don't need the temporary list, `set(channel.partner_address for channel in self.open_channels)` is sufficient.",,400,{}
+8853,PullRequestReviewCommentEvent,2018-08-28 14:02:34+00:00,37137879,QCoDeS/Qcodes,15662810,astafan8,20478252,QCoDeS,created,150137688,a985ff091b1d485fc1f636428e7d4ac3556cb48b,False,ok. i wonder why this hasn't been noticed when CI runs there tests...... could you have look? perhaps the test is not working?,CONTRIBUTOR,1002,{}
+8893,PullRequestReviewCommentEvent,2017-10-25 14:18:50+00:00,73851042,ucfopen/canvasapi,1991607,Thetwam,20798260,ucfopen,created,71876777,16f52409bf208c481f4a542332e6bdfe14ef14ff,False,second param,MEMBER,100,{}
+8905,PullRequestReviewCommentEvent,2017-03-07 20:15:25+00:00,63505268,drdoctr/doctr,71486,asmeurer,20999305,drdoctr,created,25618999,0c097df1b678f4bdfa09a633a7f6a1f4193dbd86,False,"""We ought"" meaning we should. I don't know if we actually are (but if we aren't, we need to be). Someone actually reported this same error on SymPy, so I think there may be a real bug here.
+
+In any case, let's fix this in a separate PR. ",,137,{}
+8950,PullRequestReviewCommentEvent,2018-02-21 05:00:18+00:00,71932349,ray-project/ray,249517,robertnishihara,22125274,ray-project,created,98075189,a0359beaf9919e5854317450433a6ea36e9b3c2a,False,add two more spaces in lines 55 and 56,CONTRIBUTOR,1545,{}
+8952,PullRequestReviewCommentEvent,2018-03-16 02:23:53+00:00,71932349,ray-project/ray,249517,robertnishihara,22125274,ray-project,created,104438978,83c2c2d61c692eeaf8b5b736dea864b0f45044df,False,"When a worker turns into an actor, it calls `register_actor_signatures`, and the `actor_creation_resources` data isn't really available at that point. I could pass it in by storing it in redis or through some other mechanism, but it seemed unnecessary. If this sounds a little strange, part of the issue is that there is a difference in the data that is needed at function invocation time versus at function execution time, but we're using `worker.function_properties` to store both things. ",CONTRIBUTOR,1668,{}
+8954,PullRequestReviewCommentEvent,2017-05-14 08:24:01+00:00,71932349,ray-project/ray,113316,pcmoritz,22125274,ray-project,created,37994890,240aff02577809a8c3bba5b151ab5bf9bc3ca335,False,"I fixed it in the next PR, which modernizes some of the IO routines that the plasma store uses.",,546,{}
+8957,PullRequestReviewCommentEvent,2018-02-28 08:13:03+00:00,71932349,ray-project/ray,4529381,richardliaw,22125274,ray-project,created,99176164,99171328415c7992137393bdbda1fa5019011ae3,False,I don't think we need to actually return this here right?,CONTRIBUTOR,1604,{}
+8961,PullRequestReviewCommentEvent,2018-03-06 00:55:32+00:00,71932349,ray-project/ray,249517,robertnishihara,22125274,ray-project,created,101386272,dd0a27c5229a6a56349b88e7b7ab7f65cd7410ae,False,"while we're at it, can we keep these in alphabetical order (and also add a newline before the first import?",CONTRIBUTOR,1662,{}
+8964,PullRequestReviewCommentEvent,2018-02-28 20:29:03+00:00,71932349,ray-project/ray,14922,ericl,22125274,ray-project,created,100216508,d4b6b841a29b1479a5a89d626159fe9b38993be3,False,mean?,CONTRIBUTOR,1613,{}
+8967,PullRequestReviewCommentEvent,2017-01-16 22:29:11+00:00,71932349,ray-project/ray,1316372,atumanov,22125274,ray-project,created,16892583,b0b1b3ffc73bdd0b149c206db708149b9ae9d246,False,"you need to let the victim process get a chance to process its pending signals. So, minimally, would be good to yield. I think it could be sufficient to just do ``time.sleep(0)``",,203,{}
+8974,PullRequestReviewCommentEvent,2017-03-20 05:20:49+00:00,71932349,ray-project/ray,2560516,stephanie-wang,22125274,ray-project,created,27775745,3abf521abd86f6be145fb9b02874a27c1cd9a22f,False,"Yup, we were sometimes going over `static_resources` (a fatal error) if a worker was blocked while freeing the local scheduler state.",,382,{}
+8975,PullRequestReviewCommentEvent,2017-01-27 01:53:15+00:00,71932349,ray-project/ray,1316372,atumanov,22125274,ray-project,created,18765405,12d9cc45a89519aabedf5d73d5d6425a4fa8ea31,False,we probably don't want LS to die if it can't start the worker,,230,{}
+8983,PullRequestReviewCommentEvent,2018-02-17 23:45:16+00:00,71932349,ray-project/ray,14922,ericl,22125274,ray-project,created,97388129,c3737066b1292327a1526d1c8a71490bda9ba1e9,False,cc @pcmoritz ,CONTRIBUTOR,1550,{}
+8987,PullRequestReviewCommentEvent,2017-12-30 00:34:26+00:00,71932349,ray-project/ray,14922,ericl,22125274,ray-project,created,86020850,3a51acb5588df49dd6f6780a695cd2950c4786e1,False,Omit the info assignment.,CONTRIBUTOR,1339,{}
+8996,PullRequestReviewCommentEvent,2018-07-29 06:44:14+00:00,71932349,ray-project/ray,249517,robertnishihara,22125274,ray-project,created,141336495,0eb4057ea05022247bd1320bb6a06c6b14f328b3,False,"""an variant"" -> ""a variant""",CONTRIBUTOR,2504,{}
+9005,PullRequestReviewCommentEvent,2017-02-23 03:51:49+00:00,71932349,ray-project/ray,249517,robertnishihara,22125274,ray-project,created,23392226,0f376a46c254e646b23a4f5e4efede9c5e865ae8,False,"the command above
+
+```
+docker run --shm-size=1024m -t -i ray-project/ray:examples
+```
+
+should be 
+
+```
+docker run --shm-size=1024m -t -i ray-project/examples
+```",,308,{}
+9028,PullRequestReviewCommentEvent,2018-06-01 22:05:14+00:00,68402336,streamlink/streamlink,16033421,beardypig,22243823,streamlink,created,125329783,02ce21ada7826a93238d563c16a803d4c3d8e260,False,"I think you could just do `return int(value)` here, normally it returns an `int` and 0 would be a valid result too. ",MEMBER,1725,{}
+9050,PullRequestReviewCommentEvent,2016-11-15 14:24:29+00:00,68402336,streamlink/streamlink,16033421,beardypig,22243823,streamlink,created,8611481,351eb62a7977aacdbb795dee02043a18e78acbc1,False,"`s3cmd` doesn't work with Python 3, and is only required when there is a deploy to S3, in this case I thought it better to install it only for the deploy. But, I don't mind moving it to  `before_install` with the others. I would have used the version in `apt` but it's a bit outdated and doesn't support loading the secret id/key from environment variables. 
+The Travis S3 deploy wants to upload all of the files, I couldn't get it to upload only small set of files, also I wanted to to copy the current installer to `streamlink-latest.exe`. ",,167,{}
+9072,PullRequestReviewCommentEvent,2017-01-09 19:37:53+00:00,68376693,pybel/pybel,9711846,scolby33,22892058,pybel,created,15778128,65d7aca768d5cbaea51967943bdc0df75f223d15,False,"I'm not sure why it's important to `del` it other than to keep the namespace clean. I just copied flask here, to be honest.",,82,{}
+9100,PullRequestReviewCommentEvent,2018-06-23 04:28:03+00:00,48904888,Cog-Creators/Red-DiscordBot,7438501,Tobotimus,23690422,Cog-Creators,created,131384461,416ac79ac69e37f6c5435372caf7fbd8287f022f,False,"Specify ""system reboot"" here too",NONE,1872,{}
+9130,PullRequestReviewCommentEvent,2017-08-17 10:55:37+00:00,77054015,KE-works/pykechain,1391724,jberends,24698346,KE-works,created,56889246,7e17f31546db85c20f6861dc0b1382b6818e4d80,False,I like 👍 ,,165,{}
+9153,PullRequestReviewCommentEvent,2017-08-03 03:37:28+00:00,34138622,jupyter-widgets/ipywidgets,192614,jasongrout,25869250,jupyter-widgets,created,53987477,c18c32150fc51f9423448f9fa4faf01934b35701,False,Why did you indicate that model_id is optional?,,1567,{}
+9170,PullRequestReviewCommentEvent,2018-01-16 01:57:09+00:00,35531022,opendatacube/datacube-core,15901813,andrewdhicks,26125288,opendatacube,created,88967995,e75477b5d7840a236b54bdd93e03f79eb6d451c6,False,Do 2A and 2B have different spectral response functions?,CONTRIBUTOR,342,{}
+9174,PullRequestReviewCommentEvent,2018-07-19 07:51:30+00:00,97507840,python-trio/trustme,42327,pquentin,26335827,python-trio,created,138557077,684854bb35c8b26ef6640f4143a59970dd568f15,False,"Thanks, done. (The openssl issue remains, I still need to look into it.)",MEMBER,30,{}
+9183,PullRequestReviewCommentEvent,2018-08-31 00:06:59+00:00,97647864,kensho-technologies/graphql-compiler,2348618,obi1kenobi,26574236,kensho-technologies,created,151223957,1478ba3f2b602f8f2bde03a6317737e0f249bccf,False,copy-pasta,CONTRIBUTOR,120,{}
+9200,PullRequestReviewCommentEvent,2018-06-02 15:55:25+00:00,56551019,jaegertracing/jaeger-client-python,3523016,yurishkuro,28545596,jaegertracing,created,125369672,b37df0a6004b07ed9faae588ac71e9f8a8349c96,False,I agree,MEMBER,186,{}
+9227,PullRequestReviewCommentEvent,2018-03-02 09:15:31+00:00,99208221,fiaas/k8s,1818978,birgirst,29093763,fiaas,created,100712501,664a82ee0a9403c4518ff32da33ff031a094698c,False,Done,CONTRIBUTOR,37,{}
+9259,PullRequestReviewCommentEvent,2018-03-19 20:31:39+00:00,102692863,onnx/onnx,1388690,anderspapitto,31675368,onnx,created,105127246,46aed3e8c12ab648552bf37afb8384457c745e2c,False,++,MEMBER,564,{}
+9282,PullRequestReviewCommentEvent,2018-07-08 07:39:03+00:00,102692863,onnx/onnx,1100089,yinghai,31675368,onnx,created,135224547,252a516a0e28f9795935c96d144ded1e49121502,False,Does this actually same a copy each time we call this function?,COLLABORATOR,1174,{}
+9296,PullRequestReviewCommentEvent,2018-07-01 12:30:30+00:00,60626727,tensorlayer/tensorlayer,10923599,DEKHTIARJonathan,32261543,tensorlayer,created,133452711,3ae5f2fa4efdd520f3639d6cf2299e882c00f4ec,False,"Remove this condition and just use : `return text_type(f.read(), 'utf-8')`",MEMBER,714,{}
+9299,PullRequestReviewCommentEvent,2018-04-19 15:01:58+00:00,60626727,tensorlayer/tensorlayer,10713581,zsdonghao,32261543,tensorlayer,created,113646086,25ecaceed7700e8a49c936c89de81dea2a86871d,False,remove the keys? make is shorter,OWNER,509,{}
+9306,PullRequestReviewCommentEvent,2017-12-05 14:00:51+00:00,60178516,NordicSemiconductor/pc-ble-driver-py,32093798,Darrew,33217104,NordicSemiconductor,created,81190469,a44ae39efaf69373b102f6c8ead824b0355cd0e3,False,"> This would only allow storing one keyset? 
+Yes. And, it does not fullfill a general BLE scenario. 
+I will try to elaborate on this point:
+  One keyset is particular to two devices: 
+ - a Central and a Peripheral, according to GAP;
+ - an initiator and a responder, according to the Security Manager; or,
+ - a master and a slave, according to the link layer.
+
+  On the other hand, an adapter is partly a container of connections (DbConnection objects) and may take the role of Central or Peripheral. 
+ In the current implementation, an adapter does not store the peer address of the device that it connects to; that means, it is not able to differentiate between peer devices that establish a connection.
+
+My proposal is as follows: 
+- store peer address and role info as part of a DbConnection.
+```
+class Connection(DbConnection):
+    def __init__(self, peer_addr, role):
+      super(Connection, self).__init__()
+      self.role      = role
+      self.peer_addr = peer_add
+      self._keyset   = None
+```
+and
+```
+    def on_gap_evt_connected(self, ble_driver, conn_handle, peer_addr, role, conn_params):
+        self.db_conns[conn_handle]  = Connection(peer_addr, role)
+        self.evt_sync[conn_handle]  = EvtSync(events = BLEEvtID)
+        self.conn_in_progress       = False
+
+```
+Now, we are able to bind keysets with peer devices (as part of authenticate method):
+```
+        if result['auth_status'] ==  BLEGapSecStatus.success:
+            self.db_conns[conn_handle]._keyset = BLEGapSecKeyset.from_c(self.driver._keyset)
+```
+> A subsequent connection authentication would overwrite these parameters it seems.
+ A subsequent connection authentication *with one and the same peer device* must overwrite the keyset. Do you agree?
+
+",NONE,47,{}
+9309,PullRequestReviewCommentEvent,2018-06-13 13:23:37+00:00,20664755,pymoca/pymoca,24944371,vdwees,33698687,pymoca,created,128372767,efd7c3efe0a090cf71f0c88d1b6e7fedd3bd1885,False,"Not 100% sure, but I think that the numpy call is faster, and that you can use it without casting to DM. But maybe there is a good reason to use repmat?",COLLABORATOR,137,{}
+9313,PullRequestReviewCommentEvent,2018-02-06 15:18:49+00:00,2811323,oauthlib/oauthlib,532192,skion,33832354,oauthlib,created,94381135,9b61f2aa283db745175a30da460cf4eb2c720240,False,"Also, this can now raise a `ValueError`, which I'm not sure is desired (though haven't checked in detail).",CONTRIBUTOR,491,{}
+9321,PullRequestReviewCommentEvent,2018-08-27 13:38:27+00:00,135753620,keras-team/keras-applications,12402673,RaphaelMeudec,34455048,keras-team,created,149714455,f3b2246b284acd9ab66c91ecaf20e66e066389e4,False,"Sorry, I copied the docstring from other architectures and didn't spot this. Indeed, the architecture can take less than 3 channels, I'll impact this soon",CONTRIBUTOR,24,{}
+9323,PullRequestReviewCommentEvent,2018-06-14 02:06:33+00:00,135504777,keras-team/keras-preprocessing,14262417,yashk2810,34455048,keras-team,created,128621784,27049e2bdd832e82608d269a9fe60ad496913c02,False,"I was following the style of Francois, but I can change it to this :)",NONE,11,{}
+9335,PullRequestReviewCommentEvent,2018-06-13 15:05:32+00:00,103242244,user-cont/conu,19940114,codacy-bot,35456931,user-cont,created,128422936,431be606bcf00b1b826d071b9e744b6464170389,False,![Codacy](https://app.codacy.com/assets/images/favicon.png) Issue found: [Unable to import 'kubernetes'](https://app.codacy.com/app/user-cont/conu/pullRequest?prid=1771593),NONE,234,{}
+9344,PullRequestReviewCommentEvent,2018-05-28 19:33:37+00:00,80671678,RLBot/RLBot,1632140,gyfis,36465262,RLBot,created,123800308,75a153d204b49cc36c273faf45f77d0b79134e6b,False,With the number of positional arguments it may be good to consider using `**kwargs` instead.,NONE,95,{}
+9364,PullRequestReviewCommentEvent,2018-05-15 08:40:14+00:00,131755014,fandoghpaas/fandogh-cli,726875,psycho-ir,39274753,fandoghpaas,created,120134824,f687f3c39fc843fe15dfd04f1db1ab21c062ca75,False,what about other commands?,COLLABORATOR,24,{}

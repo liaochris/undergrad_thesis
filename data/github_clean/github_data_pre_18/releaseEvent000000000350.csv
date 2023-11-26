@@ -1,0 +1,422 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,release_action,release_tag_name,release_name,release_body
+633,ReleaseEvent,2015-03-18 17:54:12+00:00,1408162,jpadilla/pyjwt,83319,jpadilla,,,published,1.0.0,v1.0.0,"# Changelog
+
+- [BREAKING] Removed `api.header`. #85
+- [DOCS] README details how to extract public / private keys from an x509 certificate. #100 
+- [ENHANCEMENT] Refactor api.py functions into an object (PyJWT). #101 
+- [ENHANCEMENT] Support `PyCrypto` and `ecdsa` when `cryptography` isn't an option. #103
+- [SECURITY] Added some fixes related to algorithm and key choice. #109
+- [SECURITY] Added support for whitelist validation of the `alg` header. #110
+
+# Security
+
+A security researcher has notified JSON Web Token library maintainers about a number of vulnerabilities allowing attackers to bypass the verification step. Read more about some of this issues [here](https://www.timmclean.net/2015/02/25/jwt-alg-none.html).
+
+## None algorithm
+
+### Applies if you
+
+- rely on and do not validate the `alg` field in the token header.
+- implement the ""none"" algorithm.
+
+### Impact
+
+Attackers can craft a malicious token containing an arbitrary payload that passes the verification step.
+
+### Exploit
+
+Create a token with the header `{""typ"":""JWT"",""alg"":""none""}`.  Include any payload.  Do not include a signature (i.e. the token should end with a period). Note: some implementations include some basic but insufficient checking for a missing signature -- some minor fiddling may be required to produce an exploit.
+
+## Verification with an asymmetric key of a token signed with a symmetric key
+
+### Applies if you
+
+- rely on and do not validate the `alg` field in the token header.
+- implement at least one of the HMAC algorithms and at least one of the asymmetric algorithms (e.g. HS256 and RS256).
+
+### Impact
+
+If the system is expecting a token signed with one of the asymmetric algorithms, an attacker can bypass the verification step by knowing only the public key.
+
+### Exploit
+
+Create an HS256 token.  Generate the HMAC signature using the literal bytes of the public key file (often in the PEM format).  This will confuse the implementation into interpreting the public key file as an HMAC key.
+
+## Mitigation
+
+#109 and #110 address these issues.
+
+ - Asymmetric keys and x509 certificates cannot be used as HMAC keys
+
+ - `encode()` and `decode()` don't accept a value for key if the algorithm is ""none""
+
+- When decoding, you can specify which algorithms you would like to permit when validating the JWT by using the `algorithms` parameter which takes a list of allowed algorithms:
+
+```python
+jwt.decode(some_jwt, 'secret', algorithms=['HS512', 'HS256'])
+```
+--
+
+This release was possible thanks to the awesome @mark-adams.
+
+![](http://media.giphy.com/media/mXnO9IiWWarkI/giphy.gif)"
+1243,ReleaseEvent,2018-02-06 14:13:58+00:00,120079872,holgern/py-scrypt,2202263,holgern,,,published,untagged-bcfd5bab07ccb026aea5,,
+1356,ReleaseEvent,2017-01-01 17:07:26+00:00,47879364,pklaus/brother_ql,85449,pklaus,,,published,v0.7.4,brother_ql v0.7.4,"New functionality:
+
+* `brother_ql_print`'s `instruction_file` argument now accepts `-` to read from stdin
+* added cutting support for the QL-550 (thanks @bonboncolovich)
+* round labels can now be printed
+
+Bug Fixes:
+
+* images with a transparency layer are now placed in front of a white background"
+1515,ReleaseEvent,2018-01-14 10:10:49+00:00,14656555,micheles/decorator,2463856,micheles,,,published,4.2.1,4.2.1,Fix regression in Python
+1714,ReleaseEvent,2016-10-28 15:18:01+00:00,41542522,cztomczak/cefpython,1187415,cztomczak,,,published,v55-upstream,Upstream CEF 55 prebuilt binaries and libraries,"Built according to docs/Build-instructions.md with the tools/automate.py script.
+
+Linux binaries were built on Ubuntu 14.04 64-bit.
+
+NOTE: These binaries contain libcef.so with minimal symbols so that you can debug CEF with gdb and get a meaningful stack trace. Currently cefpython v54 and later distribution packages on PyPI and on GH releases ship a stripped version of libcef.so with no symbols at all (Issue #262). Download archive from this release and switch libcef.so in your already installed package to allow for debugging.
+
+CEF Python 55.1 - cef55_3.2883.1506.ga6c42a7_linux64.tar.gz (Chrome beta channel)"
+1915,ReleaseEvent,2018-06-23 06:35:59+00:00,46915364,Synss/python-mbedtls,540976,Synss,,,published,0.10.0,0.10.0,
+2671,ReleaseEvent,2016-05-03 21:10:30+00:00,13540909,simonsdave/cloudfeaster,2046104,simonsdave,,,published,v0.7.0,v0.7.0,"### Added
+
+- added proxy support to permit use of anonymity networks like those listed below - proxy support is exposed 
+by 2 new flags in ```spiderhost.py``` (```--proxy``` and ```--proxy-user```)
+    - [Luminati](https://luminati.io/)
+    - [Crawlera](http://crawlera.com/)
+    - [WonderProxy](https://wonderproxy.com/)
+    - [Distributed Scraping With Multiple Tor Circuits](http://blog.databigbang.com/tag/crawling-2/)
+
+```
+>spiderhost.py --help
+Usage: spiderhost.py <spider> [<arg1> ... <argN>]
+
+spider hosts accept the name of a spider, the arguments to run the spider and
+optionally proxy server details. armed with all this info the spider host runs
+a spider and dumps the result to stdout.
+
+Options:
+  -h, --help            show this help message and exit
+  --log=LOGGING_LEVEL   logging level
+                        [DEBUG,INFO,WARNING,ERROR,CRITICAL,FATAL] - default =
+                        ERROR
+  --proxy=PROXY         proxy - default = None
+  --proxy-user=PROXY_USER
+                        proxy-user - default = None
+>
+>spiderhost.py --proxy=abc
+Usage: spiderhost.py <spider> [<arg1> ... <argN>]
+
+spiderhost.py: error: option --proxy: required format is host:port
+>
+>spiderhost.py --proxy-user=abc
+Usage: spiderhost.py <spider> [<arg1> ... <argN>]
+
+spiderhost.py: error: option --proxy-user: required format is user:password
+>
+```"
+2789,ReleaseEvent,2016-06-24 20:07:28+00:00,36317621,pipermerriam/eth-testrpc,824194,pipermerriam,,,published,v0.2.0,0.2.0 Release,Python 3 Support.  Some other breaking changes.  See `CHANGES.txt` for more information
+2874,ReleaseEvent,2017-09-19 21:49:11+00:00,50591651,danielperna84/pyhomematic,7396998,danielperna84,,,published,0.1.32,0.1.32,- Added HMIP-WRC2
+2977,ReleaseEvent,2017-04-25 13:44:53+00:00,13193427,vsergeev/u-msgpack-python,524033,vsergeev,,,published,v2.4.1,v2.4.1,
+3181,ReleaseEvent,2018-06-09 10:54:40+00:00,135041960,nickw444/nsw-fuel-api-client,1289759,nickw444,,,published,1.0.9,Deserialize and throw errors,"The client will now throw `FuelCheckError` on HTTP error responses and client errors
+
+Includes #3 
+"
+4466,ReleaseEvent,2016-12-18 11:56:51+00:00,27086567,scrapinghub/dateparser,1888537,waqasshabbir,699596,scrapinghub,published,v0.5.1,Release 0.5.1,"0.5.1 (2016-12-18)
+------------------
+
+New features:
+
+* Added support for Hebrew
+
+Improvements:
+
+* Safer loading of YAML. See #251
+* Better timezone parsing for freshness dates. See #256
+* Pinned dependencies' versions in requirements. See #265
+* Improved support for zh, fi languages. See #249, #250, #248, #244"
+4499,ReleaseEvent,2016-07-01 14:50:21+00:00,61119762,maykinmedia/django-timeline-logger,2226098,jose-lpa,739212,maykinmedia,published,0.4.2,,"* Added unit tests for the `report_mailing` command.
+* Added documentation."
+4623,ReleaseEvent,2017-01-31 01:39:12+00:00,17643793,SumoLogic/sumologic-python-sdk,2030965,duchatran,963817,SumoLogic,published,0.1.6,"Merged PR18, 20",
+4734,ReleaseEvent,2015-06-22 10:54:14+00:00,2665618,inveniosoftware/invenio,517546,tiborsimko,1157480,inveniosoftware,published,v1.0.5,Invenio v1.0.5,"```
+--------------------------------------------------------------------
+Invenio v1.0.5 is released
+August 19, 2013
+http://invenio-software.org/
+--------------------------------------------------------------------
+
+Invenio v1.0.5 was released on August 19, 2013.
+
+This is a bugfix release update for Invenio v1.0 release series.  It
+is recommended to all Invenio sites using v1.0.4 or previous releases.
+
+What's new:
+-----------
+
+ *) BibClassify: escape keywords in tag cloud and MARCXML
+
+ *) BibDocFile: support new magic library
+
+ *) BibFormat: additional fulltext file display in HB; fix CLI call to
+    old PHP-based formatter; format_element initialisation fix
+
+ *) BibIndex: better wording for stemming in admin UI
+
+ *) BibKnowledge: /kb/export 500 error fix
+
+ *) BibUpload: FMT regression test case fix; indicators in strong tags
+
+ *) errorlib: hiding bibcatalog info in exception body
+
+ *) global: test suite nosification
+
+ *) installation: fix collectiondetailedrecordpagetabs; support for
+    Apache-2.4
+
+ *) WebAccess: IP-based rules and offline user fix; replacement of CDS
+    Invenio by InveniO
+
+ *) WebComment: escape review ""title""
+
+ *) WebSearch: respect default `rg` in Advanced Search
+
+ *) WebSession: fix for list of admin activities; login_method changes
+
+ *) WebSubmit: new websubmitadmin CLI
+
+Download:
+---------
+
+  <http://invenio-software.org/download/invenio-1.0.5.tar.gz>
+  <http://invenio-software.org/download/invenio-1.0.5.tar.gz.md5>
+  <http://invenio-software.org/download/invenio-1.0.5.tar.gz.sig>
+
+Installation notes:
+-------------------
+
+Please follow the INSTALL file bundled in the distribution tarball.
+
+Upgrade notes:
+--------------
+
+If you are upgrading from Invenio v1.0.4, then:
+
+ a) Stop your bibsched queue and your Apache server.
+
+ b) Install the update:
+
+     $ tar xvfz invenio-1.0.5.tar.gz
+     $ cd invenio-1.0.5
+     $ sudo rsync -a /opt/invenio/etc/ /opt/invenio/etc.OLD/
+     $ sh /opt/invenio/etc/build/config.nice
+     $ make
+     $ make check-custom-templates
+     $ make update-v1.0.4-tables
+     $ sudo -u www-data make install
+     $ sudo -u www-data /opt/invenio/bin/inveniocfg --update-all
+     $ sudo rsync -a /opt/invenio/etc.OLD/ \
+         --exclude bibformat/format_templates/Default_HTML_brief.bft \
+         /opt/invenio/etc/
+
+ c) Restart your Apache server and your bibsched queue.
+
+If you are upgrading from a previous Invenio release (notably from
+v0.99 release series), then please see a dedicated Invenio Upgrade
+wiki page at <http://invenio-software.org/wiki/Installation/Upgrade>.
+
+- end of file -
+```"
+4833,ReleaseEvent,2015-06-11 17:41:02+00:00,8155357,yunojuno/django-perimeter,200944,hugorodgerbrown,1175789,yunojuno,published,v0.6.1,,"Features:
+
+* Add --expires option to create_access_token management token
+* Supports token lengths up to 50 chars
+
+Fixes:
+
+* Fixes bug with Django 1.8 v 1.7 utils.timezone.now() change
+"
+4997,ReleaseEvent,2017-12-10 13:23:09+00:00,24624545,quantopian/qgrid,5055866,TimShawver,1393215,quantopian,published,v1.0.0-beta.10,v1.0.0-beta.10,"- Adds support for jupyterlab 0.30.x
+- Uses a new stable plugin API that's available in jupyterlab 0.30.x
+- Separate qgrid-jupyterlab npm package is no longer needed
+- Issue with `set_defaults` fixed by https://github.com/quantopian/qgrid/pull/151
+- Fix for deprecation warning that was appearing when committing edits on pandas 0.21.0"
+5642,ReleaseEvent,2017-10-30 21:44:29+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,published,api-core-0.1.1,google-api-core 0.1.1,"## Dependencies
+
+- Upgrading `grpcio` dependency from `1.2.0, < 1.6dev` to `>= 1.7.0` (#4280)
+
+PyPI: https://pypi.org/project/google-cloud-storage/1.3.0/
+"
+5688,ReleaseEvent,2017-10-31 22:25:11+00:00,16316451,GoogleCloudPlatform/google-cloud-python,520669,dhermes,2810941,GoogleCloudPlatform,published,monitoring-0.28.0,google-cloud-monitoring 0.28.0,"## Documentation
+
+- Added link to ""Python Development Environment Setup Guide"" in project README (#4187, h/t to @michaelawyu)
+
+## Dependencies
+
+- Upgrading to `google-cloud-core >= 0.28.0` and adding dependency on `google-api-core` (#4221, #4280)
+
+PyPI: https://pypi.org/project/google-cloud-monitoring/0.28.0/
+"
+6020,ReleaseEvent,2018-01-30 01:34:19+00:00,87121095,uw-it-aca/uw-restclients-canvas,842706,jlaney,3730428,uw-it-aca,published,0.7.0,UW-RestClients-Core 0.9.6,
+6190,ReleaseEvent,2018-03-13 14:21:00+00:00,69889364,usnistgov/NEMO,14808276,dylan-klomparens,5330158,usnistgov,published,1.1.0,,"# New features
+* Added ""scheduled outages"" for tools. Users who are designated as ""staff"" in NEMO can now create scheduled outages for a tool from the calendar page. A scheduled outage prevents users from using a tool during the outage period. It does not interrupt use if a tool is already enabled. Staff are still able to enable a tool during a scheduled outage (in order to perform maintenance or other tasks).
+* Added a ""safe user deactivation"" page. This ensures that there are no billable charges in progress nor in the future (i.e. tool usage, staff charges, reservations, and area access). This can be found in the /users/<id>/ page.
+
+# Authentication & security improvements:
+* Added support for Nginx [kerberos module](https://github.com/stnoonan/spnego-http-auth-nginx-module).
+* Fixed a bug where permissions were not properly applied when using LDAP authentication. Thanks to Princeton University's David Barth (@dsbarth) and Daniel McNesby (@przcomp) for finding and diagnosing the bug.
+* Added more robust error checking for invalid username/passwords in LDAP authentication.
+* LDAP authentication now **requires TLS version 1.2** between the web server and authentication server.
+
+# Stability fixes:
+* Pinned all dependency versions (in setup.py) so code doesn't break over time.
+
+# Setup and provisioning of NEMO:
+* Added two new commands to the ""nemo"" provisioning utility (binary program) that is created with setup.py:
+  - `nemo query_public_key` gets the public key of an IP address and port. If the DNS name resolves to multiple IP addresses (e.g. round-robin DNS load balancing), the query is performed for each IP address. This assists with downloading public keys for LDAP authentication setup.
+  - `nemo test_ldap_authentication` tests LDAP authentication, the same way it is performed in NEMO's code.
+
+# Usability improvements
+* Added a ""getting started"" message to the landing page. When there are no choices on the landing page, a message is displayed for the system administrator to tell them how to configure and customize NEMO. This will help new system administrators get started with configuring NEMO.
+* Landing page choices can now be hidden from normal users, but visible to staff/super-users/technicians. Fixed a column spacing bug on the landing page.
+* Added visual highlights and tool ownership information to the maintenance page. If you are a tool owner, the problems that you ""own"" on the maintenance page are highlighted in red. If you are a backup tool owner, those problems are highlighted in yellow.
+
+# Roadmap and future imporvements
+For the next release of NEMO, we plan to implement scheduled resource outages and improved tool-downtime data analytics. This will also coincide with improvements to the NEMO API, to get that data out.
+
+It has also become clear that there are two major challenges with setting up a new instance of NEMO:
+1) Authentication is always difficult to integrate with - whether it's LDAP, Kerberos, or some other type. There will likely be some improvements to this area coming soon.
+2) Bootstrapping NEMO is also difficult. Organizations that are trying out NEMO for the first time often want to download and run it in a test environment to try it out. It seems pretty clear that there needs to be a simple way to run a test version of NEMO, with no external configuration required. Perhaps creating a separate test/evaluation Docker image would be the best way to go, and we'll be exploring this possibility."
+6477,ReleaseEvent,2018-07-09 16:54:19+00:00,107710074,Microsoft/vsts-python-api,13457072,tedchamb,6154722,Microsoft,published,0.1.10,VSTS 0.1.10,"Added User area for 4.1
+Fixed serialization issue with release triggers. #91"
+6656,ReleaseEvent,2018-03-30 16:40:15+00:00,117844325,yandex-money/yandex-checkout-sdk-python,5863398,eightyeight,6553002,yandex-money,published,1.0.2,v1.0.2,
+6866,ReleaseEvent,2018-07-02 18:05:02+00:00,17689377,pre-commit/pre-commit,1810591,asottile,6943086,pre-commit,published,v1.10.3,pre-commit v1.10.3,"### Fixes
+- Fix `pre-push` during a force push without a fetch
+    - #777 issue by @domenkozar.
+    - #778 PR by @asottile.
+"
+7348,ReleaseEvent,2016-04-01 21:24:06+00:00,45062555,F5Networks/f5-common-python,640955,zancas,8935905,F5Networks,published,v0.1.3,Release v0.1.3,"#### Summary
+
+This release adds multiple concrete classes to support user requests and lbaasv2.  New abstract classes include `PathElement` and `Example` that subclass `ResourceBase`.   Several significant bugfixes were implemented including an update on the requirement constraint for f5-icontrol-rest.
+
+#### Release Highlights
+
+* #333 
+* New abstract classes
+* updated dependencies
+* Multiple new concrete classes
+
+#### Caveats
+* None
+
+See the [changelog](https://github.com/F5Networks/f5-common-python/compare/v0.1.2...0.1.3) for the full list of changes in this release.
+"
+7530,ReleaseEvent,2017-01-12 15:45:21+00:00,43816051,common-workflow-language/cwltool,1316612,tetron,9947495,common-workflow-language,published,1.0.20170112154257,,
+7726,ReleaseEvent,2018-03-30 02:05:32+00:00,66823715,intel-analytics/BigDL,1297418,yiheng,10941215,intel-analytics,published,v0.5.0,BigDL release 0.5.0,"## Highlights
+* Bring in a Keras-like API(Scala and Python). User can easily run their Keras code (training and inference) on Apache Spark through BigDL. For more details, see [this link](https://bigdl-project.github.io/0.5.0/#KerasStyleAPIGuide/keras-api-python/).
+* Support load Tensorflow dynamic models(e.g. LSTM, RNN) in BigDL and support more Tensorflow operations, see [this page](https://bigdl-project.github.io/0.5.0/#APIGuide/tensorflow_ops_list/ ).
+* Support combining data preprocessing and neural network layers in the same model (to make model deployment easy )
+* Speedup various modules in BigDL (BCECriterion, rmsprop, LeakyRelu, etc.)
+* Add DataFrame-based image reader and transformer
+ 
+## New Features
+* Tensor can be converted to OpenCVMat
+* Bring in a new Keras-like API for scala and python
+* Support load Tensorflow dynamic models(e.g. LSTM, RNN)
+* Support load more Tensorflow operations(InvertPermutation, ConcatOffset, Exit, NextIteration, Enter, RefEnter, LoopCond, ControlTrigger, TensorArrayV3,TensorArrayGradV3, TensorArrayGatherV3, TensorArrayScatterV3, TensorArrayConcatV3, TensorArraySplitV3, TensorArrayReadV3, TensorArrayWriteV3, TensorArraySizeV3, StackPopV2, StackPop, StackPushV2, StackPush, StackV2, Stack)
+* ResizeBilinear support NCHW
+* ImageFrame support load Hadoop sequence file
+* ImageFrame support gray image
+* Add Kv2Tensor Operation(Scala)
+* Add PGCriterion to compute the negative policy gradient given action distribution, sampled action and reward
+* Support gradual increase learning rate in LearningrateScheduler
+* Add FixExpand and add more options to AspectScale for image preprocessing
+* Add RowTransformer(Scala)
+* Support to add preprocessors to Graph, which allows user combine preprocessing and trainable model into one model
+* Resnet on cifar-10 example support load images from HDFS
+* Add CategoricalColHashBucket operation(Scala)
+* Predictor support Table as output
+* Add BucketizedCol operation(Scala)
+* Support using DenseTensor and SparseTensor together to create Sample
+* Add CrossProduct Layer (Scala)
+* Provide an option to allow user bypass the exception in transformer
+* DenseToSparse layer support disable backward propagation
+* Add CategoricalColVocaList Operation(Scala)
+* Support imageframe in python optimizer
+* Support get executor number and executor cores in python
+* Add IndicatorCol Operation(Scala)
+* Add TensorOp, which is an operation with Tensor[T]-formatted input and output, and provides shortcuts to build Operations for tensor transformation by closures. (Scala)
+* Provide a docker file to make it easily to setup testing environment of BigDL
+* Add CrossCol Operation(Scala)
+* Add MkString Operation(Scala)
+* Add a prediction service interface for concurrent calls and accept bytes input
+* Add SparseTensor.cast & SparseTensor.applyFun
+* Add DataFrame-based image reader and transformer
+* Support load tensoflow model files saved by tf.saved_model API
+* SparseMiniBatch supporting multiple TensorDataTypes
+ 
+## Enhancement
+* ImageFrame support serialization
+* A default implementation of zeroGradParameter is added to AbstractModule
+* Improve the style of the document website
+* Models in different threads share weights in model training
+* Speed up leaky relu
+* Speed up Rmsprop
+* Speed up BCECriterion
+* Support Calling Java Function in Python Executor and ModelBroadcast in Python
+* Add detail instructions to run-on-ec2
+* Optimize padding mechanism
+* Fix maven compiling warnings
+* Check duplicate layers in the container
+* Refine the document which introduce how to automatically Deploy BigDL on Dataproc cluster
+* Refactor adding extra jars/python packages for python user. Now only need to set env variable BIGDL_JARS & BIGDL_PACKAGES
+* Implement appendColumn and avoid the error caused by API mismatch between different Spark version
+* Add python inception training on ImageNet example
+* Update ""can't find locality partition for partition ..."" to warning message
+
+## API change
+* Move DataFrame-based API to dlframe package
+* Refine the Container hierarchy. The add method(used in Sequential, Concat…) is moved to a subclass DynamicContainer
+* Refine the serialization code hierarchy
+* Dynamic Graph has been an internal class which is only used to run tensorflow models
+* Operation is not allowed to use outside Graph
+* The getParamter method as final and private[bigdl], which should be only used in model training
+*  remove the updateParameter method, which is only used in internal test
+* Some Tensorflow related operations are marked as internal, which should be only used when running Tensorflow models
+ 
+## Bug Fix
+* Fix Sparse sample batch bug. It should add another dimension instead of concat the original tensor
+* Fix some activation or layers don’t work in TimeDistributed and RnnCell
+* Fix a bug in SparseTensor resize method
+* Fix a bug when convert SparseTensor to DenseTensor
+* Fix a bug in SpatialFullConvolution
+* Fix a bug in Cosine equal method
+* Fix optimization state mess up when call optimizer.optimize() multiple times
+* Fix a bug in Recurrent forward after invoking reset
+* Fix a bug in inplace leakyrelu
+* Fix a bug when save/load bi-rnn layers
+* Fix getParameters() in submodule will create new storage when parameters has been shared by parent module
+* Fix some incompatible syntax between python 2.7 and 3.6
+* Fix save/load graph will loss stop gradient information
+* Fix a bug in SReLU
+* Fix a bug in DLModel
+* Fix sparse tensor dot product bug
+* Fix Maxout ser issue
+* Fix some serialization issue in some customized faster rcnn model
+* Fix and refine some example document instructions
+* Fix a bug in export_tf_checkpoint.py script
+* Fix a bug in set up python package.
+* Fix picklers initialization issues
+* Fix some race condition issue in Spark 1.6 when broadcasting model
+* Fix Model.load in python return type is wrong
+* Fix a bug when use pyspark-with-bigdl.sh to run jobs on Yarn
+* Fix empty tensor call size and stride not throw null exception"
+7897,ReleaseEvent,2018-06-28 12:54:16+00:00,70920962,PyFilesystem/pyfilesystem2,554369,willmcgugan,11898830,PyFilesystem,published,v2.0.24,,"## [2.0.24] - 2018-06-28
+
+### Added timeout to FTP opener"
+7912,ReleaseEvent,2018-07-04 00:52:57+00:00,99273369,NeurodataWithoutBorders/pynwb,32185786,nwb-bot,12140348,NeurodataWithoutBorders,published,latest,Latest (updated on 2018-07-04 00:07 UTC),
+8110,ReleaseEvent,2018-03-07 09:42:16+00:00,65548486,NIXStats/nixstatsagent,13120159,vfuse,13120172,NIXStats,published,v1.1.40,Docker and Minecraft monitoring plugins,
+8690,ReleaseEvent,2017-12-01 02:42:34+00:00,107485978,talkiq/gcloud-aio,9664878,talkiq-ops,17654656,talkiq,published,taskqueue-0.7.1,taskqueue-0.7.1,taskqueue-0.7.1
+8780,ReleaseEvent,2018-07-06 12:58:45+00:00,116003862,deep-compute/kwikapi,28617371,RamanjaneyuluIdavalapati,18276853,deep-compute,published,0.3.1,kwikapi-0.3.1,
+8801,ReleaseEvent,2018-02-04 13:01:10+00:00,57201963,python-lz4/python-lz4,992114,jonathanunderwood,18689658,python-lz4,published,v0.21.6,Documentation improvements,
+9454,ReleaseEvent,2018-07-03 04:06:51+00:00,3845895,fastavro/fastavro,6951699,scottbelden,40203918,fastavro,published,0.20.0,,

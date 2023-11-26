@@ -1,0 +1,786 @@
+,type,created_at,repo_id,repo_name,actor_id,actor_login,org_id,org_login,release_action,release_tag_name,release_name,release_body
+842,ReleaseEvent,2018-01-31 03:53:33+00:00,17638981,gmr/srvlookup,49469,gmr,,,published,2.0.0,2.0.0,"- Adds hostname to SRV record response
+- Drops support for Python 2.6"
+859,ReleaseEvent,2017-11-20 19:07:48+00:00,53005545,kislyuk/aegea,862013,kislyuk,,,published,v2.0.4,v2.0.4,- Fix broken release
+1122,ReleaseEvent,2018-07-25 19:39:43+00:00,130414108,chathika/NL4Py,789414,chathika,,,published,v0.4.0,v0.4.0,NetLogoControllerServer is packaged with client now and is downloaded upon pip install nl4py
+1123,ReleaseEvent,2018-08-16 13:57:44+00:00,130414108,chathika/NL4Py,789414,chathika,,,published,v0.5.0,v0.5.0,
+1322,ReleaseEvent,2018-04-01 15:31:56+00:00,125622959,maroba/findiff,17353177,maroba,,,published,v0.3.0,Non-Uniform Grids,"_findiff_ can now take derivatives also on non-uniform grids.
+"
+1361,ReleaseEvent,2016-01-02 19:06:03+00:00,27371456,pbugnion/gmaps,1392879,pbugnion,,,published,v0.2,IPython 4 and Python 3 compatibility,"This release adds:
+ * IPython 4.0 compatibility
+ * Python 3 compatibility
+
+Additionally, it drops:
+ * IPython 2.x compatibility"
+1634,ReleaseEvent,2018-05-21 13:59:22+00:00,4477733,kevin1024/vcrpy,21099,kevin1024,,,published,v1.12.0,aiohttp fixes and drop support for EOL python versions,"- Fix support to latest aiohttp version (3.2.1)
+- Adapted setup to PEP508
+- Support binary responses on aiohttp
+- Dropped support for EOL python versions (2.6 and 3.3)"
+1727,ReleaseEvent,2016-01-30 15:40:27+00:00,11380094,msiemens/tinydb,1873922,msiemens,,,published,v1.2.0,v1.2.0,
+1806,ReleaseEvent,2017-05-28 15:01:37+00:00,48203815,sirfz/tesserocr,4741099,sirfz,,,published,v2.2.0,tesserocr v2.2.0,"* Improved setup script
+* Tesseract 4.0 support
+* Fixed segfault on API `Init*` failure
+* Fixed segfault when `pixa_to_list` returns `NULL`
+* Documentation fixes and other minor improvments"
+2110,ReleaseEvent,2017-09-12 11:01:01+00:00,100015287,hubo1016/aiogrpc,14069404,hubo1016,,,published,v1.3,v1.3,Use callback to cancel the input instead of next()
+2222,ReleaseEvent,2017-10-30 14:33:39+00:00,81961382,rbnvrw/nd2reader,1511097,rbnvrw,,,published,3.0.6,3.0.6,"* Field of view (FOV) support, list the fields of view on a `v` axis (closes #3)"
+2456,ReleaseEvent,2018-02-09 08:49:33+00:00,5934517,dpkp/kafka-python,843444,dpkp,,,published,1.4.1,"1.4.1 (Feb 9, 2018)","## Bugfixes
+
+* Fix consumer poll stuck error when no available partition (ckyoog #1375)
+* Increase some integration test timeouts (dpkp #1374)
+* Use raw in case string overriden (jeffwidman #1373)
+* Fix pending completion IndexError bug caused by multiple threads (dpkp #1372)"
+2517,ReleaseEvent,2017-03-17 17:31:36+00:00,21240523,glennmatthews/cot,5603551,glennmatthews,,,published,v2.0.0,Version 2.0.0,"**Fixed**
+
+- Fixed a case that could result in a RuntimeError being thrown when using
+  ``cot edit-hardware`` to simultaneously create NICs and define a new
+  configuration profile (`#64`_).
+- Update minimum QEMU version preferred for creation of streamOptimized VMDK
+  files from 2.1.0 to 2.5.1, due to an incompatibility with VMware in VMDKs
+  produced by versions prior to 2.5.1 (`#65`_).
+
+  - If ``vmdktool`` is not installed, but QEMU 2.1.0-2.5.0 is, then COT will
+    fall back to usinq ``qemu-img``, but will warn of this potential
+    incompatibility with ESXi.
+
+- When ``cot info`` is invoked with multiple files as input, an error in
+  loading one file will no longer cause the entire command to abort;
+  COT will now log an error about the offending file and continue to the next.
+
+**Added**
+
+- COT commands now check the available disk space in the temporary working
+  directory against the temporary storage space the command estimates it
+  will require, and if there is likely to be a problem, warns the user
+  before continuing. (`#63`_)
+- Additionally COT commands that write out an updated OVF/OVA now check the
+  available disk space in the requested output location against the VM's
+  predicted output size, and if there is likely to be a problem, warns the
+  user before continuing.
+- ``Helper`` classes can now opt to cache their output to avoid repeatedly
+  re-running the same command. Currently enabled for ``qemu-img info ...``
+  and ``isoinfo ...`` commands. (`#62`_)
+- New modules and APIs in support of the above:
+
+  - ``Command.working_dir_disk_space_required()`` instance method, to ask a
+    command to estimate how much temporary storage it will require. This
+    method is now automatically called from Command unit tests to validate
+    its accuracy.
+  - ``VMDescription.predicted_output_size()`` instance method, to ask a VM
+    to estimate how much disk space it will require when written out.
+  - ``COT.utilities`` module with functions ``available_bytes_at_path`` and
+    ``tar_entry_size``.
+
+**Removed**
+
+- Discontinued support for Python 2.6 as it has been retired since 2013.
+- Removed ``cot --debug`` alias for ``cot --verbose --verbose`` as it is
+  no longer correct after increased granularity of logging options,
+  as described below.
+
+**Changed**
+
+- With ``cot edit-hardware``, the platform hardware validation is no longer
+  a hard limit. Instead, if a value appears to be invalid, the user will be
+  warned about the validation failure and given the option to continue or
+  abort (`#61`_).
+  ``cot --force ...``, as usual, can be used to auto-continue without prompting.
+- More granular logging levels (thanks to `verboselogs`_; COT now requires
+  version 1.6 of this package) and more self-consistency in message logging.
+- Revised format of log messages generated by COT.
+- Lots of API changes (see change log for details)."
+2519,ReleaseEvent,2016-05-27 13:58:07+00:00,21240523,glennmatthews/cot,5603551,glennmatthews,,,published,v1.4.2,Version 1.4.2,"Bug fix release:
+
+* Recognize `xorriso` as an alternative to `mkisofs` and `genisoimage`
+* Installation document now recommends installation via `pip` rather than
+  installing from source.
+* #40 - Now uses faster Docker-based infrastructure from Travis CI for
+  CI builds/tests.
+* #42 - `cot deploy esxi` error handling behavior needed to be updated
+  for `requests` release 2.8.
+* #44 - test case failure seen when running pyVmomi 6.0.0.2016.4."
+2604,ReleaseEvent,2017-12-08 15:14:39+00:00,110824647,mattpitkin/psrqpy,1421092,mattpitkin,,,published,v0.4.3,v0.4.3,Fixed a minor python3 related bug in the `ppdot` plotting function.
+2876,ReleaseEvent,2018-03-28 23:15:59+00:00,122181085,bashtage/randomgen,5585221,bashtage,,,published,v1.14.3,Release 1.14.3,"This point release contains minor improvements
+
+* Improved legacy generator that no longer requires using separate RandomGenerator
+
+
+"
+3278,ReleaseEvent,2017-07-14 06:09:29+00:00,65155092,ClimbsRocks/auto_ml,7017045,ClimbsRocks,,,published,v2.4.0,Prediction intervals,"Using quantile regression, we can now return prediction intervals. 
+
+Another minor change is adding in a column of absolute changes for feature_responses"
+3487,ReleaseEvent,2017-02-18 03:11:21+00:00,9760336,iheanyi/bandcamp-dl,1984403,Evolution0,,,published,v0.0.7-09,bandcamp-dl 0.0.7-08,"Added a `--group` option to insert a group tag, currently this attempts
+to use the artist/album Label."
+3981,ReleaseEvent,2017-05-13 13:37:31+00:00,90407498,jbasko/configmanager,632910,jbasko,,,published,v0.0.24,v0.0.24,
+3984,ReleaseEvent,2017-06-17 01:20:25+00:00,90407498,jbasko/configmanager,632910,jbasko,,,published,v1.29.1,v1.29.1,
+4213,ReleaseEvent,2017-02-02 19:43:34+00:00,63717172,maximkulkin/lollipop,10785,maximkulkin,,,published,1.0.3,1.0.3,"* Add validated_type to list of exported functions                                      
+* Fix context awareness for manually added validators                                   
+"
+4658,ReleaseEvent,2017-04-01 23:20:28+00:00,48577387,taraslayshchuk/es2csv,7491121,taraslayshchuk,,,published,5.2.1,,
+4746,ReleaseEvent,2016-08-23 15:52:39+00:00,17410607,GeospatialPython/pyshp,5385450,GeospatialPython,,,published,1.2.9,Fixed Travis CI issues,Push fixes from 1.2.5 updates with Travis CI integration
+4800,ReleaseEvent,2016-10-19 02:14:26+00:00,23618716,dave-shawley/ietfparse,350812,dave-shawley,,,published,1.4.0,Add functions to parse `Accept-Encoding` and `Accept-Language`,Thanks to @gmr for new functionality.
+4838,ReleaseEvent,2015-06-05 23:36:26+00:00,10980048,ionelmc/python-manhole,129501,ionelmc,,,published,v0.6.1,,* Support for OS X (contributed by `Saulius Menkevičius`).
+4842,ReleaseEvent,2017-01-26 23:57:43+00:00,5430433,jjjake/internetarchive,924153,jjjake,,,published,v1.4.0,Version 1.4.0,"**Features and Improvements**
+
+- Added ``ia copy`` and ``ia move`` for copying and moving files in archive.org items.
+- Added support for outputing JSON in ``ia tasks``.
+- Added support to ``ia download`` to write to stdout instead of file.
+
+**Bugfixes**
+
+- Fixed bug in upload where AttributeError was rasied when trying to upload file-like objects without a name attribute.
+- Removed identifier validation from ``ia delete``.
+  If an identifier already exists, we don't need to validate it.
+  This only makes things annoying if an identifier exists but fails ``internetarchive`` id validation.
+- Fixed bug where error message isn't returned in ``ia upload`` if the response body is not XML.
+  Ideally IA-S3 would always return XML, but that's not the case as of now.
+  Try to dump the HTML in the S3 response if unable to parse XML.
+- Fixed bug where ArchiveSession headers weren't being sent in prepared requests.
+- Fixed bug in ``ia upload --size-hint`` where value was an integer, but requests requries it to be a string.
+- Added support for downloading files to stdout in ``ia download`` and ``File.download``."
+4915,ReleaseEvent,2017-01-01 02:13:59+00:00,77567328,nugget/python-anthemav,77628,nugget,,,published,v1.1.2,Published on pypi,The package is now published at https://pypi.python.org/pypi/anthemav
+5007,ReleaseEvent,2018-04-25 07:38:49+00:00,92424780,Lynten/stanford-corenlp,5766062,Lynten,,,published,v3.9.1.1,v3.9.1.1,"- Add coref function
+- Change token['word'] to token['originalText']"
+5009,ReleaseEvent,2018-05-20 18:50:46+00:00,133051476,Plawn/Fancy_progressbar,29287749,Plawn,,,published,v1.2,v1.0,"--> Wayy fancier
+--> Major & Minor bug fixed
+--> Better edge cases handling
+--> Performance improvement"
+5881,ReleaseEvent,2015-05-07 17:45:26+00:00,23527183,svenkreiss/html5validator,2775078,svenkreiss,,,published,v0.1.10,v0.1.10,See [README.rst](README.rst).
+6001,ReleaseEvent,2017-11-26 05:12:49+00:00,35990433,kata198/AdvancedHTMLParser,8461115,kata198,,,published,7.4.0rc1,7.4.0 Preview Release 1,"This is a preview release, it is not yet finished but has no known bugs, just some planned features are not yet finished.
+
+If you are awaiting any of these fixes ( like full impl of dot-access to html attribute name mapping, or fixes to pickling ) feel free to use this preview release whilst you await the full release to come out.
+
+Changelog as of current:
+
+* 7.4.0 - ??? ?? ????
+
+Combined release, was going to release 7.3.2 but has additional changes so created 7.3.3
+
+- Add ""src"", ""height"", and ""width"" as linked attributes for ""img"" tags (so imgEm.height = '60px' will set height='60px' on an img.) As a reminder, you can always use element.setAttribute('height', '60px') whether or not a dot-alias is setup.
+
+- Add ""bgcolor"" and ""background"" as linked attributes for ""body"" tag ( so bodyEm.bgcolor = 'black' will set bgcolor='black' on a body tag). Again, setAttribute/getAttribute/removeAttribute always work.
+
+- Fixed pickle with an AdvancedHTMLParser.AdvancedHTMLParser and AdvancedHTMLParser.AdvancedTag. These now work flawlessly.
+
+- Implement firstChild / firstElementChild and lastChild / lastElementChild to get the first/last child block [text or AdvancedTag] (firstChild/lastChild)  or first/last child AdvancedTag (firstElementChild/lastElementChild)
+
+- Fix name of nextElementSibling and previousElementSibling ( I had named them nextSiblingElement and previousSiblingElement, as those names make more sense, but don't match the official names found in the standard ). For now, we will retain the alternate names as aliases, but they may be marked deprecated in the future
+
+- Add AdvancedTag.append (official API name) as an alias for appendBlock. It allows you to pass either a string or an AdvancedTag and adds it as a child block.
+
+- Add ""innerText"" property (as an alias for .text) on AdvancedTag, which will return a string representing all the text nodes which are direct children of this node. This is read-only for now, but you can use .appendText to add a new child block of text
+
+- Add ""textContent"" property on AdvancedTag, which will return a string of all text nodes which appear at or beneath the given node, as they would appear in the document. Basically, this is the innerHTML without any of the markup
+
+- Update READMEs to list a few more methods and properties that are available. As always, the full documentation is available as pydoc at: http://htmlpreview.github.io/?https://github.com/kata198/AdvancedHTMLParser/blob/master/doc/AdvancedHTMLParser.html?vers=7.3.3 or the ""doc"" directory that comes with the distribution. Several usage examples can be found throughout the ""tests"" directory, available in the source distribution and also online at https://github.com/kata198/AdvancedHTMLParser/tree/master/tests/AdvancedHTMLParserTests
+
+- Add a lot more unit tests covering everything in this release, and some other minor tweaks/expansions of others. As of this release, there are 2 lines of unit test code for every 3 lines of library code (including extensive comments in library code)
+
+- Add attribute links to body tag for old (pre-HTML5) attributes on body, ""link"", ""vlink"", ""alink"". There is also ""text"" but that has a name conflict right now; another reason to use get/set Attribute methods instead.
+
+- Add support for attributes which have a binary-value through dot-access, but getAttribute and the HTML attribute is a string of ""true"" or ""false"" (versus standard boolean which are signified by present-vs-not, such as ""checked""). Example is ""spellcheck"" which supports this.
+
+- Add ""spellcheck"" special attribute, which is a global (Valid for all tags).
+
+- Fixup a bug where if you do ""myTag.tabIndex = 'blah'"" or any non-integer, firefox sets tabIndex to ""0"", whereas we had an ""invalid"" value of -1. We now match and use 0.
+
+- Fix where ""select"" and ""option"" were not inheriting all the attribute links from ""input"" base
+
+- Add ""spellcheck"" global attribute on all tags
+
+- Add all the tag-specific attribute links as defined by w3 for all HTML4 and HTML5 tags and attributes (for example, ""noWrap"" on td tag, myTdTag.noWrap = True will add ""nowrap"" to the html representation, myTdTag.colspan = 2 will add ""colspan=2"" to the html representation)
+
+- Support more special conversion of values from dot-access to html attribute syntax
+
+
+* 7.3.1 - Nov 21 2017
+
+- Update str(AdvancedTag) to give the real HTML representation (start tag,
+inner html, and end tag) versus the former implementation which was: <start
+tag> joined direct-child text nodes only </ end tag>
+
+  The old method is still available as _old__str__, and you can revert to old
+  behaviour (why would you want to?) by doing AdvancedTag.__str__ =
+  AdvancedTag._old__str__
+
+- Add toHTML/getHTML/asHTML methods to AdvancedTag which also return an HTML
+document starting at that node
+
+- Minor updates to READMEs
+
+- Measurable performance improvements, especially in tags
+
+- Improve removeAttribute / del tag.attributes['whatever'] to perform the
+special handling / linkage required when dealing with the ""style"" or ""class"" attribute
+
+- Merge in latest distrib/runTests.py from GoodTests, which among improvements for installation / ensuring GoodTests.py is present, now it is supported to easily test python2 vs python3 just by invoking runTests.py with one or the other (i.e. if you run ""python2 ./runTests.py"" you'll execute the test suite in python2, vs ""python3 ./runTests.py"" executes in python3). Previously to do this reliably you'd have to use virtualenvs.
+
+- AdvancedTag.classList now returns a COPY, so changes don't flow back to the associated tag (just like in JS api).
+
+- Unify tag classes to be stored in a single location ( private _classNames list), and wherever used it is generated from that. Prior it was stored as a string in the attributes dict, and in the _classNames list. This caused strangeness and opened the potential for disconnects. I don't much care for this hacked impl, as 'class' needs to show up or be absent from attributes, as well as work with setAttribute, removeAttribute, it is hacked on via interception. Also, digs a slightly deeper hole for attributes to be standalone (already requires a tag to work properly). Hopefully I can come up with a better impl soon, but this at least meets the goals.
+
+- Fix nextSibling and nextSiblingElement which would throw an exception (instead of return None) when called on the last element in a set of peers. Also fix the typo in the tests which would have caught this but was preventing them from running.
+
+- Remove stray pdb.set_trace() which was live in the .find method (Alternative for ORM-style filtering without having QueryableList dependency installed)
+
+- Fixup addClass / removeClass and anywhere else the class/className attribute can be inserted or modified, and ensure we properly strip the value (all leading and tailing whitespace, and reduce any in-between-words whitespace to a single space)
+
+- Allow addClass/removeClass to handle adding and removing multiple, like tag.addClass('classOne classTwo') would add both classOne and classTwo
+
+- Ensure that the ""style"" attribute is always linked between the tag and attributes, and that calling .setAttribute('style', '') for example doesn't leave an empty ""style"" attribute in html representation
+
+- Many additional unit tests
+
+
+* 7.3.0 - Nov 19 2017
+
+- Lots of fixups to ""style"" property:
+
+     - Properly handle that ""style"" tag wouldn't show up in HTML if tag
+     created without one, and only the form ""myTag.style.someProperty =
+     'value'"" was used.
+     - Fix where empty style="""" would be on HTML if all the values removed
+     via dot-access
+     - Fix where we weren't doing a copy with ""tag1.style = tag2.style"", and
+     thus any changes to either style would affect both tags
+     - Fix issue where setting style to empty string twice would cause it to
+     lose the special StyleAttribute type
+     - Some performance improvements when dealing with style
+     - Add ""isEmpty"" method to check if a style is empty (has no values
+     set). For now we do a dict comparison between the two styles (or
+     convert a string to a StyleAttribute map and then perform the test)
+     whereas Javascript does an identity comparison (so even the same style
+     on different tags don't equal eachother, and with tag1.style =
+     ""font-weight:bold"", tag1.style == ""font-weight: bold"" would be False in
+     javascript but we return True. This may change in the future
+     - Update the ""equals"" on a style to be able to compare against a string
+     (see note above how this differs from the javascript ABI), so
+     myTag.style == ""display: block"" will now work as expected.
+     - Fix issue where assigning a tag's style to itself would cause a
+     disconnect with the HTML attribute value, i.e.  myTag.style =
+     myTag.style
+     - Properly handle other misc. situations with style that were being
+     handled wrong before
+     - Ensure we always link the HTML-displayed attribute to the underlying
+     style object attribute
+     - Add several more tests to style, many of which fail on 7.2 but now
+     pass with these changes
+     - When removing a style from a tag ( like myTag.style = somethingElse ), make sure we remove the association
+       between the old style and the tag to prevent updates on the old style from affecting the former tag
+     - Add some comments to the style section
+	 - Add ""setProperty"" method per JS api, which is a function call to set
+	 (name, value) for a style property, or provide value='' or value=null to
+	 remove that property
+
+- Addition of a lot of comments throughout code
+
+- Change the ""style"" (StyleAttribute) attribute's backref on a tag to that tag into a weak
+reference, which removes a circular reference.
+
+- Change the ""_attribute"" ( SpecialAttributesDict ) attribute's backref on a tag to that tag into a weak
+reference, which removes a circular reference.
+
+- Additions and modification to pydoc documentation
+
+- Minor cleanups / improvements"
+6002,ReleaseEvent,2016-07-25 16:43:14+00:00,35990433,kata198/AdvancedHTMLParser,8461115,kata198,,,published,6.6.0,6.6.0,"* 6.6.0 Jul 25 2016
+- In a multiple root node scenario, make sure getHTML returns text that falls
+between the root nodes.
+- Retain text, comments, etc that occur before and after the root node
+- Update runTests.py to be latest from GoodTests -- allows providing arguments
+to GoodTests.py (by passing them to runTests.py) and removes the need for the
+symlink in the ""tests"" directory (which duplicates source in the dist)
+"
+6582,ReleaseEvent,2017-06-18 09:49:35+00:00,60094002,zerok/celery-prometheus-exporter,3782,zerok,,,published,v1.1.0,LATENCY histogram,This release includes a new LATENCY histogram metric. Big thanks to @rangermeier!
+6596,ReleaseEvent,2017-09-18 12:53:23+00:00,77475218,agusmakmun/django-markdown-editor,7134451,agusmakmun,,,published,v1.2.2,v1.2.2,"* Compress css, js files"
+7856,ReleaseEvent,2017-03-14 07:23:03+00:00,5888353,spotify/luigi,294349,Tarrasch,251374,spotify,published,2.6.1,Version 2.6.1,"Luigi 2.6.1 is mainly about bugfixes. Some highlights:
+
+ * Fixed the installation issue that plagued 2.6.0 https://github.com/spotify/luigi/pull/2033 (thanks @Aaronhrndz)
+ * Fixes to `temporary_path` decorator. Awesome! (https://github.com/spotify/luigi/pull/2057 and https://github.com/spotify/luigi/pull/2058, thanks @adaitche!)
+
+There actually more. Read the whole commit log [here](https://github.com/spotify/luigi/compare/2.6.0...2.6.1)!"
+8282,ReleaseEvent,2017-12-11 17:38:18+00:00,69284381,broadinstitute/fiss,1229253,dheiman,393552,broadinstitute,published,v0.16.7,v0.16.7,"Enabled low level and high level access to the `linkExistingEntities` field of the copy entities API, enabling copying set entities to workspaces that already contain some portion of the entities comprising the set."
+8465,ReleaseEvent,2016-04-11 07:47:14+00:00,16806393,Yubico/python-u2flib-host,140781,dainnilsson,531825,Yubico,published,python-u2flib-host-3.0.0,python-u2flib-host-3.0.0,
+8657,ReleaseEvent,2017-04-05 00:09:47+00:00,11711823,hearsaycorp/django-richenum,1170996,adepue,633032,hearsaycorp,published,3.2.1,Django 1.11 support,
+8799,ReleaseEvent,2018-06-09 00:48:28+00:00,111474883,intrepidcs/ICS_IPA,33842956,ZNackasha-intrepid,651231,intrepidcs,published,0.0.4.1,,
+8871,ReleaseEvent,2016-04-10 00:33:56+00:00,36200353,candango/firenado,715641,piraz,715660,candango,published,v0.1.4,Firenado 0.1.4,"# April 9, 2016
+
+We are pleased to announce the release of Firenado 0.1.4.
+
+On this release the focus was to get the framework refactored to be more ""Pythonic"".
+
+This version fixes couple bugs and introduce a way to set the application static_path via configuration.
+
+Here are the highlights:
+
+## Refactoring
+
+* Package refactoring to move code from __init__.py's. #109
+
+## New Features
+
+* Added static_path to the config file. #104
+
+## Bug Fixes
+
+* A disabled session still needs a session type. #91
+* The service by decorator is broken. #107
+* The initialize method runs just if the component has a file defined. #103"
+8982,ReleaseEvent,2017-02-06 02:47:20+00:00,81013996,cs50/cli50,788678,dmalan,788676,cs50,published,v1.0.0,,
+9309,ReleaseEvent,2017-01-23 22:43:40+00:00,16366081,numenta/nupic.core,239726,scottpurdy,1039191,numenta,published,0.5.1,0.5.1,"* Improved network API introspection
+* Fix bug with region dimensions inference in network API. fixes #1212
+* Updates to info in RELEASE.md
+* Fixup import favoring native unittest
+* Use xcode6.4 image per documentation at https://docs.travis-ci.com/user/osx-ci-environment/#OS-X-Version
+* NUP-2316 Fixed OS X build failure on xcode 8 caused by included some files in static library that shouldn't have been included.
+* Misc. changes for sparse matrices and using them in Connections. Moving loops to C++."
+9371,ReleaseEvent,2018-01-24 19:37:29+00:00,51914365,mozilla-services/kinto-dist,17006,glasserc,1066228,mozilla-services,published,5.1.2,,"## kinto
+
+**kinto 8.1.1 → 8.1.2**: https://github.com/Kinto/kinto/releases/tag/8.1.2
+
+**Bug fixes**
+
+- Flushing a server no longer breaks migration of the storage backend
+  (#1460). If you have ever flushed a server in the past, migration
+  may be broken. This version of Kinto tries to guess what version of
+  the schema you're running, but may guess wrong. See
+  https://github.com/Kinto/kinto/wiki/Schema-versions for some
+  additional information.
+
+**Internal changes**
+
+- We now allow migration of the permission backend's schema.
+
+**Operational concerns**
+
+- *The schema for the Postgres permission backend has changed.* This
+  changes another ID column to use the ""C"" collation, which should
+  speed up the `delete_object_permissions` query when deleting a
+  bucket.
+"
+9373,ReleaseEvent,2017-10-31 15:10:00+00:00,51914365,mozilla-services/kinto-dist,229453,Natim,1066228,mozilla-services,published,4.4.1,,"## kinto-signer
+
+**kinto-signer 2.1.0 → 2.1.1**: https://github.com/Kinto/kinto-signer/releases/tag/2.1.1
+
+**Bug fixes**
+
+- Invalidate the CloudFront CDN cache. (Kinto/kinto-signer#199)
+"
+9413,ReleaseEvent,2015-06-22 10:02:37+00:00,2665618,inveniosoftware/invenio,517546,tiborsimko,1157480,inveniosoftware,published,v1.1.5,Invenio v1.1.5,"```
+--------------------------------------------------------------------
+Invenio v1.1.5 is released
+March 2, 2015
+http://invenio-software.org/
+--------------------------------------------------------------------
+
+Invenio v1.1.5 was released on March 2, 2015.
+
+This stable release update is recommended to all Invenio sites using
+v1.1.4 or previous releases.
+
+What's new:
+-----------
+
+ *) BibCirculation: get_book_cover quick fix (#2578 #2653); fix for
+    wrong non-borrower message (#2597)
+
+ *) OAIHarvest: remove_duplicates and regexp fixes (#2300 #2608)
+
+ *) WebBasket: better formatting of deletion message (#2449)
+
+ *) docker: initial release (#2736)
+
+ *) docs: initial release of CONTRIBUTING guide (#2163)
+
+ *) installation: MathJax distribution location update (#2732);
+    explicit jQuery plugin versions (#11 #2655); disable SSLv2/SSLv3
+    in Apache config (#2515)
+
+Download:
+---------
+
+  <http://invenio-software.org/download/invenio-1.1.5.tar.gz>
+  <http://invenio-software.org/download/invenio-1.1.5.tar.gz.md5>
+  <http://invenio-software.org/download/invenio-1.1.5.tar.gz.sig>
+
+Installation notes:
+-------------------
+
+Please follow the INSTALL file bundled in the distribution tarball.
+
+Upgrade notes:
+--------------
+
+Please proceed as follows:
+
+ a) Stop your bibsched queue and your Apache server.
+
+ b) Install the update:
+
+     $ tar xvfz invenio-1.1.5.tar.gz
+     $ cd invenio-1.1.5
+     $ sudo rsync -a /opt/invenio/etc/ /opt/invenio/etc.OLD/
+     $ sh /opt/invenio/etc/build/config.nice
+     $ make
+     $ make check-upgrade
+     $ sudo -u www-data make install
+     $ sudo rsync -a /opt/invenio/etc.OLD/ \
+         --exclude invenio-autotools.conf \
+         /opt/invenio/etc/ # (1)
+     $ sudo -u www-data /opt/invenio/bin/inveniocfg --update-all
+     $ sudo -u www-data /opt/invenio/bin/inveniocfg --upgrade
+
+    Notes:
+
+    (1) If you are upgrading from previous stable release series
+        (v0.99 or v1.0), please don't run this rsync command but diff,
+        in order to inspect changes and adapt your old configuration
+        to the new Invenio v1.1 release series.
+
+ c) Restart your Apache server and your bibsched queue.
+
+- end of file -
+```"
+10623,ReleaseEvent,2017-07-27 10:02:52+00:00,3664494,Infinidat/munch,28710,vmalloc,1667528,Infinidat,published,2.2.0,v2.2.0,* Added DefaultMunch for creating munches with default values (thanks @z0u)
+10677,ReleaseEvent,2018-08-16 17:01:36+00:00,14581902,fkie/catkin_lint,725758,roehling,1744968,fkie,published,1.5.2,,"* More bugfixes
+"
+11069,ReleaseEvent,2017-02-13 10:56:36+00:00,70260962,Tubular/sparkly,1926182,drudim,2808498,Tubular,published,v1.1.1,,* Fix: kafka import error.
+11253,ReleaseEvent,2018-07-20 22:23:18+00:00,16316451,GoogleCloudPlatform/google-cloud-python,638797,crwilcox,2810941,GoogleCloudPlatform,published,kms-0.1.0,google-cloud-kms 0.1.0,"### New Features
+- KMS v1"
+11586,ReleaseEvent,2016-05-25 00:18:46+00:00,22072746,pantsbuild/pex,1883523,kwlzn,3065172,pantsbuild,published,v1.1.9,Release 1.1.9,"1.1.9
+-----
+
+* Bugfix: Open setup.py in binary mode. (#264 fixes #263)
+"
+12132,ReleaseEvent,2018-07-08 03:44:45+00:00,53143022,oduwsdl/ipwb,2514780,machawk1,4416806,oduwsdl,published,v0.2018.07.08.0343,,"* Refactored imports of ipwb utils within module to be more semantic (#392).
+* Fixed an issue where encryption on indexing with redirected output prevented the encryption key prompt from being displayed (#52)."
+12138,ReleaseEvent,2017-08-05 15:06:02+00:00,83462108,getsenic/gatt-python,5980316,larsblumberg,4527760,getsenic,published,0.2.6,0.2.6,
+12637,ReleaseEvent,2018-08-23 10:29:23+00:00,50729855,stephenslab/dsc,917985,gaow,5939770,stephenslab,published,v0.3.0,Re-implementation of file caching on `task` mode,"This version significantly improved `task` mode (typically used for cluster environment) with reduced file caches generated, although its disk performance is still being tuned, due to the use of file-based database. 
+
+From this release we will adopt a 3-field string version name."
+12752,ReleaseEvent,2015-10-06 21:51:01+00:00,11589713,deis/deis,73019,mboersma,6117407,deis,published,v1.11.0,Deis v1.11 - New Logger,"The Deis project is proud to announce [v1.11.0](https://github.com/deis/deis/releases/tag/v1.11.0), featuring a rewritten **deis-logger** component with [settings](http://docs.deis.io/en/latest/customizing_deis/logger_settings/#settings-used-by-logger) that allow [in-memory storage](http://docs.deis.io/en/latest/managing_deis/running-deis-without-ceph/#configure-logger) and TCP forwarding. Stateless Deis clusters now include **deis-logger** and support the `deis logs` command.
+
+Join the fun: new contributors to Deis can get [free DigitalOcean credits](http://deis.io/code-for-credit-digitalocean/)!
+
+If you are coming from an earlier version of Deis, please read the [""Upgrading Deis""](http://docs.deis.io/en/latest/managing_deis/upgrading-deis/) documentation for details.
+
+## What is Deis?
+
+Deis is an open source PaaS that makes it easy to deploy and manage applications on your own servers. Deis builds upon [Docker](http://docker.io/) and [CoreOS](https://coreos.com/) to provide a lightweight PaaS with a Heroku-inspired workflow.
+
+## 1.11.0 Summary
+
+### New Features
+
+- **deis-logger** is [rewritten](https://github.com/deis/deis/pull/4502) for stability and extensibility
+- [**deis-registry**](http://docs.deis.io/en/latest/customizing_deis/registry_settings/#settings-used-by-registry) allows IAM role authentication for S3
+- `deis apps:transfer` lets a user hand off ownership of an app to another user
+- **deis-builder** checks out submodules in custom buildpacks as needed
+- **deis-router** on AWS has improved [Kubernetes](http://kubernetes.io/)-aware ELB healthchecks
+- **deis-router** can enforce [whitelisting of IP addresses](http://docs.deis.io/en/latest/managing_deis/security_considerations/#ip-whitelist) for apps or for **deis-controller**
+- New AWS clusters prevent CloudFormation from replacing instances on AMI changes
+- `$DEISCTL_TUNNEL` is automatically discovered on vagrant provisioning
+- **deis-controller** can write app event logs via logspout
+
+### Improvements
+
+- Scripts in contrib/ support [`rigger`](https://github.com/deis/rigger), the new deployment tool for Deis
+- **deis-controller** healthchecks properly ignore non-web processes
+- Graceful upgrades fixed several issues found in the wild
+- Documentation is more detailed about Azure provisioning and when `deisctl` is needed
+- Docs have an architecture diagram and detail about the [**deis-router** mesh](http://docs.deis.io/en/latest/understanding_deis/architecture/#router-mesh)
+- Docs give an example of backing **deis-registry** with OpenStack [Swift](http://docs.deis.io/en/latest/managing_deis/running-deis-without-ceph/#configure-registry)
+- `deis config:set` handles multi-line environment variables
+- The `deis` client suggests help if `deis create` fails on the git remote
+- `deis` correctly displays unexpected non-JSON error messages and malformed logs
+- `deis` prints all error messages to stderr
+- The `route53-wildcard` contrib script handles its `--zone` argument correctly
+- `deis register` returns a better error if registration is disabled
+- `deisctl status` is listed in the main help message
+- **deis-controller** more thoroughly validates config keys
+- contrib/ firewall scripts check that `etcd` is running
+
+### Under the Hood
+
+- [CoreOS](https://coreos.com/) is updated to 766.4.0, the current stable channel version
+- New clusters use CoreOS' default [`etcd2`](https://github.com/coreos/etcd) and [`flannel`](https://github.com/coreos/flannel) services
+- Azure provisioning uses new [ARM](https://azure.microsoft.com/en-us/documentation/articles/resource-manager-deployment-model/#) templates
+- DigitalOcean provisioning uses [terraform](https://terraform.io/)
+- The optional **deis-cache** component is removed, but **deis-registry** still uses it if it is present in an upgraded cluster
+- The `shellcheck` script linter tool was updated to 0.4.1
+
+For more details, please see [CHANGELOG.md](https://github.com/deis/deis/blob/master/CHANGELOG.md).
+
+
+## What's Next
+
+### Docker v2 Registry
+
+The Deis registry must be [upgraded to the new v2 API](https://github.com/deis/deis/issues/3814) to ensure forward-compatibility with Docker.  This has a number of added benefits including performance and trust. Great progress has been made in detaching **deis-controller** from depending on a specific Docker version and in reimplementing `deis pull` to work with any standard registry container. Work remains to migrate existing v1 registry data to v2.
+
+### Rigger
+
+[Rigger](https://github.com/deis/rigger) is a new tool designed to make it easier to provision and test Deis clusters.  With `rigger`, you can stand up and test a Deis cluster on any provider with just a handful of simple commands.  The Deis core team is already using `rigger` internally, but we are looking for feedback.  Please provide your thoughts and requirements on the [design document](https://github.com/deis/deis/issues/4345).
+
+## Community Shout-Outs
+
+We want to thank the following Deis community members for creating GitHub issues, providing support to others, and working on various Deis branches:
+
+- @aj-may: Prototyping and discussion that led directly to the new **deis-logger** and its in-memory ringbuffer
+- @benbarclay: Builder incorrectly sources proxy env vars
+- @benwilber: bug(builder): Procfile should not be parsed as YAML, fix(deisctl): default stdout and stderr are reversed, fix(tests): binaries are installed in the wrong directories, fix(controller): validate config keys at the api level, fix(controller): state property can't be used in a list_filter in the Django web admin
+- @clayzermk1: builder will not come up after updating CoreOS on a v1.10.1 cluster, logspout death looping on deis v1.8.0
+- @CloudSide: How do I proxy the `deisctl` to Restful-API use https?
+- @crigor: Graceful Upgrade: Restart the routers once
+- @Crispy1975: enforceHTTPS causes unwanted redirect.
+- @duanhongyi: deis-builder can't start, docs(managing_deis): add OpenStack Swift store example
+- @dustinrc: fix(contrib): urlopen call hangs
+- @eroubal: 'deis pull' gives me constant 404 NOT FOUND
+- @Footjy: Support for self-signed certificates
+- @franquis: deis-builder v1.10.1 stays in state Activating/start-post
+- @geeksoul-me: Deisctl start stateless-platform hangs at builder after upgrade from 1.9.1 to 1.10.0
+- @gred7: trying to provision a cluster on amazon aws
+- @helloravi: Cluster Provisioning question(~azure)
+- @iartem: Deis logs ""panic: runtime error: index out of range""
+- @ineu: Instructions on creating external database from scratch, All database contents is lost when database is rescheduled to another machine, Backup/restore documentation is not precise
+- @jfchevrette: Fix awk field separator not working on non-GNU awk
+- @jgmize: Proposal feat(k8s): docker-compose.yml syntax support via compose2kube
+- @Joshua-Anderson: fix(client): accept multi line config vars., feat(client): print error messages to stderr, fix(Makefile): silence docker-machine warning when it isn't installed, feat(controller): allow users to transfer app ownership.
+- @jwaldrip: Issues with Controller v1.6.1
+- @laurrentt: feat(Registry): add support for IAM role authentication, feat(Router): IP whitelisting for apps and controller, fix(controller): healthcheck no longer check non-web processes
+- @LoicMahieu: Can not use official nginx docker image on port 80, Stateless Install: deis-router continually logs `signal process started`, Stateless install: graceful upgrade re-install Deis in stateful mode, Can add multiple ssh keys with the same name and remove throws an exception
+- @mariusmarais: Router and application tagging
+- @msull92: Builder 400 error, Platform SSL certificate alongside application certificate, Issue removing ssl cert from application with spaces in common name
+- @nasali: CoreOS Configuration
+- @nathansamson: Protect pushes from wrong branch
+- @nsmith: Add https log drain type
+- @olalonde: fatal: 'somerepo.git' does not appear to be a git repository, Builder: Make git sha hash available during build, Router scheduled on machine with metadata routerMesh=false, docker: ""pull"" requires 1 argument. See 'docker pull --help', Stateless install: recommended RDS settings for database?
+- @robeferre: Cannot perform, deis info, deis create
+- @rvadim: Prototyping and discussion that led directly to the new **deis-logger** and its in-memory ringbuffer, Builder problem: ssh_exchange_identification: Connection closed by remote host.
+- @rvaralda: Deis Registry miss /deis/store/gateway key while use S3 as storage
+- @slash-: ceph mon down
+- @sstarcher: Graceful Shutdown does not remove from Discovery URL, Graceful Shutdown requires Ceph, config:push with .env does not support multline, fix(contrib): Zone argument not supported for aws
+- @szymonpk: proposal: atomic cert update
+
+The Deis community continues to grow, and Deis wouldn't be here without you! If we slighted your contribution to this release, please let us know so we can update.
+
+## How can you help?
+
+* Star our [GitHub repository](https://github.com/deis/deis)
+* Help spread the word about [@opendeis](http://twitter.com/opendeis) on Twitter
+* Join the conversation in the [#deis channel](https://botbot.me/freenode/deis/) on Freenode
+* Voice your opinion on the [Deis Roadmap](http://docs.deis.io/en/latest/roadmap/roadmap/) by attending the monthly [Release Planning Meeting](http://docs.deis.io/en/latest/roadmap/planning/#release-planning-meetings)
+* Pick an [easy-fix](https://github.com/deis/deis/labels/easy-fix) or [help wanted](https://github.com/deis/deis/labels/help%20wanted) issue and start contributing!
+
+Learn about other ways to [get involved](http://deis.io/get-involved/) on our website.
+"
+12810,ReleaseEvent,2017-06-06 09:47:07+00:00,53636425,emc-openstack/storops,13897261,Murray-LIANG,6210145,emc-openstack,published,r0.4.14,Release 0.4.14,"Feature:
+- Add thin clone support"
+13047,ReleaseEvent,2017-01-19 07:21:52+00:00,6235174,conda/conda,1418419,kalefranz,6392739,conda,published,4.3.6,4.3.6 (2017-01-18),"### Bug Fixes
+* fix 'Uncaught backoff with errno 41' warning on windows (#4366)
+* revert json output for leaky plan (#4349)
+* audit os.environ setting (#4360)
+* fix #4324 using old dist string instead of dist object (#4361)
+* fix #4351 infinite recursion via code in #4120 (#4370)
+* fix #4368 conda -h (#4367)
+* workaround for symlink race conditions on activate (#4346)"
+13232,ReleaseEvent,2017-09-01 13:36:07+00:00,12235583,elastic/curator,1020383,untergeek,6764390,elastic,published,v5.2.0,5.2.0 (1 September 2017),"**New Features**
+
+  * Shrink action! Apologies to all who have patiently waited for this 
+    feature.  It's been a long time coming, but it is hopefully worth the 
+    wait.  There are a lot of checks and tests associated with this action,
+    as there are many conditions that have to be met in order for a shrink
+    to take place.  Curator will try its best to ensure that all of these
+    conditions are met so you can comfortably rest assured that shrink will
+    work properly unattended.  See the documentation for more information.
+  * The ``cli`` function has been split into ``cli`` and ``run`` functions.  
+    The behavior of ``cli`` will be indistinguishable from previous releases,
+    preserving API integrity.  The new ``run`` function allows lambda and other
+    users to `run` Curator from the API with only a client configuration file
+    and action file as arguments.  Requested in #1031 (untergeek)
+  * Allow use of time/date string interpolation for Rollover index naming.
+    Added in #1010 (tschroeder-zendesk)
+  * New ``unit_count_pattern`` allows you to derive the ``unit_count`` from 
+    the index name itself.  This involves regular expressions, so be sure to
+    do lots of testing in ``--dry-run`` mode before deploying to production.
+    Added by (soenkeliebau) in #997
+
+**Bug Fixes**
+
+  * Reindex ``request_body`` allows for 2 different ``size`` options.  One 
+    limits the number of documents reindexed.  The other is for batch sizing.
+    The batch sizing option was missing from the schema validator.  This has
+    been corrected.  Reported in #1038 (untergeek)
+  * A few sundry logging and notification changes were made."
+13249,ReleaseEvent,2018-06-13 11:15:42+00:00,97101009,elastic/apm-agent-python,93675,beniwohli,6764390,elastic,published,v2.2.0,v2.2.0,"  - introduced consistent logger name scheme for all elasticapm internal log messages (#212)
+  - added instrumentation of cassandra-driver (#205)
+  - added instrumentation of elasticsearch-py (#191)
+  - added Flask 1.0 to the test matrix (#207)
+  - fixed an issue with our minimalistic SQL parser and ""fully qualified"" table names (#206)
+  - fixed issue with spans in Django’s `StreamingHTTPResponse` not being captured (#201, #202)
+  - fixed issue with spans with Flask’s streaming response not being captured (#201, #202)
+
+**NOTE**: This will be the last release with support for Python 3.3."
+13284,ReleaseEvent,2017-06-21 22:07:19+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-profile-2.0.7,azure-cli-profile 2.0.7,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.python.org/pypi/azure-cli-profile/2.0.7
+
+Full release notes at https://docs.microsoft.com/en-us/cli/azure/release-notes-azure-cli
+
+"
+13369,ReleaseEvent,2017-01-30 23:58:42+00:00,51040886,Azure/azure-cli,1087595,azuresdkci,6844498,Azure,published,azure-cli-acs-0.1.1b2,azure-cli-acs 0.1.1b2,"
+The module has been published to PyPI.
+
+View HISTORY.rst of the module for a changelog.
+
+https://pypi.python.org/pypi/azure-cli-acs/0.1.1b2
+"
+13537,ReleaseEvent,2017-10-04 04:20:39+00:00,17689377,pre-commit/pre-commit,1810591,asottile,6943086,pre-commit,published,v1.2.0,pre-commit v1.2.0,"### Features
+- Add `pygrep` language
+    - `pygrep` aims to be a more cross-platform alternative to `pcre` hooks.
+    - #630 PR by @asottile.
+
+### Fixes
+- Use `pipes.quote` for executable path in hook template
+    - Fixes bash syntax error when git dir contains spaces
+    - #626 PR by @asottile.
+- Clean up hook template
+    - Simplify code
+    - Fix `--config` not being respected in some situations
+    - #627 PR by @asottile.
+- Use `file://` protocol for cloning under test
+    - Fix `file://` clone paths being treated as urls for golang
+    - #629 PR by @asottile.
+- Add `ctypes` as an import for virtualenv healthchecks
+    - Fixes python3.6.2 <=> python3.6.3 virtualenv invalidation
+    - e70825ab by @asottile.
+"
+13709,ReleaseEvent,2017-01-18 22:38:24+00:00,36618494,aio-libs/aiobotocore,223335,jettify,7049303,aio-libs,published,0.1.1,aiobotocore 0.1.1,"Changes
+-------
+* botocore updated to version 1.5.0"
+13932,ReleaseEvent,2015-12-25 11:58:18+00:00,23616394,what-studio/profiling,19982,sublee,7566174,what-studio,published,0.1.1,0.1.1,"Released on Christmas 2015.
+
+The first public release.  Finally you can install `profiling` via PyPI:
+
+```sh
+$ pip install profiling
+```"
+13946,ReleaseEvent,2018-03-01 09:19:52+00:00,94331757,bethgelab/foolbox,5837385,jonasrauber,7590370,bethgelab,published,v0.13.0,Version 0.13.0,Fixed package dependency issues.
+14151,ReleaseEvent,2016-09-29 12:38:34+00:00,23335328,signalfx/signalfx-python,879507,mpetazzoni,8184587,signalfx,published,v1.0.5,Version 1.0.5,Version 1.0.5 introduces Python 3.x compatibility.
+14283,ReleaseEvent,2017-10-15 19:44:25+00:00,11746419,voxpupuli/pypuppetdb,360013,mterzo,8693967,voxpupuli,published,v3.3.3,Authentication and Query Enhancements,"* Add RBAC authentication #123 
+* Enhanced query building #115
+* Fix Inventory parsing #126 
+* Update for pytest configuration #120 "
+14865,ReleaseEvent,2017-04-13 19:42:51+00:00,43816051,common-workflow-language/cwltool,1316612,tetron,9947495,common-workflow-language,published,1.0.20170413194156,,
+14900,ReleaseEvent,2015-04-01 19:15:43+00:00,9952134,python-visualization/folium,950575,ocefpaf,9969242,python-visualization,published,v0.1.4,v0.1.4,"New features
+
+- Popups allow unicode.  @apatil
+- Support for https protocol.  @apatil
+- Custom popup width.  @ocefpaf
+- Support multiPolyLine.  @scari
+- Added max and min zoom keywords.  @Paradoxeuh
+
+Bug Fixes
+
+- Remove margins from leaflet-tiles (Fixes #64).  @lennart0901
+- Template not found on Windows OSes (Fixes #50).  @Paradoxeuh
+- WMS layer on python 3.  @ocefpaf
+"
+15621,ReleaseEvent,2018-04-08 18:50:10+00:00,99273369,NeurodataWithoutBorders/pynwb,32185786,nwb-bot,12140348,NeurodataWithoutBorders,published,latest,Latest (updated on 2018-04-08 18:04 UTC),
+16311,ReleaseEvent,2017-08-07 19:46:38+00:00,43091756,hackingmaterials/matminer,986759,computron,14116185,hackingmaterials,published,v0.1.1,v0.1.1,
+16456,ReleaseEvent,2016-12-02 05:23:10+00:00,43056951,graphql-python/graphene,188257,syrusakbary,15002022,graphql-python,published,v1.1.3,v1.1.3,"# Changelog
+* Added new `Time` type to `graphene.types.datetime` 51c37fef98dc0fd99e517ab2cd612acf4e818af0
+* Fixed promise-like compatibility in relay Connections 3df62d26a7962f1273df972da21b25ac75bc9cf3 (Related `promise` fix: https://github.com/syrusakbary/promise/commit/8b0d5da3dca2d99671b820478ef74353ac24c97b)"
+16775,ReleaseEvent,2017-02-06 22:32:12+00:00,23225199,pyexcel/pyexcel,4280312,chfw,16431467,pyexcel,published,v0.4.4,Maintenance release,"#68 #74 
+
+more details in change log."
+16781,ReleaseEvent,2017-06-22 09:23:12+00:00,29608331,pyexcel/Flask-Excel,4280312,chfw,16431467,pyexcel,published,v0.0.6,Support download file name in unicode,#22
+17091,ReleaseEvent,2018-04-09 00:26:39+00:00,17420614,seleniumbase/SeleniumBase,6788579,mdmintz,17287301,seleniumbase,published,v1.8.7,Refactor duplicate code into a single method.,"Refactor duplicate code into a single method.
+Small change: A had some duplicate code, so I made it into a single method."
+17096,ReleaseEvent,2017-03-04 00:09:38+00:00,83851199,okpy/ok-client,2042019,knrafto,17327040,okpy,published,v1.10.9,v1.10.9,"Changelog
+- Better reminder to update requirements.txt
+- setup.py develop should be run once"
+17541,ReleaseEvent,2016-12-02 22:30:52+00:00,50646767,raiden-network/raiden,1658405,LefterisJP,19666847,raiden-network,published,v0.0.2,Raiden PoC -2,"This is the second Raiden weekly POC Release on the way to the MVP.
+
+- Includes automated Pypi release for each succesfull release we are making.
+   https://github.com/raiden-network/raiden/pull/272
+
+- The raiden contracts were re-deployed in the new test network, the Ropsten network
+   https://github.com/raiden-network/raiden/pull/271
+
+- Process message edge cases that have invalid attributes:
+  https://github.com/raiden-network/raiden/pull/268"
+18044,ReleaseEvent,2017-03-28 19:31:55+00:00,66671612,kibitzr/kibitzr,1448666,peterdemin,22249384,kibitzr,published,v2.6.6,Added batch syntax to configuration file,"Now it's possible to configure a batch of similar checks:
+```yaml
+checks:
+  - batch: ""Wordpress plugin {0} updates""
+    transform:
+        - xpath: '//*[@id=""changelog""]/h4[1]'
+        - text
+        - changes: verbose
+    notify:
+        - slack
+    period: 3600
+    url-pattern: ""https://wordpress.org/plugins/{0}/"" 
+    items:
+      - advanced-custom-fields
+      - akismet
+      - better-wp-security
+      - black-studio-tinymce-widget
+      - contact-form-7
+      - disable-comments
+      - duplicate-post
+```"
+18483,ReleaseEvent,2018-03-21 06:08:42+00:00,102692863,onnx/onnx,33766898,spidyDev,31675368,onnx,published,v1.1.0,v1.1.0,"Change log for the release:
+
+* Operators fixed and added - cast, reshape, Pool, Shape, Size, concat, Pow, Slice, TopK, structured, reducible control flow( _experimental_), Unsqueeze 
+(PR #497) (PR #436) (PR #496) (PR #529) (PR #513) (PR #525) (PR #390) (PR #532) (PR #587) (PR #569) (PR #552)
+
+* Test cases added and fixed - global avg, max pool, Slice,  cast, pow, Concat, Reshape, TopK, softplus, softsign, softmax, logsoftmax, hardmax transpose, Max, Min, Mean, Sum. +9 math operators, reciprocal, logic operators,  Clip, Div, Mul, Pow, Sub; Elu, LeakyRelu, Selu, HardSigmoid, gather, Conv  
+(PR #468) (PR #472) (PR #487) (PR #500) (PR #507) (PR #516) (PR #529) (PR #506) (PR #509) (PR #546) (PR #548) (PR #543) (PR #574) (PR #596)
+
+* Build Issues on various platforms -
+   ** Provide option to enforce /MD or /MT when building with MSVC (PR #602)
+   ** Fix ONNX library build for Windows
+   ** Add to_string for Android (PR #597)
+   ** Handle situations where protobuf is built on the fly (PR #592)
+   ** fix CMakeLists on Windows (PR #589)
+   ** travis tweaks to make sure the correct versions of python are installed (PR #584)
+   ** Improve CMakefile of ONNX (PR #563)
+   ** Don't include pybind11 if its target is alreadt exported (PR #550)
+   ** Call gen_proto.py in cmake (PR #538)
+   ** Couple cmake fixes (PR #521)
+   ** Fix build on mac (PR #514)
+   ** setup cmake (PR #469)
+   ** Remove onnx-caffe2 reference (PR #558)
+
+* Naming and Convention changes -
+   ** Add ONNX_NAMESPACE around rnn/old.cc (PR #605)
+   ** Change the model file extension from .pb to .onnx (PR #541)
+   ** Make onnx namespace configurable (PR #484)
+
+* Bug Fixes -
+   ** Fix `get_attribute_value` can not get `g` field bug (PR #599)
+   ** Fix treatment of optional inputs.
+
+* Test Framework Changes -
+   ** Add outputs_info into run_node backend interface (PR #588)
+
+* IR Changes -
+   ** Add option to use customized protoc (PR #594)
+   ** preserve value infos if they are needed (PR #561)
+   ** Check whether perm exists before using it (PR #559)
+   ** Adding int32, int64 and double input data types for featurevectorizer (PR #547)
+   ** Sort the attributes of NodeProto generated by make_node (PR #479)
+
+* Other Changes -
+   ** Change the cached model checking logic (PR #545)
+   ** Fix the way we find protobuf library (PR #539)
+   ** Modulize ONNX libraries (PR #528)
+   ** Printable Graph support for nested graphs + sugar (PR #483)
+   ** Lexical scoping in checker (PR #485)
+   ** osx travis support (PR #566)
+"
