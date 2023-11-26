@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-FILES="$(ls data/github_raw/github_data_pre_18 | grep "github_data_pre" | grep -v ".gstmp")"
+FILES="$(ls data/github_raw/github_data_pre_18 | grep "github_data_pre" | grep -v ".gstmp" | shuf)"
 
 
 for file in $FILES

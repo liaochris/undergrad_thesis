@@ -127,7 +127,7 @@ def getCommitData(library):
     # download repo
     lib_p2 = library.split("/")[1]
     lib_ren = library.replace("/","___")
-    if f'commits_push_{lib_ren}.parquet' not in os.listdir('data/github_commits/parquet') and f'{lib_ren}' not in os.listdir('repos'):
+    if f'commits_push_{lib_ren}.parquet' not in os.listdir(f'data/github_commits/parquet/{folder}') and f'{lib_ren}' not in os.listdir('repos'):
         try:
             print(f"Starting {library}")
             start = time.time()
@@ -135,7 +135,7 @@ def getCommitData(library):
                 subprocess.Popen(["git", "clone", f"https://github.com/{library}.git", f"{lib_ren}"], cwd = "repos").communicate()
             print(f"Finished cloning {library}")
             df_lib = cleanCommitData(library, f"repos/{lib_ren}")
-            df_lib.to_parquet(f'data/github_commits/parquet/commits_push_{lib_ren}.parquet',
+            df_lib.to_parquet(f'data/github_commits/parquet/{folder}/commits_push_{lib_ren}.parquet',
                               engine='fastparquet')
             end = time.time()
             subprocess.Popen(["rm", "-rf", f"{lib_ren}"], cwd = "repos").communicate()
@@ -151,20 +151,24 @@ if __name__ == '__main__':
     # In[382]:
     pandarallel.initialize(progress_bar=True)
     warnings.filterwarnings("ignore")
-    
+
+    folder = sys.argv[1]
+
     # In[385]:
     # import all push data
     df_push = pd.DataFrame()
     commit_urls = []
-    for val in np.arange(0, 100, 1):
-        if val < 10:
-            val = "0" + str(val)
+    for val in np.arange(0, 500, 1):
+        if int(val) < 10:
+            val = f"0{val}"
+        if int(val) < 100:
+            val = f"0{val}"
         try:
-            df_part = pd.read_csv(f'data/github_clean/pushEvent0000000000{val}.csv', index_col = 0)
+            df_part = pd.read_csv(f'data/github_clean/{folder}/pushEvent000000000{val}.csv', index_col = 0)
             df_part['partition'] = val
             df_push = pd.concat([df_push, df_part])
         except:
-            print(f'data/github_clean/pushEvent0000000000{val}.csv not found')
+            print(f'data/github_clean/{folder}/pushEvent000000000{val}.csv not found')
     
     repos = df_push['repo_name'].unique().tolist()
     random.shuffle(repos)
