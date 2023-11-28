@@ -114,5 +114,7 @@ repos is a temporary storage location we use when cloning github repos to extrac
 8. run bash clean_github_daha.sh
 9. run bash collect_commit_data.sh
 10. run bash collect_commit_data_pr.sh
-11. run aggregating_push_data.ipynb
-12. run aggregating_pr_data.ipynb
+11. 
+12. run aggregating_push_data.ipynb
+13. run aggregating_pr_data.ipynb
+14. 
