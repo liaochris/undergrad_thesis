@@ -30,7 +30,6 @@ pd.set_option('display.max_columns', None)
 
 get_ipython().run_cell_magic('time', '', "df_pr = pd.concat([pd.read_csv('data/merged_data/filtered_github_data_large/merged_commit_pr.csv', index_col = 0),\n                   pd.read_csv('data/merged_data/github_data_pre_18/merged_commit_pr.csv', index_col = 0)])\n\npr_cols = df_pr.columns[0:24].tolist() + df_pr.columns[47:63].tolist() + ['commit_actor_id_list']\npr_data = df_pr[pr_cols].drop_duplicates()\n\ncommit_cols = [df_pr.columns[2]] + df_pr.columns[24:47].tolist() + ['repo_name'] + ['pr_number'] + ['repo_id']\ncommit_data = df_pr[commit_cols].drop_duplicates()")
 
-
 # In[4]:
 
 
@@ -125,19 +124,10 @@ def getCommits(repo_info, sha, user_type):
             time.sleep(.75)
             if info != None:
                 return [info['login'], info['id'], info['type'], info['site_admin']]
-            return []
+            return np.nan
         except:
             print(data)
-            time.sleep(20)
-            try:
-                data = url.json()
-                info = data[user_type]
-                time.sleep(.75)
-                if info != None:
-                    return [info['login'], info['id'], info['type'], info['site_admin']]
-                return []
-            except:
-                return 'failure'
+            return np.nan
 
 
 # In[104]:
@@ -145,10 +135,53 @@ ncount = 1000
 df_committers_uq.reset_index(drop = True, inplace = True)
 indices = np.array_split(df_committers_uq.index, ncount)
 start=0
-for i in np.arange(start, 100, 1):
+for i in np.arange(start, ncount, 1):
     print(f"Iter {i}")
     df_committers_uq.loc[indices[i], 'committer_info'] = df_committers_uq.loc[indices[i]].apply(lambda x: getCommits(x['commit_repo'].split("_")[1], x['commit_repo'].split("_")[0],x['user_type']), axis = 1)
-    df_committers_uq.to_csv('data/merged_data/committers_info.csv')
+    #df_committers_uq.to_csv('data/merged_data/committers_info_pr.csv')
     
+# same email
+email_info_dict = df_committers_uq[['email', 'committer_info']].drop_duplicates().dropna().set_index('email').to_dict()['committer_info']
+df_committers_uq['committer_info'] = df_committers_uq.apply(lambda x: email_info_dict.get(x['email'], np.nan) if \
+    pd.isnull(x['committer_info']) else x['committer_info'], axis = 1)
 
-# In[ ]:
+# email trick
+ends_with_ind  = df_committers_uq[df_committers_uq.apply(lambda x: 
+    (x['email'].endswith("@users.noreply.github.com") if not pd.isnull(x['email']) else False) and \
+    pd.isnull(x['committer_info']), axis = 1)].index
+df_committers_uq.loc[ends_with_ind, 'committer_info'] = df_committers_uq.loc[ends_with_ind, 'email'].apply(lambda x: x.replace("@users.noreply.github.com","").replace("@","").split("+"))
+df_committers_uq['committer_info'] = df_committers_uq['committer_info'].apply(lambda x: str(x) if type(x) == list else x)
+
+# same name, same repo -> fill in
+df_committers_uq['repo'] = df_committers_uq['commit_repo'].apply(lambda x: x.split("_")[1])
+df_committers_uq['name_repo'] = df_committers_uq['name']+"_"+df_committers_uq['repo']
+name_repo_info = df_committers_uq[['name_repo', 'committer_info']].drop_duplicates().dropna().set_index('name_repo').to_dict()['committer_info']
+df_committers_uq['committer_info'] = df_committers_uq.apply(lambda x: name_repo_info.get(x['name_repo'], np.nan) if \
+    pd.isnull(x['committer_info']) else x['committer_info'], axis = 1)
+df_committers_uq.drop(['name_repo', 'repo'], axis = 1, inplace = True)
+# same name, same organization of repo -> fill in
+
+df_committers_uq['committer_info'] = df_committers_uq['committer_info'].apply(lambda x: literal_eval(x) if type(x) == str else x)
+df_committers_uq['committer_info'] = df_committers_uq['committer_info'].apply(lambda x: np.nan if type(x) == list and len(x) == 0 else x)
+
+def getCommits(repo_info, sha, user_type):
+    api_url = f"https://api.github.com/repos/{repo_info}/commits/{sha}"
+    with requests.get(api_url, auth=(username,token)) as url:
+        try:
+            data = url.json()
+            info = data[user_type]
+            time.sleep(.75)
+            if info != None:
+                return [info['login'], info['id'], info['type'], info['site_admin']]
+            return np.nan
+        except:
+            print(data)
+            return np.nan
+
+
+
+val_inds = df_committers_uq[df_committers_uq['committer_info'].apply(lambda x: type(x) == list)].index
+df_committers_uq.loc[val_inds, 'actor_login'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[0])
+df_committers_uq.loc[val_inds, 'actor_id'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[1])
+df_committers_uq.loc[val_inds, 'user_type'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[2])
+df_committers_uq.loc[val_inds, 'site_admin'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[3])
