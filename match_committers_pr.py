@@ -38,7 +38,6 @@ commit_cols = [df_pr.columns[2]] + df_pr.columns[24:47].tolist() + ['repo_name']
 commit_data = df_pr[commit_cols].drop_duplicates()
 
 
-
 # In[4]:
 
 
@@ -158,6 +157,7 @@ for i in np.arange(start, ncount, 1):
         lambda x: getCommits(x['commit_repo'],x['user_type']), axis = 1)
     #df_committers_uq.to_csv('data/merged_data/committers_info_pr.csv')
     
+
 # same email
 email_info_dict = df_committers_uq[['email', 'committer_info']].drop_duplicates().dropna().set_index('email').to_dict()['committer_info']
 df_committers_uq['committer_info'] = df_committers_uq.apply(lambda x: email_info_dict.get(x['email'], np.nan) if \
@@ -183,11 +183,32 @@ df_committers_uq['committer_info'] = df_committers_uq['committer_info'].apply(la
 df_committers_uq['committer_info'] = df_committers_uq['committer_info'].apply(lambda x: np.nan if type(x) == list and len(x) == 0 else x)
 
 
-
-
-
-val_inds = df_committers_uq[df_committers_uq['committer_info'].apply(lambda x: type(x) == list)].index
+## full info grab
+val_inds = df_committers_uq[df_committers_uq['committer_info'].apply(lambda x: type(x) == list and len(x) == 4)].index
 df_committers_uq.loc[val_inds, 'actor_login'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[0])
 df_committers_uq.loc[val_inds, 'actor_id'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[1])
 df_committers_uq.loc[val_inds, 'user_type'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[2])
 df_committers_uq.loc[val_inds, 'site_admin'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[3])
+
+## username and id
+three_ind = df_committers_uq[df_committers_uq['committer_info'].apply(lambda x: type(x) == list and len(x)==3)]['committer_info'].index
+df_committers_uq.loc[three_ind, 'committer_info'] = pd.Series([[7869818, 'rayrrr']])
+
+val_inds = df_committers_uq[df_committers_uq['committer_info'].apply(lambda x: type(x) == list and len(x) == 2 and x[0] != '{ID}')].index
+# fix corrupted cases
+df_committers_uq.loc[val_inds, 'committer_info'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(
+    lambda x: [str(ele).replace('user.email47079615','47079615').replace('user.email=1699478','1699478').replace(
+        'j38999128','38999128').replace('Fredrik Mellström 11281108','11281108').replace('\x96','') if type(ele) == str else ele for ele in x])
+df_committers_uq.loc[val_inds, 'committer_info'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(
+    lambda x: [3577255, 'palmtree5'] if (x[0] == 'palmtree5' and str(x[1]) == '3577255') else x)
+
+df_committers_uq.loc[val_inds, 'actor_login'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[1])
+df_committers_uq.loc[val_inds, 'actor_id'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: pd.to_numeric(x[0]))
+
+
+# just username or just id
+val_inds = df_committers_uq[df_committers_uq['committer_info'].apply(lambda x: type(x) == list and len(x) == 1 and 
+    pd.isnull(pd.to_numeric(x[0], errors = 'coerce')))].index
+df_committers_uq.loc[val_inds, 'actor_login'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[0])
+
+df_committers_uq.to_csv('data/merged_data/committers_info_pr.csv')
