@@ -78,7 +78,7 @@ def cleanParquetPushes(f):
     try:
         df_parquet_repo = pd.read_parquet(f)
         df_parquet_repo['ordering'] = df_parquet_repo.groupby('push_id').cumcount()+1
-        df_parquet_repo = df_parquet_repo[['push_id', 'repo_id', 'actor_id','push_size', 'commit_groups',
+        df_parquet_repo = df_parquet_repo[['push_id', 'repo_id', 'repo_name', 'actor_id','push_size', 'commit_groups',
                                            'commit sha', 'ordering', 'commit author name', 'commit author email',
                                                'committer name','commmitter email','commit message', 'commit additions',
                                            'commit deletions','commit changes total','commit files changed count',
@@ -299,9 +299,9 @@ df_push_commit_time_grouped_daily.to_csv('data/aggregated_data/aggregated_daily_
 # In[ ]:
 
 
-df_repo_info.to_csv(f'data/merged_data/{folder}/push_repo.csv')
+#df_repo_info.to_csv(f'data/merged_data/{folder}/push_repo.csv')
 df_actor_info.to_csv(f'data/merged_data/{folder}/push_actor.csv')
-df_org_info.to_csv(f'data/merged_data/{folder}/push_org.csv')
+#df_org_info.to_csv(f'data/merged_data/{folder}/push_org.csv')
 
 
 # In[ ]:
