@@ -29,7 +29,13 @@ pd.set_option('display.max_columns', None)
 # In[3]:
 
 
-get_ipython().run_cell_magic('time', '', "df_pr = pd.concat([pd.read_csv('data/merged_data/filtered_github_data_large/merged_commit_pr.csv', index_col = 0),\n                   pd.read_csv('data/merged_data/github_data_pre_18/merged_commit_pr.csv', index_col = 0)])\n\npr_cols = df_pr.columns[0:24].tolist() + df_pr.columns[47:63].tolist() + ['commit_actor_id_list']\npr_data = df_pr[pr_cols].drop_duplicates()\n\ncommit_cols = [df_pr.columns[2]] + df_pr.columns[24:47].tolist() + ['repo_name'] + ['pr_number'] + ['repo_id']\ncommit_data = df_pr[commit_cols].drop_duplicates()")
+df_pr = pd.concat([pd.read_csv('data/merged_data/filtered_github_data_large/merged_commit_pr.csv', index_col = 0),
+     pd.read_csv('data/merged_data/github_data_pre_18/merged_commit_pr.csv', index_col = 0)])
+pr_cols = df_pr.columns[0:24].tolist() + df_pr.columns[47:63].tolist() + ['commit_actor_id_list']
+pr_data = df_pr[pr_cols].drop_duplicates()
+
+commit_cols = [df_pr.columns[2]] + df_pr.columns[24:47].tolist() + ['repo_name'] + ['pr_number'] + ['repo_id']
+commit_data = df_pr[commit_cols].drop_duplicates()
 
 
 
@@ -150,7 +156,7 @@ for i in np.arange(start, ncount, 1):
     print(f"Iter {i}")
     df_committers_uq.loc[indices[i], 'committer_info'] = df_committers_uq.loc[indices[i]].apply(
         lambda x: getCommits(x['commit_repo'],x['user_type']), axis = 1)
-    df_committers_uq.to_csv('data/merged_data/committers_info_pr.csv')
+    #df_committers_uq.to_csv('data/merged_data/committers_info_pr.csv')
     
 # same email
 email_info_dict = df_committers_uq[['email', 'committer_info']].drop_duplicates().dropna().set_index('email').to_dict()['committer_info']
