@@ -71,13 +71,6 @@ for i in range(max(file_count)+1):
                                 'pr_merged_by_site_admin', 'pr_label', 'commit_list',
                                ]],
                        df_pr])
-    df_repo_i = df_pr_i[['repo_id', 'repo_name']].drop_duplicates()
-    df_actor_i = df_pr_i[['actor_id', 'actor_login', 'repo_id', 'org_id',]].drop_duplicates()
-    df_org_i = df_pr_i[['org_id', 'org_login']].drop_duplicates()
-
-    df_repo_info = pd.concat([df_repo_info, df_repo_i]).drop_duplicates()
-    df_actor_info = pd.concat([df_actor_info, df_actor_i]).drop_duplicates()
-    df_org_info = pd.concat([df_org_info, df_org_i]).drop_duplicates()
 
 
 # In[7]:
@@ -445,14 +438,6 @@ print("now exporting merged data")
 
 
 get_ipython().run_cell_magic('time', '', "df_pr_commits.to_csv(f'data/merged_data/{folder}/merged_commit_pr.csv', encoding='utf-8')")
-
-
-# In[ ]:
-
-
-df_repo_info.to_csv(f'data/merged_data/{folder}//pr_repo.csv')
-df_actor_info.to_csv(f'data/merged_data/{folder}/pr_actor.csv')
-df_org_info.to_csv(f'data/merged_data/{folder}/pr_org.csv')
 
 
 # In[ ]:

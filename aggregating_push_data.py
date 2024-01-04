@@ -62,14 +62,6 @@ for i in range(max(file_count)+1):
     df_push = pd.concat([df_push_i[['type', 'created_at', 'repo_id', 'actor_id', 'org_id', 'push_id',
                                     'push_size', 'push_size_distinct', 'push_before', 'push_head']],
                          df_push])
-    df_repo_i = df_push_i[['repo_id', 'repo_name']].drop_duplicates()
-    df_actor_i = df_push_i[['actor_id', 'actor_login', 'repo_id', 'org_id',]].drop_duplicates()
-    df_org_i = df_push_i[['org_id', 'org_login']].drop_duplicates()
-
-    df_repo_info = pd.concat([df_repo_info, df_repo_i]).drop_duplicates()
-    df_actor_info = pd.concat([df_actor_info, df_actor_i]).drop_duplicates()
-    df_org_info = pd.concat([df_org_info, df_org_i]).drop_duplicates()
-
 
 # In[5]:
 
@@ -297,11 +289,6 @@ df_push_commit_time_grouped_daily.to_csv('data/aggregated_data/aggregated_daily_
 
 
 # In[ ]:
-
-
-#df_repo_info.to_csv(f'data/merged_data/{folder}/push_repo.csv')
-df_actor_info.to_csv(f'data/merged_data/{folder}/push_actor.csv')
-#df_org_info.to_csv(f'data/merged_data/{folder}/push_org.csv')
 
 
 # In[ ]:

@@ -52,13 +52,15 @@ if __name__ == '__main__':
         val = f"0{val}"
     if int(val) < 100:
         val = f"0{val}"
+    if int(val) < 1000:
+        val = f"0{val}"
 
-    if f'prEventCommits0000000000{val}.csv' not in os.listdir(f'data/github_clean/{folder}'):
-        df_part = pd.read_csv(f'data/github_clean/{folder}/prEvent000000000{val}.csv', index_col = 0)
+    if f'prEventCommits000000000{val}.csv' not in os.listdir(f'data/github_clean/{folder}'):
+        df_part = pd.read_csv(f'data/github_clean/{folder}/prEvent00000000{val}.csv', index_col = 0)
         df_part['partition'] = val    
         df_part['commit_list'] = df_part.parallel_apply(lambda x: grabCommits(x['repo_name'], x['pr_commits_url']), axis = 1 )
-        df_part.to_csv(f'data/github_clean/{folder}/prEventCommits000000000{val}.csv')
+        df_part.to_csv(f'data/github_clean/{folder}/prEventCommits00000000{val}.csv')
     else:
-        print(f"prEventCommits0000000000{val}.csv is already made for {folder}")
+        print(f"prEventCommits000000000{val}.csv is already made for {folder}")
 
     

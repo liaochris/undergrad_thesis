@@ -1,12 +1,5 @@
 Thesis Work Roadmap
 
-data/queries/package_downloads.csv
-data/inputs/packages_filtered.csv
-data/inputs/package_repos.csv
-data/pip_json/*
-data/github_raw/github_data_pre_18 
-data/github_raw/filtered_github_data_large 
-
 1.  Select list of packages (python libraries)
     
     a. Run this query on BQ to bbtain monthly pip python library download data from Google
@@ -93,12 +86,17 @@ data/github_raw/filtered_github_data_large
 3. Clean downloaded results
 
     a. Transforming raw JSONs into csv's. Both of the below scripts delete the raw json data and replace it with cleaned data in `data/github_clean/filtered_github_data_large` and `data/github_clean/filtered_github_data_pre_18`, respectively
-      - `bash clean_github_daha.sh` (from home directory `undergrad_thesis`) cleans post-2018 data
-      - `bash clean_github_daha_pre18.sh` (from home directory `undergrad_thesis`) cleans pre-2018 data
+      - `bash clean_github_daha.sh` (from home directory `undergrad_thesis`) cleans all the data
 
-    b. 
+    b. obtain_commit_data_pr - gets commit data for PRs, commit data for pushes already obtained in part a
+
+    c. collect_commit_data.sh and collect_commit_data_pr.sh collect commit data for pushes and pull requests
+
+    d. aggregating_push_data.sh and aggregating_pr_data.sh and clean pull request and push data
+
+    e. match_committers_pr.py and match_committers_push.py link commit authors/committers to github id's
       
-        
+    
 
 
 data/queries contains results from google bigquery
