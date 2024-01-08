@@ -450,11 +450,14 @@ get_ipython().run_cell_magic('time', '', "df_pr_commits.to_csv(f'data/merged_dat
 # In[ ]:
 
 
+<<<<<<< HEAD
 
 
 # In[ ]:
 
 
+=======
+>>>>>>> 4b2ef754b754c55c10f97e05fb25710e02b360b7
 """%%time
 print("merge date, monthly")
 import warnings

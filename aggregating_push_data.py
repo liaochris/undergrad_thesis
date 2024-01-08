@@ -60,6 +60,7 @@ for i in range(max(file_count)+1):
     df_push = pd.concat([df_push_i[['type', 'created_at', 'repo_name', 'repo_id', 'actor_id', 'org_id', 'push_id',
                                     'push_size', 'push_size_distinct', 'push_before', 'push_head']],
                          df_push])
+<<<<<<< HEAD
     df_actor_i = df_push_i[['actor_id', 'actor_login', 'repo_id', 'repo_name', 'org_id','org_login', 'created_at']].drop_duplicates()
     df_actor_info = pd.concat([df_actor_info, df_actor_i]).drop_duplicates()
 
@@ -68,6 +69,8 @@ df_actor_info = df_actor_info.groupby(['actor_id', 'actor_login', 'repo_id', 're
 df_actor_info = df_actor_info.reset_index()
 df_actor_info.columns=['actor_id', 'actor_login', 'repo_id', 'repo_name', 'org_id','org_login','earliest_date','latest_date']
 df_actor_info.to_csv(f'data/merged_data/{folder}/push_actor.csv')
+=======
+>>>>>>> 4b2ef754b754c55c10f97e05fb25710e02b360b7
 
 # In[5]:
 

@@ -40,15 +40,14 @@ commit_cols = [df_push.columns[2]] + df_push.columns[11:25].tolist() + df_push.c
 commit_data = df_push[commit_cols].drop_duplicates().reset_index(drop = True)
 # In[4]:
 
+subprocess.run(['ls', '-lh', 'data/github_raw/github_data_pre_18'])
 
 for col in ['created_at']:
     push_data[col] = pd.to_datetime(push_data[col])
 
-# In[6]:
 
-df_push_actor = pd.concat([pd.read_csv('data/merged_data/filtered_github_data_large/push_actor.csv', index_col = 0),
-                   pd.read_csv('data/merged_data/github_data_pre_18/push_actor.csv', index_col = 0)])
-
+push_data.to_csv('data/merged_data/cleaned_push_data.csv')
+commit_data.to_csv('data/merged_data/cleaned_push_commit_data.csv')
 
 # In[7]:
 
@@ -131,7 +130,7 @@ def getCommits(commit_repo, user_type):
 ncount = 1000
 df_committers_uq.reset_index(drop = True, inplace = True)
 indices = np.array_split(df_committers_uq.index, ncount)
-start=0
+start=2
 for i in np.arange(start, ncount, 1):
     print(f"Iter {i}")
     df_committers_uq.loc[indices[i], 'committer_info'] = df_committers_uq.loc[indices[i]].apply(
@@ -140,9 +139,9 @@ for i in np.arange(start, ncount, 1):
     
 
 # same email
-email_info_dict = df_committers_uq[['email', 'committer_info']].drop_duplicates().dropna().set_index('email').to_dict()['committer_info']
+email_info_dict = df_committers_uq[['email', 'committer_info']].dropna().drop_duplicates().astype(str).set_index('email').to_dict()['committer_info']
 df_committers_uq['committer_info'] = df_committers_uq.apply(lambda x: email_info_dict.get(x['email'], np.nan) if \
-    pd.isnull(x['committer_info']) else x['committer_info'], axis = 1)
+    type(x) != list else x['committer_info'], axis = 1)
 
 # email trick
 ends_with_ind  = df_committers_uq[df_committers_uq.apply(lambda x: 
@@ -177,12 +176,6 @@ df_committers_uq.loc[three_ind, 'committer_info'] = pd.Series([[7869818, 'rayrrr
 
 val_inds = df_committers_uq[df_committers_uq['committer_info'].apply(lambda x: type(x) == list and len(x) == 2 and x[0] != '{ID}')].index
 # fix corrupted cases
-df_committers_uq.loc[val_inds, 'committer_info'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(
-    lambda x: [str(ele).replace('user.email47079615','47079615').replace('user.email=1699478','1699478').replace(
-        'j38999128','38999128').replace('Fredrik Mellström 11281108','11281108').replace('\x96','') if type(ele) == str else ele for ele in x])
-df_committers_uq.loc[val_inds, 'committer_info'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(
-    lambda x: [3577255, 'palmtree5'] if (x[0] == 'palmtree5' and str(x[1]) == '3577255') else x)
-
 df_committers_uq.loc[val_inds, 'actor_login'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[1])
 df_committers_uq.loc[val_inds, 'actor_id'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: pd.to_numeric(x[0]))
 
@@ -192,4 +185,4 @@ val_inds = df_committers_uq[df_committers_uq['committer_info'].apply(lambda x: t
     pd.isnull(pd.to_numeric(x[0], errors = 'coerce')))].index
 df_committers_uq.loc[val_inds, 'actor_login'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[0])
 
-df_committers_uq.to_csv('data/merged_data/committers_info_pr.csv')
+df_committers_uq.drop('commit_repo', axis = 1).to_csv('data/merged_data/committers_info_push.csv')

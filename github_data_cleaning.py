@@ -11,26 +11,40 @@ import requests
 import os
 import sys
 import numpy as np
-
-username = 
-token = 
+import warnings
+warnings.filterwarnings("ignore")
+username = "liaochris"
+token = os.environ['token']
 
 # In[194]:
 
 if "partition" in sys.argv[1]:
     folder = "filtered_github_data_large"
     fname = sys.argv[1].replace(f'data/github_raw/{folder}/','').replace('.json','')
+    ext = '.json'
+elif "contributors" in sys.argv[1]:
+    folder = "all_contributor_data"
+    fname = sys.argv[1].replace(f'data/github_raw/{folder}/','').replace('.parquet','')
+    ext = '.parquet'
 else:
     folder = "github_data_pre_18"
     fname = sys.argv[1].replace(f'data/github_raw/{folder}/','').replace('.json','')
+    ext = '.json'
 
 # In[2]:
 
-df_raw = pd.read_json(f'data/github_raw/{folder}/{fname}.json', lines=True)
-print(f"Starting to clean {folder}/{fname}.json")
+if ext == '.json':
+    df_raw = pd.read_json(f'data/github_raw/{folder}/{fname}{ext}', lines=True)
+if ext == '.parquet':
+    try:
+        df_raw = pd.read_parquet(f'data/github_raw/{folder}/{fname}{ext}', engine = 'pyarrow')
+    except:
+        sys.exit()
+
+print(f"Starting to clean {folder}/{fname}{ext}")
 # In[158]:
 
-fname = "partitions"+fname.replace("github_data_pre18",'')
+fname = "partitions"+fname.replace("github_data_pre18",'').replace("contributors","")
 df = df_raw.copy()
 tqdm.pandas()
 
@@ -50,10 +64,15 @@ for col in ['repo', 'actor', 'org']:
 
 
 # In[161]:
-
+# import repositories we want to filter on
+package_repos = pd.read_csv('data/inputs/package_repos.csv', index_col = 0)
+remove_repos = package_repos['github repo'].tolist()
+# filter on repos
+if "contributors" in sys.argv[1]:
+    df = df[~df['repo_name'].isin(remove_repos)]
 
 df['payload'] = df['payload'].apply(lambda x: json.loads(x) if type(x) != dict else x)
-df['other'] = df['other'].apply(lambda x: json.loads(x) if type(x) != float and type(x) != dict else x)
+df['other'] = df['other'].apply(lambda x: json.loads(x) if type(x) != float and type(x) != dict and type(x) != type(None) else x)
 
 
 # ## ReleaseEvent
@@ -295,10 +314,9 @@ def getCommits(repo_info, before, head, original_urls):
 
 # In[65]:
 
-
-min20_commits = df_push.query('push_size>20').index
-df_push.loc[min20_commits, 'commit_urls'] = df_push.query('push_size>20').apply(lambda x: getCommits(x['repo_name'], x['push_before'], x['push_head'], x['commit_urls']), axis = 1)
-
+if "contributors" not in sys.argv[1]:
+    min20_commits = df_push.query('push_size>20').index
+    df_push.loc[min20_commits, 'commit_urls'] = df_push.query('push_size>20').apply(lambda x: getCommits(x['repo_name'], x['push_before'], x['push_head'], x['commit_urls']), axis = 1)
 # In[66]:
 
 
