@@ -44,9 +44,7 @@ pd.set_option('display.max_columns', None)
 # In[4]:
 
 
-df_repo_info = pd.DataFrame()
 df_actor_info = pd.DataFrame()
-df_org_info = pd.DataFrame()
 
 
 # In[6]:
@@ -71,13 +69,15 @@ for i in range(max(file_count)+1):
                                 'pr_merged_by_site_admin', 'pr_label', 'commit_list',
                                ]],
                        df_pr])
-    df_repo_i = df_pr_i[['repo_id', 'repo_name']].drop_duplicates()
-    df_actor_i = df_pr_i[['actor_id', 'actor_login', 'repo_id', 'org_id',]].drop_duplicates()
-    df_org_i = df_pr_i[['org_id', 'org_login']].drop_duplicates()
-
-    df_repo_info = pd.concat([df_repo_info, df_repo_i]).drop_duplicates()
+    df_actor_i = df_pr_i[['actor_id', 'actor_login', 'repo_id', 'repo_name', 'org_id','org_login', 'created_at']].drop_duplicates()
     df_actor_info = pd.concat([df_actor_info, df_actor_i]).drop_duplicates()
-    df_org_info = pd.concat([df_org_info, df_org_i]).drop_duplicates()
+    
+df_actor_info = df_actor_info[df_actor_info['created_at'].apply(lambda x: x!="False")]
+df_actor_info['created_at'] = pd.to_datetime(df_actor_info['created_at'])
+df_actor_info = df_actor_info.groupby(['actor_id', 'actor_login', 'repo_id', 'repo_name', 'org_id','org_login',]).agg({'created_at':['min', 'max']})
+df_actor_info = df_actor_info.reset_index()
+df_actor_info.columns=['actor_id', 'actor_login', 'repo_id', 'repo_name', 'org_id','org_login','earliest_date','latest_date']
+df_actor_info.to_csv(f'data/merged_data/{folder}/pr_actor.csv')
 
 
 # In[7]:
@@ -194,11 +194,11 @@ df_pr = df_pr.sort_values(['valid_vals', 'retrieved_commits', 'created_at'], asc
 
 df_pr['actor_id_state'] = df_pr['actor_id'].astype(str)+" | " 
 df_pr['actor_id_state'] = df_pr['actor_id_state'] + df_pr['pr_state'].apply(lambda x: 'NAN STATE' if type(x) != str else x) + " | "
-df_pr['actor_id_state'] = df_pr['actor_id_state'] + df_pr['org_id'].apply(lambda x: 'NAN ORG' if type(x) != str else x)
+df_pr['actor_id_state'] = df_pr['actor_id_state'] + df_pr['org_id'].apply(lambda x: 'NAN ORG' if pd.isnull(x) else str(x))
 df_pr['actor_id_state'] = df_pr['actor_id_state'] + " | " +  df_pr['pr_author_association'].apply(lambda x: 'NAN AUTHOR ASSOCIATION' if type(x) != str else x) 
 
 
-df_parquet_pr['actor_id_state'] = df_parquet_pr['actor_id'].astype(str)+" | " +  df_parquet_pr['org_id'].apply(lambda x: 'NAN ORG' if type(x) != str else x)  + " | "
+df_parquet_pr['actor_id_state'] = df_parquet_pr['actor_id'].astype(str)+" | " +  df_parquet_pr['org_id'].apply(lambda x: 'NAN ORG' if pd.isnull(x) else str(x))  + " | "
 df_parquet_pr['actor_id_state'] = df_parquet_pr['actor_id_state'] + df_parquet_pr['pr_state'].apply(lambda x: 'NAN STATE' if type(x) != str else x) 
 
 
@@ -450,9 +450,6 @@ get_ipython().run_cell_magic('time', '', "df_pr_commits.to_csv(f'data/merged_dat
 # In[ ]:
 
 
-df_repo_info.to_csv(f'data/merged_data/{folder}//pr_repo.csv')
-df_actor_info.to_csv(f'data/merged_data/{folder}/pr_actor.csv')
-df_org_info.to_csv(f'data/merged_data/{folder}/pr_org.csv')
 
 
 # In[ ]:

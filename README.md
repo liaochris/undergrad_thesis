@@ -118,3 +118,6 @@ repos is a temporary storage location we use when cloning github repos to extrac
 12. run aggregating_push_data.ipynb
 13. run aggregating_pr_data.ipynb
 14. 
+
+
+undergrad_thesis/data/inputs/free_email_domains.txt is from https://github.com/bnurbekov/company-email-validator

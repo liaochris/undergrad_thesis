@@ -40,9 +40,7 @@ import numpy as np
 # In[3]:
 
 
-df_repo_info = pd.DataFrame()
 df_actor_info = pd.DataFrame()
-df_org_info = pd.DataFrame()
 
 
 # In[4]:
@@ -59,17 +57,17 @@ for i in range(max(file_count)+1):
     if int(i) < 100:
         i = f"0{i}"
     df_push_i = pd.read_csv(f'data/github_clean/{folder}/pushEvent000000000{i}.csv', index_col = 0)
-    df_push = pd.concat([df_push_i[['type', 'created_at', 'repo_id', 'actor_id', 'org_id', 'push_id',
+    df_push = pd.concat([df_push_i[['type', 'created_at', 'repo_name', 'repo_id', 'actor_id', 'org_id', 'push_id',
                                     'push_size', 'push_size_distinct', 'push_before', 'push_head']],
                          df_push])
-    df_repo_i = df_push_i[['repo_id', 'repo_name']].drop_duplicates()
-    df_actor_i = df_push_i[['actor_id', 'actor_login', 'repo_id', 'org_id',]].drop_duplicates()
-    df_org_i = df_push_i[['org_id', 'org_login']].drop_duplicates()
-
-    df_repo_info = pd.concat([df_repo_info, df_repo_i]).drop_duplicates()
+    df_actor_i = df_push_i[['actor_id', 'actor_login', 'repo_id', 'repo_name', 'org_id','org_login', 'created_at']].drop_duplicates()
     df_actor_info = pd.concat([df_actor_info, df_actor_i]).drop_duplicates()
-    df_org_info = pd.concat([df_org_info, df_org_i]).drop_duplicates()
 
+df_actor_info['created_at'] = pd.to_datetime(df_actor_info['created_at'])
+df_actor_info = df_actor_info.groupby(['actor_id', 'actor_login', 'repo_id', 'repo_name', 'org_id','org_login',]).agg({'created_at':['min', 'max']})
+df_actor_info = df_actor_info.reset_index()
+df_actor_info.columns=['actor_id', 'actor_login', 'repo_id', 'repo_name', 'org_id','org_login','earliest_date','latest_date']
+df_actor_info.to_csv(f'data/merged_data/{folder}/push_actor.csv')
 
 # In[5]:
 
@@ -297,11 +295,6 @@ df_push_commit_time_grouped_daily.to_csv('data/aggregated_data/aggregated_daily_
 
 
 # In[ ]:
-
-
-#df_repo_info.to_csv(f'data/merged_data/{folder}/push_repo.csv')
-df_actor_info.to_csv(f'data/merged_data/{folder}/push_actor.csv')
-#df_org_info.to_csv(f'data/merged_data/{folder}/push_org.csv')
 
 
 # In[ ]:
