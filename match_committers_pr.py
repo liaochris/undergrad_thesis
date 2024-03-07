@@ -15,6 +15,7 @@ import requests
 import time
 #cudf.pandas.install()
 import random
+import glob
 
 os.environ['NUMEXPR_MAX_THREADS'] = '48'
 os.environ['NUMEXPR_NUM_THREADS'] = '36'
@@ -28,60 +29,35 @@ pd.set_option('display.max_columns', None)
 
 # In[3]:
 
+def tryReadParquet(file, cols):
+    try:
+        return pd.read_parquet(file)[cols]
+    except:
+        return pd.DataFrame()
 
-df_pr = pd.concat([pd.read_csv('data/merged_data/filtered_github_data_large/merged_commit_pr.csv', index_col = 0),
-     pd.read_csv('data/merged_data/github_data_pre_18/merged_commit_pr.csv', index_col = 0)])
-pr_cols = df_pr.columns[0:24].tolist() + df_pr.columns[47:63].tolist() + ['commit_actor_id_list']
-pr_data = df_pr[pr_cols].drop_duplicates()
+commit_list = glob.glob('data/github_commits/parquet/filtered_github_data/*_pr_*.parquet')
+commit_list.extend(glob.glob('data/github_commits/parquet/github_data_pre_18/*_pr_*.parquet'))
+commit_list.extend(glob.glob('data/github_commits/parquet/github_data_2324/*_pr_*.parquet'))
 
-commit_cols = [df_pr.columns[2]] + df_pr.columns[24:47].tolist() + ['repo_name'] + ['pr_number'] + ['repo_id']
-commit_data = df_pr[commit_cols].drop_duplicates()
+commit_cols = ['pr_number', 'repo_name', 'repo_id', 'commit author name', 'commit author email', 'committer name', 'commmitter email',
+               'commit sha']
 
-
-# In[4]:
-
-
-for col in ['created_at', 'pr_merged_at', 'pr_closed_at', 'pr_updated_at']:
-    pr_data[col] = pd.to_datetime(pr_data[col])
-
-for col in ['pr_assignees', 'pr_requested_reviewers', 'pr_requested_teams']:
-    pr_data[col] = pr_data[col].apply(lambda x: literal_eval(x) if type(x) == str else x).apply(lambda x: x if len(x)== 0 else [ele['id'] if type(ele) == dict else ele for ele in x])
-
-for col in ['pr_label', 'pr_actor_id_list', 'pr_assignees_list', 'pr_requested_reviewers_list','pr_requested_teams_list', 
-            'pr_actors', 'pr_commit_actors', 'all_pr_actors', 'pr_orgs', 'pr_commit_orgs']:
-    pr_data[col] = pr_data[col].apply(lambda x: literal_eval(x) if type(x) != list else x)
-
-if (pr_data['commit_actor_id_list'].apply(lambda x: type(x) == list).mean() != 1):
-    pr_data['commit_actor_id_list'] = pr_data['commit_actor_id_list'].apply(lambda x: literal_eval(x) if not pd.isnull(x) else [])
-
-
-# In[5]:
-
-
-# error correction
-pr_data['pr_orgs'] = pr_data['pr_actor_id_list'].apply(lambda x: [ele.split("|")[2].strip() for ele in x if ele.split("|")[2].strip()  != 'NAN ORG'])
-pr_data['pr_commit_orgs'] = pr_data['commit_actor_id_list'].apply(lambda x: [ele.split("|")[1].strip() for ele in x if ele.split("|")[1].strip() != 'NAN ORG'] if type(x) == list else [])
-pr_data['all_pr_orgs'] = (pr_data['pr_orgs']+pr_data['pr_commit_orgs']).apply(lambda x: list(set([ele for ele in x if ele != 'NAN ORG'])))
-pr_data['pr_actors'] = pr_data['pr_actors'].apply(np.unique)
-
-pr_data.to_csv('data/merged_data/cleaned_pr_data.csv')
-commit_data.to_csv('data/merged_data/cleaned_pr_commit_data.csv')
+df_pr = pd.concat([tryReadParquet(ele, commit_cols) for ele in commit_list]).drop_duplicates()
 
 # In[7]:
 
-df_committers = pd.concat([
-    commit_data[['pr_number', 'repo_name', 'repo_id', 'commit author name', 'commit author email']].drop_duplicates().rename(
+df_committers = df_pr.dropna()
+df_committers_uq = pd.concat([
+    df_committers[['pr_number', 'repo_name', 'repo_id', 'commit author name', 'commit author email']].drop_duplicates().rename(
         {'commit author name': 'name', 'commit author email': 'email'}, axis = 1),
-    commit_data[['pr_number', 'repo_name','repo_id', 'committer name', 'commmitter email']].drop_duplicates().rename(
-        {'committer name': 'name', 'commmitter email': 'email'}, axis = 1)]).dropna()
-
-df_committers_uq = df_committers[['name', 'email']].drop_duplicates()
+    df_committers[['pr_number', 'repo_name','repo_id', 'committer name', 'commmitter email']].drop_duplicates().rename(
+        {'committer name': 'name', 'commmitter email': 'email'}, axis = 1)])[['name', 'email']].drop_duplicates().dropna()
 # In[55]:
 
 
-commit_data['commit author details'] = commit_data['commit author name'] + "_"+commit_data['commit author email']
-commit_data['commit_repo'] = commit_data['commit sha'] + "_" + commit_data['repo_name']
-df_author_emails = commit_data[~commit_data['commit author name'].isna()].groupby(
+df_committers['commit author details'] = df_committers['commit author name'] + "_"+df_committers['commit author email']
+df_committers['commit_repo'] = df_committers['commit sha'] + "_" + df_committers['repo_name']
+df_author_emails = df_committers[~df_committers['commit author name'].isna()].groupby(
     'commit author details')[['commit_repo']].agg(list)
 df_author_emails['commit_repo'] = df_author_emails['commit_repo'].apply(lambda x: random.sample(x, min(5, len(x))))
 dict_author_emails = df_author_emails.to_dict()['commit_repo']
@@ -90,8 +66,8 @@ dict_author_emails = df_author_emails.to_dict()['commit_repo']
 # In[56]:
 
 
-commit_data['committer details'] = commit_data['committer name'] + "_"+commit_data['commmitter email']
-df_committer_emails = commit_data[~commit_data['committer name'].isna()].groupby(
+df_committers['committer details'] = df_committers['committer name'] + "_"+df_committers['commmitter email']
+df_committer_emails = df_committers[~df_committers['committer name'].isna()].groupby(
     'committer details')[['commit_repo']].agg(list)
 df_committer_emails['commit_repo'] = df_committer_emails['commit_repo'].apply(lambda x: random.sample(x, min(5, len(x))))
 dict_committer_emails = df_committer_emails.to_dict()['commit_repo']
@@ -139,18 +115,20 @@ def getCommits(commit_repo, user_type):
                 i+=1
         return np.nan
 
+
+df_committers_uq = pd.merge(df_committers_uq.drop('committer_info', axis = 1), pd.read_csv('data/merged_data/committers_info_push.csv', index_col = 0)[['name','email','committer_info']], how = 'left')
+df_committers_uq['committer_info']  = df_committers_uq['committer_info'].apply(lambda x: literal_eval(x) if not pd.isnull(x) else x)                                 
 # In[104]:
 ncount = 1000
 df_committers_uq.reset_index(drop = True, inplace = True)
-indices = np.array_split(df_committers_uq.index, ncount)
-start=0
+indices = np.array_split(df_committers_uq[df_committers_uq['committer_info'].isna()].index, ncount)
+
 for i in np.arange(start, ncount, 1):
     print(f"Iter {i}")
     df_committers_uq.loc[indices[i], 'committer_info'] = df_committers_uq.loc[indices[i]].apply(
         lambda x: getCommits(x['commit_repo'],x['user_type']), axis = 1)
-    #df_committers_uq.to_csv('data/merged_data/committers_info_pr.csv')
+    df_committers_uq.to_csv('data/merged_data/committers_info_pr.csv')
     
-
 # same email
 email_info_dict = df_committers_uq[['email', 'committer_info']].dropna().drop_duplicates().astype(str).set_index('email').to_dict()['committer_info']
 df_committers_uq['committer_info'] = df_committers_uq.apply(lambda x: email_info_dict.get(x['email'], np.nan) if \

@@ -126,11 +126,10 @@ def getCommits(commit_repo, user_type):
                 i+=1
         return np.nan
 
-
 # In[104]:
 ncount = 1000
 df_committers_uq.reset_index(drop = True, inplace = True)
-indices = np.array_split(df_committers_uq.index, ncount)
+indices = np.array_split(df_committers_uq[df_committers_uq['existing'].isna()].index, ncount)
 start=0
 for i in np.arange(start, ncount, 1):
     print(f"Iter {i}")
@@ -138,8 +137,9 @@ for i in np.arange(start, ncount, 1):
         lambda x: getCommits(x['commit_repo'],x['user_type']), axis = 1)
     df_committers_uq.to_csv('data/merged_data/committers_info_push.csv')
 
+
 # same email
-email_info_dict = df_committers_uq[['email', 'committer_info']].dropna().drop_duplicates().astype(str).set_index('email').to_dict()['committer_info']
+email_info_dict = df_committers_uq[['email', 'committer_info']].dropna().astype(str).drop_duplicates().set_index('email').to_dict()['committer_info']
 df_committers_uq['committer_info'] = df_committers_uq.apply(lambda x: email_info_dict.get(x['email'], np.nan) if \
     type(x) != list else x['committer_info'], axis = 1)
 
@@ -163,6 +163,8 @@ df_committers_uq['committer_info'] = df_committers_uq['committer_info'].apply(la
 
 
 ## full info grab
+df_committers_uq['committer_info'] = df_committers_uq['committer_info'].apply(lambda x: literal_eval(x) if x != 'nan' else x)
+
 val_inds = df_committers_uq[df_committers_uq['committer_info'].apply(lambda x: type(x) == list and len(x) == 4)].index
 df_committers_uq.loc[val_inds, 'actor_login'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[0])
 df_committers_uq.loc[val_inds, 'actor_id'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[1])

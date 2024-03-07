@@ -42,9 +42,6 @@ def createCommitGroup(commit_list, parent_commit):
             return lst_result
     except:
         return [[]]
-
-
-
 def getHead(commit_list, pull_number, repo_loc):
     try:
         if type(commit_list) != list and type(commit_list) != type(pd.Series())  and type(commit_list) != np.ndarray:
@@ -57,9 +54,6 @@ def getHead(commit_list, pull_number, repo_loc):
         return result
     except Exception as e:
         return []
-
-
-# In[390]:
 def returnCommitStats(x):
     try:
         if len(x) < 2:
@@ -106,7 +100,6 @@ def returnCommitStats(x):
         return []
     except:
         return []
-        
 def cleanCommitData(library, repo_loc, partition, num_partitions = 20):
     # In[386]:
     df_library = df_pr[df_pr['repo_name'] == library]
@@ -135,79 +128,47 @@ def cleanCommitData(library, repo_loc, partition, num_partitions = 20):
     df_commit_final = pd.concat([df_commit_groups.reset_index(drop = True), df_commit], axis = 1)
     for col in ['pr_number', 'repo_id', 'actor_id']:
         df_commit_final[col] = pd.to_numeric(df_commit_final[col])
-        
     return df_commit_final
-
-
-def getCommitData(library, partition, num_partitions, folder):
-    # download repo
-    lib_p2 = library.split("/")[1]
-    lib_ren = library.replace("/","___")
-    if f'commits_pr_{lib_ren}.parquet' not in os.listdir(f'data/github_commits/parquet/{folder}'):
-        try:
-            print(f"Starting {library}")
-            start = time.time()
-            if lib_ren not in os.listdir("repos2"):
-                subprocess.Popen(["git", "clone", f"git@github.com:{library}.git", f"{lib_ren}"], cwd = "repos2").communicate()
-            print(f"Finished cloning {library}")
-            pd.DataFrame().to_parquet(f'data/github_commits/parquet/{folder}/commits_pr_{lib_ren}.parquet')
-            df_lib = cleanCommitData(library, f"repos2/{lib_ren}", partition, num_partitions)
-
-            if partition == 1 and num_partitions == 1:
-                df_lib.to_parquet(f'data/github_commits/parquet/{folder}/commits_pr_{lib_ren}.parquet',
-                                  engine='fastparquet')
-            else:
-                df_lib.to_parquet(f'data/github_commits/parquet/{folder}/commits_pr_{lib_ren}_p{partition}.parquet',
-                                  engine='fastparquet')
-            end = time.time()
-            subprocess.Popen(["rm", "-rf", f"{lib_ren}"], cwd = "repos2").communicate()
-            print(f"{library} completed in {start - end}")
-            return "success"
-        except Exception as e:
-            return f"failure, {str(e)}"
-    return 'success'
-
 
 
 if __name__ == '__main__':   
     
-    # In[382]:
-    pandarallel.initialize(progress_bar=True)
-    warnings.filterwarnings("ignore")
-    folder = sys.argv[1]
+# In[382]:
+pandarallel.initialize(progress_bar=True)
+warnings.filterwarnings("ignore")
+folder = "github_data_2324"
 
-    # In[385]:
-    # import all pull request data
-    df_pr = pd.DataFrame()
-    commit_urls = []
-    for val in np.arange(0, 500, 1):
-        if int(val) < 10:
-            val = f"0{val}"
-        if int(val) < 100:
-            val = f"0{val}"
-        try:
-            df_part = pd.read_csv(f'data/github_clean/{folder}/prEventCommits000000000{val}.csv', index_col = 0)    
-            df_part['partition'] = val
-            df_pr = pd.concat([df_pr, df_part])
-        except:
-            print(f'data/github_clean/{folder}/prEventCommits000000000{val}.csv not found')
-    
+# In[385]:
+# import all pull request data
+df_pr = pd.DataFrame()
+commit_urls = []
+for val in np.arange(0, 500, 1):
+    if int(val) < 10:
+        val = f"0{val}"
+    if int(val) < 100:
+        val = f"0{val}"
+    try:
+        df_part = pd.read_csv(f'~/undergrad_thesis/data/github_clean/{folder}/prEventCommits000000000{val}.csv', index_col = 0)    
+        df_part['partition'] = val
+        df_pr = pd.concat([df_pr, df_part])
+    except:
+        print(f'~/undergrad_thesis/data/github_clean/{folder}/prEventCommits000000000{val}.csv not found')
 
-    repos = df_pr['repo_name'].unique().tolist()
-    repos = [ele for ele in repos if "/" in ele]
-    random.shuffle(repos)
-    results = []
-    #repos = ['lablup/backend.ai']
-    #repos = ['Azure/azure-sdk-for-python']
+#library = "ansible/ansible"
+#library = "apache/airflow"
+#library = "apache/spark"
+library = "pandas-dev/pandas"
+#library = "pytorch/pytorch"
+lib_ren = library.replace("/","___")
+df_lib = cleanCommitData(library, f"{lib_ren}", 1, 2)
+df_lib.to_parquet(f'~/undergrad_thesis/data/github_commits/parquet/{folder}/commits_pr_{lib_ren}_p1.parquet',
+                  engine='fastparquet')
+df_lib = cleanCommitData(library, f"{lib_ren}", 2, 2)
+df_lib.to_parquet(f'~/undergrad_thesis/data/github_commits/parquet/{folder}/commits_pr_{lib_ren}_p2.parquet',
+                  engine='fastparquet')
+end = time.time()
+subprocess.Popen(["rm", "-rf", f"{lib_ren}"], cwd = "repos2").communicate()
 
-    for r in repos:
-        result = getCommitData(r,1,1, folder)
-        #for i in np.arange(1, 21, 1):
-        #    result = getCommitData(r,i, 20, folder)
-        #    print(r, result)
-        
-        results.append(result)
-        
-    print("Done!")
-    
+print("Done!")
+
     

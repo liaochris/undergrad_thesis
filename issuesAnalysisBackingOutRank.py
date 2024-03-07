@@ -652,7 +652,7 @@ commits_push_list = glob.glob('data/github_commits/parquet/filtered_github_data_
 commits_push_list.extend(glob.glob('data/github_commits/parquet/github_data_pre_18/*push*'))
 commits_push_list.extend(glob.glob('data/github_commits/parquet/github_data_2324/*push*'))
 
-df_commits_push = pd.concat([pd.read_parquet(file,usecols = [cols]) for file in commits_push_list])
+df_commits_push = pd.concat([pd.read_parquet(file) for file in commits_push_list])[cols]
 df_commits_push['type'] = 'push commits'
 
 
@@ -877,9 +877,9 @@ all_ranked_v2[['created_at', 'repo_id', 'actor_id', 'organization','corrected_pe
 
 
 allPushActors = push_ranked[['created_at','repo_id','actor_id','organization']]
-allPushActors['created_at'] = pd.to_datetime(allPushActors['created_at'])
-allPushActors['created_at'] = allPushActors['created_at'].apply(lambda x: x.tz_localize(None))
-
+allPushActors['created_at'] = pd.to_datetime(allPushActors['created_at'], errors = 'coerce', utc = True)
+allIssueActors['created_at'] = pd.to_datetime(allIssueActors['created_at'], errors = 'coerce', utc = True) 
+allPRActors['created_at'] = pd.to_datetime(allPRActors['created_at'], errors = 'coerce', utc = True)
 
 # In[ ]:
 
@@ -974,12 +974,6 @@ actor_login_id = pd.concat([prEventData[['actor_id', 'actor_login']].drop_duplic
 
 # In[ ]:
 
-
+actor_login_id['actor_id'] = pd.to_numeric(actor_login_id['actor_id'])
 actor_login_id.to_parquet('data/merged_data/imputed_ranks/actor_login_id.parquet')
-
-
-# In[ ]:
-
-
-
 

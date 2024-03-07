@@ -130,7 +130,7 @@ def getCommitData(library):
             print(f"Starting {library}")
             start = time.time()
             if lib_ren not in os.listdir("repos"):
-                subprocess.Popen(["git", "clone", f"https://github.com/{library}.git", f"{lib_ren}"], cwd = "repos").communicate()
+                subprocess.Popen(["git", "clone", f"git@github.com:{library}.git", f"{lib_ren}"], cwd = "repos").communicate()
             print(f"Finished cloning {library}")
             df_lib = cleanCommitData(library, f"repos/{lib_ren}")
             df_lib.to_parquet(f'data/github_commits/parquet/{folder}/commits_push_{lib_ren}.parquet',
@@ -140,12 +140,10 @@ def getCommitData(library):
             return "success"
         except Exception as e:
             print(e)
-
         try:
             subprocess.Popen(["rm", "-rf", f"{lib_ren}"], cwd = "repos").communicate()
         except:
             print(f"could not delete repo {lib_ren}")
-            
     return 'already done'
 
 
@@ -154,7 +152,7 @@ if __name__ == '__main__':
     # In[382]:
     pandarallel.initialize(progress_bar=True)
     warnings.filterwarnings("ignore")
-
+    
     folder = sys.argv[1]
     # In[385]:
     # import all push data
