@@ -624,8 +624,8 @@ pushEventData.loc[not_owner, 'permissions'] = 'write'
 # In[ ]:
 
 
-committer_pr = pd.read_csv('data/merged_data/committers_info_push.parquet',index_col = 0)
-committer_push = pd.read_csv('data/merged_data/committers_info_pr.parquet',index_col = 0)
+committer_push = pd.read_parquet('data/merged_data/committers_info_push.parquet')
+committer_pr = pd.read_parquet('data/merged_data/committers_info_pr.parquet')
 
 
 committer_push.dropna(inplace = True)
