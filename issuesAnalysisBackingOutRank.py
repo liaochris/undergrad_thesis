@@ -969,6 +969,7 @@ pd.concat([prEventData[['org_id', 'org_login']].drop_duplicates(),
 
 
 # In[ ]:
+df_issue_clean.to_parquet('data/merged_data/imputed_ranks/issue_data.parquet')
 
 actor_login_id['actor_id'] = pd.to_numeric(actor_login_id['actor_id'])
 actor_login_id.to_parquet('data/merged_data/imputed_ranks/actor_login_id.parquet')
