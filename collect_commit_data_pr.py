@@ -149,8 +149,9 @@ def getCommitData(library, partition, num_partitions, folder):
             start = time.time()
             if lib_ren not in os.listdir("repos2"):
                 subprocess.Popen(["git", "clone", f"git@github.com:{library}.git", f"{lib_ren}"], cwd = "repos2").communicate()
+            else:
+                return 
             print(f"Finished cloning {library}")
-            pd.DataFrame().to_parquet(f'data/github_commits/parquet/{folder}/commits_pr_{lib_ren}.parquet')
             df_lib = cleanCommitData(library, f"repos2/{lib_ren}", partition, num_partitions)
 
             if partition == 1 and num_partitions == 1:
@@ -201,13 +202,14 @@ if __name__ == '__main__':
     #repos = ['Azure/azure-sdk-for-python']
 
     for r in repos:
-        result = getCommitData(r,1,1, folder)
-        #for i in np.arange(1, 21, 1):
-        #    result = getCommitData(r,i, 20, folder)
-        #    print(r, result)
-        
-        results.append(result)
-        
+        if r not in ["ansible/ansible", "apache/airflow", "apache/spark", "pandas-dev/pandas", "pytorch/pytorch"]:
+            result = getCommitData(r,1,1, folder)
+            #for i in np.arange(1, 21, 1):
+            #    result = getCommitData(r,i, 20, folder)
+            #    print(r, result)
+            
+            results.append(result)
+            
     print("Done!")
-    
-    
+        
+        

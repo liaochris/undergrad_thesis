@@ -125,7 +125,7 @@ def getCommitData(library):
     # download repo
     lib_p2 = library.split("/")[1]
     lib_ren = library.replace("/","___")
-    if f'commits_push_{lib_ren}.parquet' not in os.listdir(f'data/github_commits/parquet/{folder}') :
+    if f'commits_push_{lib_ren}.parquet' not in os.listdir(f'data/github_commits/parquet/{folder}'):
         try:
             print(f"Starting {library}")
             start = time.time()

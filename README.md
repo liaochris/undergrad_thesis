@@ -1,7 +1,6 @@
 Thesis Work Roadmap
 
 1.  Select list of packages (python libraries)
-    
     a. Run this query on BQ to bbtain monthly pip python library download data from Google
     ```
     SELECT

@@ -10,8 +10,7 @@ sys.executable
 import ast
 import pandas as pd
 import numpy as np
-from pygit2 import Object, Repository, GIT_SORT_TIME
-from pygit2 import init_repository, Patch
+from pygit2 import Object, Repository, GIT_SORT_TIME, init_repository, Patch
 from colorama import Fore
 from tqdm import tqdm
 import swifter
@@ -107,6 +106,7 @@ def cleanCommitData(library, repo_loc, partition, num_partitions = 20):
         df_library = df_library.head(partition * int(df_library.shape[0]/num_partitions)).tail(int(df_library.shape[0]/num_partitions))
     else:
         df_library = df_library.tail(df_library.shape[0] - (num_partitions - 1) * int(df_library.shape[0]/num_partitions))
+    
     # In[387]:
     global repo
     repo = Repository(repo_loc)
@@ -136,39 +136,23 @@ if __name__ == '__main__':
 # In[382]:
 pandarallel.initialize(progress_bar=True)
 warnings.filterwarnings("ignore")
-folder = "github_data_2324"
 
 # In[385]:
 # import all pull request data
-df_pr = pd.DataFrame()
-commit_urls = []
-for val in np.arange(0, 500, 1):
-    if int(val) < 10:
-        val = f"0{val}"
-    if int(val) < 100:
-        val = f"0{val}"
-    try:
-        df_part = pd.read_csv(f'~/undergrad_thesis/data/github_clean/{folder}/prEventCommits000000000{val}.csv', index_col = 0)    
-        df_part['partition'] = val
-        df_pr = pd.concat([df_pr, df_part])
-    except:
-        print(f'~/undergrad_thesis/data/github_clean/{folder}/prEventCommits000000000{val}.csv not found')
-
-#library = "ansible/ansible"
-#library = "apache/airflow"
-#library = "apache/spark"
-library = "pandas-dev/pandas"
-#library = "pytorch/pytorch"
-lib_ren = library.replace("/","___")
-df_lib = cleanCommitData(library, f"{lib_ren}", 1, 2)
-df_lib.to_parquet(f'~/undergrad_thesis/data/github_commits/parquet/{folder}/commits_pr_{lib_ren}_p1.parquet',
-                  engine='fastparquet')
-df_lib = cleanCommitData(library, f"{lib_ren}", 2, 2)
-df_lib.to_parquet(f'~/undergrad_thesis/data/github_commits/parquet/{folder}/commits_pr_{lib_ren}_p2.parquet',
-                  engine='fastparquet')
-end = time.time()
-subprocess.Popen(["rm", "-rf", f"{lib_ren}"], cwd = "repos2").communicate()
+df_pr = pd.read_parquet('~/Downloads/temp.parquet')
+                        
+for library in ["ansible/ansible", "apache/airflow", "apache/spark", "pandas-dev/pandas", "pytorch/pytorch"]:
+    print(library)
+    lib_ren = library.replace("/","___")
+    lib_name = library.split("/")[-1]
+    df_lib = cleanCommitData(library, f"{lib_name}", 1, 1)
+    df_lib.to_parquet(f'~/Downloads/commits_pr_{lib_ren}.parquet',
+                      engine='fastparquet')
+    end = time.time()
+    subprocess.Popen(["rm", "-rf", f"{lib_ren}"], cwd = "~/Downloads").communicate()
 
 print("Done!")
+
+
 
     
