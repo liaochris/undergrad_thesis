@@ -85,7 +85,7 @@ def getLogin(x):
 
 # In[9]:
 
-
+print("reading issue data"
 get_ipython().run_cell_magic('time', '', "# Read data on  comments,\ncomcol = ['created_at', 'type', 'issue_number', 'repo_id', 'issue_author_association', 'repo_name', 'issue_user_login', 'actor_login',\n       'actor_id', 'latest_issue_assignee', 'latest_issue_assignees', 'org_id', 'org_login', 'issue_user_id']\nissue_com = glob.glob('data/github_clean/filtered_github_data/issueCo*')\nissue_com.extend(glob.glob('data/github_clean/github_data_pre_18/issueCo*'))\nissue_com.extend(glob.glob('data/github_clean/github_data_2324/issueCo*'))\ndf_issue_comments = pd.concat([readDf(pd.read_parquet(ele), comcol) for ele in issue_com]).reset_index(drop = True)\n\nissuecol = ['created_at', 'type', 'issue_number', 'repo_id', 'issue_author_association', 'repo_name', 'issue_user_login', 'actor_login',\n            'actor_id', 'issue_action', 'issue_assignee', 'issue_assignees', 'org_id', 'org_name', 'issue_user_id']\nissues = glob.glob('data/github_clean/filtered_github_data/issues*')\nissues.extend(glob.glob('data/github_clean/github_data_pre_18/issues*'))\nissues.extend(glob.glob('data/github_clean/github_data_2324/issues*'))\ndf_issue = pd.concat([readDf(pd.read_parquet(ele), issuecol) for ele in issues]).reset_index(drop = True)\n")
 
 
@@ -648,9 +648,9 @@ cols = ['repo_id', 'repo_name', 'actor_id', 'org_id', 'commit changes total','co
         'commit author email','committer name','commmitter email','commit files changed count','commit time',
        'commit additions','commit deletions','commit file changes', 'push_id']
 
-commits_push_list = glob.glob('data/github_commits/parquet/filtered_github_data_large/*push*')
-commits_push_list.extend(glob.glob('data/github_commits/parquet/github_data_pre_18/*push*'))
-commits_push_list.extend(glob.glob('data/github_commits/parquet/github_data_2324/*push*'))
+commits_push_list = glob.glob('data/github_commits/parquet/filtered_github_data_large/*_push_*')
+commits_push_list.extend(glob.glob('data/github_commits/parquet/github_data_pre_18/*_push_*'))
+commits_push_list.extend(glob.glob('data/github_commits/parquet/github_data_2324/*_push_*'))
 
 df_commits_push = pd.concat([pd.read_parquet(file) for file in commits_push_list])[cols]
 df_commits_push['type'] = 'push commits'
