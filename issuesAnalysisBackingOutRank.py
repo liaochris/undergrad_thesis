@@ -373,8 +373,7 @@ prEventData['organization'] = prEventData['repo_org'].isin(orgs)
 # In[42]:
 
 
-prEventData['created_at'] = pd.to_datetime(prEventData['created_at'], errors = 'coerce')
-prEventData['created_at'] = prEventData['created_at'].dt.tz_localize(None)
+prEventData['created_at'] = pd.to_datetime(prEventData['created_at'], errors = 'coerce', utc = True)
 
 
 # In[43]:
