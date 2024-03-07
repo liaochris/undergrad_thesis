@@ -357,9 +357,9 @@ prEventData = pd.concat([df_prData, df_prDataReview, df_prDataReviewComment])
 prEventData['repo_org'] = prEventData['repo_name'].apply(name_split)
 prEventData['permissions'] = (prEventData['repo_org'] == prEventData['actor_login']).apply(owner)
 orgs_pr = prEventData[['org_id', 'org_login']].dropna().drop_duplicates()['org_login'].tolist()
-orgs = pd.read_csv('data/merged_data/imputed_ranks/org_login_id.parquet', index_col = 0)['org_login']
-orgs_pr.extend(orgs)
-prEventData['organization'] = prEventData['repo_org'].isin(orgs_pr)
+#orgs = pd.read_parquet('data/merged_data/imputed_ranks/org_login_id.parquet', index_col = 0)['org_login']
+orgs.extend(orgs_pr)
+prEventData['organization'] = prEventData['repo_org'].isin(orgs)
 
 
 # In[42]:
@@ -610,8 +610,8 @@ pushEventData['repo_org'] = pushEventData['repo_name'].apply(name_split)
 pushEventData['permissions'] = (pushEventData['repo_org'] == pushEventData['actor_login']).apply(owner)
 orgs_push = pushEventData[['org_id', 'org_login']].dropna().drop_duplicates()['org_login'].tolist()
 #orgs_pr = pd.read_csv('orgs_pr.csv', index_col = 0)['0'].tolist()
-#orgs_push.extend(orgs_pr)
-pushEventData['organization'] = pushEventData['repo_org'].isin(orgs_pr)
+orgs.extend(orgs_push)
+pushEventData['organization'] = pushEventData['repo_org'].isin(orgs)
 
 
 # In[76]:
@@ -655,7 +655,7 @@ df_commits_push['type'] = 'push commits'
 
 df_commits = df_commits_push
 df_commits['repo_org'] = df_commits['repo_name'].apply(lambda x: x.split("/")[0])
-df_commits['organization'] = df_commits['repo_org'].isin(orgs_pr)
+df_commits['organization'] = df_commits['repo_org'].isin(orgs)
 
 df_commits.reset_index(drop = True, inplace = True)
 
