@@ -518,7 +518,7 @@ prEventData['pr_requested_reviewers'] = prEventData['pr_requested_reviewers'].ap
 
 # In[59]:
 
-
+prEventData['pr_merged_by_id'] = pd.to_numeric(prEventData['pr_merged_by_id'], errors = 'coerce')
 prEventData.to_parquet('data/merged_data/prEventData.parquet',)
 
 
