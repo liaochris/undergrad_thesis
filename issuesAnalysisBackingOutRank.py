@@ -363,7 +363,7 @@ prEventData = pd.concat([df_prData, df_prDataReview, df_prDataReviewComment])
 prEventData['repo_org'] = prEventData['repo_name'].apply(name_split)
 prEventData['permissions'] = (prEventData['repo_org'] == prEventData['actor_login']).apply(owner)
 orgs_pr = prEventData[['org_id', 'org_login']].dropna().drop_duplicates()['org_login'].tolist()
-orgs = pd.read_csv('data/merged_data/imputed_ranks/org_login_id.csv', index_col = 0)['org_login']
+orgs = pd.read_csv('data/merged_data/imputed_ranks/org_login_id.parquet', index_col = 0)['org_login']
 orgs_pr.extend(orgs)
 prEventData['organization'] = prEventData['repo_org'].isin(orgs_pr)
 
