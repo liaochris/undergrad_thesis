@@ -135,8 +135,7 @@ for i in np.arange(start, ncount, 1):
     print(f"Iter {i}")
     df_committers_uq.loc[indices[i], 'committer_info'] = df_committers_uq.loc[indices[i]].apply(
         lambda x: getCommits(x['commit_repo'],x['user_type']), axis = 1)
-    df_committers_uq.to_csv('data/merged_data/committers_info_push.csv')
-
+    df_committers_uq.to_parquet('data/merged_data/committers_info_push.parquet')
 
 # same email
 email_info_dict = df_committers_uq[['email', 'committer_info']].dropna().astype(str).drop_duplicates().set_index('email').to_dict()['committer_info']
@@ -186,4 +185,5 @@ val_inds = df_committers_uq[df_committers_uq['committer_info'].apply(lambda x: t
     pd.isnull(pd.to_numeric(x[0], errors = 'coerce')))].index
 df_committers_uq.loc[val_inds, 'actor_login'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[0])
 
-df_committers_uq.drop('commit_repo', axis = 1).sort_values(['name','email']).to_csv('data/merged_data/committers_info_push.csv')
+df_committers_uq.drop('commit_repo', axis = 1).sort_values(['name','email']).to_parquet(
+    'data/merged_data/committers_info_push.parquet', engine = 'fastparquet')

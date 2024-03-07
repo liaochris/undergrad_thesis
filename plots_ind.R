@@ -6,7 +6,7 @@ pacman::p_load("data.table", "ggplot2", "did", "fixest")
 setwd("~/undergrad_thesis/results/data")
 
 df_raw <- fread("df_final.csv")
-df <- df_raw[as.Date(created_at_month_year)>=as.Date("2021/6/23") & as.Date(created_at_month_year)<=as.Date("2023/6/23")]
+df <- df_raw[as.Date(created_at_month_year)>=as.Date("2021/6/23")]
 df$V1 <- NULL
 df[, time_to_treat := as.factor(round(
   difftime(created_at_month_year, as.Date(c("2022/6/28")), units = "weeks")/4))]

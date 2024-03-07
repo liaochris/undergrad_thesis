@@ -13,6 +13,7 @@ from collections import OrderedDict, defaultdict
 import yaml
 import requests
 import time
+import re
 #cudf.pandas.install()
 import random
 import glob
@@ -127,10 +128,10 @@ for i in np.arange(start, ncount, 1):
     print(f"Iter {i}")
     df_committers_uq.loc[indices[i], 'committer_info'] = df_committers_uq.loc[indices[i]].apply(
         lambda x: getCommits(x['commit_repo'],x['user_type']), axis = 1)
-    df_committers_uq.to_csv('data/merged_data/committers_info_pr.csv')
+    df_committers_uq.to_parquet('data/merged_data/committers_info_pr.parquet')
     
 # same email
-email_info_dict = df_committers_uq[['email', 'committer_info']].dropna().drop_duplicates().astype(str).set_index('email').to_dict()['committer_info']
+email_info_dict = df_committers_uq[['email', 'committer_info']].dropna().astype(str).drop_duplicates().set_index('email').to_dict()['committer_info']
 df_committers_uq['committer_info'] = df_committers_uq.apply(lambda x: email_info_dict.get(x['email'], np.nan) if \
     type(x) != list else x['committer_info'], axis = 1)
 
@@ -173,12 +174,14 @@ df_committers_uq.loc[val_inds, 'committer_info'] = df_committers_uq.loc[val_inds
     lambda x: [3577255, 'palmtree5'] if (x[0] == 'palmtree5' and str(x[1]) == '3577255') else x)
 
 df_committers_uq.loc[val_inds, 'actor_login'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[1])
-df_committers_uq.loc[val_inds, 'actor_id'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: pd.to_numeric(x[0]))
-
+df_committers_uq.loc[val_inds, 'committer_info'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(
+    lambda x: [re.sub('[^0-9]','', x[0]).replace('\x96','') if type(x[0]) == str else x[0], x[1]])
+df_committers_uq.loc[val_inds, 'actor_id'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(
+    lambda x: pd.to_numeric(x[0]))
 
 # just username or just id
 val_inds = df_committers_uq[df_committers_uq['committer_info'].apply(lambda x: type(x) == list and len(x) == 1 and 
     pd.isnull(pd.to_numeric(x[0], errors = 'coerce')))].index
 df_committers_uq.loc[val_inds, 'actor_login'] = df_committers_uq.loc[val_inds, 'committer_info'].apply(lambda x: x[0])
 
-df_committers_uq.to_csv('data/merged_data/committers_info_pr.csv')
+df_committers_uq.to_parquet('data/merged_data/committers_info_pr.parquet', engine = 'fastparquet')

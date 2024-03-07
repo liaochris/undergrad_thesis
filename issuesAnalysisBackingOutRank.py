@@ -64,7 +64,14 @@ def readDf(df,cols):
         return df[cols]
     except:
         return pd.DataFrame()
-
+def read_parquet(f, columns = None):
+    try:
+        if columns == None:
+            return pd.read_parquet(f)
+        else:
+            return pd.read_parquet(f, columns = columns)
+    except:
+        return pd.DataFrame()
 
 # In[8]:
 
@@ -646,7 +653,7 @@ commits_push_list = glob.glob('data/github_commits/parquet/filtered_github_data_
 commits_push_list.extend(glob.glob('data/github_commits/parquet/github_data_pre_18/*_push_*'))
 commits_push_list.extend(glob.glob('data/github_commits/parquet/github_data_2324/*_push_*'))
 
-df_commits_push = pd.concat([pd.read_parquet(file) for file in commits_push_list])[cols]
+df_commits_push = pd.concat([read_parquet(file) for file in commits_push_list])[cols]
 df_commits_push['type'] = 'push commits'
 
 
