@@ -85,7 +85,7 @@ def getLogin(x):
 
 # In[9]:
 
-print("reading issue data"
+print("reading issue data")
 get_ipython().run_cell_magic('time', '', "# Read data on  comments,\ncomcol = ['created_at', 'type', 'issue_number', 'repo_id', 'issue_author_association', 'repo_name', 'issue_user_login', 'actor_login',\n       'actor_id', 'latest_issue_assignee', 'latest_issue_assignees', 'org_id', 'org_login', 'issue_user_id']\nissue_com = glob.glob('data/github_clean/filtered_github_data/issueCo*')\nissue_com.extend(glob.glob('data/github_clean/github_data_pre_18/issueCo*'))\nissue_com.extend(glob.glob('data/github_clean/github_data_2324/issueCo*'))\ndf_issue_comments = pd.concat([readDf(pd.read_parquet(ele), comcol) for ele in issue_com]).reset_index(drop = True)\n\nissuecol = ['created_at', 'type', 'issue_number', 'repo_id', 'issue_author_association', 'repo_name', 'issue_user_login', 'actor_login',\n            'actor_id', 'issue_action', 'issue_assignee', 'issue_assignees', 'org_id', 'org_name', 'issue_user_id']\nissues = glob.glob('data/github_clean/filtered_github_data/issues*')\nissues.extend(glob.glob('data/github_clean/github_data_pre_18/issues*'))\nissues.extend(glob.glob('data/github_clean/github_data_2324/issues*'))\ndf_issue = pd.concat([readDf(pd.read_parquet(ele), issuecol) for ele in issues]).reset_index(drop = True)\n")
 
 
@@ -318,7 +318,7 @@ issue_ranked['type'] = 'issue'
 # In[36]:
 
 
-issue_ranked.to_parquet('data/merged_data/imputed_ranks/issue_ranked.csv')
+issue_ranked.to_parquet('data/merged_data/imputed_ranks/issue_ranked.parquet')
 
 
 # In[37]:
@@ -333,7 +333,7 @@ allIssueActors = allIssueActors.drop_duplicates(['repo_id', 'actor_id', 'organiz
 # In[38]:
 
 
-allIssueActors.to_parquet('data/merged_data/imputed_ranks/allIssueActors.csv')
+allIssueActors.to_parquet('data/merged_data/imputed_ranks/allIssueActors.parquet')
 
 
 # ### PRs
@@ -586,7 +586,7 @@ allPRActors = allPRActors.drop_duplicates(['repo_id', 'actor_id', 'organization'
 # In[72]:
 
 
-allPRActors.to_parquet('data/merged_data/imputed_ranks/allPRActors.csv')
+allPRActors.to_parquet('data/merged_data/imputed_ranks/allPRActors.parquet')
 
 
 # # pushes
@@ -630,8 +630,8 @@ pushEventData.loc[not_owner, 'permissions'] = 'write'
 # In[ ]:
 
 
-committer_pr = pd.read_csv('data/merged_data/committers_info_push.csv',index_col = 0)
-committer_push = pd.read_csv('data/merged_data/committers_info_pr.csv',index_col = 0)
+committer_pr = pd.read_csv('data/merged_data/committers_info_push.parquet',index_col = 0)
+committer_push = pd.read_csv('data/merged_data/committers_info_pr.parquet',index_col = 0)
 
 
 committer_push.dropna(inplace = True)
@@ -725,7 +725,7 @@ push_ranked['type'] = 'push'
 # In[ ]:
 
 
-push_ranked.to_parquet('data/merged_data/imputed_ranks/push_ranked.csv')
+push_ranked.to_parquet('data/merged_data/imputed_ranks/push_ranked.parquet')
 
 
 # # combining everything
@@ -906,10 +906,6 @@ pd.concat([prEventData[['repo_id', 'repo_name']].drop_duplicates(),
 # In[ ]:
 
 
-pd.concat([prEventData[['org_id', 'org_login']].drop_duplicates(),
-           pushEventData[['org_id', 'org_login']].drop_duplicates(),
-           df_issue_clean[['org_id', 'org_login']].drop_duplicates()]).drop_duplicates().dropna().to_parquet(
-    'data/merged_data/imputed_ranks/org_login_id.parquet')
 
 
 # In[ ]:
@@ -970,6 +966,12 @@ actor_login_id = pd.concat([prEventData[['actor_id', 'actor_login']].drop_duplic
            prEventData_assignees[['actor_id','actor_login']].drop_duplicates(),
            prEventData_requested_reviewers[['actor_id','actor_login']].drop_duplicates(),
           ]).drop_duplicates().dropna()
+
+
+pd.concat([prEventData[['org_id', 'org_login']].drop_duplicates(),
+           pushEventData[['org_id', 'org_login']].drop_duplicates(),
+           df_issue_clean[['org_id', 'org_login']].drop_duplicates()]).drop_duplicates().dropna().to_parquet(
+    'data/merged_data/imputed_ranks/org_login_id.parquet')
 
 
 # In[ ]:
