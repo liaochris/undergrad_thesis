@@ -44,12 +44,6 @@ import os
 import pytz
 
 
-# In[4]:
-
-
-plt.style.use("seaborn")
-
-
 # In[5]:
 
 
