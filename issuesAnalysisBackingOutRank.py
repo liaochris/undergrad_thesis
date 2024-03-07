@@ -630,8 +630,8 @@ committer_pr = pd.read_parquet('data/merged_data/committers_info_pr.parquet')
 
 committer_push.dropna(inplace = True)
 committer_pr.dropna(inplace = True)
-committer_push['committer_info'] = committer_push['committer_info'].apply(ast.literal_eval)
-committer_pr['committer_info'] = committer_pr['committer_info'].apply(ast.literal_eval)
+#committer_push['committer_info'] = committer_push['committer_info'].apply(ast.literal_eval)
+#committer_pr['committer_info'] = committer_pr['committer_info'].apply(ast.literal_eval)
 committer_push['email'] = committer_push['email'].apply(lambda x: x.lower())
 committer_pr['email'] = committer_pr['email'].apply(lambda x: x.lower())
 
