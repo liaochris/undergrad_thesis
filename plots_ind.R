@@ -76,9 +76,11 @@ commit_count_pr_mod <- EventStudy(estimator = "OLS",
 png("../copilot/copilot_pr_commits.png", width = 720, height = 480, res = 120)
 EventStudyPlot(estimates = commit_count_pr_mod,
                xtitle = "Months before Copilot's Release",
-               ytitle = "Added PR Commits") 
-dev.off()
+               ytitle = "Added PR Commits") + 
+    ggtitle("Impact of Copilot's Release on PR Commits",
+           subtitle = "Treatment: Free Copilot as Top Open Source Maintainer")
 
+dev.off()
 
 
 commit_count_pr_mod <- feols(
