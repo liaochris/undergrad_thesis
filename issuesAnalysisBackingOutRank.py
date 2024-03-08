@@ -606,13 +606,13 @@ pushEventData = pd.concat([pd.read_parquet(ele) for ele in pushData])[[
 # In[74]:
 
 
-pushEventData['created_at'] = pd.to_datetime(pushEventData['created_at'])
+pushEventData['created_at'] = pd.to_datetime(pushEventData['created_at'], utc = True)
 pushEventData = pushEventData.reset_index(drop = True)
 
 
 # In[75]:
 
-
+    
 pushEventData['repo_org'] = pushEventData['repo_name'].apply(name_split)
 pushEventData['permissions'] = (pushEventData['repo_org'] == pushEventData['actor_login']).apply(owner)
 orgs_push = pushEventData[['org_id', 'org_login']].dropna().drop_duplicates()['org_login'].tolist()
@@ -976,6 +976,8 @@ pd.concat([prEventData[['org_id', 'org_login']].drop_duplicates(),
 
 
 # In[ ]:
+df_issue_clean['issue_number'] = pd.to_numeric(df_issue_clean['issue_number'])
+df_issue_clean['issue_user_id'] = pd.to_numeric(df_issue_clean['issue_user_id'])
 df_issue_clean.to_parquet('data/merged_data/imputed_ranks/issue_data.parquet')
 
 actor_login_id['actor_id'] = pd.to_numeric(actor_login_id['actor_id'])

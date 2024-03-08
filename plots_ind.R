@@ -62,7 +62,7 @@ df_push_lengths[, post_freq := sum(as.Date(created_at_month_year)>=as.Date("2022
 df_push_lengths <- df_push_lengths[pre_freq >=1 & post_freq>=1]
 
 commit_count_pr_mod <- feols(
-  commit_count_pr ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count_pr ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id, df_pr,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pr_commits.png", width = 720, height = 480, res = 120)
@@ -76,7 +76,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_pr_mod_weight <- feols(
-  commit_count_pr ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count_pr ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr,
   cluster = c("actor_id"),
   weights = df_pr$commit_changes_sum_pr, fixef.rm = "both")
@@ -91,7 +91,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_pr_merged_mod <- feols(
-  pr_merged_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  pr_merged_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pr_merged_commits.png", width = 720, height = 480, res = 120)
@@ -105,7 +105,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_pr_merged_mod_weight <- feols(
-  pr_merged_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  pr_merged_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr,
   cluster = c("actor_id"),
   weights = df_pr$commit_changes_pr_merged_sum, fixef.rm = "both")
@@ -120,7 +120,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_pr_notmerged_mod <- feols(
-  commit_count_pr - pr_merged_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count_pr - pr_merged_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pr_notmerged_commits.png", width = 720, height = 480, res = 120)
@@ -134,7 +134,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_pr_notmerged_mod_weight <- feols(
-  commit_count_pr - pr_merged_sum  ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count_pr - pr_merged_sum  ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr,
   cluster = c("actor_id"),
   weight = df_pr$commit_changes_sum_pr - df_pr$commit_changes_pr_merged_sum, fixef.rm = "both")
@@ -150,7 +150,7 @@ dev.off()
 
 
 commit_count_push_mod <- feols(
-  commit_count_push ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count_push ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push, cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_push_commits.png", width = 720, height = 480, res = 120)
 coefplot(commit_count_push_mod, keep = ":", 
@@ -163,7 +163,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_push_mod_weight <- feols(
-  commit_count_push ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count_push ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push, cluster = c("actor_id"), 
   weights = df_push$commit_changes_sum_push, fixef.rm = "both")
 png("../copilot/copilot_push_commits_weight.png", width = 720, height = 480, res = 120)
@@ -177,7 +177,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_push_main_mod <- feols(
-  push_main_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  push_main_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_push_main_commits.png", width = 720, height = 480, res = 120)
@@ -191,7 +191,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_push_main_mod_weight <- feols(
-  push_main_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  push_main_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push,
   cluster = c("actor_id"),
   weights = df_push$commit_changes_push_main_sum, fixef.rm = "both")
@@ -206,7 +206,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_push_notmain_mod <- feols(
-  commit_count_push - push_main_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count_push - push_main_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_push_notmain_commits.png", width = 720, height = 480, res = 120)
@@ -220,7 +220,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_push_notmain_mod_weight <- feols(
-  commit_count_push - push_main_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count_push - push_main_sum ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push,
   cluster = c("actor_id"),
   weights = df_push[,commit_changes_sum_push - commit_changes_push_main_sum], fixef.rm = "both")
@@ -235,7 +235,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_mod <- feols(
-  commit_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_commit,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_commits.png", width = 720, height = 480, res = 120)
@@ -249,7 +249,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_merged_mod <- feols(
-  commit_count_merged_main ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count_merged_main ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_commit,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_commits_merged.png", width = 720, height = 480, res = 120)
@@ -264,7 +264,7 @@ dev.off()
 
 
 commit_count_mod_weight <- feols(
-  commit_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_commit,
   cluster = c("actor_id"),
   weights = df_commit$commit_changes_sum, fixef.rm = "both")
@@ -279,7 +279,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_mod_weight_add <- feols(
-  commit_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_commit,
   cluster = c("actor_id"),
   weights = df_commit$commit_additions_sum, fixef.rm = "both")
@@ -294,7 +294,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_mod_weight_delete <- feols(
-  commit_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_commit,
   cluster = c("actor_id"),
   weights = df_commit$commit_deletions_sum, fixef.rm = "both")
@@ -309,7 +309,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_mod_weight <- feols(
-  commit_count_merged_main ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count_merged_main ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_commit,
   cluster = c("actor_id"),
   weights = df_commit$commit_changes_success, fixef.rm = "both")
@@ -324,7 +324,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_mod_weight_add <- feols(
-  commit_count_merged_main ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count_merged_main ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_commit,
   cluster = c("actor_id"),
   weights = df_commit$commit_added_success, fixef.rm = "both")
@@ -339,7 +339,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 commit_count_mod_weight_delete <- feols(
-  commit_count_merged_main ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  commit_count_merged_main ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_commit,
   cluster = c("actor_id"),
   weights = df_commit$commit_deleted_success, fixef.rm = "both")
@@ -355,7 +355,7 @@ dev.off()
 
 
 push_count <- feols(
-  push_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  push_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push_count,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pushes.png", width = 720, height = 480, res = 120)
@@ -369,7 +369,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 push_count_weight <- feols(
-  push_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  push_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push_count,
   cluster = c("actor_id"),
   weights = df_push_count$push_commit_changes_total, fixef.rm = "both")
@@ -378,13 +378,13 @@ coefplot(push_count_weight, keep = c(":"),
          value.lab = "Added Pushes",
          xlab = "Months before Copilot's Release",
          main = "Impact of Copilot's Release on Push Count",
-         sub = "Treatment: Free Copilot as Top Open Source Maintainer"
+         sub = "Treatment: Free Copilot as Top Open Source Maintainer\nWeight: Changes Made in Push"
 )
 abline(v = 12, col = "blue")
 dev.off()
 
-push_main_count <- feols(
-  push_main_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+push_non_main_count <- feols(
+  push_main_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push_count,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pushes_main.png", width = 720, height = 480, res = 120)
@@ -397,8 +397,8 @@ coefplot(push_main_count, keep = c(":"),
 abline(v = 12, col = "blue")
 dev.off()
 
-push_main_count <- feols(
-  push_main_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+push_non_main_count <- feols(
+  push_main_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push_count,
   cluster = c("actor_id"),
   weights = df_push_count$push_main_commit_changes, fixef.rm = "both")
@@ -406,17 +406,44 @@ png("../copilot/copilot_pushes_main_weight.png", width = 720, height = 480, res 
 coefplot(push_main_count, keep = c(":"), 
          value.lab = "Added Pushes (to Main Branch)",
          xlab = "Months before Copilot's Release",
-         main = "Impact of Copilot's Release on Main Branch Push Count",
+         main = "Impact of Copilot's Release on Main Branch Push Count\nWeight: Changes Made in Commit",
+         sub = "Treatment: Free Copilot as Top Open Source Maintainer"
+)
+abline(v = 12, col = "blue")
+dev.off()
+
+push_non_main_count <- feols(
+  push_count-push_main_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
+  | actor_id^repo_id , df_push_count,
+  cluster = c("actor_id"), fixef.rm = "both")
+png("../copilot/copilot_pushes_nonmain.png", width = 720, height = 480, res = 120)
+coefplot(push_non_main_count, keep = c(":"), 
+         value.lab = "Added Pushes (to Non-Main Branches)",
+         xlab = "Months before Copilot's Release",
+         main = "Impact of Copilot's Release on Non-Main Branches Push Count",
+         sub = "Treatment: Free Copilot as Top Open Source Maintainer"
+)
+abline(v = 12, col = "blue")
+dev.off()
+
+push_non_main_count <- feols(
+  push_count-push_main_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
+  | actor_id^repo_id , df_push_count,
+  cluster = c("actor_id"),
+  weights = df_push_count$push_main_commit_changes, fixef.rm = "both")
+png("../copilot/copilot_pushes_nonmain_weight.png", width = 720, height = 480, res = 120)
+coefplot(push_non_main_count, keep = c(":"), 
+         value.lab = "Added Pushes (to Non-Main Branches)",
+         xlab = "Months before Copilot's Release",
+         main = "Impact of Copilot's Release on Non-Main Branches Push Count\nWeight: Changes Made in Commit",
          sub = "Treatment: Free Copilot as Top Open Source Maintainer"
 )
 abline(v = 12, col = "blue")
 dev.off()
 
 
-
-
 pr_count <- feols(
-  pr_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  pr_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr_count,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pr.png", width = 720, height = 480, res = 120)
@@ -430,7 +457,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 pr_count_weight <- feols(
-  pr_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  pr_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr_count,
   cluster = c("actor_id"),
   weights = df_pr_count$pr_commit_changes, fixef.rm = "both")
@@ -445,7 +472,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 pr_count_merged <- feols(
-  merged_pr_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  merged_pr_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr_count,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pr_merged.png", width = 720, height = 480, res = 120)
@@ -459,7 +486,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 pr_count_merged_weight <- feols(
-  merged_pr_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  merged_pr_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr_count,
   cluster = c("actor_id"),
   weights=df_pr_count$merged_pr_commit_changes, fixef.rm = "both")
@@ -474,9 +501,39 @@ abline(v = 12, col = "blue")
 dev.off()
 
 
+pr_count_nonmerged <- feols(
+  pr_count-merged_pr_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
+  | actor_id^repo_id , df_pr_count,
+  cluster = c("actor_id"), fixef.rm = "both")
+png("../copilot/copilot_pr_nonmerged.png", width = 720, height = 480, res = 120)
+coefplot(pr_count_nonmerged, keep = c(":"), 
+         value.lab = "Added Unmerged Pull Requests ",
+         xlab = "Months before Copilot's Release",
+         main = "Impact of Copilot's Release on Unmerged PRs",
+         sub = "Treatment: Free Copilot as Top Open Source Maintainer"
+)
+abline(v = 12, col = "blue")
+dev.off()
+
+pr_count_nonmerged_weight <- feols(
+  pr_count-merged_pr_count ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
+  | actor_id^repo_id , df_pr_count,
+  cluster = c("actor_id"),
+  weights=df_pr_count$merged_pr_commit_changes, fixef.rm = "both")
+png("../copilot/copilot_pr_nonmerged_weights.png", width = 720, height = 480, res = 120)
+coefplot(pr_count_nonmerged_weight, keep = c(":"), 
+         value.lab = "Added Unmerged Pull Requests",
+         xlab = "Months before Copilot's Release",
+         main = "Impact of Copilot's Release on Unmerged PRs",
+         sub = "Treatment: Free Copilot as Top Open Source Maintainer"
+)
+abline(v = 12, col = "blue")
+dev.off()
+
+
 
 pr_length <- feols(
-  avg_hours_per_pr ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  avg_hours_per_pr ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr_lengths,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pr_length.png", width = 720, height = 480, res = 120)
@@ -490,7 +547,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 pr_length <- feols(
-  avg_hours_per_pr_commit ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  avg_hours_per_pr_commit ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr_lengths,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pr_length_commit_norm.png", width = 720, height = 480, res = 120)
@@ -504,7 +561,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 pr_length <- feols(
-  avg_hours_per_pr_commit_change ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  avg_hours_per_pr_commit_change ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr_lengths,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pr_length_change_norm.png", width = 720, height = 480, res = 120)
@@ -519,7 +576,7 @@ dev.off()
 
 
 pr_length <- feols(
-  pr_code_hours ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  pr_code_hours ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr_lengths,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pr_length_code.png", width = 720, height = 480, res = 120)
@@ -533,7 +590,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 pr_length <- feols(
-  code_hours_per_pr_commit ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  code_hours_per_pr_commit ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr_lengths,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pr_length_code_commit_norm.png", width = 720, height = 480, res = 120)
@@ -547,7 +604,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 pr_length <- feols(
-  code_hours_per_pr_commit_change ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  code_hours_per_pr_commit_change ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_pr_lengths,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_pr_length_code_change_norm.png", width = 720, height = 480, res = 120)
@@ -562,7 +619,7 @@ dev.off()
 
 
 push_length <- feols(
-  avg_hours_per_push ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  avg_hours_per_push ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push_lengths,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_push_length.png", width = 720, height = 480, res = 120)
@@ -576,7 +633,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 push_length <- feols(
-  avg_hours_per_push_commit ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  avg_hours_per_push_commit ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push_lengths,
   cluster = c("actor_id"), fixef.rm = "both")
 png("../copilot/copilot_push_length_norm_commit.png", width = 720, height = 480, res = 120)
@@ -590,7 +647,7 @@ abline(v = 12, col = "blue")
 dev.off()
 
 push_length <- feols(
-  avg_hours_per_push_commit_change ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` + active_repos
+  avg_hours_per_push_commit_change ~ `Treatment: Free Copilot Access`*`Months before Copilot's Release` 
   | actor_id^repo_id , df_push_lengths,
   cluster = c("actor_id"))
 png("../copilot/copilot_push_length_norm_change.png", width = 720, height = 480, res = 120)
