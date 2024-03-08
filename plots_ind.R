@@ -1,14 +1,13 @@
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load("data.table", "ggplot2", "did", "fixest", "eventstudyr")
+pacman::p_load("data.table", "ggplot2", "eventstudyr", "arrow")
 
 
 # go to downloads folder
-setwd("~/undergrad_thesis/results/data")
+setwd("results/data")
 
-df_raw <- fread("df_final.csv")
+df_raw <- data.table(read_parquet("df_final.parquet"))
 df <- df_raw[as.Date(created_at_month_year)>=as.Date("2021/6/23")]
-df$V1 <- NULL
-df[, time_to_treat := as.factor(round(
+df[, time_to_treat := as.numeric(round(
   difftime(created_at_month_year, as.Date(c("2022/6/28")), units = "weeks")/4))]
 df[,commit_count_merged:=pr_merged_sum+commit_count_push]
 df[,commit_count_merged_main:=pr_merged_sum+push_main_sum]
@@ -68,11 +67,11 @@ df_push_lengths <- df_push_lengths[pre_freq >=1 & post_freq>=1]
 commit_count_pr_mod <- EventStudy(estimator = "OLS",
                                   data = df_pr,
                                   outcomevar = "commit_count_pr",
-                                  policyvar = "Treatment: Free Copilot Access",
+                                  policyvar = "treatment",
                                   idvar = "actor_repo",
-                                  timevar = "Months before Copilot's Release",
-                                  post = -12,
-                                  pre = 20)
+                                  timevar = "time_to_treat",
+                                  post = 5,
+                                  pre = 0)
 png("../copilot/copilot_pr_commits.png", width = 720, height = 480, res = 120)
 EventStudyPlot(estimates = commit_count_pr_mod,
                xtitle = "Months before Copilot's Release",
