@@ -100,3 +100,6 @@ d. aggregating_push_data.sh and aggregating_pr_data.sh and clean pull request an
 
 
 undergrad_thesis/data/inputs/free_email_domains.txt is from https://gist.github.com/humphreybc/d17e9215530684d6817ebe197c94a76b
+
+
+downloaded languages file to figure out which projects have python as the dominant language
