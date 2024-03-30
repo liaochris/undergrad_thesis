@@ -1,5 +1,5 @@
 if (!require("pacman")) install.packages("pacman")
-pacman::p_load("data.table", "ggplot2", "arrow", "fixest")
+pacman::p_load("data.table", "ggplot2", "arrow", "eventstudyr")
 
 
 # go to downloads folder
